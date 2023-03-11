@@ -4,9 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="使用Hexo可能遇到的问题（更新中）, 白米粥のBlog">
-    <meta name="description" content="1.博客网页上图片不显示用Markdown编辑器编.md文件，可以显示文件，但当上传后生成博客时，却无法显示。
-解决方法：1.检测路径首先检查在.md文件中的图片路径，尽量选择相对路径例如（.&amp;#x2F;hexo-blog-create&amp;#">
+    <meta name="keywords" content="资源网站, 白米粥のBlog">
+    <meta name="description" content="文档· MDN |MDN-JS标准内置对象  Web技术权威文档· 微信开放文档  微信小程序开发文档· 腾讯云开发者手册· 菜鸟教程  涵盖多种语言的初级教程
+
+社区· GitHub  程序员同性交友社区· 掘金  一个帮助开发者成长的社">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>使用Hexo可能遇到的问题（更新中） | 白米粥のBlog</title>
+    <title>资源网站 | 白米粥のBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
     <style>
@@ -237,12 +238,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">使用Hexo可能遇到的问题（更新中）</h1>
+                    <h1 class="description center-align post-title">资源网站</h1>
                 </div>
             </div>
         </div>
@@ -266,12 +267,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/hexo/">
-                                <span class="chip bg-color">hexo</span>
+                            <a href="/tags/%E7%BD%91%E7%AB%99/">
+                                <span class="chip bg-color">网站</span>
                             </a>
                         
-                            <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-                                <span class="chip bg-color">博客搭建</span>
+                            <a href="/tags/%E8%84%9A%E6%9C%AC/">
+                                <span class="chip bg-color">脚本</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">
+                                <span class="chip bg-color">插件</span>
                             </a>
                         
                     </div>
@@ -282,8 +287,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
+                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
+                                工具
                             </a>
                         
                     </div>
@@ -295,7 +300,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-10
+                    2023-03-11
                 </div>
                 
 
@@ -304,7 +309,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    411
+                    230
                 </div>
                 
 
@@ -324,14 +329,14 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-博客网页上图片不显示"><a href="#1-博客网页上图片不显示" class="headerlink" title="1.博客网页上图片不显示"></a>1.博客网页上图片不显示</h2><p>用Markdown编辑器编.md文件，可以显示文件，但当上传后生成博客时，却无法显示。</p>
-<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><h4 id="1-检测路径"><a href="#1-检测路径" class="headerlink" title="1.检测路径"></a>1.检测路径</h4><p>首先检查在.md文件中的图片路径，尽量选择相对路径例如（.&#x2F;hexo-blog-create&#x2F;img1.png）这样的格式。</p>
-<h4 id="2-修改站点配置文件"><a href="#2-修改站点配置文件" class="headerlink" title="2.修改站点配置文件"></a>2.修改站点配置文件</h4><p>打开blog根目录下的<strong>站点</strong>配置文件，找到<strong>post_asset_folder</strong>将其值改为<strong>true</strong><br>如下图所示：<br><img src="/2023/03/10/problems-for-hexo/1.png"></p>
-<h4 id="3-安装插件"><a href="#3-安装插件" class="headerlink" title="3.安装插件"></a>3.安装插件</h4><p>在blog目录下，用cmd打开dos窗口（或者用git bash），下载一个用于上传图片的插件。<br>输入命令：<code>npm install https://github.com/CodeFalling/hexo-asset-image</code><br><font color="#dd0000">注意：此处与网上的其他教程不同，网上教程普遍是使用命令<code>npm install hexo-asset-image --save</code>，该插件可以上传图片，但在hexo读取时，路径会出错，所以建议使用本文提供的路径，尤其是windows用户。</font><br> </p>
-<h4 id="4-创建文章"><a href="#4-创建文章" class="headerlink" title="4.创建文章"></a>4.创建文章</h4><p>此时用命令<code>hexo n &quot;hello world&quot;</code>创建title为hello world文章，会发现会在同级目录下产生一个与文章名相同的hello world文件夹。可以将图片放入其中。<br><font color="#dd0000">建议创建英文标题的文章，这样生成的图片文件夹也是中文的。在上传图片的过程中，中文会被转为URL编码。若是坚持使用中文，则建议在.md文件中，将图片路径中的所有中文和特殊字符转为URL编码。过于复杂，所以还是建议全英文处理。</font><br> </p>
-<h4 id="5-上传检验"><a href="#5-上传检验" class="headerlink" title="5.上传检验"></a>5.上传检验</h4><p>最后再提交上传即可。</p>
-<pre class="line-numbers language-none"><code class="language-none">hexo g
-hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+                <h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web">MDN</a> |<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects">MDN-JS标准内置对象</a>  Web技术权威文档<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/framework/">微信开放文档</a>  微信小程序开发文档<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/devdocs">腾讯云开发者手册</a><br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.runoob.com/">菜鸟教程</a>  涵盖多种语言的初级教程</p>
+<hr>
+<h2 id="社区"><a href="#社区" class="headerlink" title="社区"></a>社区</h2><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://github.com/">GitHub</a>  程序员同性交友社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://juejin.cn/">掘金</a>  一个帮助开发者成长的社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://segmentfault.com/">思否</a>  解决技术问题的社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.jianshu.com/">简书</a>  有很多频道的创作社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://maliquankai.com/designnav/">马力全开资源库</a>  很全很强大，独立开发者&#x2F;设计干货&#x2F;优质利器&#x2F;工具资源…<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://leetcode.cn/">力扣</a> 刷题1<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/">洛谷</a> 刷题2</p>
+<hr>
+<h2 id="在线工具"><a href="#在线工具" class="headerlink" title="在线工具"></a>在线工具</h2><h3 id="办公相关"><a href="#办公相关" class="headerlink" title="办公相关"></a>办公相关</h3><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.pptsupermarket.com/">PPT模板</a>  PPT模板免费下载<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://smallpdf.com/cn#s=dashboard">PDF工具1</a>  线上免费PDF工具<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.ilovepdf.com/zh-cn">PDF工具2</a></p>
+<h3 id="图片工具"><a href="#图片工具" class="headerlink" title="图片工具"></a>图片工具</h3><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.remove.bg/zh/upload">抠图</a> 上传一张图片以消除背景</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://bbs.tampermonkey.net.cn/forum.php">油猴中文网</a>  油猴脚本交流分析论坛<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.lookae.com/">Lookae</a> 大众脸影视后期特效<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://msdn.itellyou.cn/">MSDN</a> windows各版本资源站</p>
+
                 
             </div>
             <hr/>
@@ -357,7 +362,7 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jourser.github.io/2023/03/10/problems-for-hexo/">https://Jourser.github.io/2023/03/10/problems-for-hexo/</a>
+                    <a href="https://Jourser.github.io/2023/03/11/resource-website/">https://Jourser.github.io/2023/03/11/resource-website/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -395,12 +400,16 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/hexo/">
-                                    <span class="chip bg-color">hexo</span>
+                                <a href="/tags/%E7%BD%91%E7%AB%99/">
+                                    <span class="chip bg-color">网站</span>
                                 </a>
                             
-                                <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-                                    <span class="chip bg-color">博客搭建</span>
+                                <a href="/tags/%E8%84%9A%E6%9C%AC/">
+                                    <span class="chip bg-color">脚本</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%8F%92%E4%BB%B6/">
+                                    <span class="chip bg-color">插件</span>
                                 </a>
                             
                         </div>
@@ -479,9 +488,10 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2023/03/11/resource-website/">
                     <div class="card-image">
@@ -499,9 +509,9 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-11
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -514,6 +524,7 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -540,13 +551,13 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/02/hexo-blog-create/">
+                <a href="/2023/03/10/problems-for-hexo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Hexo个人博客搭建">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="使用Hexo可能遇到的问题（更新中）">
                         
-                        <span class="card-title">Hexo个人博客搭建</span>
+                        <span class="card-title">使用Hexo可能遇到的问题（更新中）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -557,7 +568,7 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-10
                             </span>
                         <span class="publish-author">
                             
