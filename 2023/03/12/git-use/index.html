@@ -4,10 +4,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="资源网站, 白米粥のBlog">
-    <meta name="description" content="文档· MDN |MDN-JS标准内置对象  Web技术权威文档· 微信开放文档  微信小程序开发文档· 腾讯云开发者手册· 菜鸟教程  涵盖多种语言的初级教程
-
-社区· GitHub  程序员同性交友社区· 掘金  一个帮助开发者成长的社">
+    <meta name="keywords" content="Git使用教程, 白米粥のBlog">
+    <meta name="description" content="一、常用命令：
+mkdir XX：创建一个空目录 XX指目录名
+pwd：显示当前目录的路径
+cat xx：查看xx文件内容
+ git init：把当前的目录变成可以管理的git仓库，生成隐藏的.git文件夹
+git add xx：把xx文件">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +22,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>资源网站 | 白米粥のBlog</title>
+    <title>Git使用教程 | 白米粥のBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
     <style>
@@ -238,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">资源网站</h1>
+                    <h1 class="description center-align post-title">Git使用教程</h1>
                 </div>
             </div>
         </div>
@@ -267,16 +270,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%BD%91%E7%AB%99/">
-                                <span class="chip bg-color">网站</span>
+                            <a href="/tags/Git/">
+                                <span class="chip bg-color">Git</span>
                             </a>
                         
-                            <a href="/tags/%E8%84%9A%E6%9C%AC/">
-                                <span class="chip bg-color">脚本</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%8F%92%E4%BB%B6/">
-                                <span class="chip bg-color">插件</span>
+                            <a href="/tags/%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">实用教程</span>
                             </a>
                         
                     </div>
@@ -287,8 +286,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                工具
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -300,7 +299,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-11
+                    2023-03-12
                 </div>
                 
 
@@ -309,7 +308,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    230
+                    820
                 </div>
                 
 
@@ -329,14 +328,53 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web">MDN</a> |<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects">MDN-JS标准内置对象</a>  Web技术权威文档<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/framework/">微信开放文档</a>  微信小程序开发文档<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/devdocs">腾讯云开发者手册</a><br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.runoob.com/">菜鸟教程</a>  涵盖多种语言的初级教程</p>
+                <h2 id="一、常用命令："><a href="#一、常用命令：" class="headerlink" title="一、常用命令："></a>一、常用命令：</h2><ul>
+<li>mkdir XX：创建一个空目录 XX指目录名</li>
+<li>pwd：显示当前目录的路径</li>
+<li>cat xx：查看xx文件内容</li>
+<li><font color="#dd0000"> git init：把当前的目录变成可以管理的git仓库，生成隐藏的.git文件夹</font></li>
+<li>git add xx：把xx文件添加到暂存区</li>
+<li>git commit -m “xx”：提交文件 -m后面的是注释，必须写！</li>
+<li>git status：查看仓库状态</li>
+<li>git log：查看历史记录</li>
+<li>git reset –hard HEAD^：往上回退一个版本</li>
+<li>git reflog：查看历史记录的版本号id</li>
+<li>git checkout – xx：把xx文件在工作区的修改全部撤销</li>
+<li>git rm xx：删除xx文件</li>
+<li><font color="#dd0000">git remote add origin <a target="_blank" rel="noopener" href="https://github.com/xxxxx/a.git">https://github.com/xxxxx/a.git</a> 关联一个远程库</font></li>
+<li>git push -u（第一次尽量加上-u，以后不用）origin master：把当前master分支推送到远程库</li>
+<li>git clone <a target="_blank" rel="noopener" href="https://github.com/xxxxx">https://github.com/xxxxx</a> 从远程库中克隆</li>
+<li>git checkout -b dev：创建dev分支 并切换到dev分支上</li>
+<li>git branch：查看当前所有的分支</li>
+<li>git checkout master：切换回master分支</li>
+<li>git merge dev：在当前分支合并dev分支</li>
+<li>git branch -d dev：删除dev分支</li>
+<li><font color="#dd0000">git branch xxx：创建分支xxx</font></li>
+<li>git remote：查看远程库信息</li>
+<li>git remote -v查看远程库的详细信息</li>
+<li><font color="#dd0000">git pull origin master 将远程库的更新拉取到本地并自动合并</font></li>
+<li>git push origin master：git会把master分支推送到远程库对应的分支上</li>
+</ul>
 <hr>
-<h2 id="社区"><a href="#社区" class="headerlink" title="社区"></a>社区</h2><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://github.com/">GitHub</a>  程序员同性交友社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://juejin.cn/">掘金</a>  一个帮助开发者成长的社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://segmentfault.com/">思否</a>  解决技术问题的社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.jianshu.com/">简书</a>  有很多频道的创作社区<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://maliquankai.com/designnav/">马力全开资源库</a>  很全很强大，独立开发者&#x2F;设计干货&#x2F;优质利器&#x2F;工具资源…<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://leetcode.cn/">力扣</a> 刷题1<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/">洛谷</a> 刷题2</p>
-<hr>
-<h2 id="在线工具"><a href="#在线工具" class="headerlink" title="在线工具"></a>在线工具</h2><h3 id="办公相关"><a href="#办公相关" class="headerlink" title="办公相关"></a>办公相关</h3><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.pptsupermarket.com/">PPT模板</a>  PPT模板免费下载<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://smallpdf.com/cn#s=dashboard">PDF工具1</a>  线上免费PDF工具<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.ilovepdf.com/zh-cn">PDF工具2</a></p>
-<h3 id="图片工具"><a href="#图片工具" class="headerlink" title="图片工具"></a>图片工具</h3><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.remove.bg/zh/upload">抠图</a> 上传一张图片以消除背景</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><strong>·</strong> <a target="_blank" rel="noopener" href="https://bbs.tampermonkey.net.cn/forum.php">油猴中文网</a>  油猴脚本交流分析论坛<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://www.lookae.com/">Lookae</a> 大众脸影视后期特效<br><strong>·</strong> <a target="_blank" rel="noopener" href="https://msdn.itellyou.cn/">MSDN</a> windows各版本资源站</p>
-
+<h2 id="二、GitHub远程仓库的使用"><a href="#二、GitHub远程仓库的使用" class="headerlink" title="二、GitHub远程仓库的使用"></a>二、GitHub远程仓库的使用</h2><h3 id="场景一（关联）：本地有仓库，要和远程仓库做关联"><a href="#场景一（关联）：本地有仓库，要和远程仓库做关联" class="headerlink" title="场景一（关联）：本地有仓库，要和远程仓库做关联"></a>场景一（关联）：本地有仓库，要和远程仓库做关联</h3><p>右键git bash here，输入命令</p>
+<pre class="line-numbers language-none"><code class="language-none">git init
+git add .
+git commit -m “first commit”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>在GitHub上创建一个远程仓库</p>
+<pre class="line-numbers language-none"><code class="language-none">git remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;xxx.git (HTTPS) #仓库地址根据实际选择<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>备注：如果此步关联错了，解决办法如下。</p>
+<ul>
+<li>暴力解决：删除.git文件夹，重新建立本地仓库。</li>
+<li>优雅解决：git remote remove origin，再在重新关联仓库</li>
+</ul>
+<h3 id="场景二（推送）：本地有仓库有内容，要推送给远程库"><a href="#场景二（推送）：本地有仓库有内容，要推送给远程库" class="headerlink" title="场景二（推送）：本地有仓库有内容，要推送给远程库"></a>场景二（推送）：本地有仓库有内容，要推送给远程库</h3><pre class="line-numbers language-none"><code class="language-none">git push -u origin master （首次加-u）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>根据提示输入用户名密码<br>我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送到远程新的master分支，还会把本地master分支和远程的master分支关联起来，在以后的推送时可以简化命令<code>git push origin master</code>。<br>备注：正常情况下，成功推送一次后，电脑会记住和账号与密码，下次推送时不会再提示输入。若在电脑不能够自动记住github的账户和密码，需执行以下命令解决：<code>git config --global credential.helper store</code>。</p>
+<h3 id="场景三（拉取）：本地有仓库有内容，获取远程库新内容"><a href="#场景三（拉取）：本地有仓库有内容，获取远程库新内容" class="headerlink" title="场景三（拉取）：本地有仓库有内容，获取远程库新内容"></a>场景三（拉取）：本地有仓库有内容，获取远程库新内容</h3><ul>
+<li><strong>第一种拉取方式：</strong> <code>git pull origin master</code>，<br>将远程仓库的master分支上代码版本复制&#x2F;合并到本地master分支上</li>
+<li><strong>第二种拉取方式：</strong><code>git fetch origin master:tmp</code><br>新建一个tmp分支，将远程仓库的master分支上代码版本复制到tmp分支上，不会自动合并。</li>
+</ul>
+<h3 id="场景四（克隆）：本地无仓库，要获取一个完整的远程库"><a href="#场景四（克隆）：本地无仓库，要获取一个完整的远程库" class="headerlink" title="场景四（克隆）：本地无仓库，要获取一个完整的远程库"></a>场景四（克隆）：本地无仓库，要获取一个完整的远程库</h3><p>备注：只在第一次获取远程库时才需要克隆</p>
+<pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;xxx.git (HTTPS)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -362,7 +400,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jourser.github.io/2023/03/11/resource-website/">https://Jourser.github.io/2023/03/11/resource-website/</a>
+                    <a href="https://Jourser.github.io/2023/03/12/git-use/">https://Jourser.github.io/2023/03/12/git-use/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -400,16 +438,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%BD%91%E7%AB%99/">
-                                    <span class="chip bg-color">网站</span>
+                                <a href="/tags/Git/">
+                                    <span class="chip bg-color">Git</span>
                                 </a>
                             
-                                <a href="/tags/%E8%84%9A%E6%9C%AC/">
-                                    <span class="chip bg-color">脚本</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%8F%92%E4%BB%B6/">
-                                    <span class="chip bg-color">插件</span>
+                                <a href="/tags/%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">实用教程</span>
                                 </a>
                             
                         </div>
@@ -492,13 +526,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/03/12/git-use/">
+                <a href="/2023/03/12/markdown-use/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Git使用教程">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Markdown实用教程">
                         
-                        <span class="card-title">Git使用教程</span>
+                        <span class="card-title">Markdown实用教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -515,8 +549,8 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
+                                    工具
                                 </a>
                             
                             
@@ -526,12 +560,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Git/">
-                        <span class="chip bg-color">Git</span>
+                    <a href="/tags/Markdown/">
+                        <span class="chip bg-color">Markdown</span>
                     </a>
                     
-                    <a href="/tags/%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">实用教程</span>
+                    <a href="/tags/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">使用教程</span>
                     </a>
                     
                 </div>
@@ -545,13 +579,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/10/problems-for-hexo/">
+                <a href="/2023/03/11/resource-website/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="使用Hexo可能遇到的问题（更新中）">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="资源网站">
                         
-                        <span class="card-title">使用Hexo可能遇到的问题（更新中）</span>
+                        <span class="card-title">资源网站</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -562,14 +596,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
+                                    工具
                                 </a>
                             
                             
@@ -579,12 +613,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/hexo/">
-                        <span class="chip bg-color">hexo</span>
+                    <a href="/tags/%E7%BD%91%E7%AB%99/">
+                        <span class="chip bg-color">网站</span>
                     </a>
                     
-                    <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-                        <span class="chip bg-color">博客搭建</span>
+                    <a href="/tags/%E8%84%9A%E6%9C%AC/">
+                        <span class="chip bg-color">脚本</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%8F%92%E4%BB%B6/">
+                        <span class="chip bg-color">插件</span>
                     </a>
                     
                 </div>
