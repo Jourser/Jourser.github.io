@@ -4,10 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Markdown实用教程, 白米粥のBlog">
-    <meta name="description" content="一、Markdown简介Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。
-应用当前许多网站都广泛使用 Markdown 来撰写帮助文档或是用于论坛上发表消息。例如：GitHub、简书、知乎等
-编辑器这里采">
+    <meta name="keywords" content="使用Vue可能遇到的问题（更新中）, 白米粥のBlog">
+    <meta name="description" content="1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported
+问题原因：node版本过高，因为 node.js V17版本中最近发布的OpenSSL3">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Markdown实用教程 | 白米粥のBlog</title>
+    <title>使用Vue可能遇到的问题（更新中） | 白米粥のBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
     <style>
@@ -238,12 +237,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Markdown实用教程</h1>
+                    <h1 class="description center-align post-title">使用Vue可能遇到的问题（更新中）</h1>
                 </div>
             </div>
         </div>
@@ -267,12 +266,24 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Markdown/">
-                                <span class="chip bg-color">Markdown</span>
+                            <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+                                <span class="chip bg-color">问题解决</span>
                             </a>
                         
-                            <a href="/tags/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
-                                <span class="chip bg-color">使用教程</span>
+                            <a href="/tags/vue/">
+                                <span class="chip bg-color">vue</span>
+                            </a>
+                        
+                            <a href="/tags/JavaScript/">
+                                <span class="chip bg-color">JavaScript</span>
+                            </a>
+                        
+                            <a href="/tags/HTML/">
+                                <span class="chip bg-color">HTML</span>
+                            </a>
+                        
+                            <a href="/tags/CSS/">
+                                <span class="chip bg-color">CSS</span>
                             </a>
                         
                     </div>
@@ -283,8 +294,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                工具
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
                             </a>
                         
                     </div>
@@ -296,7 +307,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-12
+                    2023-03-13
                 </div>
                 
 
@@ -305,7 +316,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.4k
+                    330
                 </div>
                 
 
@@ -325,256 +336,15 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="一、Markdown"><a href="#一、Markdown" class="headerlink" title="一、Markdown"></a>一、Markdown</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Markdown</strong> 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>当前许多网站都广泛使用 <strong>Markdown</strong> 来撰写帮助文档或是用于论坛上发表消息。例如：GitHub、简书、知乎等</p>
-<h2 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h2><p>这里采用的是vs code的编辑，下载几个插件。教程：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56943330">https://zhuanlan.zhihu.com/p/56943330</a></p>
-<hr>
-<h1 id="二、徽章"><a href="#二、徽章" class="headerlink" title="二、徽章"></a>二、徽章</h1><p><strong>什么是徽章？</strong><br>徽章是一种小巧精美的小图标，一般配有相关文字进行辅助说明，可对数据进行监控，链接跳转等，富有表现力。</p>
-<p>常见于github项目主页，但其不仅出现于 github 项目主页，凡是能够表现图片的地方都可以出现徽章。</p>
-<p>在<strong>Markdown</strong>中使用</p>
-<pre class="line-numbers language-none"><code class="language-none">格式:
-[![图片文字说明](图片源地址)](超链接地址)  # 即超链接内部嵌套图片
-
-语法：
-[![github](https:&#x2F;&#x2F;img.shields.io&#x2F;badge&#x2F;github-xugaoyi-brightgreen.svg)](https:&#x2F;&#x2F;github.com&#x2F;jourser)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>本文档主要介绍markdown，不对徽章做过多介绍。</p>
-<hr>
-<h1 id="三、标题"><a href="#三、标题" class="headerlink" title="三、标题"></a>三、标题</h1><pre class="line-numbers language-none"><code class="language-none"># 一级标题
-## 二级标题
-### 三级标题
-#### 四级标题
-##### 五级标题
-###### 六级标题
-注：# 后面保持空格<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><hr>
-<h1 id="四、文本"><a href="#四、文本" class="headerlink" title="四、文本"></a>四、文本</h1><h2 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h2><pre class="line-numbers language-none"><code class="language-none">*斜体文本* 
-或 _斜体文本_
-**粗体文本**
-或  __粗体文本__
-***粗斜体文本***
-或 ___粗斜体文本___<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<p><em>斜体文本</em><br>或 <em>斜体文本</em><br><strong>粗体文本</strong><br>或  <strong>粗体文本</strong><br><em><strong>粗斜体文本</strong></em><br>或 <em><strong>粗斜体文本</strong></em></p>
-<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><p>如果段落上的文字要添加删除线，只需要在文字的两端加上两个波浪线 ~~ 即可，实例如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">~~BAIDU.COM~~<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：<br><del>BAIDU.COM</del></p>
-<h2 id="下划线"><a href="#下划线" class="headerlink" title="下划线"></a>下划线</h2><p>下划线可以通过 HTML 的 &lt;u&gt; 标签来实现：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;u&gt;带下划线的文本&lt;&#x2F;u&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：<br><u>带下划线的文本</u></p>
-<h2 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h2><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：</p>
-<pre class="line-numbers language-none"><code class="language-none">***
-
-*****
-
-- - -
-
-----------<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<hr>
-<h1 id="五、列表"><a href="#五、列表" class="headerlink" title="五、列表"></a>五、列表</h1><h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><p>使用星号*、加号+或是减号-作为列表标记：</p>
-<pre class="line-numbers language-none"><code class="language-none">* 第一项
-* 第二项
-
-+ 第一项
-+ 第二项
-
-- 第一项
-- 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<ul>
-<li>第一项</li>
-<li>第二项</li>
-</ul>
-<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><p>使用数字并加上. 号来表示</p>
-<pre class="line-numbers language-none"><code class="language-none">1. 第一项
-2. 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<ol>
-<li>第一项</li>
-<li>第二项</li>
-</ol>
-<h2 id="折叠列表"><a href="#折叠列表" class="headerlink" title="折叠列表"></a>折叠列表</h2><pre class="line-numbers language-none"><code class="language-none">&lt;details&gt;
-&lt;summary&gt;点我打开关闭折叠&lt;&#x2F;summary&gt;
- 折叠内容
- &lt;ul&gt;
-     &lt;li&gt;1&lt;&#x2F;li&gt;
-     &lt;li&gt;2&lt;&#x2F;li&gt;
-     &lt;li&gt;3&lt;&#x2F;li&gt;
- &lt;&#x2F;ul&gt;
-&lt;&#x2F;details&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>注意：&lt;details&gt; 标签内写markdown代码无效，可写html代码，如ul&gt;li、table等</p>
-<p>结果如下：</p>
-<details>
-<summary>点我打开关闭折叠</summary>
- <ul>
-     <li>1</li>
-     <li>2</li>
-     <li>3</li>
- </ul>
-</details>
-## 带复选框列表
-<pre class="line-numbers language-none"><code class="language-none">* [x] 第一项
-* [ ] 第二项
-* [ ] 第三项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-注：在部分线上预览未支持
-结果如下：
-* [x] 第一项
-* [ ] 第二项
-* [ ] 第三项
-
-<h2 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h2><pre class="line-numbers language-none"><code class="language-none">1. 第一项：
-    - 第一项嵌套的第一个元素
-    - 第一项嵌套的第二个元素
-2. 第二项：
-    - 第二项嵌套的第一个元素
-       - 第三层嵌套<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<ol>
-<li>第一项：<ul>
-<li>第一项嵌套的第一个元素</li>
-<li>第一项嵌套的第二个元素</li>
-</ul>
-</li>
-<li>第二项：<ul>
-<li>第二项嵌套的第一个元素<ul>
-<li>第三层嵌套</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h1 id="六、代码"><a href="#六、代码" class="headerlink" title="六、代码"></a>六、代码</h1><p>如果是段落上的一个代码片段可以用反引号把它包起来（&#96;），示例：</p>
-<pre class="line-numbers language-none"><code class="language-none">&#96;alert()&#96; <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：<br><code>alert()</code> </p>
-<p>用三个反引号 &#96;&#96;&#96; 包裹一段代码，并指定一种语言（也可以不指定），指定代码语言后会有代码的颜色高亮</p>
-<p>本代码区块为示例说明：</p>
-<pre class="line-numbers language-none"><code class="language-none">​&#96;&#96;&#96;javascript
-function test() &#123;
-	alert(&#39;test&#39;)
-&#125;
-​&#96;&#96;&#96;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：<br>​<code>javascript function test() &#123;     alert(&#39;test&#39;) &#125; ​</code></p>
-<hr>
-<h1 id="七、区块引用"><a href="#七、区块引用" class="headerlink" title="七、区块引用"></a>七、区块引用</h1><h2 id="区块简单引用"><a href="#区块简单引用" class="headerlink" title="区块简单引用"></a>区块简单引用</h2><p>区块引用是在段落开头使用 <code>&gt;</code>符号 ，然后后面紧跟一个<strong>空格</strong>符号：</p>
-<pre class="line-numbers language-none"><code class="language-none">&gt; 区块引用<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：</p>
-<blockquote>
-<p>区块引用</p>
-</blockquote>
-<h2 id="区块嵌套"><a href="#区块嵌套" class="headerlink" title="区块嵌套"></a>区块嵌套</h2><pre class="line-numbers language-none"><code class="language-none">&gt; 第一层
-&gt; &gt; 第二层
-&gt; &gt; &gt; 第三层<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<blockquote>
-<p>第一层</p>
-<blockquote>
-<p>第二层</p>
-<blockquote>
-<p>第三层</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<h2 id="区块中使用列表"><a href="#区块中使用列表" class="headerlink" title="区块中使用列表"></a>区块中使用列表</h2><pre class="line-numbers language-none"><code class="language-none">&gt; 区块中使用列表
-&gt; 1. 第一项
-&gt; 2. 第二项
-&gt; * 111
-&gt; * 222<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<blockquote>
-<p>区块中使用列表</p>
-<ol>
-<li>第一项</li>
-<li>第二项</li>
-</ol>
-<ul>
-<li>111</li>
-<li>222</li>
-</ul>
-</blockquote>
-<h2 id="列表中使用区块"><a href="#列表中使用区块" class="headerlink" title="列表中使用区块"></a>列表中使用区块</h2><pre class="line-numbers language-none"><code class="language-none">* 第一项
-    &gt; 区块
-* 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<ul>
-<li>第一项<blockquote>
-<p>区块</p>
-</blockquote>
-</li>
-<li>第二项</li>
-</ul>
-<hr>
-<h1 id="八、链接"><a href="#八、链接" class="headerlink" title="八、链接"></a>八、链接</h1><p>格式：</p>
-<pre class="line-numbers language-none"><code class="language-none">[链接名称](链接地址)
-[链接名称](链接地址,可选的alt)
-或
-&lt;链接地址&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>实例：</p>
-<pre class="line-numbers language-none"><code class="language-none">[百度](http:&#x2F;&#x2F;www.baidu.com,&#39;百度&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：<br><a target="_blank" rel="noopener" href="http://www.baidu.com,'百度'/">百度</a><br>直接显示链接地址</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;http:&#x2F;&#x2F;www.baidu.com&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：<br><a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com</a></p>
-<hr>
-<h1 id="九、表格"><a href="#九、表格" class="headerlink" title="九、表格"></a>九、表格</h1><p>制作表格使用 <code>|</code>来分隔不同的单元格，使用<code>-</code>来分隔表头和其他行。</p>
-<pre class="line-numbers language-none"><code class="language-none">|  表头   | 表头  |
-|  ----  | ----  |
-| 单元格  | 单元格 |
-| 单元格  | 单元格 |<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<table>
-<thead>
-<tr>
-<th>表头</th>
-<th>表头</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-<tr>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-<tr>
-<td><strong>对齐方式：</strong></td>
-<td></td>
-</tr>
-</tbody></table>
-<ul>
-<li>-: 设置内容和标题栏居右对齐</li>
-<li>:- 设置内容和标题栏居左对齐</li>
-<li>:-: 设置内容和标题栏居中对齐<pre class="line-numbers language-none"><code class="language-none">| 左对齐 | 右对齐 | 居中对齐 |
-| :-----| ----: | :----: |
-| 单元格 | 单元格 | 单元格 |
-| 单元格 | 单元格 | 单元格 |<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-结果如下：<table>
-<thead>
-<tr>
-<th align="left">左对齐</th>
-<th align="right">右对齐</th>
-<th align="center">居中对齐</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">单元格</td>
-<td align="right">单元格</td>
-<td align="center">单元格</td>
-</tr>
-<tr>
-<td align="left">单元格</td>
-<td align="right">单元格</td>
-<td align="center">单元格</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<hr>
-<h1 id="十、Emoji表情包"><a href="#十、Emoji表情包" class="headerlink" title="十、Emoji表情包"></a>十、Emoji表情包</h1><p>Emoji表情英文名的前后加冒号</p>
-<pre class="line-numbers language-none"><code class="language-none">:smirk:<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>结果如下：<br>:smirk:<br>更多表情名称请查看：<a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">表情包清单</a></p>
+                <h2 id="1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported"><a href="#1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported" class="headerlink" title="1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported"></a>1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported</h2><p><img src="/2023/03/13/vue-problem/1.png"></p>
+<p>问题原因：node版本过高，因为 node.js V17版本中最近发布的OpenSSL3.0, 而OpenSSL3.0对允许算法和密钥大小增加了严格的限制，可能会对生态系统造成一些影响.</p>
+<h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><h4 id="1-通过命令设置NODE-OPTIONS参数"><a href="#1-通过命令设置NODE-OPTIONS参数" class="headerlink" title="1.通过命令设置NODE_OPTIONS参数"></a>1.通过命令设置NODE_OPTIONS参数</h4><p>这个办法的缺点是每次构建前都需要执行一次命令<br>windows与linux或mac系统设置命令不一样，并且需要在项目目录下执行该命令，直接cmd命令默认路径下执行会无效。</p>
+<p>windows系统：</p>
+<pre class="line-numbers language-none"><code class="language-none">set NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>linux或mac系统：</p>
+<pre class="line-numbers language-none"><code class="language-none">export NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2-修改package-json"><a href="#2-修改package-json" class="headerlink" title="2.修改package.json"></a>2.修改package.json</h4><p>在相关构建命令之前加入set NODE_OPTIONS&#x3D;–openssl-legacy-provider，这个办法可以一劳永逸，以后直接通过npm执行scripts里面的命令即可。不管是项目迭代，还是团队开发，这种都比较有效。<br><img src="/2023/03/13/vue-problem/2.png"></p>
+<h4 id="3-降低node版本"><a href="#3-降低node版本" class="headerlink" title="3.降低node版本"></a>3.降低node版本</h4><p>回到16版本以下。这个办法也可以解决问题，不过需要考虑到整个系统架构与技术选型问题，以及不同版本的兼容问题。不管是卸载node重装还是使用nvm工具降低版本，均有风险。特别是nvm工具降版本有时会出现意想不到的错误。</p>
 
                 
             </div>
@@ -601,7 +371,7 @@ function test() &#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jourser.github.io/2023/03/12/markdown-use/">https://Jourser.github.io/2023/03/12/markdown-use/</a>
+                    <a href="https://Jourser.github.io/2023/03/13/vue-problem/">https://Jourser.github.io/2023/03/13/vue-problem/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -639,12 +409,24 @@ function test() &#123;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Markdown/">
-                                    <span class="chip bg-color">Markdown</span>
+                                <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+                                    <span class="chip bg-color">问题解决</span>
                                 </a>
                             
-                                <a href="/tags/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
-                                    <span class="chip bg-color">使用教程</span>
+                                <a href="/tags/vue/">
+                                    <span class="chip bg-color">vue</span>
+                                </a>
+                            
+                                <a href="/tags/JavaScript/">
+                                    <span class="chip bg-color">JavaScript</span>
+                                </a>
+                            
+                                <a href="/tags/HTML/">
+                                    <span class="chip bg-color">HTML</span>
+                                </a>
+                            
+                                <a href="/tags/CSS/">
+                                    <span class="chip bg-color">CSS</span>
                                 </a>
                             
                         </div>
@@ -723,9 +505,10 @@ function test() &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2023/03/13/vue-problem/">
                     <div class="card-image">
@@ -743,9 +526,9 @@ function test() &#123;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-13
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-13
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -758,6 +541,7 @@ function test() &#123;
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -792,13 +576,13 @@ function test() &#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/12/git-use/">
+                <a href="/2023/03/12/markdown-use/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Git使用教程">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Markdown实用教程">
                         
-                        <span class="card-title">Git使用教程</span>
+                        <span class="card-title">Markdown实用教程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -815,8 +599,8 @@ function test() &#123;
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
+                                    工具
                                 </a>
                             
                             
@@ -826,12 +610,12 @@ function test() &#123;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Git/">
-                        <span class="chip bg-color">Git</span>
+                    <a href="/tags/Markdown/">
+                        <span class="chip bg-color">Markdown</span>
                     </a>
                     
-                    <a href="/tags/%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">实用教程</span>
+                    <a href="/tags/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">使用教程</span>
                     </a>
                     
                 </div>
