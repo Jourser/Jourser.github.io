@@ -61,7 +61,11 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
@@ -294,20 +298,20 @@
                 
                 
                 
-                <a href="/categories/%E5%B7%A5%E5%85%B7/" title="工具: 2">
+                <a href="/categories/%E5%89%8D%E7%AB%AF/" title="前端: 5">
                     <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #F9EBEA;">工具
-                        <span class="tag-length">2</span>
+                             chip-default "
+                            style="background-color: #F9EBEA;">前端
+                        <span class="tag-length">5</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/%E5%89%8D%E7%AB%AF/" title="前端: 4">
+                <a href="/categories/%E5%B7%A5%E5%85%B7/" title="工具: 2">
                     <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">前端
-                        <span class="tag-length">4</span>
+                             chip-active "
+                            style="background-color: #F5EEF8;">工具
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -764,6 +768,21 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

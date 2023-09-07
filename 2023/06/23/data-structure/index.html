@@ -62,7 +62,11 @@ typedef int ElemType;          &amp;#x2F">
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
@@ -274,14 +278,19 @@ typedef int ElemType;          &amp;#x2F">
                                 <span class="chip bg-color">笔记</span>
                             </a>
                         
-                            <a href="/tags/%E5%89%8D%E7%AB%AF/">
-                                <span class="chip bg-color">前端</span>
-                            </a>
-                        
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -442,7 +451,7 @@ typedef struct&#123;
     int top; &#x2F;&#x2F;栈顶指针
 &#125; SqStack; &#x2F;&#x2F;顺序栈的简写<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>栈：LIFO 先进先出<br>n个元素进栈，一共有$\frac{1}{n+1}$$C^n_ {2n}$出栈方式<br>进栈：<code>push(e);t++;</code> 出栈：<code>t--;pop()</code><br><code>top</code>指向栈顶下一个空位置，允许插入删除<br><code>bottom</code>指向栈底，固定，不允许插入输出<br>空栈的判定条件：<code>top==-1</code><br>满栈的判定条件：<code>top==MaxSize-1</code><br>栈中数据元素个数为：<code>top+1</code></p>
-<h4 id="对顶栈-x2F-共享栈"><a href="#对顶栈-x2F-共享栈" class="headerlink" title="对顶栈&#x2F;共享栈"></a>对顶栈&#x2F;共享栈</h4><p><img src="/2023/06/23/data-structure/1.png"><br>0号栈栈顶：top0<br>1号栈栈顶：top1<br>进栈：0号进栈<code>top0++</code>;1号进栈<code>top1--</code><br>出栈：与进栈相反<br>空栈的判定条件：<code>top0+1==top1</code><br>满栈的判定条件：<code>top0==-1；top1==MaxSize</code></p>
+<h4 id="对顶栈-共享栈"><a href="#对顶栈-共享栈" class="headerlink" title="对顶栈&#x2F;共享栈"></a>对顶栈&#x2F;共享栈</h4><p><img src="/2023/06/23/data-structure/1.png"><br>0号栈栈顶：top0<br>1号栈栈顶：top1<br>进栈：0号进栈<code>top0++</code>;1号进栈<code>top1--</code><br>出栈：与进栈相反<br>空栈的判定条件：<code>top0+1==top1</code><br>满栈的判定条件：<code>top0==-1；top1==MaxSize</code></p>
 <h4 id="链栈"><a href="#链栈" class="headerlink" title="链栈"></a>链栈</h4><h5 id="链栈的存储结构"><a href="#链栈的存储结构" class="headerlink" title="链栈的存储结构"></a>链栈的存储结构</h5><pre class="line-numbers language-C" data-language="C"><code class="language-C">typedef struct SNode&#123;
     Elemtype data; &#x2F;&#x2F;存放栈中元素
     struct SNode *next ; &#x2F;&#x2F;栈顶指针
@@ -470,7 +479,7 @@ typedef struct&#123;
 <h5 id="3-进制转换"><a href="#3-进制转换" class="headerlink" title="3.进制转换"></a>3.进制转换</h5><h5 id="4-括号匹配"><a href="#4-括号匹配" class="headerlink" title="4.括号匹配"></a>4.括号匹配</h5><p>括号匹配算法思想：若是左括号，入栈；若是右括号，出栈一个左括号判断是否与之匹配；检验到字符串尾，还要检查栈是否为空。只有栈空，整个字符串才是括号匹配的。</p>
 <h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>队列：FIFO 先进先出<br>双端队列：<br>1.输入受限，两端都可以出，只有一端可以入<br>2.输出受限，两端都可以入，只有一端可以出<br>队列的应用：1.排队；2.打印机；3.层次遍历；4.BFS；5.基数排序</p>
 <h2 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h2><h4 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h4><p><code>front</code>指队首；<code>rear</code>指队尾的下一个元素<br>队列空：<code>front==rear</code><br>队列满：<code>(rear+1)%MaxSize==front</code><br>入队：<code>rear=(rear+1)%MaxSize</code><br>出队：<code>front=(front+1)%MaxSize</code><br>长度：<code>(rear+MaxSize-front)%MaxSize</code></p>
-<h4 id="链队列"><a href="#链队列" class="headerlink" title="链队列"></a>链队列</h4><p>一般为带尾指针的单循环链表<br>插入：尾插，尾改头不改<br>删除：头插，头改尾不改；<font color="#dd0000">删除到最后，头尾都要改</font>。<br>入队：$\left{<br>\begin{matrix}<br>rear++\<br>放入<br>\end{matrix}<br>\right.$ &amp;emsp;与单链表插入操作一致</p>
+<h4 id="链队列"><a href="#链队列" class="headerlink" title="链队列"></a>链队列</h4><p>一般为带尾指针的单循环链表<br>插入：尾插，尾改头不改<br>删除：头插，头改尾不改；<font color="#dd0000">删除到最后，头尾都要改</font>。<br>入队：$\left{<br>\begin{matrix}<br>rear++\<br>放入<br>\end{matrix}<br>\right.$ &emsp;与单链表插入操作一致</p>
 <pre class="line-numbers language-C" data-language="C"><code class="language-C">void EnQueue(LinkQueue &amp;Q，ElemType x)&#123;
     s&#x3D;(LinkNode *)malloc(sizeof(LinkNode));
     s-&gt;data&#x3D;x; 
@@ -478,7 +487,7 @@ typedef struct&#123;
     Q.rear-&gt;next&#x3D;s;
     Q.rear&#x3D;s;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>出队：$\left{<br>\begin{matrix}<br>放出\<br>front++<br>\end{matrix}<br>\right.$  &amp;emsp;头结点的后继结点出队</p>
+<p>出队：$\left{<br>\begin{matrix}<br>放出\<br>front++<br>\end{matrix}<br>\right.$  &emsp;头结点的后继结点出队</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">bool <span class="token function">DeQueue</span><span class="token punctuation">(</span>LinkQueue <span class="token operator">&amp;</span>Q<span class="token punctuation">,</span>ElemType <span class="token operator">&amp;</span>x<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token keyword">if</span><span class="token punctuation">(</span>Q<span class="token punctuation">.</span>front<span class="token operator">==</span>Q<span class="token punctuation">.</span>rear<span class="token punctuation">)</span> <span class="token keyword">return</span> false<span class="token punctuation">;</span> <span class="token comment">//空队</span>
     p<span class="token operator">=</span>Q<span class="token punctuation">.</span>front<span class="token operator">-></span>next<span class="token punctuation">;</span>
@@ -494,16 +503,16 @@ typedef struct&#123;
     ElemType data<span class="token punctuation">;</span> <span class="token comment">//数据域</span>
     <span class="token keyword">struct</span> <span class="token class-name">BiTNode</span> <span class="token operator">*</span>lchild<span class="token punctuation">,</span><span class="token operator">*</span>rchild<span class="token punctuation">;</span> <span class="token comment">//指向该结点的左、右孩子指针</span>
 <span class="token punctuation">&#125;</span>BiTNode<span class="token punctuation">,</span><span class="token operator">*</span>BiTree<span class="token punctuation">;</span> <span class="token comment">//二叉树结点结构</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="特殊性质："><a href="#特殊性质：" class="headerlink" title="特殊性质："></a>特殊性质：</h4><p>1.非空二叉树&amp;emsp;叶子结点数$n_{0}$为度为2的结点数+1，即$\mathbf{n_{0}&#x3D;n_{2}+1}$<br>2.<strong>k</strong>层树至少有$\mathbf{2^{k-1}}$个结点<br>3.高度为<strong>h</strong>至多有个$\mathbf{2^{h-1}}$结点<br>4.具有<strong>n</strong>个节点的二叉树，最小高度$\lfloor\mathbf{log_2{n}+1}\rfloor$向下取整</p>
+<h4 id="特殊性质："><a href="#特殊性质：" class="headerlink" title="特殊性质："></a>特殊性质：</h4><p>1.非空二叉树&emsp;叶子结点数$n_{0}$为度为2的结点数+1，即$\mathbf{n_{0}&#x3D;n_{2}+1}$<br>2.<strong>k</strong>层树至少有$\mathbf{2^{k-1}}$个结点<br>3.高度为<strong>h</strong>至多有个$\mathbf{2^{h-1}}$结点<br>4.具有<strong>n</strong>个节点的二叉树，最小高度$\lfloor\mathbf{log_2{n}+1}\rfloor$向下取整</p>
 <h4 id="完全二叉树的独有性质"><a href="#完全二叉树的独有性质" class="headerlink" title="完全二叉树的独有性质"></a>完全二叉树的独有性质</h4><p>完全二叉树：除了最后一行，其余层全满<br>全满<strong>k</strong>层，一共$\mathbf{2^{k}-1}$个结点<br>1.<strong>n</strong>个结点深度：$\lfloor\mathbf{log_2{n}+1}\rfloor$向下取整或$\lceil\mathbf{log_2{(n+1)}}\rceil$向下取整<br>2.右子树最大I层，左子树最大I+1或I层<br>3.双亲结点 $\lfloor\mathbf{i&#x2F;2}\rfloor$<br>4.度为1的个数只有0或1<br>5.叶子结点出现在k层或者k-1层，k为深度<br>6.当该层编好后出现一结点为叶子结点或只有左子树，则之后都是叶子结点，如下图为某一层的最后结点<br><img src="/2023/06/23/data-structure/3.png"> 384之后都是叶子结点，所以叶子结点数：768-384&#x3D;384</p>
 <h2 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h2><p>先序：根左右<br>中序：左根右<br>后序：左右根<br>层次：按照层次遍历<br>中+层$\Rightarrow$层<br>中+后$\Rightarrow$后<br>中+先$\Rightarrow$先<br>先确定根，中序确定左右</p>
 <h2 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h2><p>方便查找前驱、后继和遍历(前驱后继根据中序)<br>1.有左孩子，指向左孩子；无，则指向前驱<br>2.有右孩子，指向右孩子；无，则指向后继<br><em><strong>问题：<u>如何区分指针是指向左孩子还是前驱，或者指向右孩子还是后继？</u></strong></em><br>答：在二叉链表的结构基础上增加两个标志位<code>ltag</code>和<code>rtag</code><br>$ ltag&#x3D;\left{<br>\begin{matrix}<br>0，左孩子\<br>1，前驱<br>\end{matrix}<br>\right.<br>$<br>$ rtag&#x3D;\left{<br>\begin{matrix}<br>0，右孩子\<br>1，后继<br>\end{matrix}<br>\right.<br>$</p>
 <h2 id="树、森林和二叉树转换"><a href="#树、森林和二叉树转换" class="headerlink" title="树、森林和二叉树转换"></a>树、森林和二叉树转换</h2><p>一般树转化为二叉树规则：<strong>左孩子不变，右孩子变为右兄弟</strong>，如下图所示：<br><img src="/2023/06/23/data-structure/4.png"><br>根右边一定为空，所以<strong>根据根的右子树情况，可判断森林中树的个数</strong><br>森林转化为二叉树规则：先将每棵树转化为二叉树，再将每棵树的根相连<br>$树\Rightarrow二叉树$$\left{<br>\begin{matrix}<br>先序\Rightarrow先序\<br>后序\Rightarrow中序\<br>中序\Rightarrow中序<br>\end{matrix}<br>\right.$</p>
-<h2 id="哈夫曼树"><a href="#哈夫曼树" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h2><p>WPL带权路径最小<br>权重大的在上面，权重小的在下面<br>不够需要补0，&amp;emsp;补几个，利用$n_0&#x3D;(m-1)n_m+1$，$n_m$为整数，所以$n_m&#x3D;\frac{n_0-1}{m-1}$最后得$n_0$<br>左0右1<br>只有0度和2度的结点<br><strong>前缀编码判定方法</strong>：<br>1.任何一个编码不能是一个编码的前缀<br>2.画树，找度为1的点，$n_1&#x3D;1$不能是前缀编码</p>
-<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><p>度之和&#x3D;边*2<br>完全图边数：$\frac{n(n-1)}{2}$<br>顶点集<code>V</code> &amp;emsp;边集<code>E</code><br>非连通：最多$\mathbf{C^2_ {n-1}}$条边<br>连通：最少$\mathbf{C^2_ {n-1}+1}$条边<br>强联通(顶点v到w或w到v都有路径)：最少$\mathbf{n}$条边<br>简单路径：顶点不重复 &amp;emsp;简单回路：首尾相同其余不重复</p>
+<h2 id="哈夫曼树"><a href="#哈夫曼树" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h2><p>WPL带权路径最小<br>权重大的在上面，权重小的在下面<br>不够需要补0，&emsp;补几个，利用$n_0&#x3D;(m-1)n_m+1$，$n_m$为整数，所以$n_m&#x3D;\frac{n_0-1}{m-1}$最后得$n_0$<br>左0右1<br>只有0度和2度的结点<br><strong>前缀编码判定方法</strong>：<br>1.任何一个编码不能是一个编码的前缀<br>2.画树，找度为1的点，$n_1&#x3D;1$不能是前缀编码</p>
+<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><p>度之和&#x3D;边*2<br>完全图边数：$\frac{n(n-1)}{2}$<br>顶点集<code>V</code> &emsp;边集<code>E</code><br>非连通：最多$\mathbf{C^2_ {n-1}}$条边<br>连通：最少$\mathbf{C^2_ {n-1}+1}$条边<br>强联通(顶点v到w或w到v都有路径)：最少$\mathbf{n}$条边<br>简单路径：顶点不重复 &emsp;简单回路：首尾相同其余不重复</p>
 <h2 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a>图的存储</h2><h4 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h4><p><img src="/2023/06/23/data-structure/5.png"><br>如图所得邻接矩阵：<br><br>$\left(<br>\begin{matrix}<br>0 &amp; 1 &amp; 1 &amp; 1\<br>1 &amp; 0 &amp; 1 &amp; 0\<br>1 &amp; 1 &amp; 0 &amp; 1\<br>1 &amp; 0 &amp; 1 &amp; 0<br>\end{matrix}<br>\right)<br>$</p>
 <p>若是有向图，则是指向为1，例：<br><img src="/2023/06/23/data-structure/6.png"><br>如图所得邻接矩阵：<br><br>$\left(<br>\begin{matrix}<br>0 &amp; 1 &amp; 0 &amp; 1\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>1 &amp; 1 &amp; 0 &amp; 1\<br>0 &amp; 0 &amp; 0 &amp; 0<br>\end{matrix}<br>\right)<br>$</p>
-<p><font color="#dd0000">邻接矩阵唯一，遍历结果也唯一</font><br>空间复杂度：$O(n^2)$ &amp;emsp; 遍历时间复杂度：$O(n^2)$</p>
+<p><font color="#dd0000">邻接矩阵唯一，遍历结果也唯一</font><br>空间复杂度：$O(n^2)$ &emsp; 遍历时间复杂度：$O(n^2)$</p>
 <h4 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h4><p><strong><font color="#dd0000">适用于稀疏图(|E|远小于|V|^2)</font></strong></p>
 <h5 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h5><p><img src="/2023/06/23/data-structure/7.png"></p>
 <h5 id="有向图"><a href="#有向图" class="headerlink" title="有向图"></a>有向图</h5><p><img src="/2023/06/23/data-structure/8.png"><br><font color="#dd0000">邻接表不唯一，遍历结果不唯一。但若是已经给定邻接表，遍历结果唯一。</font><br>遍历时间复杂度：$O(n+e)$</p>
@@ -573,7 +582,7 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>时间复杂度：$O(|E|log|E|)$<br>主要时间耗费在排序上。排序和图中边的数量有关系，所以适合<strong>稀疏图</strong>。</p>
-<h2 id="图的应用——AOV网和AOE网、拓扑排序、关键路径"><a href="#图的应用——AOV网和AOE网、拓扑排序、关键路径" class="headerlink" title="图的应用——AOV网和AOE网、拓扑排序、关键路径"></a>图的应用——AOV网和AOE网、拓扑排序、关键路径</h2><h4 id="AOV网"><a href="#AOV网" class="headerlink" title="AOV网"></a>AOV网</h4><p>有向网 &amp;emsp;&lt;$V_i$,$V_j$&gt;,$V_i$完成必须先于$V_j$（无环），顶点表示活动，能被拓扑排序的便是AOE网</p>
+<h2 id="图的应用——AOV网和AOE网、拓扑排序、关键路径"><a href="#图的应用——AOV网和AOE网、拓扑排序、关键路径" class="headerlink" title="图的应用——AOV网和AOE网、拓扑排序、关键路径"></a>图的应用——AOV网和AOE网、拓扑排序、关键路径</h2><h4 id="AOV网"><a href="#AOV网" class="headerlink" title="AOV网"></a>AOV网</h4><p>有向网 &emsp;&lt;$V_i$,$V_j$&gt;,$V_i$完成必须先于$V_j$（无环），顶点表示活动，能被拓扑排序的便是AOE网</p>
 <h4 id="拓扑排序（考得更多）"><a href="#拓扑排序（考得更多）" class="headerlink" title="拓扑排序（考得更多）"></a><font color="#dd0000">拓扑排序</font>（考得更多）</h4><p>不唯一<br>每个顶点最多一次；<br>A在B前面，则没有B到A的路径<br>从AOV网中选择一个入度为0的顶点输出，然后删去此顶点，并删除以此顶点为弧尾的弧。重复这个步骤直到输出图中全部顶点，或者找不到入度为0的顶点为止。<br>由于拓扑排序需要删除边和顶点，所以使用邻接表存储图比较方便。</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">bool <span class="token function">TopologicalSort</span><span class="token punctuation">(</span>Graph G<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token function">InitStack</span><span class="token punctuation">(</span>S<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//初始化栈，存储入度为0的顶点</span>
@@ -595,7 +604,7 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
 <h4 id="AOE网"><a href="#AOE网" class="headerlink" title="AOE网"></a>AOE网</h4><p>带权的有向无环，用顶点表示事件，<strong>用边表示活动</strong></p>
 <h4 id="关键路径"><a href="#关键路径" class="headerlink" title="关键路径"></a>关键路径</h4><p>1.顶点事件发生，各条边活动才能开始；<br>2.各边活动结束，顶点事件才能发生<br>最大路径长度的路径：关键路径<br>关键路径上的活动：关键活动<br>工程最短时间：关键路径长度</p>
 <p>1.加快关键活动缩短工期<br>2.关键路径不唯一，要缩短所有关键路径的公共部分或者都缩短</p>
-<p>最早事件开始时间：正推法 &amp;emsp;从头到该事件的<strong>最长</strong>路径<br>最晚事件开始时间：倒推法 &amp;emsp;从最大路径往前到该事件的<strong>最小</strong>路径<br><font color="#dd0000">关键活动的最早发生时间和最晚发生时间是一样的！</font></p>
+<p>最早事件开始时间：正推法 &emsp;从头到该事件的<strong>最长</strong>路径<br>最晚事件开始时间：倒推法 &emsp;从最大路径往前到该事件的<strong>最小</strong>路径<br><font color="#dd0000">关键活动的最早发生时间和最晚发生时间是一样的！</font></p>
 <h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><h4 id="Dijkstra-迪杰斯特拉-算法-选择题中最难题"><a href="#Dijkstra-迪杰斯特拉-算法-选择题中最难题" class="headerlink" title="Dijkstra(迪杰斯特拉)算法 选择题中最难题"></a>Dijkstra(迪杰斯特拉)算法 选择题中最难题</h4><p><code>dist[]</code>：记录了从源点v0到其他各顶点当前的最短路径长度<br><code>path[]</code>：<code>path[i]</code>表示从源点到顶点i之间的最短路径的前驱结点，在算法结束时，可根据其值追溯得到源点v0到顶点vi的最短路径。<br><img src="/2023/06/23/data-structure/9.png"><br><strong>时间复杂度</strong>：迪杰斯特拉算法的核心部分在于一个双重循环，这个双重循环的内循环又是两个并列的单重for循环组成(找距离最小顶点和更新距离),任意取其中一个循环中的操作为基本操作，都可以得出迪杰斯特拉算法的时间复杂度为$\mathbf{O(n^2)}$ 其中n为图中的顶点数。</p>
 <h4 id="Floyd-弗洛伊德-算法"><a href="#Floyd-弗洛伊德-算法" class="headerlink" title="Floyd(弗洛伊德)算法"></a>Floyd(弗洛伊德)算法</h4><p>求图中任意一对顶点间的最短路径的算法<br>递推产生一个n阶方阵序列$A^{(−1)}$，$A^{(0)}$，…，$A^{(k)}$，…，$A^{(n−1)}$<br>其中$A^{(k)}[i][j]$表示从顶点vi到顶点vj的路径长度，k表示绕行第k个顶点的运算步骤。<br>$A^{(k)}[i][j]&#x3D;Min{A^{(k-1)}[i][j],A^{(k-1)}[i][k]+A^{(k-1)}[k][j]}$<br><strong>时间复杂度</strong>：弗洛伊德算法的核心为一个三重循环，所以时间复杂度为$\mathbf{O(n^3)}$ 其中n是图中的顶点数。</p>
 <h2 id="折半查找"><a href="#折半查找" class="headerlink" title="折半查找"></a>折半查找</h2><p>仅适用于顺序存储，有序顺序表<br>时间复杂度：$\mathbf{O(log_2n)}$<br>1.默认使用$\lfloor\mathbf{\frac{low+high}{2}}\rfloor&#x3D;mid$向下取整<br>2.平均查找长度ASL取决于其树型结构。而树型结构只取决于元素个数<br>$ASL\approx$$log_2(n+1)-1$<br><img src="/2023/06/23/data-structure/10.png"><br>ASL成功&#x3D;（1+2+2+3+3+3+3+4)&#x2F;8&#x3D;21&#x2F;8<br>ASL失败&#x3D;（3+3+3+3+3+3+3+4+4)&#x2F;9&#x3D;29&#x2F;9</p>
@@ -620,14 +629,14 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
 <h5 id="RL调整"><a href="#RL调整" class="headerlink" title="RL调整"></a>RL调整</h5><p><img src="/2023/06/23/data-structure/15.png"></p>
 <h4 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h4><p>插入看自己，删除看兄弟<br>1.用<strong>二叉排序树删除</strong>的方法删（叶子直接删；只有一颗子树，用子树代替；两颗子树都有，中序遍历用前驱或者后继代替）<br>2.从删除的位置向上找到第一个<strong>不平衡点</strong>，从该点向下高度最高的点，一条线有三个。(以x，y，z为例，z为第一个不平衡点，y是z的最高孩子结点，x是y的最高孩子结点)<br>3.之后同上的插入方法，根据x，y，z的情况旋转<br>深度为h的最少结点数为$N_n$<br>$N_0&#x3D;0$，$N_1&#x3D;1$，$N_2&#x3D;2$，$N_n&#x3D;N_{(n-1)}+N_{(n-2)}$+1</p>
 <h2 id="B树和B-树的性质"><a href="#B树和B-树的性质" class="headerlink" title="B树和B+树的性质"></a><font color="#dd0000">B树和B+树的性质</font></h2><h4 id="m阶B树特点"><a href="#m阶B树特点" class="headerlink" title="m阶B树特点"></a>m阶B树特点</h4><p>1）树中每个结点至多有<strong>m</strong>棵子树。（即至多含有<strong>m-1个关键字</strong>) (“两棵子树指针夹着一个关键字”)<br>2）若根结点不是终端结点，则至少有两棵子树。(至少一个关键字)<br>3）除根结点外的所有非叶结点至少有⌈m&#x2F;2⌉(向上取整)棵子树。（即至少含有⌈m&#x2F;2⌉-1个关键字）<br>如图所示是一个5阶B树：<br><img src="/2023/06/23/data-structure/16.png"></p>
-<h5 id="B树结点子树个数"><a href="#B树结点子树个数" class="headerlink" title="B树结点子树个数"></a>B树结点子树个数</h5><p><strong>根结点</strong>:子树个数$\mathbf{[2,m]}$ &amp;emsp; 关键字数$\mathbf{[1,m-1]}$<br><strong>其他结点</strong>:子树个数$\mathbf{[⌈m&#x2F;2⌉,m]}$ &amp;emsp; 关键字数$\mathbf{[⌈m&#x2F;2⌉-1,m-1]}$<br><strong>该类题求解方法：</strong><br>1.关键字最少$\Leftrightarrow$子树少$\Leftrightarrow$结点少；<br>2.关键字个数$\Rightarrow$$\left{<br>\begin{matrix}<br>最少结点：每个结点的关键字最多，m-1\<br>最多结点：每个结点的关键字最少，⌈m&#x2F;2⌉-1<br>\end{matrix}<br>\right.$</p>
+<h5 id="B树结点子树个数"><a href="#B树结点子树个数" class="headerlink" title="B树结点子树个数"></a>B树结点子树个数</h5><p><strong>根结点</strong>:子树个数$\mathbf{[2,m]}$ &emsp; 关键字数$\mathbf{[1,m-1]}$<br><strong>其他结点</strong>:子树个数$\mathbf{[⌈m&#x2F;2⌉,m]}$ &emsp; 关键字数$\mathbf{[⌈m&#x2F;2⌉-1,m-1]}$<br><strong>该类题求解方法：</strong><br>1.关键字最少$\Leftrightarrow$子树少$\Leftrightarrow$结点少；<br>2.关键字个数$\Rightarrow$$\left{<br>\begin{matrix}<br>最少结点：每个结点的关键字最多，m-1\<br>最多结点：每个结点的关键字最少，⌈m&#x2F;2⌉-1<br>\end{matrix}<br>\right.$</p>
 <h4 id="m阶B-树特点"><a href="#m阶B-树特点" class="headerlink" title="m阶B+树特点"></a>m阶B+树特点</h4><p>结点的子树个数与关键字个数相同<br>支持顺序查找和随机查找，B树只支持随机<br><img src="/2023/06/23/data-structure/17.png"><br>m阶的B+树与m阶的B树的<strong>主要差异</strong>在于：<br>1）在B+树中，具有n个关键字的结点只含有n棵子树，即<font color="#dd0000">每个关键字对应一棵子树</font>；而在B树中，具有n个关键字的结点含有(n+1)棵子树。<br>2）在B+树中，每个结点（非根内部结点）关键字个数n的范围是 ⌈m&#x2F;2⌉≤n≤m（根结点1≤n≤m），在B树中，每个结点（非根内部结点）关键字个数n的范围是⌈m&#x2F;2⌉ -1≤n≤m-1（根结点：1≤n≤m-1）。<br>3）在B+树中，<font color="#dd0000">叶结点包含信息，所有非叶结点仅起到索引作用</font>，非叶结点中的每个索引项只含有对应子树的<font color="#dd0000">最大关键字</font>和指向该子树的指针，不含有该关键字对应记录的存储地址。<br>4）在B+树中，<font color="#dd0000">叶结点包含了全部关键字</font>，即在非叶结点中出现的关键字也会出现在叶结点中；而在B树中，叶结点包含的关键字和其他结点包含的关键字是不重复的。<br>主要应用：<br>编译器中的词法分析：二叉树<br>数据库索引：B+<br>路由表查找：折半</p>
 <h2 id="B树插入与删除"><a href="#B树插入与删除" class="headerlink" title="B树插入与删除"></a>B树插入与删除</h2><h4 id="插入-1"><a href="#插入-1" class="headerlink" title="插入"></a>插入</h4><p>可能插入后B树的高度+1，因为根结点也进行分裂<br>步骤：<br>1.找到插入的叶子结点<br>2.若该结点插入后，关键字仍小于等于⌈m&#x2F;2⌉ -1，则直接插入。反之，则将需要<strong>分裂</strong>。分裂的方法：取这个关键字数组中的中间关键字(⌈n&#x2F;2⌉)作为新的结点，然后其他关键字形成两个结点作为新结点的左右孩子。需要从该结点的父结点持续向上进行，若不符合要求，就依次分裂直到根结点。<br><img src="/2023/06/23/data-structure/18.png"></p>
 <h4 id="删除-2"><a href="#删除-2" class="headerlink" title="删除"></a>删除</h4><h5 id="删除的关键字不在终端结点上（最底层非叶子结点）"><a href="#删除的关键字不在终端结点上（最底层非叶子结点）" class="headerlink" title="删除的关键字不在终端结点上（最底层非叶子结点）"></a>删除的关键字不在终端结点上（最底层非叶子结点）</h5><p>用直接前驱(最右下)和直接后继(最左下)来代替，然后便转换为了“在终端结点”的问题<br><img src="/2023/06/23/data-structure/19.png"></p>
 <h5 id="删除的关键字在终端结点上（最底层非叶子结点）"><a href="#删除的关键字在终端结点上（最底层非叶子结点）" class="headerlink" title="删除的关键字在终端结点上（最底层非叶子结点）"></a>删除的关键字在终端结点上（最底层非叶子结点）</h5><p>1.结点内关键字数量<strong>大于</strong>⌈m&#x2F;2⌉-1(不能等于)，删除后仍大于等于⌈m&#x2F;2⌉-1这时删除这个关键字不会破坏B树的定义要求。所以直接删除。<br>2.结点内关键字数量<strong>等于</strong>⌈m&#x2F;2⌉-1，并且其左右兄弟结点中存在关键字数量<strong>大于</strong>⌈m&#x2F;2⌉-1 的结点，则去兄弟阶段中借关键字。<br><img src="/2023/06/23/data-structure/20.png"><br>3.结点内关键字数量<strong>等于</strong>⌈m&#x2F;2⌉-1 ，并且其左右兄弟结点中都是关键字数量<strong>等于</strong>⌈m&#x2F;2⌉-1 的结点，则需要进行结点合并。<br><img src="/2023/06/23/data-structure/21.png"></p>
 <h2 id="哈希函数构造和冲突解决方法"><a href="#哈希函数构造和冲突解决方法" class="headerlink" title="哈希函数构造和冲突解决方法"></a>哈希函数构造和冲突解决方法</h2><h4 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h4><p>主要是<strong>除留余数法</strong>m，H(key)&#x3D;key % p</p>
 <h4 id="冲突处理方法"><a href="#冲突处理方法" class="headerlink" title="冲突处理方法"></a>冲突处理方法</h4><h5 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h5><p>1）线性探测法：冲突发生时，顺序查看表中下一个单元（当探测到表尾地址m-1时，下一个探测地址是表首地址0），直到找出一个空闲单元（当表未填满时一定能找到一个空闲单元）或查遍全表。<strong>易“堆积”</strong>，降低查找效率<br>2）平方探测法：设发生冲突的地址为d,平方探测法得到的新的地址序列为$d\pm1^2$，$d\pm2^2$……$d\pm{k^2}$<br>$m$是列表长度，则$k\leq{m&#x2F;2}$,$m$必须是一个$4k+3$的质数<br>平方探测法是一种较好的处理冲突的方法，可以<strong>避免</strong>出现“堆积”问题，它的缺点是不能探测到散列表上的所有单元，但至少能探测到一半单元。</p>
-<h5 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h5><p>对于不同的关键字可能会通过散列函数映射到同一地址，为了避免非同义词发生冲突，可以<strong>把所有的同义词存储在一个线性链表中</strong>，这个线性链表由其散列地址唯一标识。拉链法适用于<strong>经常进行插入和删除的情况</strong>。<br><img src="/2023/06/23/data-structure/22.png"><br>ASL成功$&#x3D;\frac{1\times6+2\times4+3\times1+4\times1}{12}$ &amp;emsp;分母12为总数据个数<br>ASL失败$&#x3D;\frac{0+4+0+2+0+0+2+1+0+0+2+1+0}{13}$ &amp;emsp;分母13为散列表长度</p>
+<h5 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h5><p>对于不同的关键字可能会通过散列函数映射到同一地址，为了避免非同义词发生冲突，可以<strong>把所有的同义词存储在一个线性链表中</strong>，这个线性链表由其散列地址唯一标识。拉链法适用于<strong>经常进行插入和删除的情况</strong>。<br><img src="/2023/06/23/data-structure/22.png"><br>ASL成功$&#x3D;\frac{1\times6+2\times4+3\times1+4\times1}{12}$ &emsp;分母12为总数据个数<br>ASL失败$&#x3D;\frac{0+4+0+2+0+0+2+1+0+0+2+1+0}{13}$ &emsp;分母13为散列表长度</p>
 <h4 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h4><p>装填因子：散列表的装填因子一般记为α，定义为一个表的装满程度。<br>计算方法为α&#x3D;表中记录数𝑛&#x2F;散列表长度𝑚<br>散列表的平均查找长度依赖于散列表的填装因子α，而不直接依赖于n或m。<br>α越大，表示装填的记录越“满”，发生冲突的可能性就越大，反之发生冲突的可能性越小。<br><font color="#dd0000">散列函数、冲突处理方法、装填因子以上三者都是影响平均查找长度的因素</font></p>
 <h2 id="插入类排序"><a href="#插入类排序" class="headerlink" title="插入类排序"></a>插入类排序</h2><h4 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h4><p>首先以一个元素为有序的序列，然后将后面的元素依次插入到有序的序列中合适的位置直到所有元素都插入有序序列。<br>可以用链表，则移动次数减少，但比较次数增多<br>特点：<strong>前半部分是有序的</strong> 第n趟排序，则至少有n+1个有序</p>
 <pre class="line-numbers language-C" data-language="C"><code class="language-C">void InsertSort(ElemType A[],int n)&#123;
@@ -849,7 +858,7 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
 <td align="center"></td>
 
 
-<p><strong>不稳定</strong>：快希选堆<br><strong>时间复杂度</strong>：$O(nlog_2n)$ 快堆归<br><strong>空间复杂度</strong>：$O(log_2n)$ 快；$O(n)$ 归；$O(r)$ 基数<br>注意：$O(n^{1.3})是希尔$$d&#x3D;n&#x2F;2$的步长<br>特殊分类：<br><strong>只能用顺序表</strong>：归并、堆、快排(希尔、折半插入)<br>&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;其余的链式和顺序都可以<br>**时间复杂度与元素初始状态<font color="#dd0000">无关</font>**：基数、选择、归并<br>**比较次数与元素初始状态<font color="#dd0000">无关</font>**：基数、选择<br>**排序趟数与元素初始状态<font color="#dd0000">有关</font>**：快排、冒泡<br>**排序趟数与元素初始状态<font color="#dd0000">无关</font>**：直插、折半、希尔、选择、堆、归并、基数<br><strong>至少确定一个位置</strong>：$\left{<br>\begin{matrix}<br>交换：冒泡、快排\<br>选择：简单选择、堆<br>\end{matrix}<br>\right.$ </p>
+<p><strong>不稳定</strong>：快希选堆<br><strong>时间复杂度</strong>：$O(nlog_2n)$ 快堆归<br><strong>空间复杂度</strong>：$O(log_2n)$ 快；$O(n)$ 归；$O(r)$ 基数<br>注意：$O(n^{1.3})是希尔$$d&#x3D;n&#x2F;2$的步长<br>特殊分类：<br><strong>只能用顺序表</strong>：归并、堆、快排(希尔、折半插入)<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;其余的链式和顺序都可以<br>**时间复杂度与元素初始状态<font color="#dd0000">无关</font>**：基数、选择、归并<br>**比较次数与元素初始状态<font color="#dd0000">无关</font>**：基数、选择<br>**排序趟数与元素初始状态<font color="#dd0000">有关</font>**：快排、冒泡<br>**排序趟数与元素初始状态<font color="#dd0000">无关</font>**：直插、折半、希尔、选择、堆、归并、基数<br><strong>至少确定一个位置</strong>：$\left{<br>\begin{matrix}<br>交换：冒泡、快排\<br>选择：简单选择、堆<br>\end{matrix}<br>\right.$ </p>
 
                 
             </div>
@@ -920,10 +929,6 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
                             
                                 <a href="/tags/%E7%AC%94%E8%AE%B0/">
                                     <span class="chip bg-color">笔记</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%89%8D%E7%AB%AF/">
-                                    <span class="chip bg-color">前端</span>
                                 </a>
                             
                         </div>
@@ -1028,8 +1033,12 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Jourser
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -1044,10 +1053,6 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
                     
                     <a href="/tags/%E7%AC%94%E8%AE%B0/">
                         <span class="chip bg-color">笔记</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
-                        <span class="chip bg-color">前端</span>
                     </a>
                     
                 </div>
@@ -1273,6 +1278,13 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
@@ -1599,6 +1611,21 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
