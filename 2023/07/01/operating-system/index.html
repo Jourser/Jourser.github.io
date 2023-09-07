@@ -299,7 +299,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-06-23
+                    2023-07-01
                 </div>
                 
 
@@ -374,7 +374,7 @@
 </ul>
 </li>
 <li>执行系统调用相应服务程序(<strong>核心态</strong>)</li>
-<li>返回用户程序<br><img src="/2023/06/23/operating-system/2.png"></li>
+<li>返回用户程序<br><img src="/2023/07/01/operating-system/2.png"></li>
 </ol>
 <p><strong>操作系统向用户提供的接口</strong>：<br>&emsp;用户接口：命令行、图形、批处理<br>&emsp;程序接口：系统调用</p>
 <h4 id="操作系统状态"><a href="#操作系统状态" class="headerlink" title="操作系统状态"></a>操作系统状态</h4><p>两种处理器状态, 用程序状态寄存器 (PSW) 标记, 0 用户, 1 核心</p>
@@ -385,7 +385,7 @@
 <li><strong>应用程序</strong>: 只能运行非特权指令, 在<em><strong>用户态</strong></em>执行</li>
 </ul>
 <p><em><strong>问题：<u>用户态, 核心态之间是怎么切换的?</u></strong></em><br>答：切换是通过<strong>中断</strong>实现的, 并且是<strong>唯一</strong>途径, 改变 <strong>程序状态字(PSW)</strong> 即可<br>用户态$\rightarrow$核心态：中断<br>核心态$\rightarrow$用户态：修改PSW<br>用户态可以触发中断，但中断处理只能在核心态中执行<br>PS：进程切换、调度既不可以在用户态发生，更不能执行</p>
-<p><strong>中断类型</strong>(同计组)：<br><img src="/2023/06/23/operating-system/1.png"><br><strong>自陷</strong>是主动的，如陷入指令，将用户态转为核心态<br><strong>常见异常</strong>：非法操作码、地址越界、运算溢出、虚存系统缺页、陷入指令</p>
+<p><strong>中断类型</strong>(同计组)：<br><img src="/2023/07/01/operating-system/1.png"><br><strong>自陷</strong>是主动的，如陷入指令，将用户态转为核心态<br><strong>常见异常</strong>：非法操作码、地址越界、运算溢出、虚存系统缺页、陷入指令</p>
 <p><strong>中断响应周期(中断隐指令)<strong>：PC(程序计数器)、PSW(程序状态寄存器)&emsp;可以</strong>用户态</strong><br><strong>中断服务程序(ISR)</strong>:通用寄存器&emsp;必须<strong>核心态</strong></p>
 <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h3 id="进程的定义和状态"><a href="#进程的定义和状态" class="headerlink" title="进程的定义和状态"></a>进程的定义和状态</h3><p><strong>程序段</strong>、<strong>数据段</strong>、<strong>PCB(进程控制块)<strong>三部分组成了</strong>进程实体(进程映像)</strong>, 一般情況下，我们把进程实体就简称为<strong>进程</strong>，<br>例如，所谓创建进程，<strong>实质上是创建进程实体中的PCB</strong>；而撤销进程，实质上是撤销进程实体中的PCB。<br>PS：PCB是进程存在的<strong>唯一标志</strong>！</p>
 <h4 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h4><ul>
@@ -402,7 +402,7 @@
 <li>申请其他资源：1.内存；2.I&#x2F;O；3.buffer；4.设备；5.临界资源；6.磁盘；7.执行p操作</li>
 </ul>
 </li>
-<li>阻塞态$\rightarrow$就绪态：<strong>I&#x2F;O完成</strong><br><img src="/2023/06/23/operating-system/3.png"></li>
+<li>阻塞态$\rightarrow$就绪态：<strong>I&#x2F;O完成</strong><br><img src="/2023/07/01/operating-system/3.png"></li>
 </ul>
 <p>PS：父子进程相关</p>
 <ol>
@@ -453,7 +453,7 @@
 <h3 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h3><h4 id="共享存储"><a href="#共享存储" class="headerlink" title="共享存储"></a>共享存储</h4><p>两个进程对共享空间的<strong>访问</strong>必须是<strong>互斥</strong>的（互斥访问通过操作系统提供的工具实现）</p>
 <ol>
 <li>基于数据结构<br>比如共享空间里只能放一个长度为10的数组。这种共享方式速度慢、限制多，是一种<strong>低级通信方式</strong></li>
-<li>基于存储区<br> 在内存中画出一块共享存储区，数据的形式、存放位置都由进程控制而不是操作系统。相比之下，这种共享方式速度更快，是一种高<strong>级通信方式</strong>。<br> <img src="/2023/06/23/operating-system/4.png"></li>
+<li>基于存储区<br> 在内存中画出一块共享存储区，数据的形式、存放位置都由进程控制而不是操作系统。相比之下，这种共享方式速度更快，是一种高<strong>级通信方式</strong>。<br> <img src="/2023/07/01/operating-system/4.png"></li>
 </ol>
 <h4 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h4><p>进程间的数据交换以<strong>格式化的消息(Message)<strong>为单位。进程通过</strong>操作系统提供的“发送消息&#x2F;接收消息”两个原语进行数据交换</strong>。</p>
 <ul>
@@ -464,7 +464,7 @@
 </li>
 <li><strong>传递方式</strong><ul>
 <li>直接传递, 消息直接挂到接收进程的消息缓冲队列上</li>
-<li>间接传递, 消息要先发送到中间实体（信箱）中，因此也称“信箱通信方式”。Eg：计网中的电子邮件系统<br><img src="/2023/06/23/operating-system/5.png"></li>
+<li>间接传递, 消息要先发送到中间实体（信箱）中，因此也称“信箱通信方式”。Eg：计网中的电子邮件系统<br><img src="/2023/07/01/operating-system/5.png"></li>
 </ul>
 </li>
 </ul>
@@ -476,7 +476,7 @@
 <li>当读进程将数据全部取走后，<strong>管道变空</strong>，此时读进程的<strong>read()系统调用将被阻塞</strong>，才能write()</li>
 </ul>
 </li>
-<li>数据一旦被读出，就从管道中被抛弃，这就意味着读<strong>进程最多只能有一个</strong>，否则可能会有读错数据的情况。<br> <img src="/2023/06/23/operating-system/6.png"></li>
+<li>数据一旦被读出，就从管道中被抛弃，这就意味着读<strong>进程最多只能有一个</strong>，否则可能会有读错数据的情况。<br> <img src="/2023/07/01/operating-system/6.png"></li>
 </ol>
 <h3 id="进程同步与互斥"><a href="#进程同步与互斥" class="headerlink" title="进程同步与互斥"></a>进程同步与互斥</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p><strong>同步</strong>：同步亦称直接制约关系，它是指为完成某种任务而建立的两个或多个进程，这些进程因为需要在某些位置上协调它们的工作次序而产生的制约关系。进程间的直接制约关系就是源于它们之间的相互合作。<br><strong>互斥</strong>：互斥亦称间接制约关系。进程互斥指当一个进程访问某临界资源时，另一个想要访问该临界资源的进程必须等待。当前访问临界资源的进程访问结束，释放该资源之后，另一个进程才能去访问临界资源。<br><strong>临界资源</strong>：一个时间段内只允许一个进程使用的资源(许多物理设备，如打印机)<br><strong>临界区</strong>：访问临界资源的代码</p>
 <h5 id="进程互斥原则"><a href="#进程互斥原则" class="headerlink" title="进程互斥原则"></a>进程互斥原则</h5><ul>
@@ -852,12 +852,12 @@ end monitor<span class="token punctuation">;</span>
 <li>用户级线程由应用程序通过线程库实现。</li>
 <li>所有的线程管理工作都由应用程序负责（包括线程切换）</li>
 <li>用户级线程中，线程切换可以在用户态下即可完成，无需操作系统干预。</li>
-<li>在用户看来，是有多个线程。但是在操作系统内核看来，并意识不到线程的存在。（用户级线程对用户不透明，对操作系统透明）<br><img src="/2023/06/23/operating-system/7.png"></li>
+<li>在用户看来，是有多个线程。但是在操作系统内核看来，并意识不到线程的存在。（用户级线程对用户不透明，对操作系统透明）<br><img src="/2023/07/01/operating-system/7.png"></li>
 </ul>
 </li>
 <li>内核级线程 (Kernel-Level Thread, KLT, 内核支持的线程)<ul>
 <li>内核级线程的管理工作由操作系统内核完成。</li>
-<li>线程调度、切换等工作都由内核负责，因此内核级线程的切换必然需要在核心态下才能完成。<br><img src="/2023/06/23/operating-system/8.png"><br>在同时支持 ULT 和 KLT 的 OS 中, 可以用 n个 ULT 映射到 m个 KLT 上, n≥m<br><img src="/2023/06/23/operating-system/9.png"><br>PS: <strong>只有内核级线程才是处理机分配的单位</strong></li>
+<li>线程调度、切换等工作都由内核负责，因此内核级线程的切换必然需要在核心态下才能完成。<br><img src="/2023/07/01/operating-system/8.png"><br>在同时支持 ULT 和 KLT 的 OS 中, 可以用 n个 ULT 映射到 m个 KLT 上, n≥m<br><img src="/2023/07/01/operating-system/9.png"><br>PS: <strong>只有内核级线程才是处理机分配的单位</strong></li>
 </ul>
 </li>
 </ul>
@@ -880,7 +880,7 @@ end monitor<span class="token punctuation">;</span>
 </ul>
 </li>
 </ul>
-<h3 id="处理机调度算法"><a href="#处理机调度算法" class="headerlink" title="处理机调度算法"></a><font color="#dd0000">处理机调度算法</font></h3><p>一个作业从提交开始直到完成，往往要经历以下三级调度。<br><img src="/2023/06/23/operating-system/10.png"><br><img src="/2023/06/23/operating-system/11.png"></p>
+<h3 id="处理机调度算法"><a href="#处理机调度算法" class="headerlink" title="处理机调度算法"></a><font color="#dd0000">处理机调度算法</font></h3><p>一个作业从提交开始直到完成，往往要经历以下三级调度。<br><img src="/2023/07/01/operating-system/10.png"><br><img src="/2023/07/01/operating-system/11.png"></p>
 <h5 id="进程调度时机"><a href="#进程调度时机" class="headerlink" title="进程调度时机"></a>进程调度时机</h5><ul>
 <li>主动放弃<ul>
 <li>进程正常终止</li>
@@ -945,7 +945,7 @@ end monitor<span class="token punctuation">;</span>
 <ul>
 <li>非抢占式的调度算法，只有当前运行的进程主动放弃 CPU 时(正常&#x2F;异常完成，或主动阻塞），才需要进<br>行调度，调度时计算所有就绪进程的响应比，选响应比最高的进程上处理机。</li>
 </ul>
-<p><img src="/2023/06/23/operating-system/12.png"></p>
+<p><img src="/2023/07/01/operating-system/12.png"></p>
 <h5 id="优先级调度算法"><a href="#优先级调度算法" class="headerlink" title="优先级调度算法"></a>优先级调度算法</h5><ul>
 <li>思想: 根据任务紧急程度来调度</li>
 <li>规则: 每个任务有自己的优先级, 调度时选择优先级最高的</li>
@@ -995,16 +995,16 @@ end monitor<span class="token punctuation">;</span>
 <li>抢占: <strong>抢占式</strong>, 抢占式的算法。在k级队列的进程运行过程中，若更上级的队列（1~k-1级）中进入了一个新进程，则由于新进程处于优先级更高的队列中，因此新进程会抢占处理机，<strong>原来运行的进程放回 k 级队列队尾</strong>。</li>
 <li>优点: 结合了前面所有调度算法的优点, 并且对于 CPU密集型进程, I&#x2F;O密集型进程可以调整偏好程度 (如: 将因 I&#x2F;O 阻塞的进程重新放回原队列, 这样可以保证 I&#x2F;O 进程保持较高优先级)</li>
 <li>缺点: 无明显缺点</li>
-<li>饥饿: <strong>会导致饥饿</strong><br><img src="/2023/06/23/operating-system/13.png"></li>
+<li>饥饿: <strong>会导致饥饿</strong><br><img src="/2023/07/01/operating-system/13.png"></li>
 </ul>
-<p><img src="/2023/06/23/operating-system/14.png"></p>
+<p><img src="/2023/07/01/operating-system/14.png"></p>
 <h3 id="死锁和处理"><a href="#死锁和处理" class="headerlink" title="死锁和处理"></a>死锁和处理</h3><p><strong>死锁定义</strong></p>
 <ul>
 <li><strong>死锁</strong>：各进程互相等待对方手里的资源，导致各进程都阻塞，无法向前推进的现象。</li>
 <li><strong>饥饿</strong>：由于长期得不到想要的资源，某进程无法向前推进的现象。比如：在短进程优先 （SPF）算法<br>中，若有源源不断的短进程到来，则长进程将一直得不到处理机，从而发生长进程“饥饿”而发生长进程</li>
 <li><strong>死循环</strong>：某进程执行过程中一直跳不出某个循环的现象。有时是因为程序逻辑bug 导致的，有时是<br>程序员故意设计的。</li>
 </ul>
-<p><img src="/2023/06/23/operating-system/15.png"></p>
+<p><img src="/2023/07/01/operating-system/15.png"></p>
 <h4 id="死锁发生必要条件"><a href="#死锁发生必要条件" class="headerlink" title="死锁发生必要条件"></a>死锁发生必要条件</h4><p>产生死锁<strong>必须同时满足以下四个条件，只要其中任一条件不成立，死锁就不会发生</strong>。</p>
 <ol>
 <li><strong>互斥条件</strong>：只有对必须互斥使用的资源的争抢才会导致死锁（如哲学家的筷子、打印机设备）。<br>像内存、扬声器这样可以同时让多个进程使用的资源是不会导致死锁的（因为进程不用阻塞等待这种资源）</li>
@@ -1028,7 +1028,7 @@ end monitor<span class="token punctuation">;</span>
 <h4 id="死锁处理策略——死锁避免"><a href="#死锁处理策略——死锁避免" class="headerlink" title="死锁处理策略——死锁避免"></a><font color="#dd0000">死锁处理策略——死锁避免</font></h4><p>限制资源分配的顺序</p>
 <p>系统安全状态<br><strong>安全序列</strong>：就是指如果系统按照这种序列分配资源，则每个进程都能顺利完成。只要能找出一个安全序列，系统就是<strong>安全状态</strong>。当然，<strong>安全序列可能有多个</strong>。<br>如果系统处于<strong>安全状态</strong>，就<strong>一定不会发生死锁</strong>。如果系统进入<strong>不安全状态</strong>，就<strong>可能</strong>发生<strong>死锁</strong>（处于不安全状态未必就是发生了死锁，但发生死锁时一定是在不安全状态）</p>
 <p>经典例题：n 个资源，k 个进程，每个进程最多要 m 个资源<br>&emsp;不会死锁：k(m-1) &lt; n<br>&emsp;会锁：k(m-1) ≥ n</p>
-<h5 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h5><p><strong>安全性算法</strong><br><img src="/2023/06/23/operating-system/16.png"><br><strong>银行家算法</strong><br><strong>数据结构</strong></p>
+<h5 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h5><p><strong>安全性算法</strong><br><img src="/2023/07/01/operating-system/16.png"><br><strong>银行家算法</strong><br><strong>数据结构</strong></p>
 <ul>
 <li>长度为 m的一维数组 Avalible 表示还有多少可用的资源</li>
 <li>n∗m矩阵 Max 表示各进程对资源的最大需求数</li>
@@ -1043,8 +1043,8 @@ end monitor<span class="token punctuation">;</span>
 <li>试探分配，更改各数据结构</li>
 <li>用安全性算法检查此次分配是否会导致系统进入不安全状态</li>
 </ol>
-<p><img src="/2023/06/23/operating-system/17.png"></p>
-<h4 id="死锁处理策略——检测与解除"><a href="#死锁处理策略——检测与解除" class="headerlink" title="死锁处理策略——检测与解除"></a>死锁处理策略——检测与解除</h4><p>建立<strong>资源分配图</strong><br><img src="/2023/06/23/operating-system/18.png"><br>R $\rightarrow$ P：已经分配的资源<br>P $\rightarrow$ R：申请资源<br><strong>检测算法</strong>：</p>
+<p><img src="/2023/07/01/operating-system/17.png"></p>
+<h4 id="死锁处理策略——检测与解除"><a href="#死锁处理策略——检测与解除" class="headerlink" title="死锁处理策略——检测与解除"></a>死锁处理策略——检测与解除</h4><p>建立<strong>资源分配图</strong><br><img src="/2023/07/01/operating-system/18.png"><br>R $\rightarrow$ P：已经分配的资源<br>P $\rightarrow$ R：申请资源<br><strong>检测算法</strong>：</p>
 <ol>
 <li>找到一个既不是孤点也不阻塞的点， 消除其所有边</li>
 <li>消除后释放的资源可以让某些阻塞进程被唤醒，然后继续消除这些进程的边。</li>
@@ -1054,7 +1054,7 @@ end monitor<span class="token punctuation">;</span>
 <p><strong>死锁解除</strong><br>PS： 并不是所有进程都是死锁状态，用<strong>检测算法化简资源分配图后</strong>，还<strong>连着边的进程就是死锁进程</strong>。</p>
 <p>主要方法：<br>&emsp;&emsp;1.<strong>资源剥夺法</strong>。挂起（放外存）某些进程，抢占资源重新分配给其他进程。后续注意饥饿<br>&emsp;&emsp;2.<strong>撤销进程法</strong>（终止进程）。付出代价可能很大，前功尽弃，但实现简单<br>&emsp;&emsp;3.<strong>进程回退法</strong>, 让死锁进程回退到足以避免死锁的地步，需要系统记录进程历史信息。</p>
 <p><em><strong>问题：<u>如何决定“对谁动手” ？</u></strong></em><br>答：<br>&emsp;进程优先级来看（越低先牺牲）<br>&emsp;已执行多长时间（越短先牺牲）<br>&emsp;还要多久能结束（越久先牺牲）<br>&emsp;进程已经使用了多少资源(更多先牺牲)<br>&emsp;进程是交互式还是批处理式（优先批处理）</p>
-<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h3 id="内存管理基本概念"><a href="#内存管理基本概念" class="headerlink" title="内存管理基本概念"></a>内存管理基本概念</h3><p>逻辑地址如何映射物理地址<br><img src="/2023/06/23/operating-system/19.png"></p>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h3 id="内存管理基本概念"><a href="#内存管理基本概念" class="headerlink" title="内存管理基本概念"></a>内存管理基本概念</h3><p>逻辑地址如何映射物理地址<br><img src="/2023/07/01/operating-system/19.png"></p>
 <h4 id="内存管理概念"><a href="#内存管理概念" class="headerlink" title="内存管理概念"></a>内存管理概念</h4><ol>
 <li>操作系统负责<strong>内存空间的分配与回收</strong></li>
 <li>提供某种技术从逻辑上<strong>对内存空间进行扩充</strong></li>
@@ -1110,7 +1110,7 @@ end monitor<span class="token punctuation">;</span>
 <h3 id="动态分区分配算法"><a href="#动态分区分配算法" class="headerlink" title="动态分区分配算法"></a>动态分区分配算法</h3><h4 id="首次适应算法"><a href="#首次适应算法" class="headerlink" title="首次适应算法"></a>首次适应算法</h4><p><strong>算法思想</strong>：每次都<strong>从低地址开始查找</strong>，找到第一个能满足大小的空闲分区<br><strong>如何实现</strong>：<strong>空闲分区以地址递增的次序排列</strong>。每次分配内存时顺序查找空闲分区链（或空闲分区表），找到大小能满足要求的第一个空闲分区。</p>
 <h4 id="最佳适应算法"><a href="#最佳适应算法" class="headerlink" title="最佳适应算法"></a>最佳适应算法</h4><p><strong>算法思想</strong>：由于动态分区分配是一种连续分配方式，为各进程分配的空间必须是连续的一整片区域。因此为了保证当“大进程”到来时能有连续的大片空间，可以尽可能多地留下大片的空闲区，即，优先使用更小的空闲区<br><strong>如何实现</strong>：空闲分区<strong>按容量递增次序链接</strong>。每次分配内存时顺序查找空闲分区链（或空闲分区表），找到大小能满足要求的第一个空闲分区。<br><strong>缺点</strong>：每次选最小的分区分配，会留下越来越多，很小的，难以利用的内存块。<strong>因此会产生很多的外部碎片</strong></p>
 <h4 id="最坏适应算法"><a href="#最坏适应算法" class="headerlink" title="最坏适应算法"></a>最坏适应算法</h4><p><strong>算法思想</strong>：为了解決最佳适应算法的问题一一即留下太多难以利用的小碎片，可以在每次分配时优先使用最大的连续空闲区，这样分配后剩余的空闲区就不会太小，更方便使用。<br><strong>如何实现</strong>：空闲分区<strong>按容量递减次序链接</strong>。每次分配内存时顺序查找空闲分区链（或空闲分区表），找到大小能满足要求的第一个空闲分区。<br><strong>缺点</strong>：每次都选最大的分区进行分配，虽然可以让分配后留下的空闲区更大，更可用，但是这种方式会导致较大的连续空闲区被迅速用完。如果<strong>之后有“大进程”到达，就没有内存分区可用了</strong></p>
-<h4 id="邻近适应算法"><a href="#邻近适应算法" class="headerlink" title="邻近适应算法"></a>邻近适应算法</h4><p><strong>算法思想</strong>：首次适应算法每次都从链头开始查找的。这可能会导致低地址部分出现很多小的空闲分区，而每次分配查找时，都要经过这些分区，因此也增加了查找的开销。如果每次都从上次查找结束的位置开始检索，就能解决上述问题。<br><strong>如何实现</strong>：空闲分区<strong>以地址递增的顺序排列（可排成一个循环链表）</strong>,每次分配内存时从<strong>上次查找结束的位置开始查找空闲分区链（或空闲分区表）</strong>，找到大小能满足要求的第一个空闲分区.<br><img src="/2023/06/23/operating-system/20.png"></p>
+<h4 id="邻近适应算法"><a href="#邻近适应算法" class="headerlink" title="邻近适应算法"></a>邻近适应算法</h4><p><strong>算法思想</strong>：首次适应算法每次都从链头开始查找的。这可能会导致低地址部分出现很多小的空闲分区，而每次分配查找时，都要经过这些分区，因此也增加了查找的开销。如果每次都从上次查找结束的位置开始检索，就能解决上述问题。<br><strong>如何实现</strong>：空闲分区<strong>以地址递增的顺序排列（可排成一个循环链表）</strong>,每次分配内存时从<strong>上次查找结束的位置开始查找空闲分区链（或空闲分区表）</strong>，找到大小能满足要求的第一个空闲分区.<br><img src="/2023/07/01/operating-system/20.png"></p>
 <h3 id="基本分页存储管理"><a href="#基本分页存储管理" class="headerlink" title="基本分页存储管理"></a><font color="#dd0000">基本分页存储管理</font></h3><p><strong>分页地址转换</strong><br>将内存空间分为一个个大小相等的分区（比如：每个分区4KB），每个分区就是一个 <strong>“页框”</strong>，或称<strong>“页帧”</strong><br><strong>“内存块”、“物理块”</strong> 。每个页框有一个编号，即 <strong>“页框号”，“内存块号”，“页帧号”、“物理块号”</strong>，页框号从0开始</p>
 <p>将用户进程的地址空间也分为<strong>与页框大小相等</strong>的一个个区域称为 <strong>“页”</strong>或<strong>“页面”</strong>。每个页面也有一个编号，即“页号”。<strong>页号也是从0开始</strong>。(注：进程的最<strong>后一个页面可能没有一个页框那么大</strong>。因此，<strong>页框不能太大，否则可能产生过大的内部碎片</strong>）<br>操作系统<strong>以页框为单位为各个进程分配</strong>内存空间。进程的每个页面分别放入一个页框中。也就是说，进程的<strong>页面</strong>与内存的<strong>页框</strong>有<strong>一一对应</strong>的关系。</p>
 <p>各个页面不必连续存放，也不必按先后顺序来，可以放到不相邻的各个页框中。</p>
@@ -1127,20 +1127,20 @@ end monitor<span class="token punctuation">;</span>
 <li>进程的每一页对应一个页表项</li>
 <li>每个页表项由“页号”和“块号” 组成</li>
 <li>页表记录进程页面和实际存放的内存块之间的对应关系</li>
-<li>每个页表项的长度是相同的，页号是“隐含”的<br><img src="/2023/06/23/operating-system/21.png"></li>
+<li>每个页表项的长度是相同的，页号是“隐含”的<br><img src="/2023/07/01/operating-system/21.png"></li>
 </ol>
 <p><strong>总结</strong>：<br><strong>页表长度M</strong>：有多少个页表项(即多少页)<br><strong>页表项长度</strong>：每个页表项占多少空间<br><strong>页面大小</strong>：一个页面有多少空间&emsp;<strong>页表项长度×页表长度</strong> &#x3D; $2^{页内偏移量}$(若是有多个页面则不一定)</p>
-<p><strong>具有快表的地址变换机构</strong><br><strong>快表</strong>，又称<strong>联想寄存器 (TLB)<strong>，是一种访</strong>问速度比内存快很多</strong>的高速缓冲存储器，用来存放当前访问的若干页表项，以加速地址变换的过程。与此对应，内存中的页表常称为<strong>慢表</strong>。以加速地址变换的过程<br><img src="/2023/06/23/operating-system/22.png"></p>
+<p><strong>具有快表的地址变换机构</strong><br><strong>快表</strong>，又称<strong>联想寄存器 (TLB)<strong>，是一种访</strong>问速度比内存快很多</strong>的高速缓冲存储器，用来存放当前访问的若干页表项，以加速地址变换的过程。与此对应，内存中的页表常称为<strong>慢表</strong>。以加速地址变换的过程<br><img src="/2023/07/01/operating-system/22.png"></p>
 <p><strong>例题</strong>：访问一次快表消耗 1 us, 内存 100 us, TLB命中率为 90%, 平均耗时？<br><strong>答</strong>：(1 + 100) * 0.9 + (1 + 100 + 100) * 0.1 &#x3D; 111 us<br>都至少要访问一次内存</p>
-<p><strong>例题</strong>：<br><img src="/2023/06/23/operating-system/23.png"><br>A：逻辑地址<br>L：页面大小<br><strong>页号P</strong>：P&#x3D;A&#x2F;L<br><strong>页内偏移量</strong>：W &#x3D; A%L<br>**页号P所对应的页表项地址(物理地址)**：页表始址F+页号P×页表项长度<br><strong>物理地址E</strong>：E&#x3D;b×L+W。b是该页表项内容即物理块号</p>
-<h3 id="基本分段存储管理"><a href="#基本分段存储管理" class="headerlink" title="基本分段存储管理"></a>基本分段存储管理</h3><p><img src="/2023/06/23/operating-system/24.png"><br>段页对比：</p>
+<p><strong>例题</strong>：<br><img src="/2023/07/01/operating-system/23.png"><br>A：逻辑地址<br>L：页面大小<br><strong>页号P</strong>：P&#x3D;A&#x2F;L<br><strong>页内偏移量</strong>：W &#x3D; A%L<br>**页号P所对应的页表项地址(物理地址)**：页表始址F+页号P×页表项长度<br><strong>物理地址E</strong>：E&#x3D;b×L+W。b是该页表项内容即物理块号</p>
+<h3 id="基本分段存储管理"><a href="#基本分段存储管理" class="headerlink" title="基本分段存储管理"></a>基本分段存储管理</h3><p><img src="/2023/07/01/operating-system/24.png"><br>段页对比：</p>
 <ul>
 <li><strong>分段</strong>比分页<strong>更容易实现信息的共享与保护</strong></li>
 <li>不能被修改的代码称为<strong>纯代码或可重入代码（不属于临界资源）</strong>，这样的代码是可以共享的。改的代码是不能共享的 （比如，有一个代码段中有很多变量，各进程并发地同时访问可能造成数据不一致）</li>
 </ul>
 <p>逻辑地址结构: (段号， 页号， 页内偏移量)</p>
 <p>每个段对应段表项，各表项长度相同段表组成： (段号（隐含）、页表长度、页表存放地址)</p>
-<p>每个页对应一个页表项，页表组成：（页号（隐含）、页面存放的内存块号）<br><img src="/2023/06/23/operating-system/25.png"></p>
+<p>每个页对应一个页表项，页表组成：（页号（隐含）、页面存放的内存块号）<br><img src="/2023/07/01/operating-system/25.png"></p>
 <h3 id="虚拟存储器"><a href="#虚拟存储器" class="headerlink" title="虚拟存储器"></a>虚拟存储器</h3><ul>
 <li>基于局部性原理，在程序装入时，可以将程序中很快会用到的部分装入内存，暂时用不到的部分留在外存，就可以让程序开始执行。</li>
 <li>在程序执行过程中，当所访问的信息不在内存时，由操作系统负责将所需信息从外存调入内存，然后继续执行程序。</li>
@@ -1191,7 +1191,7 @@ end monitor<span class="token punctuation">;</span>
 <li>首次被装入或访问，置1；</li>
 <li>被替换时，指针指向被替换的下一个(最开始指向第1帧，只有被替换的指针才移动)</li>
 <li>为0，置换；为1，置0；</li>
-<li>拖全为1，则将队首置换<br><img src="/2023/06/23/operating-system/26.png"></li>
+<li>拖全为1，则将队首置换<br><img src="/2023/07/01/operating-system/26.png"></li>
 </ol>
 <h5 id="改进CLOCK"><a href="#改进CLOCK" class="headerlink" title="改进CLOCK"></a>改进CLOCK</h5><p>增加一个字段修改位M，（访问位A，修改位M）</p>
 <ul>
@@ -1255,7 +1255,7 @@ end monitor<span class="token punctuation">;</span>
 <h5 id="链接分配"><a href="#链接分配" class="headerlink" title="链接分配"></a>链接分配</h5><p>采取<strong>离散分配</strong>的方式，分为<strong>隐式链接</strong>和<strong>显示链接</strong></p>
 <p><strong>隐式链接</strong></p>
 <p>FCB: (文件名,…,起始块号，结束块号)，</p>
-<p>类比链表的指针遍历，访问逻辑为 i 号逻辑块，需要 i+1 次磁盘 I&#x2F;O.<br><img src="/2023/06/23/operating-system/27.png"></p>
+<p>类比链表的指针遍历，访问逻辑为 i 号逻辑块，需要 i+1 次磁盘 I&#x2F;O.<br><img src="/2023/07/01/operating-system/27.png"></p>
 <ul>
 <li>优点：<ul>
 <li><strong>拓展方便，不存在磁盘碎片</strong></li>
@@ -1271,7 +1271,7 @@ end monitor<span class="token punctuation">;</span>
 <p><strong>显式链接</strong></p>
 <ul>
 <li>顺序存储表中信息, 表项： <strong>（物理块号，下一块）</strong>, 类似数组实现邻接表</li>
-<li><strong>一个磁盘仅需要一张 FAT</strong>。<strong>开机时 FAT 被读入内存并常驻</strong><br><img src="/2023/06/23/operating-system/28.png"><br>PS：-1表示最后一块，-2表示空闲</li>
+<li><strong>一个磁盘仅需要一张 FAT</strong>。<strong>开机时 FAT 被读入内存并常驻</strong><br><img src="/2023/07/01/operating-system/28.png"><br>PS：-1表示最后一块，-2表示空闲</li>
 <li>优点：<ul>
 <li>采用链式分配 （显式链接）方式的文件，<strong>支持顺序访问</strong>，也<strong>支持随机访问</strong>（想访问i号逻辑块时，并不需要依次访问之前的0~i-1号逻辑块）</li>
 <li>块号转换的过程不需要访问磁盘，因此相比于隐式链接来说，访问速度快很多。</li>
@@ -1295,7 +1295,7 @@ end monitor<span class="token punctuation">;</span>
 <h5 id="混合索引"><a href="#混合索引" class="headerlink" title="混合索引"></a><font color="#dd0000">混合索引</font></h5><p>多种索引分配方式的结合。</p>
 <p>例如，一个文件的顶级索引表中，既包含直接地址索引（直接指向数据块），又包含一级间接索引（指向单层索引表）、还包含两级间接索引（指向两层索引表)</p>
 <p>PS：<strong>K层索引，K+1次读磁盘</strong><br>&emsp; &emsp;<strong>索引结点个数 &#x3D; 文件个数</strong></p>
-<p><strong>例题：</strong><br><img src="/2023/06/23/operating-system/30.png"><br><img src="/2023/06/23/operating-system/29.png"></p>
+<p><strong>例题：</strong><br><img src="/2023/07/01/operating-system/30.png"><br><img src="/2023/07/01/operating-system/29.png"></p>
 <ol>
 <li><strong>直接地址</strong>：<strong>10个直接地址</strong>，若一块4KB，文件不大于10 × 4KB &#x3D; 40KB。可以在里面直接读出所有盘块号&emsp; &emsp;<strong>2次访问</strong></li>
 <li>一次间接地址：1个一次间接地址，实质<strong>一级索引</strong>。一个间接地址块可放1024个盘块号，文件长达1024 × 4KB &#x3D; 4MB&emsp; &emsp;<strong>3次访问</strong></li>
@@ -1318,8 +1318,8 @@ end monitor<span class="token punctuation">;</span>
 </ul>
 </li>
 </ul>
-<h5 id="位示图法"><a href="#位示图法" class="headerlink" title="位示图法"></a>位示图法</h5><p>每一个块用 <strong>0或1</strong> 表示是否空闲<br>若是 <strong>m×n位</strong> 位示图，可用来表示** m×n 个盘块**，适用于大型文件系统<br><img src="/2023/06/23/operating-system/31.png"></p>
-<h5 id="成组链接法"><a href="#成组链接法" class="headerlink" title="成组链接法"></a>成组链接法</h5><p>设立一个磁盘块为 <strong>超级块</strong><br>结合了空闲表和空闲链表<br>顺序的几个空闲块号组成一个成组链块<br><img src="/2023/06/23/operating-system/32.png"><br><strong>最后一个指向另一个成组链块</strong></p>
+<h5 id="位示图法"><a href="#位示图法" class="headerlink" title="位示图法"></a>位示图法</h5><p>每一个块用 <strong>0或1</strong> 表示是否空闲<br>若是 <strong>m×n位</strong> 位示图，可用来表示** m×n 个盘块**，适用于大型文件系统<br><img src="/2023/07/01/operating-system/31.png"></p>
+<h5 id="成组链接法"><a href="#成组链接法" class="headerlink" title="成组链接法"></a>成组链接法</h5><p>设立一个磁盘块为 <strong>超级块</strong><br>结合了空闲表和空闲链表<br>顺序的几个空闲块号组成一个成组链块<br><img src="/2023/07/01/operating-system/32.png"><br><strong>最后一个指向另一个成组链块</strong></p>
 <p>盘块分配：指针下移，若移动到最后就指向另一个成组链块<br>盘块回收：指针上移，若移动到头了，则将已有的几个空间盘块号的成组链块号放入新的回收盘块</p>
 <p>若是满了，超级块中内容复制到新回收块，新回收块变为超级块加到链表头</p>
 <p>PS：<strong>簇和块都在 $\rightarrow$ 按簇分配磁盘空间文件</strong>；<strong>只有块</strong>，<strong>按块分配</strong></p>
@@ -1363,10 +1363,10 @@ end monitor<span class="token punctuation">;</span>
 <li><strong>坏块</strong></li>
 </ol>
 <p><strong>逻辑格式化</strong>：建立文件系统<strong>根目录</strong>，对保存空闲块的数据结构初始化。</p>
-<h3 id="磁盘寻寻道-调度-算法"><a href="#磁盘寻寻道-调度-算法" class="headerlink" title="磁盘寻寻道(调度)算法"></a>磁盘寻寻道(调度)算法</h3><h4 id="先来先服务算法-FCFS"><a href="#先来先服务算法-FCFS" class="headerlink" title="先来先服务算法 (FCFS)"></a>先来先服务算法 (FCFS)</h4><p><img src="/2023/06/23/operating-system/33.png"></p>
-<h4 id="最短寻找时间优先-SSTF"><a href="#最短寻找时间优先-SSTF" class="headerlink" title="最短寻找时间优先 (SSTF)"></a>最短寻找时间优先 (SSTF)</h4><p><img src="/2023/06/23/operating-system/34.png"></p>
-<h4 id="扫描算法-SCAN"><a href="#扫描算法-SCAN" class="headerlink" title="扫描算法 (SCAN)"></a>扫描算法 (SCAN)</h4><p>题目不说明，SCAN就是LOOK算法<br>在SCAN的基础上，如果在磁头移动方向上己经没有别的请求，就可以立即改变磁头移动方向<br><img src="/2023/06/23/operating-system/35.png"></p>
-<h4 id="循环扫描算法-C-SCAN"><a href="#循环扫描算法-C-SCAN" class="headerlink" title="循环扫描算法 (C-SCAN)"></a>循环扫描算法 (C-SCAN)</h4><p><img src="/2023/06/23/operating-system/36.png"></p>
+<h3 id="磁盘寻寻道-调度-算法"><a href="#磁盘寻寻道-调度-算法" class="headerlink" title="磁盘寻寻道(调度)算法"></a>磁盘寻寻道(调度)算法</h3><h4 id="先来先服务算法-FCFS"><a href="#先来先服务算法-FCFS" class="headerlink" title="先来先服务算法 (FCFS)"></a>先来先服务算法 (FCFS)</h4><p><img src="/2023/07/01/operating-system/33.png"></p>
+<h4 id="最短寻找时间优先-SSTF"><a href="#最短寻找时间优先-SSTF" class="headerlink" title="最短寻找时间优先 (SSTF)"></a>最短寻找时间优先 (SSTF)</h4><p><img src="/2023/07/01/operating-system/34.png"></p>
+<h4 id="扫描算法-SCAN"><a href="#扫描算法-SCAN" class="headerlink" title="扫描算法 (SCAN)"></a>扫描算法 (SCAN)</h4><p>题目不说明，SCAN就是LOOK算法<br>在SCAN的基础上，如果在磁头移动方向上己经没有别的请求，就可以立即改变磁头移动方向<br><img src="/2023/07/01/operating-system/35.png"></p>
+<h4 id="循环扫描算法-C-SCAN"><a href="#循环扫描算法-C-SCAN" class="headerlink" title="循环扫描算法 (C-SCAN)"></a>循环扫描算法 (C-SCAN)</h4><p><img src="/2023/07/01/operating-system/36.png"></p>
 <h4 id="减少磁盘延迟的方法"><a href="#减少磁盘延迟的方法" class="headerlink" title="减少磁盘延迟的方法"></a>减少磁盘延迟的方法</h4><ol>
 <li>采用交替编号<ul>
 <li>原理：读完一个扇区需要一段时间才能继续读</li>
@@ -1375,7 +1375,7 @@ end monitor<span class="token punctuation">;</span>
 <li>磁盘结构设计 (柱面，盘面，扇区)</li>
 <li>错位命名</li>
 </ol>
-<h2 id="I-O设备管理"><a href="#I-O设备管理" class="headerlink" title="I&#x2F;O设备管理"></a>I&#x2F;O设备管理</h2><h3 id="I-O软件"><a href="#I-O软件" class="headerlink" title="I&#x2F;O软件"></a>I&#x2F;O软件</h3><p><img src="/2023/06/23/operating-system/37.png"><br><strong>用户层软件</strong></p>
+<h2 id="I-O设备管理"><a href="#I-O设备管理" class="headerlink" title="I&#x2F;O设备管理"></a>I&#x2F;O设备管理</h2><h3 id="I-O软件"><a href="#I-O软件" class="headerlink" title="I&#x2F;O软件"></a>I&#x2F;O软件</h3><p><img src="/2023/07/01/operating-system/37.png"><br><strong>用户层软件</strong></p>
 <ul>
 <li><strong>实现了与用户交互的接口</strong>，用户使用提供的 <strong>库函数(在应用层)</strong></li>
 <li>将用户请求翻译成格式化的 I&#x2F;O 请求，并通过系统调用请求操作系统内核的服务</li>
@@ -1402,9 +1402,9 @@ end monitor<span class="token punctuation">;</span>
 <p>不同I&#x2F;O设备具有不同的硬件特性，厂家需要根据设备的硬件特性设计并提供相应的驱动程序</p>
 <p>驱动程序<strong>一般以一个进程的形式存在</strong></p>
 <p><strong>中断处理程序</strong><br>当I&#x2F;O任务完成时，I&#x2F;O控制器会发送一个中断信号，系统会根据中断信号类型找到相应的中断处理程序并执行。<strong>最早接受设备输入信号</strong></p>
-<h3 id="I-O缓冲"><a href="#I-O缓冲" class="headerlink" title="I&#x2F;O缓冲"></a>I&#x2F;O缓冲</h3><p>I&#x2F;O缓冲的作用在于减少I&#x2F;O的次数<br>用磁盘告诉缓冲技术来提高磁盘的I&#x2F;O速度<br><img src="/2023/06/23/operating-system/38.png"></p>
-<h4 id="单缓冲"><a href="#单缓冲" class="headerlink" title="单缓冲"></a>单缓冲</h4><p><strong>每块处理时间：M+max(C,T)</strong><br>非空不能输入，只能输出；反之，空，只能输入<br><img src="/2023/06/23/operating-system/39.png"><br>若是有 n 个块，<strong>总处理时间：n (M + max(C,T)) + C</strong></p>
-<h4 id="双缓冲"><a href="#双缓冲" class="headerlink" title="双缓冲"></a>双缓冲</h4><p><img src="/2023/06/23/operating-system/40.png"><br>若是有 n 个块，<strong>总处理时间：n (max(C + M,T)) + M + C</strong></p>
+<h3 id="I-O缓冲"><a href="#I-O缓冲" class="headerlink" title="I&#x2F;O缓冲"></a>I&#x2F;O缓冲</h3><p>I&#x2F;O缓冲的作用在于减少I&#x2F;O的次数<br>用磁盘告诉缓冲技术来提高磁盘的I&#x2F;O速度<br><img src="/2023/07/01/operating-system/38.png"></p>
+<h4 id="单缓冲"><a href="#单缓冲" class="headerlink" title="单缓冲"></a>单缓冲</h4><p><strong>每块处理时间：M+max(C,T)</strong><br>非空不能输入，只能输出；反之，空，只能输入<br><img src="/2023/07/01/operating-system/39.png"><br>若是有 n 个块，<strong>总处理时间：n (M + max(C,T)) + C</strong></p>
+<h4 id="双缓冲"><a href="#双缓冲" class="headerlink" title="双缓冲"></a>双缓冲</h4><p><img src="/2023/07/01/operating-system/40.png"><br>若是有 n 个块，<strong>总处理时间：n (max(C + M,T)) + M + C</strong></p>
 
                 
             </div>
@@ -1431,7 +1431,7 @@ end monitor<span class="token punctuation">;</span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jourser.github.io/2023/06/23/operating-system/">https://Jourser.github.io/2023/06/23/operating-system/</a>
+                    <a href="https://Jourser.github.io/2023/07/01/operating-system/">https://Jourser.github.io/2023/07/01/operating-system/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1553,17 +1553,18 @@ end monitor<span class="token punctuation">;</span>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/06/23/data-structure/">
+                <a href="/2023/07/01/operating-system/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="数据结构笔记">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="操作系统笔记">
                         
-                        <span class="card-title">数据结构笔记</span>
+                        <span class="card-title">操作系统笔记</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1573,21 +1574,22 @@ end monitor<span class="token punctuation">;</span>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-06-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-01
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
+                                    后端
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1595,8 +1597,8 @@ end monitor<span class="token punctuation">;</span>
                         <span class="chip bg-color">笔记</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">操作系统</span>
                     </a>
                     
                 </div>
@@ -1610,13 +1612,13 @@ end monitor<span class="token punctuation">;</span>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/13/vue-problem/">
+                <a href="/2023/06/28/computer-architecture/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="使用Vue可能遇到的问题（更新中）">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="计算机组成原理笔记">
                         
-                        <span class="card-title">使用Vue可能遇到的问题（更新中）</span>
+                        <span class="card-title">计算机组成原理笔记</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1627,14 +1629,14 @@ end monitor<span class="token punctuation">;</span>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E5%90%8E%E7%AB%AF/" class="post-category">
+                                    后端
                                 </a>
                             
                             
@@ -1644,24 +1646,12 @@ end monitor<span class="token punctuation">;</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
-                        <span class="chip bg-color">问题解决</span>
+                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">笔记</span>
                     </a>
                     
-                    <a href="/tags/vue/">
-                        <span class="chip bg-color">vue</span>
-                    </a>
-                    
-                    <a href="/tags/JavaScript/">
-                        <span class="chip bg-color">JavaScript</span>
-                    </a>
-                    
-                    <a href="/tags/HTML/">
-                        <span class="chip bg-color">HTML</span>
-                    </a>
-                    
-                    <a href="/tags/CSS/">
-                        <span class="chip bg-color">CSS</span>
+                    <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">
+                        <span class="chip bg-color">计算机组成原理</span>
                     </a>
                     
                 </div>
