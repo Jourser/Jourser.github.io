@@ -335,11 +335,13 @@
 <hr>
 <h1 id="二、徽章"><a href="#二、徽章" class="headerlink" title="二、徽章"></a>二、徽章</h1><p><strong>什么是徽章？</strong><br>徽章是一种小巧精美的小图标，一般配有相关文字进行辅助说明，可对数据进行监控，链接跳转等，富有表现力。</p>
 <p>常见于github项目主页，但其不仅出现于 github 项目主页，凡是能够表现图片的地方都可以出现徽章。</p>
-<p>在<strong>Markdown</strong>中使用<br><pre class="line-numbers language-none"><code class="language-none">格式:
+<p>在<strong>Markdown</strong>中使用</p>
+<pre class="line-numbers language-none"><code class="language-none">格式:
 [![图片文字说明](图片源地址)](超链接地址)  # 即超链接内部嵌套图片
 
 语法：
-[![github](https:&#x2F;&#x2F;img.shields.io&#x2F;badge&#x2F;github-xugaoyi-brightgreen.svg)](https:&#x2F;&#x2F;github.com&#x2F;jourser)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>本文档主要介绍markdown，不对徽章做过多介绍。</p>
+[![github](https:&#x2F;&#x2F;img.shields.io&#x2F;badge&#x2F;github-xugaoyi-brightgreen.svg)](https:&#x2F;&#x2F;github.com&#x2F;jourser)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>本文档主要介绍markdown，不对徽章做过多介绍。</p>
 <hr>
 <h1 id="三、标题"><a href="#三、标题" class="headerlink" title="三、标题"></a>三、标题</h1><pre class="line-numbers language-none"><code class="language-none"># 一级标题
 ## 二级标题
@@ -357,34 +359,46 @@
 ***粗斜体文本***
 或 ___粗斜体文本___<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>结果如下：</p>
-<p><em>斜体文本</em><br>或 <em>斜体文本</em><br><strong>粗体文本</strong><br>或  <strong>粗体文本</strong><br><strong><em>粗斜体文本</em></strong><br>或 <strong><em>粗斜体文本</em></strong></p>
-<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><p>如果段落上的文字要添加删除线，只需要在文字的两端加上两个波浪线 ~~ 即可，实例如下：<br><pre class="line-numbers language-none"><code class="language-none">~~BAIDU.COM~~<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>结果如下：<br><del>BAIDU.COM</del></p>
-<h2 id="下划线"><a href="#下划线" class="headerlink" title="下划线"></a>下划线</h2><p>下划线可以通过 HTML 的 \<u> 标签来实现：<br><pre class="line-numbers language-none"><code class="language-none">&lt;u&gt;带下划线的文本&lt;&#x2F;u&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>结果如下：<br><u>带下划线的文本</u></u></p>
-<h2 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h2><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：<br><pre class="line-numbers language-none"><code class="language-none">***
+<p><em>斜体文本</em><br>或 <em>斜体文本</em><br><strong>粗体文本</strong><br>或  <strong>粗体文本</strong><br><em><strong>粗斜体文本</strong></em><br>或 <em><strong>粗斜体文本</strong></em></p>
+<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><p>如果段落上的文字要添加删除线，只需要在文字的两端加上两个波浪线 ~~ 即可，实例如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">~~BAIDU.COM~~<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>结果如下：<br><del>BAIDU.COM</del></p>
+<h2 id="下划线"><a href="#下划线" class="headerlink" title="下划线"></a>下划线</h2><p>下划线可以通过 HTML 的 &lt;u&gt; 标签来实现：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;u&gt;带下划线的文本&lt;&#x2F;u&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>结果如下：<br><u>带下划线的文本</u></p>
+<h2 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h2><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：</p>
+<pre class="line-numbers language-none"><code class="language-none">***
 
 *****
 
 - - -
 
-----------<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>结果如下：</p>
+----------<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
 <hr>
-<h1 id="五、列表"><a href="#五、列表" class="headerlink" title="五、列表"></a>五、列表</h1><h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><p>使用星号*、加号+或是减号-作为列表标记：<br><pre class="line-numbers language-none"><code class="language-none">* 第一项
+<h1 id="五、列表"><a href="#五、列表" class="headerlink" title="五、列表"></a>五、列表</h1><h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><p>使用星号*、加号+或是减号-作为列表标记：</p>
+<pre class="line-numbers language-none"><code class="language-none">* 第一项
 * 第二项
 
 + 第一项
 + 第二项
 
 - 第一项
-- 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>结果如下：</p>
+- 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
 <ul>
 <li>第一项</li>
-<li>第二项<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2>使用数字并加上. 号来表示<pre class="line-numbers language-none"><code class="language-none">1. 第一项
-2. 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-结果如下：</li>
+<li>第二项</li>
 </ul>
+<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><p>使用数字并加上. 号来表示</p>
+<pre class="line-numbers language-none"><code class="language-none">1. 第一项
+2. 第二项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
 <ol>
 <li>第一项</li>
-<li>第二项<h2 id="折叠列表"><a href="#折叠列表" class="headerlink" title="折叠列表"></a>折叠列表</h2><pre class="line-numbers language-none"><code class="language-none">&lt;details&gt;
+<li>第二项</li>
+</ol>
+<h2 id="折叠列表"><a href="#折叠列表" class="headerlink" title="折叠列表"></a>折叠列表</h2><pre class="line-numbers language-none"><code class="language-none">&lt;details&gt;
 &lt;summary&gt;点我打开关闭折叠&lt;&#x2F;summary&gt;
  折叠内容
  &lt;ul&gt;
@@ -393,24 +407,26 @@
      &lt;li&gt;3&lt;&#x2F;li&gt;
  &lt;&#x2F;ul&gt;
 &lt;&#x2F;details&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-注意：\<details\> 标签内写markdown代码无效，可写html代码，如ul&gt;li、table等</details\></li>
-</ol>
+<p>注意：&lt;details&gt; 标签内写markdown代码无效，可写html代码，如ul&gt;li、table等</p>
 <p>结果如下：</p>
-<p><details></details></p>
-<p><summary>点我打开关闭折叠</summary><br> <ul>
+<details>
+<summary>点我打开关闭折叠</summary>
+ <ul>
      <li>1</li>
      <li>2</li>
      <li>3</li>
- </ul><br>&lt;/details&gt;</p>
-<h2 id="带复选框列表"><a href="#带复选框列表" class="headerlink" title="带复选框列表"></a>带复选框列表</h2><pre class="line-numbers language-none"><code class="language-none">* [x] 第一项
+ </ul>
+</details>
+## 带复选框列表
+<pre class="line-numbers language-none"><code class="language-none">* [x] 第一项
 * [ ] 第二项
 * [ ] 第三项<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>注：在部分线上预览未支持<br>结果如下：</p>
-<ul>
-<li>[x] 第一项</li>
-<li>[ ] 第二项</li>
-<li>[ ] 第三项</li>
-</ul>
+注：在部分线上预览未支持
+结果如下：
+* [x] 第一项
+* [ ] 第二项
+* [ ] 第三项
+
 <h2 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h2><pre class="line-numbers language-none"><code class="language-none">1. 第一项：
     - 第一项嵌套的第一个元素
     - 第一项嵌套的第二个元素
@@ -433,22 +449,22 @@
 </li>
 </ol>
 <hr>
-<h1 id="六、代码"><a href="#六、代码" class="headerlink" title="六、代码"></a>六、代码</h1><p>如果是段落上的一个代码片段可以用反引号把它包起来（<code>），示例：
+<h1 id="六、代码"><a href="#六、代码" class="headerlink" title="六、代码"></a>六、代码</h1><p>如果是段落上的一个代码片段可以用反引号把它包起来（&#96;），示例：</p>
 <pre class="line-numbers language-none"><code class="language-none">&#96;alert()&#96; <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-结果如下：</code>alert()` </p>
-<p>用三个反引号 ``` 包裹一段代码，并指定一种语言（也可以不指定），指定代码语言后会有代码的颜色高亮</p>
-<p>本代码区块为示例说明：<br><pre class="line-numbers language-none"><code class="language-none">​&#96;&#96;&#96;javascript
+<p>结果如下：<br><code>alert()</code> </p>
+<p>用三个反引号 &#96;&#96;&#96; 包裹一段代码，并指定一种语言（也可以不指定），指定代码语言后会有代码的颜色高亮</p>
+<p>本代码区块为示例说明：</p>
+<pre class="line-numbers language-none"><code class="language-none">​&#96;&#96;&#96;javascript
 function test() &#123;
 	alert(&#39;test&#39;)
 &#125;
 ​&#96;&#96;&#96;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>结果如下：<br>​<code>javascript
-function test() &#123;
-    alert(&#39;test&#39;)
-&#125;
-​</code></p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：<br>​<code>javascript function test() &#123;     alert(&#39;test&#39;) &#125; ​</code></p>
 <hr>
-<h1 id="七、区块引用"><a href="#七、区块引用" class="headerlink" title="七、区块引用"></a>七、区块引用</h1><h2 id="区块简单引用"><a href="#区块简单引用" class="headerlink" title="区块简单引用"></a>区块简单引用</h2><p>区块引用是在段落开头使用 <code>&gt;</code>符号 ，然后后面紧跟一个<strong>空格</strong>符号：<br><pre class="line-numbers language-none"><code class="language-none">&gt; 区块引用<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>结果如下：</p>
+<h1 id="七、区块引用"><a href="#七、区块引用" class="headerlink" title="七、区块引用"></a>七、区块引用</h1><h2 id="区块简单引用"><a href="#区块简单引用" class="headerlink" title="区块简单引用"></a>区块简单引用</h2><p>区块引用是在段落开头使用 <code>&gt;</code>符号 ，然后后面紧跟一个<strong>空格</strong>符号：</p>
+<pre class="line-numbers language-none"><code class="language-none">&gt; 区块引用<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>结果如下：</p>
 <blockquote>
 <p>区块引用</p>
 </blockquote>
@@ -494,15 +510,43 @@ function test() &#123;
 <li>第二项</li>
 </ul>
 <hr>
-<h1 id="八、链接"><a href="#八、链接" class="headerlink" title="八、链接"></a>八、链接</h1><p>格式：<br><pre class="line-numbers language-none"><code class="language-none">[链接名称](链接地址)
+<h1 id="八、链接"><a href="#八、链接" class="headerlink" title="八、链接"></a>八、链接</h1><p>格式：</p>
+<pre class="line-numbers language-none"><code class="language-none">[链接名称](链接地址)
 [链接名称](链接地址,可选的alt)
 或
-&lt;链接地址&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><br>实例：<br><pre class="line-numbers language-none"><code class="language-none">[百度](http:&#x2F;&#x2F;www.baidu.com,&#39;百度&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>结果如下：<br><a target="_blank" rel="noopener" href="http://www.baidu.com,&#39;百度&#39;">百度</a><br>直接显示链接地址<br><pre class="line-numbers language-none"><code class="language-none">&lt;http:&#x2F;&#x2F;www.baidu.com&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>结果如下：<br><a target="_blank" rel="noopener" href="http://www.baidu.com">http://www.baidu.com</a></p>
+&lt;链接地址&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>实例：</p>
+<pre class="line-numbers language-none"><code class="language-none">[百度](http:&#x2F;&#x2F;www.baidu.com,&#39;百度&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>结果如下：<br><a target="_blank" rel="noopener" href="http://www.baidu.com,'百度'/">百度</a><br>直接显示链接地址</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;http:&#x2F;&#x2F;www.baidu.com&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>结果如下：<br><a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com</a></p>
 <hr>
-<h1 id="九、表格"><a href="#九、表格" class="headerlink" title="九、表格"></a>九、表格</h1><p>制作表格使用 <code>|</code>来分隔不同的单元格，使用<code>-</code>来分隔表头和其他行。<br><pre class="line-numbers language-none"><code class="language-none">|  表头   | 表头  |
+<h1 id="九、表格"><a href="#九、表格" class="headerlink" title="九、表格"></a>九、表格</h1><p>制作表格使用 <code>|</code>来分隔不同的单元格，使用<code>-</code>来分隔表头和其他行。</p>
+<pre class="line-numbers language-none"><code class="language-none">|  表头   | 表头  |
 |  ----  | ----  |
 | 单元格  | 单元格 |
-| 单元格  | 单元格 |<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><br>结果如下：<br>|  表头   | 表头  |<br>|  ——  | ——  |<br>| 单元格  | 单元格 |<br>| 单元格  | 单元格 |<br><strong>对齐方式：</strong></p>
+| 单元格  | 单元格 |<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>表头</th>
+<th>表头</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单元格</td>
+<td>单元格</td>
+</tr>
+<tr>
+<td>单元格</td>
+<td>单元格</td>
+</tr>
+<tr>
+<td><strong>对齐方式：</strong></td>
+<td></td>
+</tr>
+</tbody></table>
 <ul>
 <li>-: 设置内容和标题栏居右对齐</li>
 <li>:- 设置内容和标题栏居左对齐</li>
@@ -510,10 +554,31 @@ function test() &#123;
 | :-----| ----: | :----: |
 | 单元格 | 单元格 | 单元格 |
 | 单元格 | 单元格 | 单元格 |<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-结果如下：<br>| 左对齐 | 右对齐 | 居中对齐 |<br>| :——-| ——: | :——: |<br>| 单元格 | 单元格 | 单元格 |<br>| 单元格 | 单元格 | 单元格 |</li>
+结果如下：<table>
+<thead>
+<tr>
+<th align="left">左对齐</th>
+<th align="right">右对齐</th>
+<th align="center">居中对齐</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">单元格</td>
+<td align="right">单元格</td>
+<td align="center">单元格</td>
+</tr>
+<tr>
+<td align="left">单元格</td>
+<td align="right">单元格</td>
+<td align="center">单元格</td>
+</tr>
+</tbody></table>
+</li>
 </ul>
 <hr>
-<h1 id="十、Emoji表情包"><a href="#十、Emoji表情包" class="headerlink" title="十、Emoji表情包"></a>十、Emoji表情包</h1><p>Emoji表情英文名的前后加冒号<br><pre class="line-numbers language-none"><code class="language-none">:smirk:<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>结果如下：<br>:smirk:<br>更多表情名称请查看：<a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">表情包清单</a></p>
+<h1 id="十、Emoji表情包"><a href="#十、Emoji表情包" class="headerlink" title="十、Emoji表情包"></a>十、Emoji表情包</h1><p>Emoji表情英文名的前后加冒号</p>
+<pre class="line-numbers language-none"><code class="language-none">:smirk:<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>结果如下：<br>:smirk:<br>更多表情名称请查看：<a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">表情包清单</a></p>
 
                 
             </div>
