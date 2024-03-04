@@ -336,7 +336,7 @@
 <li>CPU周期又称为机器周期，由多个时钟周期组成！</li>
 <li>指令周期&gt;CPU周期&gt;时钟周期</li>
 </ul>
-<p><strong>CPI</strong>（Clock cycle Per Instruction），即执行一条指令所需的时钟周期数。<br>CPU执行时间，指运行一个程序所花费的时间。<br><font color="#dd0000">CPU执行时间 &#x3D; CPU时钟周期数&#x2F;主频 &#x3D; (指令条数xCPI)&#x2F;主频</font><br>CPU的性能取决于三个要素:主频、CPI 、指令条数<br><strong>IPS</strong> &#x3D; 主频&#x2F;平均CPI，每秒执行多少指令<br><strong>MIPS</strong> &#x3D; 即每秒执行多少百万条指令。<br>MFLOPS&#x3D;浮点操作次数&#x2F;(执行时间x$10^6$),即每秒执行多少百万次浮点运算。<br>GFLOPS&#x3D;浮点操作次数&#x2F;(执行时间x$10^9$)，即每秒执行多少十亿次浮点运算。<br>TFLOPS&#x3D;浮点操作次数&#x2F;(执行时间x$10^12$)，即每秒执行多少万亿次浮点运算。<br>PFLOPS:$10^15$<br>EFLOPS:$10^18$<br>ZFLOPS:$10^21$<br><em><strong>问题：<u>计算机由哪几部分组成？以哪部分为中心？</u></strong></em><br>答：计算机由<font color="#dd0000">运算器、控制器、存储器、输入设备及输出设备五大部分</font>构成。早期的冯·诺依曼机<strong>以运算器为中心</strong>；现代计算机已经发展为<strong>以存储器为中心</strong></p>
+<p><strong>CPI</strong>（Clock cycle Per Instruction），即执行一条指令所需的时钟周期数。<br>CPU执行时间，指运行一个程序所花费的时间。<br><font color="#dd0000">CPU执行时间 &#x3D; CPU时钟周期数&#x2F;主频 &#x3D; (指令条数xCPI)&#x2F;主频</font><br>CPU的性能取决于三个要素:主频、CPI 、指令条数<br><strong>IPS</strong> &#x3D; 主频&#x2F;平均CPI，每秒执行多少指令<br><strong>MIPS</strong> &#x3D; 即每秒执行多少百万条指令。<br>MFLOPS&#x3D;浮点操作次数&#x2F;(执行时间x$10^6$),即每秒执行多少百万次浮点运算。<br>GFLOPS&#x3D;浮点操作次数&#x2F;(执行时间x$10^9$)，即每秒执行多少十亿次浮点运算。<br>TFLOPS&#x3D;浮点操作次数&#x2F;(执行时间x$10^{12}$)，即每秒执行多少万亿次浮点运算。<br>PFLOPS:$10^{15}$<br>EFLOPS:$10^{18}$<br>ZFLOPS:$10^{21}$<br><em><strong>问题：<u>计算机由哪几部分组成？以哪部分为中心？</u></strong></em><br>答：计算机由<font color="#dd0000">运算器、控制器、存储器、输入设备及输出设备五大部分</font>构成。早期的冯·诺依曼机<strong>以运算器为中心</strong>；现代计算机已经发展为<strong>以存储器为中心</strong></p>
 <h3 id="C语言浮点数类型"><a href="#C语言浮点数类型" class="headerlink" title="C语言浮点数类型"></a>C语言浮点数类型</h3><p>1.int$\rightarrow$float &emsp; 不会溢出、影响精度<br>2.int或float$\rightarrow$double &emsp; 保留精确值<br>3.double$\rightarrow$float &emsp; 可能溢出、舍入<br>4.double或float$\rightarrow$int &emsp; 可能溢出、影响精度</p>
 <h2 id="数据的表示与运算"><a href="#数据的表示与运算" class="headerlink" title="数据的表示与运算"></a>数据的表示与运算</h2><p>常见 2 的指数：<br>$2^5&#x3D;32$，$2^6&#x3D;64$，$2^7&#x3D;128$，$2^8&#x3D;256$，$2^9&#x3D;512$，$2^{10}&#x3D;1024$，$2^{11}&#x3D;2048$，$2^{12}&#x3D;4096$，$2^{13}&#x3D;8192$，$2^{14}&#x3D;16384$，$2^{15}&#x3D;32768$，$2^{16}&#x3D;65536$</p>
 <h3 id="补码相关内容"><a href="#补码相关内容" class="headerlink" title="补码相关内容"></a>补码相关内容</h3><h4 id="补码大小比较"><a href="#补码大小比较" class="headerlink" title="补码大小比较"></a>补码大小比较</h4><p>正数：1多值大，1越靠左值大<br>负数：1多值大，1越靠左值大<br>负数补码快速计算:1000 0011&#x3D;-128+3&#x3D;125</p>
@@ -1073,7 +1073,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022-2023</span>
+                <span id="year">2022-2024</span>
             
             <a href="/about" target="_blank">Jourser</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
