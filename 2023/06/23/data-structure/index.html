@@ -241,7 +241,7 @@ typedef int ElemType;       ">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -308,7 +308,7 @@ typedef int ElemType;       ">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    12k
+                    11.9k
                 </div>
                 
 
@@ -479,7 +479,7 @@ typedef struct&#123;
 <h5 id="3-进制转换"><a href="#3-进制转换" class="headerlink" title="3.进制转换"></a>3.进制转换</h5><h5 id="4-括号匹配"><a href="#4-括号匹配" class="headerlink" title="4.括号匹配"></a>4.括号匹配</h5><p>括号匹配算法思想：若是左括号，入栈；若是右括号，出栈一个左括号判断是否与之匹配；检验到字符串尾，还要检查栈是否为空。只有栈空，整个字符串才是括号匹配的。</p>
 <h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列：FIFO 先进先出<br>双端队列：<br>1.输入受限，两端都可以出，只有一端可以入<br>2.输出受限，两端都可以入，只有一端可以出<br>队列的应用：1.排队；2.打印机；3.层次遍历；4.BFS；5.基数排序</p>
 <h4 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h4><h5 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h5><p><code>front</code>指队首；<code>rear</code>指队尾的下一个元素<br>队列空：<code>front==rear</code><br>队列满：<code>(rear+1)%MaxSize==front</code><br>入队：<code>rear=(rear+1)%MaxSize</code><br>出队：<code>front=(front+1)%MaxSize</code><br>长度：<code>(rear+MaxSize-front)%MaxSize</code></p>
-<h4 id="链队列"><a href="#链队列" class="headerlink" title="链队列"></a>链队列</h4><p>一般为带尾指针的单循环链表<br>插入：尾插，尾改头不改<br>删除：头插，头改尾不改；<font color="#dd0000">删除到最后，头尾都要改</font>。<br>入队：$\left{<br>\begin{matrix}<br>rear++\<br>放入<br>\end{matrix}<br>\right.$ &emsp;与单链表插入操作一致</p>
+<h4 id="链队列"><a href="#链队列" class="headerlink" title="链队列"></a>链队列</h4><p>一般为带尾指针的单循环链表<br>插入：尾插，尾改头不改<br>删除：头插，头改尾不改；<font color="#dd0000">删除到最后，头尾都要改</font>。<br>入队：rear++；放入<br>&emsp;与单链表插入操作一致</p>
 <pre class="line-numbers language-C" data-language="C"><code class="language-C">void EnQueue(LinkQueue &amp;Q，ElemType x)&#123;
     s&#x3D;(LinkNode *)malloc(sizeof(LinkNode));
     s-&gt;data&#x3D;x; 
@@ -487,7 +487,7 @@ typedef struct&#123;
     Q.rear-&gt;next&#x3D;s;
     Q.rear&#x3D;s;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>出队：$\left{<br>\begin{matrix}<br>放出\<br>front++<br>\end{matrix}<br>\right.$  &emsp;头结点的后继结点出队</p>
+<p>出队：放出；front++<br>&emsp;头结点的后继结点出队</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">bool <span class="token function">DeQueue</span><span class="token punctuation">(</span>LinkQueue <span class="token operator">&amp;</span>Q<span class="token punctuation">,</span>ElemType <span class="token operator">&amp;</span>x<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token keyword">if</span><span class="token punctuation">(</span>Q<span class="token punctuation">.</span>front<span class="token operator">==</span>Q<span class="token punctuation">.</span>rear<span class="token punctuation">)</span> <span class="token keyword">return</span> false<span class="token punctuation">;</span> <span class="token comment">//空队</span>
     p<span class="token operator">=</span>Q<span class="token punctuation">.</span>front<span class="token operator">-></span>next<span class="token punctuation">;</span>
@@ -506,12 +506,12 @@ typedef struct&#123;
 <h4 id="特殊性质："><a href="#特殊性质：" class="headerlink" title="特殊性质："></a>特殊性质：</h4><p>1.非空二叉树&emsp;叶子结点数$n_{0}$为度为2的结点数+1，即$\mathbf{n_{0}&#x3D;n_{2}+1}$<br>2.<strong>k</strong>层树至少有$\mathbf{2^{k-1}}$个结点<br>3.高度为<strong>h</strong>至多有个$\mathbf{2^{h-1}}$结点<br>4.具有<strong>n</strong>个节点的二叉树，最小高度$\lfloor\mathbf{log_2{n}+1}\rfloor$向下取整</p>
 <h4 id="完全二叉树的独有性质"><a href="#完全二叉树的独有性质" class="headerlink" title="完全二叉树的独有性质"></a>完全二叉树的独有性质</h4><p>完全二叉树：除了最后一行，其余层全满<br>全满<strong>k</strong>层，一共$\mathbf{2^{k}-1}$个结点<br>1.<strong>n</strong>个结点深度：$\lfloor\mathbf{log_2{n}+1}\rfloor$向下取整或$\lceil\mathbf{log_2{(n+1)}}\rceil$向下取整<br>2.右子树最大I层，左子树最大I+1或I层<br>3.双亲结点 $\lfloor\mathbf{i&#x2F;2}\rfloor$<br>4.度为1的个数只有0或1<br>5.叶子结点出现在k层或者k-1层，k为深度<br>6.当该层编好后出现一结点为叶子结点或只有左子树，则之后都是叶子结点，如下图为某一层的最后结点<br><img src="/2023/06/23/data-structure/3.png"> 384之后都是叶子结点，所以叶子结点数：768-384&#x3D;384</p>
 <h4 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h4><p>先序：根左右<br>中序：左根右<br>后序：左右根<br>层次：按照层次遍历<br>中+层$\Rightarrow$层<br>中+后$\Rightarrow$后<br>中+先$\Rightarrow$先<br>先确定根，中序确定左右</p>
-<h4 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h4><p>方便查找前驱、后继和遍历(前驱后继根据中序)<br>1.有左孩子，指向左孩子；无，则指向前驱<br>2.有右孩子，指向右孩子；无，则指向后继<br><em><strong>问题：<u>如何区分指针是指向左孩子还是前驱，或者指向右孩子还是后继？</u></strong></em><br>答：在二叉链表的结构基础上增加两个标志位<code>ltag</code>和<code>rtag</code><br>$ ltag&#x3D;\left{<br>\begin{matrix}<br>0，左孩子\<br>1，前驱<br>\end{matrix}<br>\right.<br>$<br>$ rtag&#x3D;\left{<br>\begin{matrix}<br>0，右孩子\<br>1，后继<br>\end{matrix}<br>\right.<br>$</p>
-<h4 id="树、森林和二叉树转换"><a href="#树、森林和二叉树转换" class="headerlink" title="树、森林和二叉树转换"></a>树、森林和二叉树转换</h4><p>一般树转化为二叉树规则：<strong>左孩子不变，右孩子变为右兄弟</strong>，如下图所示：<br><img src="/2023/06/23/data-structure/4.png"><br>根右边一定为空，所以<strong>根据根的右子树情况，可判断森林中树的个数</strong><br>森林转化为二叉树规则：先将每棵树转化为二叉树，再将每棵树的根相连<br>$树\Rightarrow二叉树$$\left{<br>\begin{matrix}<br>先序\Rightarrow先序\<br>后序\Rightarrow中序\<br>中序\Rightarrow中序<br>\end{matrix}<br>\right.$</p>
+<h4 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h4><p>方便查找前驱、后继和遍历(前驱后继根据中序)<br>1.有左孩子，指向左孩子；无，则指向前驱<br>2.有右孩子，指向右孩子；无，则指向后继<br><em><strong>问题：<u>如何区分指针是指向左孩子还是前驱，或者指向右孩子还是后继？</u></strong></em><br>答：在二叉链表的结构基础上增加两个标志位<code>ltag</code>和<code>rtag</code><br>$ ltag&#x3D;<br>0，左孩子；<br>1，前驱<br>$<br>$ rtag&#x3D;<br>0，右孩子；<br>1，后继<br>$</p>
+<h4 id="树、森林和二叉树转换"><a href="#树、森林和二叉树转换" class="headerlink" title="树、森林和二叉树转换"></a>树、森林和二叉树转换</h4><p>一般树转化为二叉树规则：<strong>左孩子不变，右孩子变为右兄弟</strong>，如下图所示：<br><img src="/2023/06/23/data-structure/4.png"><br>根右边一定为空，所以<strong>根据根的右子树情况，可判断森林中树的个数</strong><br>森林转化为二叉树规则：先将每棵树转化为二叉树，再将每棵树的根相连<br>$树\Rightarrow二叉树$：$先序\Rightarrow先序；$$后序\Rightarrow中序；$$中序\Rightarrow中序$</p>
 <h3 id="哈夫曼树"><a href="#哈夫曼树" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h3><p>WPL带权路径最小<br>权重大的在上面，权重小的在下面<br>不够需要补0，&emsp;补几个，利用$n_0&#x3D;(m-1)n_m+1$，$n_m$为整数，所以$n_m&#x3D;\frac{n_0-1}{m-1}$最后得$n_0$<br>左0右1<br>只有0度和2度的结点<br><strong>前缀编码判定方法</strong>：<br>1.任何一个编码不能是一个编码的前缀<br>2.画树，找度为1的点，$n_1&#x3D;1$不能是前缀编码</p>
 <h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><p>度之和&#x3D;边*2<br>完全图边数：$\frac{n(n-1)}{2}$<br>顶点集<code>V</code> &emsp;边集<code>E</code><br>非连通：最多$\mathbf{C^2_ {n-1}}$条边<br>连通：最少$\mathbf{C^2_ {n-1}+1}$条边<br>强联通(顶点v到w或w到v都有路径)：最少$\mathbf{n}$条边<br>简单路径：顶点不重复 &emsp;简单回路：首尾相同其余不重复</p>
-<h3 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a>图的存储</h3><h4 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h4><p><img src="/2023/06/23/data-structure/5.png"><br>如图所得邻接矩阵：<br><br>$\left(<br>\begin{matrix}<br>0 &amp; 1 &amp; 1 &amp; 1\<br>1 &amp; 0 &amp; 1 &amp; 0\<br>1 &amp; 1 &amp; 0 &amp; 1\<br>1 &amp; 0 &amp; 1 &amp; 0<br>\end{matrix}<br>\right)<br>$</p>
-<p>若是有向图，则是指向为1，例：<br><img src="/2023/06/23/data-structure/6.png"><br>如图所得邻接矩阵：<br><br>$\left(<br>\begin{matrix}<br>0 &amp; 1 &amp; 0 &amp; 1\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>1 &amp; 1 &amp; 0 &amp; 1\<br>0 &amp; 0 &amp; 0 &amp; 0<br>\end{matrix}<br>\right)<br>$</p>
+<h3 id="图的存储"><a href="#图的存储" class="headerlink" title="图的存储"></a>图的存储</h3><h4 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h4><p><img src="/2023/06/23/data-structure/5.png"><br>如图所得邻接矩阵：<br><br><img src="/2023/06/23/data-structure/31.png"></p>
+<p>若是有向图，则是指向为1，例：<br><img src="/2023/06/23/data-structure/6.png"><br>如图所得邻接矩阵：<br><br><img src="/2023/06/23/data-structure/32.png"></p>
 <p><font color="#dd0000">邻接矩阵唯一，遍历结果也唯一</font><br>空间复杂度：$O(n^2)$ &emsp; 遍历时间复杂度：$O(n^2)$</p>
 <h4 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h4><p><strong><font color="#dd0000">适用于稀疏图(|E|远小于|V|^2)</font></strong></p>
 <h5 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h5><p><img src="/2023/06/23/data-structure/7.png"></p>
@@ -629,7 +629,7 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
 <h5 id="RL调整"><a href="#RL调整" class="headerlink" title="RL调整"></a>RL调整</h5><p><img src="/2023/06/23/data-structure/15.png"></p>
 <h4 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h4><p>插入看自己，删除看兄弟<br>1.用<strong>二叉排序树删除</strong>的方法删（叶子直接删；只有一颗子树，用子树代替；两颗子树都有，中序遍历用前驱或者后继代替）<br>2.从删除的位置向上找到第一个<strong>不平衡点</strong>，从该点向下高度最高的点，一条线有三个。(以x，y，z为例，z为第一个不平衡点，y是z的最高孩子结点，x是y的最高孩子结点)<br>3.之后同上的插入方法，根据x，y，z的情况旋转<br>深度为h的最少结点数为$N_n$<br>$N_0&#x3D;0$，$N_1&#x3D;1$，$N_2&#x3D;2$，$N_n&#x3D;N_{(n-1)}+N_{(n-2)}$+1</p>
 <h3 id="B树和B-树的性质"><a href="#B树和B-树的性质" class="headerlink" title="B树和B+树的性质"></a><font color="#dd0000">B树和B+树的性质</font></h3><h4 id="m阶B树特点"><a href="#m阶B树特点" class="headerlink" title="m阶B树特点"></a>m阶B树特点</h4><p>1）树中每个结点至多有<strong>m</strong>棵子树。（即至多含有<strong>m-1个关键字</strong>) (“两棵子树指针夹着一个关键字”)<br>2）若根结点不是终端结点，则至少有两棵子树。(至少一个关键字)<br>3）除根结点外的所有非叶结点至少有⌈m&#x2F;2⌉(向上取整)棵子树。（即至少含有⌈m&#x2F;2⌉-1个关键字）<br>如图所示是一个5阶B树：<br><img src="/2023/06/23/data-structure/16.png"></p>
-<h5 id="B树结点子树个数"><a href="#B树结点子树个数" class="headerlink" title="B树结点子树个数"></a>B树结点子树个数</h5><p><strong>根结点</strong>:子树个数$\mathbf{[2,m]}$ &emsp; 关键字数$\mathbf{[1,m-1]}$<br><strong>其他结点</strong>:子树个数$\mathbf{[⌈m&#x2F;2⌉,m]}$ &emsp; 关键字数$\mathbf{[⌈m&#x2F;2⌉-1,m-1]}$<br><strong>该类题求解方法：</strong><br>1.关键字最少$\Leftrightarrow$子树少$\Leftrightarrow$结点少；<br>2.关键字个数$\Rightarrow$$\left{<br>\begin{matrix}<br>最少结点：每个结点的关键字最多，m-1\<br>最多结点：每个结点的关键字最少，⌈m&#x2F;2⌉-1<br>\end{matrix}<br>\right.$</p>
+<h5 id="B树结点子树个数"><a href="#B树结点子树个数" class="headerlink" title="B树结点子树个数"></a>B树结点子树个数</h5><p><strong>根结点</strong>:子树个数$\mathbf{[2,m]}$ &emsp; 关键字数$\mathbf{[1,m-1]}$<br><strong>其他结点</strong>:子树个数$\mathbf{[⌈m&#x2F;2⌉,m]}$ &emsp; 关键字数$\mathbf{[⌈m&#x2F;2⌉-1,m-1]}$<br><strong>该类题求解方法：</strong><br>1.关键字最少$\Leftrightarrow$子树少$\Leftrightarrow$结点少；<br>2.关键字个数：<br>&emsp;最少结点：每个结点的关键字最多，m-1<br>&emsp;最多结点：每个结点的关键字最少，⌈m&#x2F;2⌉-1</p>
 <h4 id="m阶B-树特点"><a href="#m阶B-树特点" class="headerlink" title="m阶B+树特点"></a>m阶B+树特点</h4><p>结点的子树个数与关键字个数相同<br>支持顺序查找和随机查找，B树只支持随机<br><img src="/2023/06/23/data-structure/17.png"><br>m阶的B+树与m阶的B树的<strong>主要差异</strong>在于：<br>1）在B+树中，具有n个关键字的结点只含有n棵子树，即<font color="#dd0000">每个关键字对应一棵子树</font>；而在B树中，具有n个关键字的结点含有(n+1)棵子树。<br>2）在B+树中，每个结点（非根内部结点）关键字个数n的范围是 ⌈m&#x2F;2⌉≤n≤m（根结点1≤n≤m），在B树中，每个结点（非根内部结点）关键字个数n的范围是⌈m&#x2F;2⌉ -1≤n≤m-1（根结点：1≤n≤m-1）。<br>3）在B+树中，<font color="#dd0000">叶结点包含信息，所有非叶结点仅起到索引作用</font>，非叶结点中的每个索引项只含有对应子树的<font color="#dd0000">最大关键字</font>和指向该子树的指针，不含有该关键字对应记录的存储地址。<br>4）在B+树中，<font color="#dd0000">叶结点包含了全部关键字</font>，即在非叶结点中出现的关键字也会出现在叶结点中；而在B树中，叶结点包含的关键字和其他结点包含的关键字是不重复的。<br>主要应用：<br>编译器中的词法分析：二叉树<br>数据库索引：B+<br>路由表查找：折半</p>
 <h4 id="B树插入与删除"><a href="#B树插入与删除" class="headerlink" title="B树插入与删除"></a>B树插入与删除</h4><h5 id="插入-1"><a href="#插入-1" class="headerlink" title="插入"></a>插入</h5><p>可能插入后B树的高度+1，因为根结点也进行分裂<br>步骤：<br>1.找到插入的叶子结点<br>2.若该结点插入后，关键字仍小于等于m-1，则直接插入。反之，则将需要<strong>分裂</strong>。分裂的方法：取这个关键字数组中的中间关键字(⌈m&#x2F;2⌉)作为新的结点，然后其他关键字形成两个结点作为新结点的左右孩子。需要从该结点的父结点持续向上进行，若不符合要求，就依次分裂直到根结点。<br><img src="/2023/06/23/data-structure/18.png"></p>
 <h5 id="删除-2"><a href="#删除-2" class="headerlink" title="删除"></a>删除</h5><h5 id="1）删除的关键字不在终端结点上（最底层非叶子结点）"><a href="#1）删除的关键字不在终端结点上（最底层非叶子结点）" class="headerlink" title="1）删除的关键字不在终端结点上（最底层非叶子结点）"></a>1）删除的关键字不在终端结点上（最底层非叶子结点）</h5><p>用直接前驱(最右下)和直接后继(最左下)来代替，然后便转换为了“在终端结点”的问题<br><img src="/2023/06/23/data-structure/19.png"></p>
@@ -858,7 +858,7 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
 <td align="center"></td>
 
 
-<p><strong>不稳定</strong>：快希选堆<br><strong>时间复杂度</strong>：$O(nlog_2n)$ 快堆归<br><strong>空间复杂度</strong>：$O(log_2n)$ 快；$O(n)$ 归；$O(r)$ 基数<br>注意：$O(n^{1.3})是希尔$$d&#x3D;n&#x2F;2$的步长<br>特殊分类：<br><strong>只能用顺序表</strong>：归并、堆、快排(希尔、折半插入)<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;其余的链式和顺序都可以<br>**时间复杂度与元素初始状态<font color="#dd0000">无关</font>**：基数、选择、归并<br>**比较次数与元素初始状态<font color="#dd0000">无关</font>**：基数、选择<br>**排序趟数与元素初始状态<font color="#dd0000">有关</font>**：快排、冒泡<br>**排序趟数与元素初始状态<font color="#dd0000">无关</font>**：直插、折半、希尔、选择、堆、归并、基数<br><strong>至少确定一个位置</strong>：$\left{<br>\begin{matrix}<br>交换：冒泡、快排\<br>选择：简单选择、堆<br>\end{matrix}<br>\right.$ </p>
+<p><strong>不稳定</strong>：快希选堆<br><strong>时间复杂度</strong>：$O(nlog_2n)$ 快堆归<br><strong>空间复杂度</strong>：$O(log_2n)$ 快；$O(n)$ 归；$O(r)$ 基数<br>注意：$O(n^{1.3})是希尔$$d&#x3D;n&#x2F;2$的步长<br>特殊分类：<br><strong>只能用顺序表</strong>：归并、堆、快排(希尔、折半插入)<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;其余的链式和顺序都可以<br>**时间复杂度与元素初始状态<font color="#dd0000">无关</font>**：基数、选择、归并<br>**比较次数与元素初始状态<font color="#dd0000">无关</font>**：基数、选择<br>**排序趟数与元素初始状态<font color="#dd0000">有关</font>**：快排、冒泡<br>**排序趟数与元素初始状态<font color="#dd0000">无关</font>**：直插、折半、希尔、选择、堆、归并、基数<br><strong>至少确定一个位置</strong>：交换：冒泡、快排；选择：简单选择、堆</p>
 
                 
             </div>
@@ -1014,8 +1014,7 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
                 <a href="/2023/06/24/computer-network/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="计算机网络笔记">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="计算机网络笔记">
                         
                         <span class="card-title">计算机网络笔记</span>
                     </div>
@@ -1045,12 +1044,12 @@ Void <span class="token function">MiniSpanTree_Kruskal</span><span class="token 
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
-                        <span class="chip bg-color">笔记</span>
-                    </a>
-                    
                     <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
                         <span class="chip bg-color">计算机网络</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">笔记</span>
                     </a>
                     
                 </div>
