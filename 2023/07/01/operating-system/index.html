@@ -308,7 +308,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    17.9k
+                    18.8k
                 </div>
                 
 
@@ -398,7 +398,7 @@
 <h4 id="进程转换"><a href="#进程转换" class="headerlink" title="进程转换"></a>进程转换</h4><ul>
 <li>就绪态$\rightarrow$运行态：<strong>调度</strong></li>
 <li>运行态$\rightarrow$就绪态：<strong>CPU没了①时间片用完了②更高优先级进程执行</strong></li>
-<li>运行态$\rightarrow$阻塞态：<strong>申请其他资源、等待I&#x2F;O完成</strong><ul>
+<li>运行态$\rightarrow$阻塞态：<strong>申请其他资源、等待I&#x2F;O完成、读文件</strong><ul>
 <li>申请其他资源：1.内存；2.I&#x2F;O；3.buffer；4.设备；5.临界资源；6.磁盘；7.执行p操作</li>
 </ul>
 </li>
@@ -434,12 +434,12 @@
 <li>异常结束</li>
 <li>外泉干预</li>
 </ul>
-<h4 id="3-进程阻塞和唤醒"><a href="#3-进程阻塞和唤醒" class="headerlink" title="3. 进程阻塞和唤醒"></a>3. 进程阻塞和唤醒</h4><h5 id="进程的阻塞"><a href="#进程的阻塞" class="headerlink" title="进程的阻塞"></a>进程的阻塞</h5><ul>
+<h4 id="3-进程阻塞和唤醒"><a href="#3-进程阻塞和唤醒" class="headerlink" title="3. 进程阻塞和唤醒"></a>3. 进程阻塞和唤醒</h4><h5 id="进程的阻塞（即运行-rightarrow-阻塞）"><a href="#进程的阻塞（即运行-rightarrow-阻塞）" class="headerlink" title="进程的阻塞（即运行$\rightarrow$阻塞）"></a>进程的阻塞（即运行$\rightarrow$阻塞）</h5><ul>
 <li>找到要阻塞的进程对应的PCB</li>
 <li>保护进程运行现场，将PCB状态信息设置为“阻塞态”，暂时停止进程运行</li>
 <li>将PCB插入相应事件的等待队列</li>
 </ul>
-<h5 id="迸程的唤醒"><a href="#迸程的唤醒" class="headerlink" title="迸程的唤醒"></a>迸程的唤醒</h5><ul>
+<h5 id="迸程的唤醒（即阻塞-rightarrow-就绪）"><a href="#迸程的唤醒（即阻塞-rightarrow-就绪）" class="headerlink" title="迸程的唤醒（即阻塞$\rightarrow$就绪）"></a>迸程的唤醒（即阻塞$\rightarrow$就绪）</h5><ul>
 <li>在事件等待队列中找到PCB</li>
 <li>将PCB从等待队列移除，设置进程为就绪态</li>
 <li>将PCB插入就绪队列，等待被调度</li>
@@ -508,7 +508,7 @@ flag<span class="token punctuation">[</span><span class="token number">1</span><
 <span class="token comment">// P0:</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">while</span> <span class="token punctuation">(</span>flag<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    flag<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> true<span class="token punctuation">;</span>
+    flag<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> true<span class="token punctuation">;</span>  <span class="token comment">//true表示上锁</span>
     critical section<span class="token punctuation">;</span>
     flag<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> false<span class="token punctuation">;</span>
     remainder section<span class="token punctuation">;</span>
@@ -640,7 +640,16 @@ flag<span class="token punctuation">[</span><span class="token number">1</span><
     code <span class="token number">5</span><span class="token punctuation">;</span>
     code <span class="token number">6</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h5 id="信号量解决同步互斥问题"><a href="#信号量解决同步互斥问题" class="headerlink" title="信号量解决同步互斥问题"></a><font color="#dd0000">信号量解决同步互斥问题</font></h5><p><strong>1.生产者-消费者问题</strong><br>改变互斥信号量mutex 在 同步信号量操作之间</p>
+<h5 id="信号量解决同步互斥问题"><a href="#信号量解决同步互斥问题" class="headerlink" title="信号量解决同步互斥问题"></a><font color="#dd0000">信号量解决同步互斥问题</font></h5><p><strong>PV问题解题</strong></p>
+<ol>
+<li>有几类进程？————每类进程(几类人)对一个函数</li>
+<li>在函数内部用中文描述$\Rightarrow$只做一个？不断重复？（<font color="#0090dd">加不加while(1)</font>）</li>
+<li>每个动作之前需要$P$什么？————注意隐含的互斥(缓冲区的访问)，同时注意有$P$则则必有$V$</li>
+<li>所有的$PV$写完之后再去定义信号量</li>
+<li>检查多个$P$操作出现的地方是否可能<u>死锁</u>？<br>①对一个信号量的$P$之间无其它$P$，不可能死锁<br>②连续的$P$产生死锁，可以调节$P$顺序</li>
+</ol>
+<p><font color="#0000dd">往往容量(缓冲区)会设置两个信号量，一个$n$一个$0$，分别表示上限和下限。同时对其的操作(一般是中文操作)前后要加上$mutex$进行互斥访问</font><br><font color="#dd0000">无论题目中有没有提及都必须互斥访问</font><br><font color="#0000dd">与容量(缓冲区)容易混淆的是工具中介信号量。该容量只需设置一个$n$。特点是对其访问不用互斥。同时其量是定死的，没有凭空产生或消耗。例子：打水的水桶有三个。可以没有中文操作对其访问。</font><br><font color="#dd0000">PS：对工具资源的访问尤其需要注意$P$操作产生的死锁问题。往往是先对缓冲区$P$再对工具区$P$</font></p>
+<p><strong>1.生产者-消费者问题</strong><br>改变互斥信号量mutex 在 同步信号量操作之间</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">semaphore mutex <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>    <span class="token comment">// 互斥</span>
 semaphore empty <span class="token operator">=</span> n<span class="token punctuation">;</span>    <span class="token comment">// 同步</span>
 semaphore full <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">// 同步</span>
@@ -709,7 +718,52 @@ semaphore plate <span class="token operator">=</span> <span class="token number"
       吃掉橘子<span class="token punctuation">;</span>
    <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>3.吸烟者问题</strong><br>题目描述<br>假设一个系统有三个抽烟者进程和一个供应者进程。每个抽烟者不停地卷烟并抽掉它，但是要卷起并抽掉一支烟，抽烟者需要有三种料：烟草、纸和胶水。<br>三个抽烟者中，第一个拥有烟草、第二个拥有纸、第三个拥有胶水。供应者进程无限地提供三种材料，供应者每次将两种材料放桌子上，拥有剩下那种材料的抽烟者卷一根烟并抽掉它，并给供应者进程一个信号告诉完成了，供并给供应者进程应者就会放另外两种材料再桌上，这个过程一直重复（让三个抽烟者轮流地抽烟）</p>
+
+<p><strong>3.服务者-被服务者问题</strong><br>该类型题特点：</p>
+<ol>
+<li>有类型需要等待；</li>
+<li>也需要一个变量计数等待人数(也需要互斥访问)<br><font color="#dd0000">往往类似读写者问题有多个$count$(int count&#x3D;0;)</font></li>
+<li>可能会有两个变量均用于同步，且值为$0$；一个用于实现无顾客服务人员等待，一个用于实现无服务人员顾客等待</li>
+</ol>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//设几个顾客在等待</span>
+semaphore mutex <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment">//对count互斥访问</span>
+semaphore rest <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//同步 无顾客，服务人员等待</span>
+semaphore wait <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token comment">//同步 无服务人员，顾客等待</span>
+
+<span class="token function">Sever</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+      <span class="token function">P</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>count<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+         count<span class="token operator">--</span><span class="token punctuation">;</span>
+         叫号<span class="token punctuation">;</span>
+         <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token function">V</span><span class="token punctuation">(</span>wait<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//唤醒一个顾客</span>
+         理发<span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+      <span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+         <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token function">P</span><span class="token punctuation">(</span>rest<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//服务人员休息，一定要在所有V操作后面</span>
+      <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">Customer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+   <span class="token function">P</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">if</span><span class="token punctuation">(</span>count<span class="token operator">></span>上限<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+      <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      离开<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+   <span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+      count<span class="token operator">++</span><span class="token punctuation">;</span>
+      排队取号<span class="token punctuation">;</span>
+      <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">V</span><span class="token punctuation">(</span>rest<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//唤醒一个服务人员</span>
+      <span class="token function">P</span><span class="token punctuation">(</span>wait<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//等待被服务，一定要在所有V操作后面</span>
+      被服务<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>4.吸烟者问题</strong><br>题目描述<br>假设一个系统有三个抽烟者进程和一个供应者进程。每个抽烟者不停地卷烟并抽掉它，但是要卷起并抽掉一支烟，抽烟者需要有三种料：烟草、纸和胶水。<br>三个抽烟者中，第一个拥有烟草、第二个拥有纸、第三个拥有胶水。供应者进程无限地提供三种材料，供应者每次将两种材料放桌子上，拥有剩下那种材料的抽烟者卷一根烟并抽掉它，并给供应者进程一个信号告诉完成了，供并给供应者进程应者就会放另外两种材料再桌上，这个过程一直重复（让三个抽烟者轮流地抽烟）</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">semaphore offer1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//桌上组合一的数量</span>
 semaphore offer2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//桌上组合二的数量</span>
 semaphore offer3 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//桌上组合三的数量</span>
@@ -758,9 +812,9 @@ semaphore finish <span class="token operator">=</span> <span class="token number
       <span class="token function">V</span><span class="token punctuation">(</span>finish<span class="token punctuation">)</span><span class="token punctuation">;</span>
    <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>4.读者写者问题</strong><br>有<strong>读者</strong>和<strong>写者</strong>两组并发进程，<br>共享一个文件，当两个或两个以上的读进程同时访问共享数据时不产生副作用，但若某个写进程和其他进程（读进程或写进程）同时访问共享数据时则可能导致<br>数据不一致的错误。因此要求：<br>&emsp;&emsp;1.允许多个读者可以同时对文件执行读操作；<br>&emsp;&emsp;2.只允许一个写者往文件中写信息；<br>&emsp;&emsp;3.任一写者在完成写操作之前不允许其他读者或写者工作；<br>&emsp;&emsp;4.写者执行写操作前，应让己有的读者和写者全部退出。</p>
+<p><strong>5.读者写者问题</strong><br>有<strong>读者</strong>和<strong>写者</strong>两组并发进程，<br>共享一个文件，当两个或两个以上的读进程同时访问共享数据时不产生副作用，但若某个写进程和其他进程（读进程或写进程）同时访问共享数据时则可能导致<br>数据不一致的错误。因此要求：<br>&emsp;&emsp;1.允许多个读者可以同时对文件执行读操作；<br>&emsp;&emsp;2.只允许一个写者往文件中写信息；<br>&emsp;&emsp;3.任一写者在完成写操作之前不允许其他读者或写者工作；<br>&emsp;&emsp;4.写者执行写操作前，应让己有的读者和写者全部退出。</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">semaphore rw <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>   <span class="token comment">// 读写锁 </span>
-<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>      <span class="token comment">// 记录正在访问的读者数量</span>
+<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>      <span class="token comment">// 记录正在访问的读者数量，特点，也要互斥访问</span>
 semaphore mutex <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// 保证对 count 的互斥访问</span>
 semaphore w <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>    <span class="token comment">// 实现读写公平</span>
 <span class="token keyword">void</span> <span class="token function">write</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
@@ -776,7 +830,7 @@ semaphore w <span class="token operator">=</span> <span class="token number">1</
     <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         <span class="token function">P</span><span class="token punctuation">(</span>w<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">P</span> <span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//第一个人上锁</span>
             <span class="token function">P</span><span class="token punctuation">(</span>rw<span class="token punctuation">)</span><span class="token punctuation">;</span>
         count <span class="token operator">++</span><span class="token punctuation">;</span>
         <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -784,26 +838,32 @@ semaphore w <span class="token operator">=</span> <span class="token number">1</
         读文件<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
         <span class="token function">P</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
         count <span class="token operator">--</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//最后一个人解锁</span>
             <span class="token function">V</span><span class="token punctuation">(</span>rw<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>5.哲学家进餐问题</strong><br>一张圆桌上坐着5名哲学家，每两个哲学家之间的桌上摆一根筷子，桌子的中间是一碗米饭。哲学家们倾注毕生的精力用于思考和进餐，哲学家在思考时，并不影响他人。只有当哲学家饥饿时才试图拿起左、右两根筷子(一根一根地拿起)。如果筷子己在他人手上，则需等待。饥饿的哲学家只有同时拿起两根筷子才可以开始进餐，当进餐完毕后，放下筷子继续思考。<br>关键在于解决 <strong>死锁</strong>, 每个进程需要持有<strong>两个或两种以上的临界资源</strong><br>方法:<br>&emsp;&emsp;1.设定信号量代表拿筷子的人数, 最多让 4名哲学家同时拿筷子<br>&emsp;&emsp;2.奇数号先拿左边, 偶数号先拿右边<br>&emsp;&emsp;3.仅当一个哲学家左右两支筷子都可用时才允许抓筷子<br>实现<strong>一气呵成</strong>, 加一个 <strong>互斥信号量</strong></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">semaphore chopstick<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-semaphore mutex <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<p><strong>6.哲学家进餐问题</strong><br>一张圆桌上坐着5名哲学家，每两个哲学家之间的桌上摆一根筷子，桌子的中间是一碗米饭。哲学家们倾注毕生的精力用于思考和进餐，哲学家在思考时，并不影响他人。只有当哲学家饥饿时才试图拿起左、右两根筷子(一根一根地拿起)。如果筷子己在他人手上，则需等待。饥饿的哲学家只有同时拿起两根筷子才可以开始进餐，当进餐完毕后，放下筷子继续思考。<br>关键在于解决 <strong>死锁</strong>, 每个进程需要持有<strong>两个或两种以上的临界资源</strong><br>方法:<br>&emsp;&emsp;1.设定信号量代表拿筷子的人数, 最多让 4名哲学家同时拿筷子<br>&emsp;&emsp;2.奇数号先拿左边, 偶数号先拿右边<br>&emsp;&emsp;3.仅当一个哲学家左右两支筷子都可用时才允许抓筷子<br>实现<strong>一气呵成</strong>, 加一个 <strong>互斥信号量</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">semaphore chopstick<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>    <span class="token comment">//定义资源</span>
+semaphore mutex <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>     <span class="token comment">//保证获取资源一气呵成</span>
 <span class="token keyword">void</span> <span class="token function">P</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token function">P</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">P</span><span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment">// 拿左</span>
-        <span class="token function">P</span><span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// 拿右</span>
-        <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">P</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//拿资源先上锁</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">1</span><span class="token operator">&amp;&amp;</span>chopstick<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token function">P</span><span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 拿左</span>
+            <span class="token function">P</span><span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 拿右</span>
+            <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//资源全拿到再解锁</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//资源全拿到再解锁</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">V</span><span class="token punctuation">(</span>mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//资源全拿到再解锁</span>
         吃饭<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
         <span class="token function">V</span><span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token function">V</span><span class="token punctuation">(</span>chopstick<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h4><p>管程是一种特殊的软件模块，有这些部分组成：<br>&emsp;&emsp;1.局部于管程的<strong>共享数据结构</strong>说明：<br>&emsp;&emsp;2.对该数据结构进行操作的<strong>一组过程</strong>；<br>&emsp;&emsp;3.对局部于管程的共享数据设置初始值的语句：<br>&emsp;&emsp;4.管程有一个名字。<br>管程的基本特征：<br>&emsp;&emsp;1.局部于管程的数据只能被局部于管程的过程所访问：<br>&emsp;&emsp;2.一个进程只有通过调用管程内的过程才能进入管程访问共享数据；<br>&emsp;&emsp;3.<strong>每次仅允许一个进程在管程内执行某个内部过程</strong>。<br>管程是段代码，可以<strong>互斥</strong>也可以<strong>同步</strong><br><strong>x.wait&#x2F;x.signal</strong>类似于P&#x2F;V<br>但是x是无值的，wait是将其放入x的等待序列即将其阻塞，signal则是将因x阻塞的进程唤醒</p>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h4><p>管程是一种特殊的软件模块，有这些部分组成：<br>&emsp;&emsp;1.局部于管程的<strong>共享数据结构</strong>说明：<br>&emsp;&emsp;2.对该数据结构进行操作的<strong>一组过程</strong>；<br>&emsp;&emsp;3.对局部于管程的共享数据设置初始值的语句：<br>&emsp;&emsp;4.管程有一个名字。<br>管程的基本特征：<br>&emsp;&emsp;1.局部于管程的数据只能被局部于管程的过程所访问：<br>&emsp;&emsp;2.一个进程只有通过调用管程内的过程才能进入管程访问共享数据；<br>&emsp;&emsp;3.<strong>每次仅允许一个进程在管程内执行某个内部过程</strong>。<br>管程是段代码，可以<strong>互斥</strong>也可以<strong>同步</strong><br><font color="0000dd">管程的确能保证互斥性，但是是否允许多个读进程或写进程并发访问，取决于具体管程实现和应用需求</font><br><strong>一般允许多个读进程并发访问，但写操作是互斥的。</strong><br><strong>x.wait&#x2F;x.signal</strong> 类似于P&#x2F;V<br>但是x是无值的，wait是将其放入x的等待序列即将其阻塞，signal则是将因x阻塞的进程唤醒</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">monitor ProducerConsumer<span class="token punctuation">&#123;</span>
     condition full<span class="token punctuation">,</span> empty<span class="token punctuation">;</span>
     <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
@@ -1133,6 +1193,7 @@ end monitor<span class="token punctuation">;</span>
 <p><strong>具有快表的地址变换机构</strong><br><strong>快表</strong>，又称<strong>联想寄存器 (TLB)<strong>，是一种访</strong>问速度比内存快很多</strong>的高速缓冲存储器，用来存放当前访问的若干页表项，以加速地址变换的过程。与此对应，内存中的页表常称为<strong>慢表</strong>。以加速地址变换的过程<br><img src="/2023/07/01/operating-system/22.png"></p>
 <p><strong>例题</strong>：访问一次快表消耗 1 us, 内存 100 us, TLB命中率为 90%, 平均耗时？<br><strong>答</strong>：(1 + 100) * 0.9 + (1 + 100 + 100) * 0.1 &#x3D; 111 us<br>都至少要访问一次内存</p>
 <p><strong>例题</strong>：<br><img src="/2023/07/01/operating-system/23.png"><br>A：逻辑地址<br>L：页面大小<br><strong>页号P</strong>：P&#x3D;A&#x2F;L<br><strong>页内偏移量</strong>：W &#x3D; A%L<br>**页号P所对应的页表项地址(物理地址)**：页表始址F+页号P×页表项长度<br><strong>物理地址E</strong>：E&#x3D;b×L+W。b是该页表项内容即物理块号</p>
+<p>**缺页异常处理(有效位为0)**：调页+读磁盘<br>根据页表中该表的外存地址找到所对应的磁盘块，读入页框，修改页表中的块号&#x2F;页框号。<br>如果页框满了，还需淘汰页<br>调页表一般页直接加入到TLB中，下一次访问直接访问快表</p>
 <h3 id="基本分段存储管理"><a href="#基本分段存储管理" class="headerlink" title="基本分段存储管理"></a>基本分段存储管理</h3><p><img src="/2023/07/01/operating-system/24.png"><br>段页对比：</p>
 <ul>
 <li><strong>分段</strong>比分页<strong>更容易实现信息的共享与保护</strong></li>
@@ -1302,7 +1363,7 @@ end monitor<span class="token punctuation">;</span>
 <li>多次间接地址：2次为例，文件长度大于4MB+40KB时，采取2次间接地址。最大可达4GB</li>
 </ol>
 <p>PS：总文件的最大长度要将以上每个地址最大允许大小相加</p>
-<h4 id="外存空闲空间管理"><a href="#外存空闲空间管理" class="headerlink" title="外存空闲空间管理"></a>外存空闲空间管理</h4><h5 id="空闲表法-适用于-连续分配方式"><a href="#空闲表法-适用于-连续分配方式" class="headerlink" title="空闲表法 (适用于 连续分配方式)"></a>空闲表法 (适用于 连续分配方式)</h5><p>记录 <strong>(第一个空闲盘，块号)<strong>， <strong>为文件分配连续的存储空间</strong>, 与内存管理的相似<br><strong>首次适应</strong>和</strong>最佳适应算法</strong><br><strong>回收时注意表项合并</strong></p>
+<h4 id="外存空闲空间管理"><a href="#外存空闲空间管理" class="headerlink" title="外存空闲空间管理"></a>外存空闲空间管理</h4><h5 id="FAT文件分配表法"><a href="#FAT文件分配表法" class="headerlink" title="FAT文件分配表法"></a>FAT文件分配表法</h5><h5 id="空闲表法-适用于-连续分配方式"><a href="#空闲表法-适用于-连续分配方式" class="headerlink" title="空闲表法 (适用于 连续分配方式)"></a>空闲表法 (适用于 连续分配方式)</h5><p>记录 <strong>(第一个空闲盘，块号)<strong>， <strong>为文件分配连续的存储空间</strong>, 与内存管理的相似<br><strong>首次适应</strong>和</strong>最佳适应算法</strong><br><strong>回收时注意表项合并</strong></p>
 <h5 id="空闲链表法"><a href="#空闲链表法" class="headerlink" title="空闲链表法"></a>空闲链表法</h5><ul>
 <li>空闲盘块链<ul>
 <li><strong>盘块为单位</strong>，存有指向下一块指针</li>
@@ -1332,7 +1393,7 @@ end monitor<span class="token punctuation">;</span>
 <li><strong>当 count &#x3D; 0 时,系统负责删除文件</strong></li>
 </ul>
 <h4 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h4><p>基于符号链接</p>
-<p>索引节点指向 Link 类型的文件(源文件被删除依然存在link文件）。类似 <strong>快捷方式</strong><br>不改变count值，只会引用count值</p>
+<p>索引节点指向 Link 类型的文件(源文件被删除依然存在link文件)。类似 <strong>快捷方式</strong><br>不改变count值，只会引用count值。源文件删除后，count值也不变。</p>
 <h3 id="磁盘管理概念"><a href="#磁盘管理概念" class="headerlink" title="磁盘管理概念"></a>磁盘管理概念</h3><h4 id="一次磁盘读写时间"><a href="#一次磁盘读写时间" class="headerlink" title="一次磁盘读写时间"></a>一次磁盘读写时间</h4><ul>
 <li><strong>寻找时间（寻道）</strong> $T_S$  （题目往往会直接给）<ul>
 <li><strong>启动磁头臂</strong>， 花费 s</li>
@@ -1363,7 +1424,7 @@ end monitor<span class="token punctuation">;</span>
 <li><strong>坏块</strong></li>
 </ol>
 <p><strong>逻辑格式化</strong>：建立文件系统<strong>根目录</strong>，对保存空闲块的数据结构初始化。</p>
-<h3 id="磁盘寻寻道-调度-算法"><a href="#磁盘寻寻道-调度-算法" class="headerlink" title="磁盘寻寻道(调度)算法"></a>磁盘寻寻道(调度)算法</h3><h4 id="先来先服务算法-FCFS"><a href="#先来先服务算法-FCFS" class="headerlink" title="先来先服务算法 (FCFS)"></a>先来先服务算法 (FCFS)</h4><p><img src="/2023/07/01/operating-system/33.png"></p>
+<h3 id="磁盘寻寻道-调度-算法"><a href="#磁盘寻寻道-调度-算法" class="headerlink" title="磁盘寻寻道(调度)算法"></a>磁盘寻寻道(调度)算法</h3><h4 id="先来先服务算法-FCFS"><a href="#先来先服务算法-FCFS" class="headerlink" title="先来先服务算法 (FCFS)"></a>先来先服务算法 (FCFS)</h4><p><font color="#dd0000">多用于Flash等随机存储器，因为其不需要考虑寻道和旋转时延。</font><br><img src="/2023/07/01/operating-system/33.png"></p>
 <h4 id="最短寻找时间优先-SSTF"><a href="#最短寻找时间优先-SSTF" class="headerlink" title="最短寻找时间优先 (SSTF)"></a>最短寻找时间优先 (SSTF)</h4><p><img src="/2023/07/01/operating-system/34.png"></p>
 <h4 id="扫描算法-SCAN"><a href="#扫描算法-SCAN" class="headerlink" title="扫描算法 (SCAN)"></a>扫描算法 (SCAN)</h4><p>题目不说明，SCAN就是LOOK算法<br>在SCAN的基础上，如果在磁头移动方向上己经没有别的请求，就可以立即改变磁头移动方向<br><img src="/2023/07/01/operating-system/35.png"></p>
 <h4 id="循环扫描算法-C-SCAN"><a href="#循环扫描算法-C-SCAN" class="headerlink" title="循环扫描算法 (C-SCAN)"></a>循环扫描算法 (C-SCAN)</h4><p><img src="/2023/07/01/operating-system/36.png"></p>
@@ -1397,7 +1458,7 @@ end monitor<span class="token punctuation">;</span>
 </ul>
 </li>
 </ul>
-<p><strong>设备驱动程序</strong><br><strong>负责对硬件设备的具体控制，将上层发出一系列命令（read、write）转化成设备听得懂一系列操作</strong>。包括设置设备寄存器；检查设备状态。<strong>也将设备控制器传来的信号发送给上层</strong>。</p>
+<p><strong>设备驱动程序</strong>  &emsp; <strong>(初始化设备)</strong><br><strong>负责对硬件设备的具体控制，将上层发出一系列命令（read、write）转化成设备听得懂一系列操作</strong>。包括设置设备寄存器；检查设备状态。<strong>也将设备控制器传来的信号发送给上层</strong>。</p>
 <p>也是<strong>真正完成对设备的驱动</strong>，比如一些<strong>找数据的计算</strong></p>
 <p>不同I&#x2F;O设备具有不同的硬件特性，厂家需要根据设备的硬件特性设计并提供相应的驱动程序</p>
 <p>驱动程序<strong>一般以一个进程的形式存在</strong></p>
