@@ -282,6 +282,10 @@
                                 <span class="chip bg-color">博客搭建</span>
                             </a>
                         
+                            <a href="/tags/%E4%B8%BB%E9%A2%98hexo-theme-matery/">
+                                <span class="chip bg-color">主题hexo-theme-matery</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -312,7 +316,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    721
+                    1.5k
                 </div>
                 
 
@@ -346,10 +350,101 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
 <p>对的，有些Hexo主题可能需要额外的配置才能正确显示数学公式。因此主题选择同样很重要。</p>
 <p>基本的主题，往往都是有mathjax设置的。</p>
 <p>本人采用的主题是<strong>hexo-theme-matery</strong>。</p>
-<p>在主题的<code>_config.yml</code>文件中，将mathjax开启，如</p>
-<pre class="line-numbers language-none"><code class="language-none"># MathJax Support
+<h2 id="在主题的-config-yml文件中，将mathjax开启，如"><a href="#在主题的-config-yml文件中，将mathjax开启，如" class="headerlink" title="在主题的_config.yml文件中，将mathjax开启，如"></a>在主题的<code>_config.yml</code>文件中，将mathjax开启，如<br><pre class="line-numbers language-none"><code class="language-none"># MathJax Support
 mathjax:
-  enable: true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+  enable: true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></h2><h2 id="3-文章基本信息修改"><a href="#3-文章基本信息修改" class="headerlink" title="3.文章基本信息修改"></a>3.文章基本信息修改</h2><p>修改文章封面，修改文章轮播图，文章启用数学公式等基本功能。采用<strong>hexo-theme-matery</strong>主题，如何熟练使用。</p>
+<h3 id="完整实例"><a href="#完整实例" class="headerlink" title="完整实例"></a>完整实例</h3><pre class="line-numbers language-none"><code class="language-none">---
+title: &#123;&#123;title&#125;&#125;
+date: &#123;&#123;data&#125;&#125;
+author: 作者名字
+img: &#x2F;medias&#x2F;featureimages&#x2F;xxx.jpg &quot;文章特征图,路径在source中&quot;
+top: true &quot;推荐文章&quot;
+cover: true &quot;表示该文章是否需要加入到首页轮播封面中&quot;
+coverImg: &#x2F;images&#x2F;1.jpg &quot;轮播图中的封面,访问的是&quot;source&quot;下的&quot;images&quot;&quot;
+password: 8d969eef6ecad3c29
+toc: false &quot;是否开启 TOC，可以针对某篇文章单独关闭 TOC 的功能。前提是在主题的 config.yml 中激活了 toc 选项&quot;
+mathjax: false &quot;是否开启数学公式支持,本文章是否开启 mathjax，且需要在主题的 _config.yml 文件中也需要开启才行&quot;
+summary: 这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+categories: Markdown
+tags:
+  - Typora
+  - Markdown
+---<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="文章-Front-matter-选项详解"><a href="#文章-Front-matter-选项详解" class="headerlink" title="文章 Front-matter 选项详解"></a>文章 Front-matter 选项详解</h3><table>
+<thead>
+<tr>
+<th align="center">配置选项</th>
+<th align="left">默认值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">title</td>
+<td align="left">Markdown 的文件标题</td>
+<td align="left">文章标题，强烈建议填写此选项</td>
+</tr>
+<tr>
+<td align="center">date</td>
+<td align="left">文件创建时的日期时间</td>
+<td align="left">发布时间，强烈建议填写此选项，且最好保证全局唯一</td>
+</tr>
+<tr>
+<td align="center">author</td>
+<td align="left">根 <code>_config.yml</code> 中的 author</td>
+<td align="left">文章作者</td>
+</tr>
+<tr>
+<td align="center">img</td>
+<td align="left">featureImages 中的某个值</td>
+<td align="left">文章特征图，推荐使用图床(腾讯云、七牛云、又拍云等)来做图片的路径.如: <code>http://xxx.com/xxx.jpg</code></td>
+</tr>
+<tr>
+<td align="center">top</td>
+<td align="left">true</td>
+<td align="left">推荐文章（文章是否置顶），如果 top 值为 true，则会作为首页推荐文章</td>
+</tr>
+<tr>
+<td align="center">cover</td>
+<td align="left">false</td>
+<td align="left">v1.0.2版本新增，表示该文章是否需要加入到首页轮播封面中</td>
+</tr>
+<tr>
+<td align="center">coverImg</td>
+<td align="left">无</td>
+<td align="left">v1.0.2版本新增，表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片</td>
+</tr>
+<tr>
+<td align="center">password</td>
+<td align="left">无</td>
+<td align="left">文章阅读密码，如果要对文章设置阅读验证密码的话，就可以设置 password 的值，该值必须是用 SHA256 加密后的密码，防止被他人识破。前提是在主题的 config.yml 中激活了 verifyPassword 选项</td>
+</tr>
+<tr>
+<td align="center">toc</td>
+<td align="left">true</td>
+<td align="left">是否开启 TOC，可以针对某篇文章单独关闭 TOC 的功能。前提是在主题的 config.yml 中激活了 toc 选项</td>
+</tr>
+<tr>
+<td align="center">mathjax</td>
+<td align="left">false</td>
+<td align="left">是否开启数学公式支持 ，本文章是否开启 mathjax，且需要在主题的 _config.yml 文件中也需要开启才行</td>
+</tr>
+<tr>
+<td align="center">summary</td>
+<td align="left">无</td>
+<td align="left">文章摘要，自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要</td>
+</tr>
+<tr>
+<td align="center">categories</td>
+<td align="left">无</td>
+<td align="left">文章分类，本主题的分类表示宏观上大的分类，只建议一篇文章一个分类</td>
+</tr>
+<tr>
+<td align="center">tags</td>
+<td align="left">无</td>
+<td align="left">文章标签，一篇文章可以多个标签</td>
+</tr>
+</tbody></table>
+
                 
             </div>
             <hr/>
@@ -423,6 +518,10 @@ mathjax:
                             
                                 <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
                                     <span class="chip bg-color">博客搭建</span>
+                                </a>
+                            
+                                <a href="/tags/%E4%B8%BB%E9%A2%98hexo-theme-matery/">
+                                    <span class="chip bg-color">主题hexo-theme-matery</span>
                                 </a>
                             
                         </div>
