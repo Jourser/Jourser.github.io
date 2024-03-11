@@ -335,7 +335,7 @@
 <li>图像信息理论与通信理论密切相关。</li>
 </ol>
 <h3 id="图像取样和量化"><a href="#图像取样和量化" class="headerlink" title="图像取样和量化"></a>图像取样和量化</h3><h4 id="采样"><a href="#采样" class="headerlink" title="采样"></a>采样</h4><p>将在空间上连续的图像转换成离散的采样点（即像素）集的操作。<br>由于图像是二维分布的信息，所以采样是在 x轴和y轴两个方向上进行一般情况下， x轴方向与y轴方向的采样间隔相同。</p>
-<h4 id="量化："><a href="#量化：" class="headerlink" title="量化："></a>量化：</h4><p>量化是将各个像素所含的明暗信息离散化后，用数字来表示。一般的量化值为整数。充分考虑到人眼的识别能力之后，目前非特殊用途的图像均为8bit量化，即用[0,255]描述“从黑到白”。<br>① 均匀量化：是简单地在灰度范围内等间隔量化。<br>② 非均匀量化：是对像素出现频度少的部分量化间隔取大，而对频度大的量化间隔取小。</p>
+<h4 id="量化"><a href="#量化" class="headerlink" title="量化"></a>量化</h4><p>量化是将各个像素所含的明暗信息离散化后，用数字来表示。一般的量化值为整数。充分考虑到人眼的识别能力之后，目前非特殊用途的图像均为8bit量化，即用[0,255]描述“从黑到白”。<br>① 均匀量化：是简单地在灰度范围内等间隔量化。<br>② 非均匀量化：是对像素出现频度少的部分量化间隔取大，而对频度大的量化间隔取小。</p>
 <h4 id="分辨率（空间、幅度）"><a href="#分辨率（空间、幅度）" class="headerlink" title="分辨率（空间、幅度）"></a>分辨率（空间、幅度）</h4><p>映射到图像平面上的单个像素的景物元素的尺寸。单位：像素&#x2F;厘米；或者是指要精确测量和再现一定尺寸的图像所必需的像素个数。单位：像素*像素</p>
 <h4 id="采样、量化和分辨率之间的联系"><a href="#采样、量化和分辨率之间的联系" class="headerlink" title="采样、量化和分辨率之间的联系"></a>采样、量化和分辨率之间的联系</h4><p>① 采样频率决定分辨率<br>② 量化强度决定了每个象素可以取的值集合</p>
 <h3 id="像素间的基本关系"><a href="#像素间的基本关系" class="headerlink" title="像素间的基本关系"></a>像素间的基本关系</h3><h4 id="相邻像素"><a href="#相邻像素" class="headerlink" title="相邻像素"></a>相邻像素</h4><h5 id="4邻域"><a href="#4邻域" class="headerlink" title="4邻域"></a>4邻域</h5><p>用 $N_4(p)$ 表示像素 $p$ 的4邻域<br><img src="/2024/03/10/digital-image-processing/1.png"></p>
@@ -560,7 +560,60 @@
 <li>幅度或频率谱为:$$|F(u,v)| &#x3D; \sqrt{R^2(u,v)+I^2(u,v)}$$ 其中 $R$ 和 $I$ 分别为F的实部和虚部</li>
 <li>相角或相位谱为:$$\phi(u,v) &#x3D; \arctan{\frac{I(u,v)}{R(u,v)}}$$</li>
 </ul>
-<h4 id="DEF的性质-主要是二维"><a href="#DEF的性质-主要是二维" class="headerlink" title="DEF的性质(主要是二维)"></a>DEF的性质(主要是二维)</h4><h2 id="频率域滤波基础-傅里叶变换的频率分量和图像空间特征之间的联系-变化最慢的频率成分-u-v-0-对应一幅图像的平均灰度级-F-0-0-sum-x-0-M-1-sum-y-0-N-1-f-x-y-MN-overline-f-x-y-当从变换的原点移开时，低频对应着图像的慢变化分量，如图像的平滑部分-进一步离开原点时，较高的频率对应图像中变化越来越快的灰度级，如边缘或噪声等尖锐部分-频率域的滤波步骤1-用-1-x-y-乘以输入图像进行中心变换-f-x-y-−1-x-y-Leftrightarrow-F-u-−-M-2-v-−-N-2-2-计算1中的DFT-F-u-v-3-用滤波器函数-H-u-v-乘以-F-u-v-4-计算3中结果的IDFT-逆傅里叶变换-5-得到4中结果的实部6-用-1-x-y-乘以5中的结果-主要类别-低通滤波器：使低频通过而使高频衰减的滤波器-被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分-对比空间域滤波的平滑处理，如均值滤波器-高通滤波器：使高频通过而使低频衰减的滤波器-被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分-对比空间域的梯度算子、拉普拉斯算子-空间域滤波和频率域滤波之间的对应关系-大小为-M×N-的两个函数-f-x-y-和-h-x-y-的离散卷积表示为-f-x-y-h-x-y-，定义为-f-x-y-h-x-y-frac-1-MN-sum-u-0-M-1-sum-y-0-N-1-f-x-y-h-x-m-y-n-对比空间域滤波：在-M×N-的图像-f-上，用-m×n-的滤波器进行线性滤波-g-x-y-sum-s-a-a-sum-t-b-b-w-s-t-f-x-s-y-t-卷积定理-f-x-y-h-x-y-Leftrightarrow-F-u-v-H-u-v-上式说明空间域卷积可以通过-F-u-v-H-u-v-的乘积进行反傅里叶变换得到-上述两个公式主要为两个函数逐元素相乘的乘法-频率域滤波器平滑图像-理想低通滤波器-Ideal-原理截断傅里叶变换中的所有高频成分，这些高频成分处于指定距离-D-0-之外说明：在半径为-D-0-的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉-实例截止频率即为-D-0-结论：半径-D-0-越小，模糊越大；半径-D-0-越大，模糊越小-巴特沃思低通滤波器-Butterworth-原理应用：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。-实例-高斯低通滤波器-原理-实例高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。-应用实例低通滤波器的应用实例：模糊，平滑等-字符识别：通过模糊图像，桥接断裂字符的裂缝-印刷和出版业：从一幅尖锐的原始图像产生平滑、柔和的外观，如人脸，减少皮肤细纹的锐化程度和小斑点-处理卫星和航空图像：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析-频率域滤波器锐化图像-理想高通滤波器-原理截断傅里叶变换中的所有低频成分，这些低频成分处于指定距离-D-0-之内-实例结论：图a和b的振铃问题十分明显-巴特沃思高通滤波器-原理-实例结论：BHPF的结果比IHPF的结果平滑得多-高斯高通滤波器-原理-实例结论：GHPF的结果比BHBF和IHPF的结果更平滑"><a href="#频率域滤波基础-傅里叶变换的频率分量和图像空间特征之间的联系-变化最慢的频率成分-u-v-0-对应一幅图像的平均灰度级-F-0-0-sum-x-0-M-1-sum-y-0-N-1-f-x-y-MN-overline-f-x-y-当从变换的原点移开时，低频对应着图像的慢变化分量，如图像的平滑部分-进一步离开原点时，较高的频率对应图像中变化越来越快的灰度级，如边缘或噪声等尖锐部分-频率域的滤波步骤1-用-1-x-y-乘以输入图像进行中心变换-f-x-y-−1-x-y-Leftrightarrow-F-u-−-M-2-v-−-N-2-2-计算1中的DFT-F-u-v-3-用滤波器函数-H-u-v-乘以-F-u-v-4-计算3中结果的IDFT-逆傅里叶变换-5-得到4中结果的实部6-用-1-x-y-乘以5中的结果-主要类别-低通滤波器：使低频通过而使高频衰减的滤波器-被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分-对比空间域滤波的平滑处理，如均值滤波器-高通滤波器：使高频通过而使低频衰减的滤波器-被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分-对比空间域的梯度算子、拉普拉斯算子-空间域滤波和频率域滤波之间的对应关系-大小为-M×N-的两个函数-f-x-y-和-h-x-y-的离散卷积表示为-f-x-y-h-x-y-，定义为-f-x-y-h-x-y-frac-1-MN-sum-u-0-M-1-sum-y-0-N-1-f-x-y-h-x-m-y-n-对比空间域滤波：在-M×N-的图像-f-上，用-m×n-的滤波器进行线性滤波-g-x-y-sum-s-a-a-sum-t-b-b-w-s-t-f-x-s-y-t-卷积定理-f-x-y-h-x-y-Leftrightarrow-F-u-v-H-u-v-上式说明空间域卷积可以通过-F-u-v-H-u-v-的乘积进行反傅里叶变换得到-上述两个公式主要为两个函数逐元素相乘的乘法-频率域滤波器平滑图像-理想低通滤波器-Ideal-原理截断傅里叶变换中的所有高频成分，这些高频成分处于指定距离-D-0-之外说明：在半径为-D-0-的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉-实例截止频率即为-D-0-结论：半径-D-0-越小，模糊越大；半径-D-0-越大，模糊越小-巴特沃思低通滤波器-Butterworth-原理应用：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。-实例-高斯低通滤波器-原理-实例高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。-应用实例低通滤波器的应用实例：模糊，平滑等-字符识别：通过模糊图像，桥接断裂字符的裂缝-印刷和出版业：从一幅尖锐的原始图像产生平滑、柔和的外观，如人脸，减少皮肤细纹的锐化程度和小斑点-处理卫星和航空图像：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析-频率域滤波器锐化图像-理想高通滤波器-原理截断傅里叶变换中的所有低频成分，这些低频成分处于指定距离-D-0-之内-实例结论：图a和b的振铃问题十分明显-巴特沃思高通滤波器-原理-实例结论：BHPF的结果比IHPF的结果平滑得多-高斯高通滤波器-原理-实例结论：GHPF的结果比BHBF和IHPF的结果更平滑" class="headerlink" title="### 频率域滤波基础#### 傅里叶变换的频率分量和图像空间特征之间的联系- 变化最慢的频率成分 $(u&#x3D;v&#x3D;0)$ 对应一幅图像的平均灰度级:$$F(0,0)&#x3D;\sum_{x&#x3D;0} ^{M-1}\sum_{y&#x3D;0} ^{N-1}f(x,y)&#x3D;MN\overline{f(x,y)}$$- 当从变换的原点移开时，低频对应着图像的慢变化分量，如图像的平滑部分- 进一步离开原点时，较高的频率对应图像中变化越来越快的灰度级，如边缘或噪声等尖锐部分#### 频率域的滤波步骤1. 用 $(-1)x+y$ 乘以输入图像进行中心变换 $$f (x, y)(−1)^{x+y} \Leftrightarrow F(u − M &#x2F; 2,v − N &#x2F; 2)$$2. 计算1中的DFT $F(u,v)$3. 用滤波器函数 $H(u,v)$ 乘以 $F(u,v)$4. 计算3中结果的IDFT(逆傅里叶变换)5. 得到4中结果的实部6. 用 $(-1)^{x+y}$ 乘以5中的结果#### 主要类别- 低通滤波器：使低频通过而使高频衰减的滤波器   - 被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分   - 对比空间域滤波的平滑处理，如均值滤波器- 高通滤波器：使高频通过而使低频衰减的滤波器   - 被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分   - 对比空间域的梯度算子、拉普拉斯算子#### 空间域滤波和频率域滤波之间的对应关系- 大小为$M×N$的两个函数$f(x,y)$和$h(x,y)$的离散卷积表示为$f(x,y)*h(x,y)$，定义为$$f(x,y)*h(x,y)&#x3D;\frac{1}{MN}\sum_{u&#x3D;0} ^{M-1} \sum_{y&#x3D;0} ^{N-1}f(x,y)h(x-m,y-n)$$- 对比空间域滤波：在$M×N$的图像$f$上，用$m×n$的滤波器进行线性滤波$$g(x,y)&#x3D;\sum_{s&#x3D;-a} ^{a}\sum_{t&#x3D;-b} ^{b}w(s,t)f(x+s,y+t)$$- 卷积定理:$f(x,y)*h(x,y)\Leftrightarrow F(u,v)*H(u,v)$- 上式说明空间域卷积可以通过$F(u,v)H(u,v) $的乘积进行反傅里叶变换得到- 上述两个公式主要为两个函数逐元素相乘的乘法### 频率域滤波器平滑图像#### 理想低通滤波器(Ideal)##### 原理截断傅里叶变换中的所有高频成分，这些高频成分处于指定距离$D_0$之外说明：在半径为$D_0$的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉##### 实例截止频率即为$D_0$结论：半径$D_0$越小，模糊越大；半径$D_0$越大，模糊越小#### 巴特沃思低通滤波器(Butterworth)##### 原理应用：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。##### 实例#### 高斯低通滤波器##### 原理##### 实例高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。#### 应用实例低通滤波器的应用实例：模糊，平滑等- 字符识别：通过模糊图像，桥接断裂字符的裂缝- 印刷和出版业：从一幅尖锐的原始图像产生平滑、柔和的外观，如人脸，减少皮肤细纹的锐化程度和小斑点- 处理卫星和航空图像：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析### 频率域滤波器锐化图像#### 理想高通滤波器##### 原理截断傅里叶变换中的所有低频成分，这些低频成分处于指定距离$D_0$之内##### 实例结论：图a和b的振铃问题十分明显#### 巴特沃思高通滤波器##### 原理##### 实例结论：BHPF的结果比IHPF的结果平滑得多#### 高斯高通滤波器##### 原理##### 实例结论：GHPF的结果比BHBF和IHPF的结果更平滑"></a><img src="/2024/03/10/digital-image-processing/22.png"><br>### 频率域滤波基础<br>#### 傅里叶变换的频率分量和图像空间特征之间的联系<br>- 变化最慢的频率成分 $(u&#x3D;v&#x3D;0)$ 对应一幅图像的平均灰度级:$$F(0,0)&#x3D;\sum_{x&#x3D;0} ^{M-1}\sum_{y&#x3D;0} ^{N-1}f(x,y)&#x3D;MN\overline{f(x,y)}$$<br>- 当从变换的原点移开时，<font color="#dd0000">低频对应着图像的慢变化分量</font>，如图像的平滑部分<br>- 进一步离开原点时，<font color="#dd0000">较高的频率对应图像中变化越来越快的灰度级</font>，如边缘或噪声等尖锐部分<br>#### 频率域的滤波步骤<br>1. 用 $(-1)x+y$ 乘以输入图像进行中心变换 $$f (x, y)(−1)^{x+y} \Leftrightarrow F(u − M &#x2F; 2,v − N &#x2F; 2)$$<br>2. 计算1中的DFT $F(u,v)$<br>3. 用滤波器函数 $H(u,v)$ 乘以 $F(u,v)$<br>4. 计算3中结果的IDFT(逆傅里叶变换)<br>5. 得到4中结果的实部<br>6. 用 $(-1)^{x+y}$ 乘以5中的结果<br><img src="/2024/03/10/digital-image-processing/23.png"><br>#### 主要类别<br>- <strong>低通滤波器</strong>：使低频通过而使高频衰减的滤波<br>器<br>   - 被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分<br>   - 对比空间域滤波的平滑处理，如均值滤波器<br>- <strong>高通滤波器</strong>：使高频通过而使低频衰减的滤波<br>器<br>   - 被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分<br>   - 对比空间域的梯度算子、拉普拉斯算子<br>#### 空间域滤波和频率域滤波之间的对应关系<br>- 大小为$M×N$的两个函数$f(x,y)$和$h(x,y)$的离散卷积表示为$f(x,y)*h(x,y)$，定义为$$f(x,y)*h(x,y)&#x3D;\frac{1}{MN}\sum_{u&#x3D;0} ^{M-1} \sum_{y&#x3D;0} ^{N-1}f(x,y)h(x-m,y-n)$$<br>- 对比空间域滤波：在$M×N$的图像$f$上，用$m×n$的滤波器进行线性滤波$$<br>g(x,y)&#x3D;\sum_{s&#x3D;-a} ^{a}\sum_{t&#x3D;-b} ^{b}w(s,t)f(x+s,y+t)$$<br>- 卷积定理:$f(x,y)*h(x,y)\Leftrightarrow F(u,v)*H(u,v)$<br>- 上式说明空间域卷积可以通过$F(u,v)H(u,v) $的乘积进行反傅里叶变换得到<br>- 上述两个公式主要为两个函数逐元素相乘的乘法<br><img src="/2024/03/10/digital-image-processing/25.png"><br><img src="/2024/03/10/digital-image-processing/24.png"><br>### 频率域滤波器平滑图像<br>#### 理想低通滤波器(Ideal)<br>##### 原理<br>截断傅里叶变换中的所有<strong>高频</strong>成分，这些高频成分处于指定距离$D_0$之外<br><img src="/2024/03/10/digital-image-processing/26.png"><br><strong>说明</strong>：在半径为$D_0$的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉<br>##### 实例<br>截止频率即为$D_0$<br><img src="/2024/03/10/digital-image-processing/27.png"><br><strong>结论</strong>：半径$D_0$越小，模糊越大；半径$D_0$越大，模糊越小<br>#### 巴特沃思低通滤波器(Butterworth)<br>##### 原理<br><img src="/2024/03/10/digital-image-processing/28.png"><br><strong>应用</strong>：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。<br>##### 实例<br><img src="/2024/03/10/digital-image-processing/29.png"><br>#### 高斯低通滤波器<br>##### 原理<br><img src="/2024/03/10/digital-image-processing/30.png"><br>##### 实例<br><img src="/2024/03/10/digital-image-processing/31.png"><br>高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。<br>#### 应用实例<br>低通滤波器的应用实例：<strong>模糊</strong>，<strong>平滑</strong>等<br>- <strong>字符识别</strong>：通过模糊图像，桥接断裂字符的裂缝<br>- <strong>印刷和出版业</strong>：从一幅尖锐的原始图像产生平滑、柔和的外观，如人脸，减少皮肤细纹的锐化程度和小斑点<br>- <strong>处理卫星和航空图像</strong>：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析<br>### 频率域滤波器锐化图像<br>#### 理想高通滤波器<br>##### 原理<br>截断傅里叶变换中的所有<strong>低频</strong>成分，这些低频成分处于指定距离$D_0$之内<br><img src="/2024/03/10/digital-image-processing/32.png"><br>##### 实例<br><img src="/2024/03/10/digital-image-processing/33.png"><br><strong>结论</strong>：图a和b的振铃问题十分明显<br>#### 巴特沃思高通滤波器<br>##### 原理<br><img src="/2024/03/10/digital-image-processing/34.png"><br>##### 实例<br><img src="/2024/03/10/digital-image-processing/35.png"><br><strong>结论</strong>：BHPF的结果比IHPF的结果平滑得多<br>#### 高斯高通滤波器<br>##### 原理<br><img src="/2024/03/10/digital-image-processing/36.png"><br>##### 实例<br><img src="/2024/03/10/digital-image-processing/37.png"><br><strong>结论</strong>：GHPF的结果比BHBF和IHPF的结果更平滑</h2><h2 id="形态学处理"><a href="#形态学处理" class="headerlink" title="形态学处理"></a>形态学处理</h2><h3 id="腐蚀和膨胀"><a href="#腐蚀和膨胀" class="headerlink" title="腐蚀和膨胀"></a>腐蚀和膨胀</h3><h4 id="腐蚀"><a href="#腐蚀" class="headerlink" title="腐蚀"></a>腐蚀</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><ul>
+<h4 id="DEF的性质-主要是二维"><a href="#DEF的性质-主要是二维" class="headerlink" title="DEF的性质(主要是二维)"></a>DEF的性质(主要是二维)</h4><p><img src="/2024/03/10/digital-image-processing/22.png"></p>
+<h3 id="频率域滤波基础"><a href="#频率域滤波基础" class="headerlink" title="频率域滤波基础"></a>频率域滤波基础</h3><h4 id="傅里叶变换的频率分量和图像空间特征之间的联系"><a href="#傅里叶变换的频率分量和图像空间特征之间的联系" class="headerlink" title="傅里叶变换的频率分量和图像空间特征之间的联系"></a>傅里叶变换的频率分量和图像空间特征之间的联系</h4><ul>
+<li>变化最慢的频率成分 $(u&#x3D;v&#x3D;0)$ 对应一幅图像的平均灰度级:$$F(0,0)&#x3D;\sum_{x&#x3D;0} ^{M-1}\sum_{y&#x3D;0} ^{N-1}f(x,y)&#x3D;MN\overline{f(x,y)}$$</li>
+<li>当从变换的原点移开时，<font color="#dd0000">低频对应着图像的慢变化分量</font>，如图像的平滑部分</li>
+<li>进一步离开原点时，<font color="#dd0000">较高的频率对应图像中变化越来越快的灰度级</font>，如边缘或噪声等尖锐部分</li>
+</ul>
+<h4 id="频率域的滤波步骤"><a href="#频率域的滤波步骤" class="headerlink" title="频率域的滤波步骤"></a>频率域的滤波步骤</h4><ol>
+<li>用 $(-1)x+y$ 乘以输入图像进行中心变换 $$f (x, y)(−1)^{x+y} \Leftrightarrow F(u − M &#x2F; 2,v − N &#x2F; 2)$$</li>
+<li>计算1中的DFT $F(u,v)$</li>
+<li>用滤波器函数 $H(u,v)$ 乘以 $F(u,v)$</li>
+<li>计算3中结果的IDFT(逆傅里叶变换)</li>
+<li>得到4中结果的实部</li>
+<li>用 $(-1)^{x+y}$ 乘以5中的结果<br><img src="/2024/03/10/digital-image-processing/23.png"></li>
+</ol>
+<h4 id="主要类别"><a href="#主要类别" class="headerlink" title="主要类别"></a>主要类别</h4><ul>
+<li><strong>低通滤波器</strong>：使低频通过而使高频衰减的滤波<br>器<ul>
+<li>被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分</li>
+<li>对比空间域滤波的平滑处理，如均值滤波器</li>
+</ul>
+</li>
+<li><strong>高通滤波器</strong>：使高频通过而使低频衰减的滤波<br>器<ul>
+<li>被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分</li>
+<li>对比空间域的梯度算子、拉普拉斯算子</li>
+</ul>
+</li>
+</ul>
+<h4 id="空间域滤波和频率域滤波之间的对应关系"><a href="#空间域滤波和频率域滤波之间的对应关系" class="headerlink" title="空间域滤波和频率域滤波之间的对应关系"></a>空间域滤波和频率域滤波之间的对应关系</h4><ul>
+<li>大小为$M×N$的两个函数$f(x,y)$和$h(x,y)$的离散卷积表示为$f(x,y)*h(x,y)$，定义为$$f(x,y)*h(x,y)&#x3D;\frac{1}{MN}\sum_{u&#x3D;0} ^{M-1} \sum_{y&#x3D;0} ^{N-1}f(x,y)h(x-m,y-n)$$</li>
+<li>对比空间域滤波：在$M×N$的图像$f$上，用$m×n$的滤波器进行线性滤波$$<br>g(x,y)&#x3D;\sum_{s&#x3D;-a} ^{a}\sum_{t&#x3D;-b} ^{b}w(s,t)f(x+s,y+t)$$</li>
+<li>卷积定理:$f(x,y)*h(x,y)\Leftrightarrow F(u,v)*H(u,v)$</li>
+<li>上式说明空间域卷积可以通过$F(u,v)H(u,v) $的乘积进行反傅里叶变换得到</li>
+<li>上述两个公式主要为两个函数逐元素相乘的乘法<br><img src="/2024/03/10/digital-image-processing/25.png"><br><img src="/2024/03/10/digital-image-processing/24.png"></li>
+</ul>
+<h3 id="频率域滤波器平滑图像"><a href="#频率域滤波器平滑图像" class="headerlink" title="频率域滤波器平滑图像"></a>频率域滤波器平滑图像</h3><h4 id="理想低通滤波器-Ideal"><a href="#理想低通滤波器-Ideal" class="headerlink" title="理想低通滤波器(Ideal)"></a>理想低通滤波器(Ideal)</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>截断傅里叶变换中的所有<strong>高频</strong>成分，这些高频成分处于指定距离$D_0$之外<br><img src="/2024/03/10/digital-image-processing/26.png"><br><strong>说明</strong>：在半径为$D_0$的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉</p>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p>截止频率即为$D_0$<br><img src="/2024/03/10/digital-image-processing/27.png"><br><strong>结论</strong>：半径$D_0$越小，模糊越大；半径$D_0$越大，模糊越小</p>
+<h4 id="巴特沃思低通滤波器-Butterworth"><a href="#巴特沃思低通滤波器-Butterworth" class="headerlink" title="巴特沃思低通滤波器(Butterworth)"></a>巴特沃思低通滤波器(Butterworth)</h4><h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/28.png"><br><strong>应用</strong>：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。</p>
+<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/29.png"></p>
+<h4 id="高斯低通滤波器"><a href="#高斯低通滤波器" class="headerlink" title="高斯低通滤波器"></a>高斯低通滤波器</h4><h5 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/30.png"></p>
+<h5 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/31.png"><br>高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。</p>
+<h4 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h4><p>低通滤波器的应用实例：<strong>模糊</strong>，<strong>平滑</strong>等</p>
+<ul>
+<li><strong>字符识别</strong>：通过模糊图像，桥接断裂字符的裂缝</li>
+<li><strong>印刷和出版业</strong>：从一幅尖锐的原始图像产生平滑、柔和的外观，如人脸，减少皮肤细纹的锐化程度和小斑点</li>
+<li><strong>处理卫星和航空图像</strong>：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析</li>
+</ul>
+<h3 id="频率域滤波器锐化图像"><a href="#频率域滤波器锐化图像" class="headerlink" title="频率域滤波器锐化图像"></a>频率域滤波器锐化图像</h3><h4 id="理想高通滤波器"><a href="#理想高通滤波器" class="headerlink" title="理想高通滤波器"></a>理想高通滤波器</h4><h5 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h5><p>截断傅里叶变换中的所有<strong>低频</strong>成分，这些低频成分处于指定距离$D_0$之内<br><img src="/2024/03/10/digital-image-processing/32.png"></p>
+<h5 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/33.png"></p>
+<p><strong>结论</strong>：图a和b的振铃问题十分明显</p>
+<h4 id="巴特沃思高通滤波器"><a href="#巴特沃思高通滤波器" class="headerlink" title="巴特沃思高通滤波器"></a>巴特沃思高通滤波器</h4><h5 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/34.png"></p>
+<h5 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/35.png"><br><strong>结论</strong>：BHPF的结果比IHPF的结果平滑得多</p>
+<h4 id="高斯高通滤波器"><a href="#高斯高通滤波器" class="headerlink" title="高斯高通滤波器"></a>高斯高通滤波器</h4><h5 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/36.png"></p>
+<h5 id="实例-5"><a href="#实例-5" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/37.png"><br><strong>结论</strong>：GHPF的结果比BHBF和IHPF的结果更平滑</p>
+<hr>
+<h2 id="形态学处理"><a href="#形态学处理" class="headerlink" title="形态学处理"></a>形态学处理</h2><h3 id="腐蚀和膨胀"><a href="#腐蚀和膨胀" class="headerlink" title="腐蚀和膨胀"></a>腐蚀和膨胀</h3><h4 id="腐蚀"><a href="#腐蚀" class="headerlink" title="腐蚀"></a>腐蚀</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><ul>
 <li>$A$被$B$腐蚀的定义为：$A\ominus B&#x3D; {z|(B)_z\subseteq A} $</li>
 <li>该式表明腐蚀的结果为所有使$B$中包含于$A$中的点$z$的集合用$z$平移。集合$B$在被称为<strong>结构元素</strong>。</li>
 <li><strong>腐蚀运算的含义是</strong>：每当在目标图像$A$中找到一个与结构元素$B$相同的子图像时，就把该子图像中与$B$的原点位置对应的那个像素位置标注为1，图像$A$上标注出的所有这样的像素组成的集合，即为腐蚀运算的结果。</li>
@@ -578,7 +631,7 @@
 <ul>
 <li>腐蚀处理的结果是使原来的二值图像减小一圈</li>
 </ul>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/38.png"><br><img src="/2024/03/10/digital-image-processing/39.png"></p>
+<h5 id="实例-6"><a href="#实例-6" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/38.png"><br><img src="/2024/03/10/digital-image-processing/39.png"></p>
 <ul>
 <li>事实上，我们可以将腐蚀视为形态学滤波操作，这种操作把<strong>比结构元小的图像细节</strong>从图像中滤除<br><img src="/2024/03/10/digital-image-processing/40.png"></li>
 </ul>
@@ -596,7 +649,7 @@
 <li>用结构元素与其覆盖的二值图像做“与”操作</li>
 <li>如果都为0，结果图像的该像素为0。否则为1</li>
 </ol>
-<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/41.png"><br><img src="/2024/03/10/digital-image-processing/42.png"></p>
+<h5 id="实例-7"><a href="#实例-7" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/41.png"><br><img src="/2024/03/10/digital-image-processing/42.png"></p>
 <ul>
 <li>最简单的膨胀应用之一是连接裂缝<ul>
 <li>形态学方法较之用于连接断裂的低通滤波方法的一个直接优点是，形态学方法<br>可在一幅二值图像中直接得到结果。</li>
@@ -604,16 +657,16 @@
 </ul>
 </li>
 </ul>
-<h4 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><ul>
+<h4 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-6"><a href="#原理-6" class="headerlink" title="原理"></a>原理</h5><ul>
 <li>$B$ 对 $A$ 的腐蚀是 $\hat{B}$ 对 $A^c$ 的膨胀的补集，反之亦然</li>
 <li>当结构元关于其原点对称时有 $\hat{B}&#x3D;B$，此时可以用相同的结构元简单地使用 $B$ 膨胀图像的背景，对该结果求补即可得到 $B$ 对该幅图像的腐蚀</li>
 </ul>
-<h5 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/44.png"></p>
+<h5 id="实例-8"><a href="#实例-8" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/44.png"></p>
 <h3 id="开操作与闭操作"><a href="#开操作与闭操作" class="headerlink" title="开操作与闭操作"></a>开操作与闭操作</h3><h4 id="开操作"><a href="#开操作" class="headerlink" title="开操作"></a>开操作</h4><h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5><ul>
 <li>使用同一个结构元素对目标图像<strong>先</strong>进行<strong>腐蚀</strong>运算，然后<strong>再</strong>进行<strong>膨胀</strong>运算称为<strong>开操作</strong>。开操作一般使对象的轮廓变得光滑，断开狭窄的间断和消除细的突出物。</li>
 <li>结构元素$B$对目标图像$A$的开操作定义为：$A\circ B&#x3D;(A\ominus B)\oplus B$</li>
 </ul>
-<h6 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h6><p><img src="/2024/03/10/digital-image-processing/45.png"></p>
+<h6 id="实例-9"><a href="#实例-9" class="headerlink" title="实例"></a>实例</h6><p><img src="/2024/03/10/digital-image-processing/45.png"></p>
 <ul>
 <li>假设我们把结构元 $B$ 视为一个“转球”</li>
 <li>$B$ 对 $A$ 的开操作的边界由 $B$ 中的点建立：当 $B$ 在 $A$ 的边界内侧滚动时，$B$ 所能到达的 $A$ 的边界的最远点<br><img src="/2024/03/10/digital-image-processing/46.png"></li>
@@ -622,11 +675,11 @@
 <li>使用同一个结构元素对目标图像先进行膨胀运算，然后再进行腐蚀运算称为闭操作。闭操作同样使轮廓线更光滑，但它通常消弭狭窄的间断和长细的鸿沟，消除小的孔洞，并填补轮廓线中的断裂。</li>
 <li>结构元素$B$对目标图像$A$的闭运算定义为：$A\bullet B&#x3D;(A\oplus B)\ominus B$</li>
 </ul>
-<h5 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/47.png"></p>
+<h5 id="实例-10"><a href="#实例-10" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/47.png"></p>
 <ul>
 <li>开操作与闭操作彼此对偶，所以闭操作在边界外侧滚动球体是意料之中的事情，$B$ 在 $A$ 的边界外侧外切滚动一圈， 所有 $(B)_z$ 的并集构成的内包络为边界<br><img src="/2024/03/10/digital-image-processing/48.png"></li>
 </ul>
-<h4 id="对偶性-1"><a href="#对偶性-1" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><ul>
+<h4 id="对偶性-1"><a href="#对偶性-1" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-7"><a href="#原理-7" class="headerlink" title="原理"></a>原理</h5><ul>
 <li>开操作与闭操作互为对偶，并可表示为：$$(A\bullet B)^c&#x3D;(A^c \circ \hat B)$$和$$(A \circ B)^c&#x3D;(A^c \bullet \hat B)$$</li>
 </ul>
 <ul>
@@ -755,7 +808,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="基本边缘检测"><a href="#基本边缘检测" class="headerlink" title="基本边缘检测"></a>基本边缘检测</h5><ul>
+<h4 id="基本边缘检测"><a href="#基本边缘检测" class="headerlink" title="基本边缘检测"></a>基本边缘检测</h4><ul>
 <li>梯度向量、幅度和方向角<br><img src="/2024/03/10/digital-image-processing/57.png"> </li>
 <li>图像边缘方向与边缘上点的梯度向量正交<br><img src="/2024/03/10/digital-image-processing/58.png"> </li>
 <li>梯度算子：Roberts, Prewitt, Sobel（抑制噪声）<br><img src="/2024/03/10/digital-image-processing/55.png"><br><img src="/2024/03/10/digital-image-processing/56.png"> <ul>
@@ -770,7 +823,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="Marr-Hildreth边缘检测器（马尔算子）"><a href="#Marr-Hildreth边缘检测器（马尔算子）" class="headerlink" title="Marr-Hildreth边缘检测器（马尔算子）"></a>Marr-Hildreth边缘检测器（马尔算子）</h5><ul>
+<h4 id="Marr-Hildreth边缘检测器（马尔算子）"><a href="#Marr-Hildreth边缘检测器（马尔算子）" class="headerlink" title="Marr-Hildreth边缘检测器（马尔算子）"></a>Marr-Hildreth边缘检测器（马尔算子）</h4><ul>
 <li>高斯拉普拉斯（LoG）</li>
 <li>下图显示了一个LoG的负函数的三维图、图像和剖面<br><img src="/2024/03/10/digital-image-processing/61.png"> </li>
 <li>特点<ul>
@@ -790,7 +843,7 @@
 </li>
 <li>使用高斯差分(DoG)来近似LoG滤波器<br><img src="/2024/03/10/digital-image-processing/62.png"></li>
 </ul>
-<h5 id="坎尼边缘检测器-Canny"><a href="#坎尼边缘检测器-Canny" class="headerlink" title="坎尼边缘检测器(Canny)"></a>坎尼边缘检测器(Canny)</h5><ul>
+<h4 id="坎尼边缘检测器-Canny"><a href="#坎尼边缘检测器-Canny" class="headerlink" title="坎尼边缘检测器(Canny)"></a>坎尼边缘检测器(Canny)</h4><ul>
 <li><strong>一般标准</strong>:<br> ① 低错误率。既要少将真正的边缘丢失也要少将非边缘判为边<br>缘。<br>② 边缘点应被很好地定位。检测出的边缘应在真正的边界上。<br>③ 单一的边缘响应。得到的边界为单象素宽。</li>
 <li>基本步骤总结:<ol>
 <li>灰度化</li>
@@ -836,7 +889,7 @@
 </li>
 <li>实例：<br><img src="/2024/03/10/digital-image-processing/64.png"></li>
 </ul>
-<h5 id="边缘连接和边界检测"><a href="#边缘连接和边界检测" class="headerlink" title="边缘连接和边界检测"></a>边缘连接和边界检测</h5><ul>
+<h4 id="边缘连接和边界检测"><a href="#边缘连接和边界检测" class="headerlink" title="边缘连接和边界检测"></a>边缘连接和边界检测</h4><ul>
 <li>理想情况下，边缘检测应该仅产生位于边缘上的像素集合。实际上，由于噪声、不均匀照明引起的<strong>边缘间断</strong>，以及其他引入灰度值虚假的不连续的影响，这些像素并不能完全描述边缘特性。</li>
 <li>因此，一般是在边缘检测后紧跟连接算法，将边缘像素组合成有意义的边缘或区域边界。</li>
 <li>本节讨论三种基本的边缘连接方法<ul>
@@ -846,7 +899,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="基于Hough变换的全局处理"><a href="#基于Hough变换的全局处理" class="headerlink" title="基于Hough变换的全局处理"></a>基于Hough变换的全局处理</h5><ul>
+<h4 id="基于Hough变换的全局处理"><a href="#基于Hough变换的全局处理" class="headerlink" title="基于Hough变换的全局处理"></a>基于Hough变换的全局处理</h4><ul>
 <li>基本思想：图像中每一点对参数组合进行表决，赢得多数票的参数组合为胜者（结果）。最基本的霍夫变换是从黑白图像中检测直线(线段)。</li>
 <li>Hough变换主要优点：是能容忍特征边界描述中的间隙，并且相对不受图像噪声的影响。</li>
 <li>步骤：<ol>
