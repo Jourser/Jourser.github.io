@@ -620,7 +620,7 @@
 </ul>
 <h4 id="机器学习其他性能评估指标-回归"><a href="#机器学习其他性能评估指标-回归" class="headerlink" title="机器学习其他性能评估指标 - 回归"></a>机器学习其他性能评估指标 - 回归</h4><ul>
 <li><strong>MAE(Mean Absolute Error)平均绝对误差</strong>，越趋近于0表示模型越拟合训练数据。$$MAE&#x3D;\frac{1}{m} \sum^m_{i&#x3D;1} |y_i-\hat{y_i}|$$</li>
-<li><strong>MSE(Mean Square Error)</strong> $$MsE&#x3D;\frac{1}{m} \sum^m_{i&#x3D;1} (y_i-\hat{y_i})^2$$</li>
+<li><strong>MSE(Mean Square Error)</strong> $$MSE&#x3D;\frac{1}{m} \sum^m_{i&#x3D;1} (y_i-\hat{y_i})^2$$</li>
 <li>$R^2$取值范围$($负无穷,$1]$，值越大表示模型越拟合训练数据其中TSS表示样本之间的差异情况，RSS表示预测值与样本值之间的差异情况<br>$$R^2&#x3D;1-\frac{RSS}{TSS}&#x3D;1-\frac{\sum^m_{i&#x3D;1}(y_i-\hat{y_i})^2}{\sum^m_{i&#x3D;1}(y_i-\bar{y_i})^2}$$</li>
 </ul>
 <h4 id="机器学习其他性能评估指标-分类"><a href="#机器学习其他性能评估指标-分类" class="headerlink" title="机器学习其他性能评估指标 - 分类"></a>机器学习其他性能评估指标 - 分类</h4><ul>
@@ -659,7 +659,7 @@
 </ul>
 <hr>
 <h2 id="其他机器学习重要方法"><a href="#其他机器学习重要方法" class="headerlink" title="其他机器学习重要方法"></a>其他机器学习重要方法</h2><h3 id="机器学习训练方法-梯度下降"><a href="#机器学习训练方法-梯度下降" class="headerlink" title="机器学习训练方法 - 梯度下降"></a>机器学习训练方法 - 梯度下降</h3><h4 id="梯度下降介绍"><a href="#梯度下降介绍" class="headerlink" title="梯度下降介绍"></a>梯度下降介绍</h4><ul>
-<li><p>梯度下降法的优化思想是用当前位置<strong>负梯度</strong>方向作为搜索方向，该方向为当前位置最快下降方向，梯度下降中越接近目标值，变化量越小，公式如下:$$w_{k+1}&#x3D;w_k-\eta\triangledown f_{w_k}(x^i)$$</p>
+<li><p>梯度下降法的优化思想是用当前位置<strong>负梯度</strong>方向作为搜索方向，该方向为当前位置最快下降方向，梯度下降中越接近目标值，变化量越小，公式如下:$$w_{k+1}&#x3D;w_k-\eta\nabla f_{w_k}(x^i)$$</p>
 </li>
 <li><p>其中$\eta$成为学习率，$i$表示第$i$条数据。权重参数$w$每次迭代变化的大小。</p>
 </li>
@@ -673,11 +673,11 @@
 <li></li>
 </ul>
 <h4 id="常见梯度下降法"><a href="#常见梯度下降法" class="headerlink" title="常见梯度下降法"></a>常见梯度下降法</h4><ul>
-<li><p><strong>批量梯度下降(BGD)</strong> ：使用<strong>所有</strong>数据集中的样本（共m个样本）在当前点的度之和来对权重参数进行更新操作。$$w_{k+1}&#x3D;w_k-\eta \frac{1}{m}\sum^m_{i&#x3D;1} \triangledown f_{w_k}x^i$$</p>
+<li><p><strong>批量梯度下降(BGD)</strong> ：使用<strong>所有</strong>数据集中的样本（共m个样本）在当前点的度之和来对权重参数进行更新操作。$$w_{k+1}&#x3D;w_k-\eta \frac{1}{m}\sum^m_{i&#x3D;1} \nabla f_{w_k}x^i$$</p>
 </li>
-<li><p><strong>随机梯度下降(SGD)</strong> ：随机选取<strong>一个</strong>数据集中的样本在当前的梯度来对权重参数进行更新操作。$$w_{k+1}&#x3D;w_k-\eta\triangledown f_{w_k}x^i$$</p>
+<li><p><strong>随机梯度下降(SGD)</strong> ：随机选取<strong>一个</strong>数据集中的样本在当前的梯度来对权重参数进行更新操作。$$w_{k+1}&#x3D;w_k-\eta\nabla f_{w_k}x^i$$</p>
 </li>
-<li><p><strong>小批量梯度下降(MBGD)</strong> ：结合BGD与SGD的特性，每次选择数据集中 <strong>n个</strong>样本的梯度来对权重参数进行更新操作。$Batch$为其重要的超参数，规定选择样本的数量。 $$w_{k+1}&#x3D;w_k-\eta \frac{1}{n}\sum_{i&#x3D;t} ^{t+n-1} \triangledown f_{w_k}x^i$$</p>
+<li><p><strong>小批量梯度下降(MBGD)</strong> ：结合BGD与SGD的特性，每次选择数据集中 <strong>n个</strong>样本的梯度来对权重参数进行更新操作。$Batch$为其重要的超参数，规定选择样本的数量。 $$w_{k+1}&#x3D;w_k-\eta \frac{1}{n}\sum_{i&#x3D;t} ^{t+n-1} \nabla f_{w_k}x^i$$</p>
 </li>
 <li><p>三种梯度下降法的比较</p>
 <ul>
@@ -1111,17 +1111,16 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/03/13/machine-learning/">
+                <a href="/2024/03/13/deep-learning/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="机器学习基础笔记">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="深度学习基础笔记">
                         
-                        <span class="card-title">机器学习基础笔记</span>
+                        <span class="card-title">深度学习基础笔记</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1131,9 +1130,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-13
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-13
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1146,7 +1145,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1154,8 +1152,16 @@
                         <span class="chip bg-color">笔记</span>
                     </a>
                     
+                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">深度学习</span>
+                    </a>
+                    
                     <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
                         <span class="chip bg-color">机器学习</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">神经网络</span>
                     </a>
                     
                 </div>
