@@ -539,7 +539,7 @@
 <li>一维傅立叶变换：$$F(u)&#x3D;\int_{-\infty}^\infty f(x){e^{-j2\pi ux}dx}$$ </li>
 <li>一维傅里叶逆变换：$$f(x)&#x3D;\int_{-\infty}^\infty F(u){e^{j2\pi ux}du}$$</li>
 </ul>
-<h5 id="离形形式"><a href="#离形形式" class="headerlink" title="离形形式"></a>离形形式</h5><ul>
+<h5 id="离散形式"><a href="#离散形式" class="headerlink" title="离散形式"></a>离散形式</h5><ul>
 <li>一维傅立叶变换：$$F(u)&#x3D;\sum_{x&#x3D;0} ^{M-1} {f(x){e^{-j2\pi ux&#x2F;M}}}$$ </li>
 <li>一维傅里叶逆变换：$$f(x)&#x3D;\frac{1}{M}\sum_{u&#x3D;0} ^{M-1} F(u){e^{j2\pi ux&#x2F;M}}$$</li>
 <li>根据欧拉公式 $e^{j\theta} &#x3D; \cos{\theta} + j\sin{\theta}$ 可得一维傅里叶变换：<br>$$F(u)&#x3D;\sum_{x&#x3D;0} ^{M-1} {f(x)(\cos{2\pi ux&#x2F;M}-j\sin{2\pi ux&#x2F;M})}$$</li>
@@ -553,7 +553,7 @@
 <li>二维傅立叶变换：$$F(u,v)&#x3D;\int_{-\infty}^\infty f(x,y){e^{-j2\pi (ux+vy)}dxdy}$$ </li>
 <li>二维傅里叶逆变换：$$f(x,y)&#x3D;\int_{-\infty}^\infty F(u,v){e^{j2\pi (ux+vy)}dudv}$$</li>
 </ul>
-<h5 id="离形形式-1"><a href="#离形形式-1" class="headerlink" title="离形形式"></a>离形形式</h5><ul>
+<h5 id="离散形式-1"><a href="#离散形式-1" class="headerlink" title="离散形式"></a>离散形式</h5><ul>
 <li>图像尺寸为$M×N$的函数$f(x,y)$的DFT定义为：$$F(u,v)&#x3D;\sum_{x&#x3D;0} ^{M-1}\sum_{y&#x3D;0}^{N-1} {f(x,y){e^{-j2\pi (ux&#x2F;M+vy&#x2F;N)}}}$$ </li>
 <li>二维傅里叶逆变换：$$f(x,y)&#x3D;\frac{1}{MN}\sum_{u&#x3D;0} ^{M-1} \sum_{y&#x3D;0} ^{N-1}F(u,v){e^{j2\pi (ux&#x2F;M+vy&#x2F;N)}}$$</li>
 </ul>
@@ -577,12 +577,12 @@
 <li>用 $(-1)^{x+y}$ 乘以5中的结果<br><img src="/2024/03/10/digital-image-processing/23.png"></li>
 </ol>
 <h4 id="主要类别"><a href="#主要类别" class="headerlink" title="主要类别"></a>主要类别</h4><ul>
-<li><strong>低通滤波器</strong>：使低频通过而使高频衰减的滤波<br>器<ul>
+<li><strong>低通滤波器</strong>：使低频通过而使高频衰减的滤波器<ul>
 <li>被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分</li>
 <li>对比空间域滤波的平滑处理，如均值滤波器</li>
 </ul>
 </li>
-<li><strong>高通滤波器</strong>：使高频通过而使低频衰减的滤波<br>器<ul>
+<li><strong>高通滤波器</strong>：使高频通过而使低频衰减的滤波器<ul>
 <li>被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分</li>
 <li>对比空间域的梯度算子、拉普拉斯算子</li>
 </ul>
@@ -626,7 +626,7 @@
 <li>对$Z$中的集合$A和B$，$B$对$A$进行腐蚀的整个过程如下：</li>
 </ul>
 <ol>
-<li>用结构元素B，扫描图像$$的每一个像素</li>
+<li>用结构元素$B$，扫描图像$A$的每一个像素</li>
 <li>用结构元素与其覆盖的二值图像做“与”操作</li>
 <li>如果都为1，结果图像的该像素为1。否则为0</li>
 </ol>
@@ -674,7 +674,7 @@
 <li>$B$ 对 $A$ 的开操作的边界由 $B$ 中的点建立：当 $B$ 在 $A$ 的边界内侧滚动时，$B$ 所能到达的 $A$ 的边界的最远点<br><img src="/2024/03/10/digital-image-processing/46.png"></li>
 </ul>
 <h4 id="闭操作"><a href="#闭操作" class="headerlink" title="闭操作"></a>闭操作</h4><h5 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h5><ul>
-<li>使用同一个结构元素对目标图像先进行膨胀运算，然后再进行腐蚀运算称为闭操作。闭操作同样使轮廓线更光滑，但它通常消弭狭窄的间断和长细的鸿沟，消除小的孔洞，并填补轮廓线中的断裂。</li>
+<li>使用同一个结构元素对目标图像<strong>先</strong>进行<strong>膨胀</strong>运算，然后<strong>再</strong>进行<strong>腐蚀</strong>运算称为<strong>闭操作</strong>。闭操作同样使轮廓线更光滑，但它通常消弭狭窄的间断和长细的鸿沟，消除小的孔洞，并填补轮廓线中的断裂。</li>
 <li>结构元素$B$对目标图像$A$的闭运算定义为：$A\bullet B&#x3D;(A\oplus B)\ominus B$</li>
 </ul>
 <h5 id="实例-10"><a href="#实例-10" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/47.png"></p>
@@ -870,7 +870,7 @@
 <li><strong>非极大值抑制</strong>(NMS,Non-Maximum Suppression)<ul>
 <li>NMS是一种边缘稀疏技术，非极大值抑制的作用在于“瘦”边。对图像进行梯度计算后，仅仅基于梯度值提取的边缘仍然很模糊。对边缘而言，有且应当只有一个准确的响应。而NMS则可以帮助将局部最大值之外的所有梯度值抑制为0，对梯度图像中每个像素进行非极大值抑制的算法是： <ul>
 <li>将当前像素的梯度强度与沿正负梯度方向上的两个像素进行比较。</li>
-<li>如果当前像素的梯度强度与另外两个像素相比最大，则<br>该像素点保留为边缘点，否则该像素点将被抑制。<br><img src="/2024/03/10/digital-image-processing/63.png"></li>
+<li>如果当前像素的梯度强度与另外两个像素相比最大，则该像素点保留为边缘点，否则该像素点将被抑制。<br><img src="/2024/03/10/digital-image-processing/63.png"></li>
 </ul>
 </li>
 </ul>
@@ -916,7 +916,7 @@
 <h3 id="阈值分割法"><a href="#阈值分割法" class="headerlink" title="阈值分割法"></a>阈值分割法</h3><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
 <li>阈值处理操作<br>$$T &#x3D;T[x, y, p(x, y), f (x, y)]$$</li>
 <li>$f(x,y)$是点$(x,y)$的灰度级，$p(x,y)$表示该点的局部性质，如以$(x,y)$为中心的邻域的平均灰度级</li>
-<li>阈值处理后的图像g$(x,y)$定义为<br><img src="/2024/03/10/digital-image-processing/68.png"></li>
+<li>阈值处理后的图像$g(x,y)$定义为<br><img src="/2024/03/10/digital-image-processing/68.png"></li>
 <li>标记为$1$的像素对应于对象，标记为$0$的像素对应于背景</li>
 <li>当$T$仅取决于$f(x,y)$，阈值称为全局的</li>
 <li>当$T$取决于$f(x,y)$和$p(x,y)$，阈值是局部的</li>
