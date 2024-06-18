@@ -1,0 +1,1514 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="FPGA学习笔记之ILA的使用, 白米粥のBlog">
+    <meta name="description" content="ILA的使用何为ILAIntegrated Logic Analyzer (ILA) 是Xilinx Vivado工具套件中的一个强大调试工具，用于在FPGA设计中嵌入并调试内部信号。ILA允许你在不影响设计运行的情况下捕获和分析信号波形，">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>FPGA学习笔记之ILA的使用 | 白米粥のBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">白米粥のBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">白米粥のBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">FPGA学习笔记之ILA的使用</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/FPGA/">
+                                <span class="chip bg-color">FPGA</span>
+                            </a>
+                        
+                            <a href="/tags/vivado/">
+                                <span class="chip bg-color">vivado</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                                <span class="chip bg-color">工具</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                硬件
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-05-29
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.7k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="ILA的使用"><a href="#ILA的使用" class="headerlink" title="ILA的使用"></a>ILA的使用</h1><h2 id="何为ILA"><a href="#何为ILA" class="headerlink" title="何为ILA"></a>何为ILA</h2><p>Integrated Logic Analyzer (ILA) 是Xilinx Vivado工具套件中的一个强大调试工具，用于在FPGA设计中嵌入并调试内部信号。ILA允许你在不影响设计运行的情况下捕获和分析信号波形，是调试和验证FPGA设计的重要工具。</p>
+<h3 id="ILA的功能"><a href="#ILA的功能" class="headerlink" title="ILA的功能"></a>ILA的功能</h3><ol>
+<li><p><strong>实时数据捕获：</strong></p>
+<ul>
+<li>可以在设计运行时捕获内部信号的数据波形，帮助你理解和调试设计的行为。</li>
+</ul>
+</li>
+<li><p><strong>复杂的触发条件：</strong></p>
+<ul>
+<li>支持设置复杂的触发条件，以捕获特定事件或信号状态。触发条件可以是信号的上升沿、下降沿或特定值。</li>
+</ul>
+</li>
+<li><p><strong>多通道支持：</strong></p>
+<ul>
+<li>可以同时监控多个信号通道，每个通道可以设置不同的触发条件和采样深度。</li>
+</ul>
+</li>
+<li><p><strong>信号分析：</strong></p>
+<ul>
+<li>捕获的数据波形可以在Vivado的波形窗口中进行详细分析，支持放大、缩小、测量时间间隔等功能。</li>
+</ul>
+</li>
+</ol>
+<h3 id="ILA的工作流程"><a href="#ILA的工作流程" class="headerlink" title="ILA的工作流程"></a>ILA的工作流程</h3><ol>
+<li><p><strong>插入ILA IP核：</strong></p>
+<ul>
+<li>在设计中插入ILA IP核，并将需要监控的信号连接到ILA IP核的输入端口。</li>
+</ul>
+</li>
+<li><p><strong>配置ILA IP核：</strong></p>
+<ul>
+<li>配置ILA的触发条件、采样深度、采样率等参数。可以在Vivado的IP Integrator<br>或在原理图中进行配置。</li>
+</ul>
+</li>
+<li><p><strong>综合和实现设计：</strong></p>
+<ul>
+<li>对插入了ILA的设计进行综合、实现和生成比特流。</li>
+</ul>
+</li>
+<li><p><strong>下载比特流到FPGA：</strong></p>
+<ul>
+<li>使用Vivado的硬件管理器将生成的比特流文件下载到FPGA。</li>
+</ul>
+</li>
+<li><p><strong>设置触发条件并启动捕获：</strong></p>
+<ul>
+<li>在硬件管理器中设置触发条件并启动数据捕获。ILA会在触发条件满足时捕获信号数据，并将其传回Vivado。</li>
+</ul>
+</li>
+<li><p><strong>分析数据波形：</strong></p>
+<ul>
+<li>捕获的数据波形会显示在Vivado的波形窗口中，供用户分析和调试。</li>
+</ul>
+</li>
+</ol>
+<h3 id="使用ILA的优势"><a href="#使用ILA的优势" class="headerlink" title="使用ILA的优势"></a>使用ILA的优势</h3><ol>
+<li><p><strong>无需外部硬件：</strong></p>
+<ul>
+<li>不需要额外的逻辑分析仪硬件，直接利用FPGA内部资源进行调试，降低了成本和复杂度。</li>
+</ul>
+</li>
+<li><p><strong>实时调试：</strong></p>
+<ul>
+<li>可以在设计运行的同时进行调试，捕获实际工作环境下的信号行为，提供更准确的调试信息。</li>
+</ul>
+</li>
+<li><p><strong>深入内部信号：</strong></p>
+<ul>
+<li>可以监控并捕获FPGA内部信号，这些信号在外部是不可见的，提供了更深入的调试能力。</li>
+</ul>
+</li>
+</ol>
+<h2 id="配置ILA"><a href="#配置ILA" class="headerlink" title="配置ILA"></a>配置ILA</h2><h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>本次实验将前文的led灯交替闪烁的程序<code>led_twinkle</code>作为调试对象，将其修改为错误程序，具体如下：</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">led_twinkle</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>   sys_clk<span class="token punctuation">,</span>    <span class="token comment">//系统时钟</span>
+    <span class="token keyword">input</span>   sys_rst_n<span class="token punctuation">,</span>    <span class="token comment">//N系统复位，低电平有效</span>
+
+    <span class="token keyword">output</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> led    <span class="token comment">//LEDT</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">////////////////////reg define</span>
+    <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> cnt<span class="token punctuation">;</span>  <span class="token comment">//修改错误1</span>
+<span class="token comment">/////////////////</span>
+<span class="token comment">//      main code</span>
+<span class="token comment">////////////////</span>
+
+<span class="token comment">//对计数器的值进行判断，以输出LED的状态</span>
+<span class="token keyword">assign</span> led <span class="token operator">=</span> <span class="token punctuation">(</span>cnt <span class="token operator">&lt;</span> <span class="token number">26'd2500_0000</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">2'b01</span><span class="token punctuation">:</span><span class="token number">2'b10</span><span class="token punctuation">;</span>
+
+<span class="token comment">//计数器在0“5000 000之间进行计数</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>sys_rst_n<span class="token punctuation">)</span>   <span class="token comment">//修改错误2</span>
+        cnt <span class="token operator">&lt;=</span> <span class="token number">26'd0</span><span class="token punctuation">;</span>
+<span class="token comment">//    else if(cnt &lt; (25'd2500_0000 - 25'd1))</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>cnt <span class="token operator">&lt;</span> <span class="token number">26'd5000_0000</span><span class="token punctuation">)</span>  
+        cnt <span class="token operator">&lt;=</span> cnt <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        cnt <span class="token operator">&lt;=</span> <span class="token number">26'd0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>具体错误为：</p>
+<ul>
+<li>计数器<code>cnt</code>的定义由<code>reg [26:0] cnt;</code>改为<code>reg [8:0] cnt; </code></li>
+<li>逻辑判断中，时钟复位信号<code>sys_rst_n</code>，由<code>if(!sys_rst_n) cnt &lt;= 26&#39;d0;</code>改为<code>if(sys_rst_n) cnt &lt;= 26&#39;d0;</code></li>
+</ul>
+<h3 id="方法一：使用IP核创建ILA调试环境"><a href="#方法一：使用IP核创建ILA调试环境" class="headerlink" title="方法一：使用IP核创建ILA调试环境"></a>方法一：使用IP核创建ILA调试环境</h3><ol>
+<li>点击左侧<code>PROJECT MANAGER</code>栏 → <code>IP Catalog</code>或者菜单栏下<code>Window</code> → <code>IP Catalog</code>，然后在右侧出现的<code>IP Catalog</code>窗口下搜索<code>ILA</code>，双击选择<code>Debug</code>下的<code>ILA</code>进行IP配置，操作步骤如下图所示：</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/11.png" width="100%/">
+</div>
+
+<ol start="2">
+<li><p>ILA IP参数设置</p>
+<div align="center">
+<img src="/2024/05/29/ila-use/12.png" width="70%/">
+</div>
+</li>
+<li><p><strong>Documentation</strong>：IP 相关文档入口，其中的<code>Product Guide</code> 是 IP 手册查看入口，<code>Change Log</code> 是 IP 版本更新记录，<code>Product Webpage</code>是 IP 相关介绍的网页版</p>
+</li>
+<li><p><strong>IP Location</strong>：设置 IP 的存放路径入口，<strong>点击出现如下图所示窗口</strong>，在窗口里可以通过点击<code>…</code>设置更换存放路径，默认是存放在工程路径下的<code>…&lt;工程名&gt;.srcs\ sources_1\ip</code>，这里我们就保持默认。</p>
+</li>
+<li><p><strong>Switch to Default</strong>：点击后所有的设置恢复到默认值。</p>
+</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/13.png" width="90%/">
+</div>
+
+<ol start="4">
+<li><p><strong>Component Name</strong>：设置生成 IP Core 的名称，这里保持默认设置。</p>
+</li>
+<li><p>这里是一个提示，提示通过该界面设置最多可设置 64 个探针，如果想设置更多的探针需要使用 Tcl 脚本命令去设置，具体用法可以查询 IP 手册。</p>
+</li>
+<li><p><strong>ILA 探针接口类型设置</strong>  </p>
+<ul>
+<li>Native：常规普通接口模式</li>
+<li>AXI：AXI 接口模式，用于调试 AXI 接口信号</li>
+</ul>
+</li>
+<li><p><font color="#dd0000">Number of Probes</font>：探针数量设置，要观察3个信号，所以这里设置探针数量为3。</p>
+</li>
+<li><p><font color="#dd0000">Sample Data Depth</font>：采样数据深度，设置的数值越大，采样的数据越多，看到的波形数据越多，但是最终占用的资源也会越多，并不是设置的越大越好。从下拉框也能看出最大也只能设置为 131072，这个根据实际需求进行合适的设置即可，我们这里选择设置 4096。</p>
+</li>
+</ol>
+<ul>
+<li>PS：<strong>Number of Probes</strong>和<strong>Sample Data Depth</strong>是最重要的两个设置</li>
+</ul>
+<div align="center">
+<img src="/2024/05/29/ila-use/15.png" width="80%/">
+</div>
+
+<ol start="9">
+<li><strong>Same Number of Comparators for All Probe Ports</strong>：这里是设置相同探针接口的 Comparators 的个数，不勾选，下面的 Number of Comparators 就会消失。如果默认勾选，后面的参数也保持默认，我们不勾选。</li>
+<li><strong>Trigger Out Port</strong>：触发输出端口，可用于 ILA 模块的级联或一些高级功能，具体使用参考 IP 手册，这里保持默认不勾选。</li>
+<li><strong>Trigger In Port</strong>：触发输入端口，可用于手工设置添加触发信号或进行 ILA模块的级联或一些高级功能，具体使用参考 IP 手册，这里保持默认不勾选。</li>
+<li><strong>Input Pipe Stages</strong>：设置待探测信号打拍次数，如下图所示，可设置数值0~6，一般情况下，采样时钟和探测信号是一个时钟域下，这里可以默认设置为 0 即<br>可。</li>
+<li><strong>Capture Control</strong>：这里勾选后可在调试查看波形窗口进行对 Capture mode的设置，如果不勾选后面有关 Capture mode 就不可修改，这里不勾选。</li>
+<li><strong>Advanced Trigger</strong>：这里勾选后可在调试查看波形窗口进行对 Trigger mode的设置，如果不勾选后面有关 Trigger mode 就不可修改，这里不勾选。</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/14.png" width="80%/">
+</div>
+
+
+<ol start="15">
+<li><strong>Probe_Ports</strong>：这个选项卡用于配置ILA的探针端口。探针端口是用来连接和监控设计中内部信号的。</li>
+<li><strong>Probe Width</strong>：探针数据信号的位宽设置，我们需要对一个 1bit，一个 2bit 和一个9bit信号进行在线观察，这里将<code>Probe0</code>位宽设置为 1，<code>Probe1</code>位宽设置为2和<code>Probe2</code>位宽设置为9。</li>
+</ol>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">input</span>   sys_rst_n；   <span class="token comment">//复位信号，1位</span>
+<span class="token keyword">output</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> led；    <span class="token comment">//led输出信号，2位</span>
+<span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> cnt<span class="token punctuation">;</span>        <span class="token comment">//计数器，9位</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+<ol start="17">
+<li><strong>Number of Comparators</strong>：如果已经勾选（9）处，这里就不可设置，如果没有勾选，这里就可以设置。保持默认即可</li>
+<li><strong>Probe Trigger or Data</strong>：对探针设置触发器或数据，有3种选项：<br>-  DATA AND TRIGGER：既是数据又可作为触发条件；<br>-  DATA：仅作为数据，不可作为触发条件；<br>-  TRIGGER：仅可作为触发条件。</li>
+</ol>
+<p>设置完成后点击下方<code>OK</code> → <code>Generate</code>生成IP核</p>
+<h3 id="方法二：使用-Debug-标记创建-ILA"><a href="#方法二：使用-Debug-标记创建-ILA" class="headerlink" title="方法二：使用 Debug 标记创建 ILA"></a>方法二：使用 Debug 标记创建 ILA</h3><ol>
+<li>在左侧<code>SYNTHESIS</code>栏下展开<code>Open Synthesized Design</code>，然后点击<code>Schematic</code>，打开原理图，操作步骤如下图所示：</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/16.png" width="70%/">
+</div>
+
+<ol start="2">
+<li>调整窗口为Debug模式，点击右上角栏下的<code>Debug</code>：</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/17.png" width="100%/">
+</div>
+
+<ol start="3">
+<li>标记所需的调试信号，以<code>led_OBUF</code>为例，右键点击<code>led_OBUF</code>，在弹出的窗口中点击<code>Makr Debug</code>，如下图所示：</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/20.png" width="60%/">
+</div>
+
+<ul>
+<li>选择<code>led_OBUF</code>而不是<code>led</code>信号的原因：由于<code>led</code>是输出端口不能直接添加标记，又因为该信号为输出信号，所以是<code>OBUF</code>，因此需要选择<code>led_OBUF</code>缓冲进行标记。</li>
+<li>同理，<code>sys_rst_n_IBUF</code>作为输入端口，也需要进行标记</li>
+<li>而选择不是输入输出端口的信号，如<code>cnt</code>等，则可以<strong>直接进行标记</strong>。但是由于其没有缓冲，Vivado在分析综合的时候，可能会对其优化，导致报错。<strong>为此需要在代码中对</strong><code>cnt</code><strong>定义添加一段语句：</strong><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token punctuation">(</span><span class="token operator">*</span>mark_debug<span class="token operator">=</span><span class="token string">"true"</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> cnt<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><font color="#dd0000">上面那一步最好在综合前完成</font></li>
+<li>最后可在下方窗口查看到所添加的信号：</li>
+</ul>
+<ol start="4">
+<li>配置调试环境，可点击<code>Open Synthesized Design</code>栏下的<code>Set up Debug</code>，或者点击下方的<strong>小甲虫</strong>，如下图所示：</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/18.png" width="100%/">
+</div>
+
+<ol start="5">
+<li>出现向导框，点击<code>Next</code></li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/19.png" width="100%/">
+</div>
+
+<ol start="6">
+<li>显示添加的信号，继续点击<code>Next</code></li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/21.png" width="100%/">
+</div>
+
+<ol start="7">
+<li>同IP核创建ILA，继续点击<code>Next</code><ul>
+<li>Sample Data Depth：采样数据深度，设置的数值越大，采样的数据越多，看到的波形数据越多，但是最终占用的资源也会</li>
+<li>Input Pipe Stages：在FPGA设计中通常指输入管道级的数量。这是在信号进入一个模块或系统之前通过的寄存器级数。一般设置为2以上，本次实验简单，因此可设置为0.</li>
+</ul>
+</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/23.png" width="100%/">
+</div>
+
+<ol start="8">
+<li>点击<code>Finish</code>，完成添加ILA</li>
+</ol>
+<h2 id="ILA的调试"><a href="#ILA的调试" class="headerlink" title="ILA的调试"></a>ILA的调试</h2><h3 id="调试界面基本介绍"><a href="#调试界面基本介绍" class="headerlink" title="调试界面基本介绍"></a>调试界面基本介绍</h3><div align="center">
+<img src="/2024/05/29/ila-use/22.png" width="100%/">
+</div>
+
+<ul>
+<li><p>窗口1：波形显示窗口，可以通过点击➕添加想查看的波形的信号。在这里可查看的信号有 <code>cnt</code>、<code>led_OBUF</code>和<code>sys_rst_n_IBUF</code>。<br>当然，通常在下载完程序后，ILA 能够非常智能的识别出设计师期望观察的信号，同时，在右键菜单也可以找到删除观察信号的指令。这样，有限的窗口面积就可以被充分利用，自由调配和增减所需观察信号的条目。</p>
+</li>
+<li><p>窗口2：ILA Croe 的状态控制和显示窗口。<br><img src="/2024/05/29/ila-use/24.png"></p>
+<ul>
+<li>按钮①：设置采样执行过程为循环采样</li>
+<li>按钮②：启动采样按钮。按下后将启动 ILA 采样。根据是单次采样还是循环采样，根据是有条件触发还是无条件触发，启动后会呈现 ILA 状态的周期性变化或等待触发条件的到来。</li>
+<li>按钮③：无条件执行 ILA 采样。</li>
+<li>按钮④：停止采样按钮。</li>
+<li>状态栏⑤：状态栏⑤由 5 个空心圈组成，唯一的实心绿色点所处的位置表征ILA 的运行状态。</li>
+<li>状态栏⑥：已采集的点数占总采集点数的关系。</li>
+<li>状态栏⑦：以进度条的方式结合状态名称，标明当前所处的状态以及采样过程中执行状态的百分比。</li>
+</ul>
+</li>
+<li><p>窗口3：添加触发信号窗口，如下图所示，点击窗口内➕ 添加产生触发条件的信号（两个地方的➕ 都可以进行信号的添加）。<br><img src="/2024/05/29/ila-use/25.png"></p>
+<ul>
+<li><p>点击按该钮在这里插入图片描述设置多个信号产生触发信号时的条件，与、或、同或、异或，还可以设置触发条件，如下图所示：<br>  <img src="/2024/05/29/ila-use/26.png"></p>
+</li>
+<li><p>基数（Radix），即选择数值表示的进制。<br>  <img src="/2024/05/29/ila-use/27.png"></p>
+<ul>
+<li>[B] (Binary)：二进制格式</li>
+<li>[H] (Hexadecimal)：十六进制格式</li>
+<li>[O] (Octal)：八进制格式</li>
+<li>[U] (Unsigned Decimal)：无符号十进制格式</li>
+<li>[S] (Signed Decimal)：有符号十进制格式</li>
+</ul>
+</li>
+<li><p>触发值（Value），选择用于触发条件的具体值或条件<br>  <img src="/2024/05/29/ila-use/28.png"></p>
+<ul>
+<li><code>X (don&#39;t care)</code>：无所谓的值，表示忽略这个条件。</li>
+<li><code>0 (logical zero)</code>：逻辑零。</li>
+<li><code>1 (logical one)</code>：逻辑一。</li>
+<li><code>R (0-to-1 transition)</code>：从0到1的跳变。</li>
+<li><code>F (1-to-0 transition)</code>：从1到0的跳变。</li>
+<li><code>B (both transitions)</code>：两种跳变（从0到1和从1到0）。</li>
+<li><code>N (no transitions)</code>：没有跳变。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ILA具体调试步骤"><a href="#ILA具体调试步骤" class="headerlink" title="ILA具体调试步骤"></a>ILA具体调试步骤</h3><ol>
+<li><strong>烧录程序</strong><ul>
+<li>该步骤同前文的连接开发板验证</li>
+<li>先点击左侧<code>PROGERAM AND DEBUG</code>栏下的<code>Generate Bitstream</code>，生成比特流文件，然后点击<code>Open Hardware Manager</code>。与前文不同的是，会将比特流文件和<strong>自动相关联的Debug文件</strong>一起烧录进板卡，如下所示：</li>
+</ul>
+</li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/1.png" width="70%/">
+</div>
+
+<ol start="2">
+<li><strong>添加产生触发条件的信号</strong></li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/2.png" width="100%/">
+</div>
+
+<ol start="3">
+<li><strong>点击运行</strong><code>Run</code><strong>，观察波形。</strong></li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/3.png" width="70%/">
+</div>
+
+<ul>
+<li>所查波形为下图所示：</li>
+</ul>
+<div align="center">
+<img src="/2024/05/29/ila-use/4.png" width="1000%/">
+</div>
+
+<ul>
+<li>可见，采样一次，计数器<code>cnt</code>为<code>0</code>没有计数，<code>led_OBUF</code>为<code>1</code>即<code>led0</code>灯亮。</li>
+</ul>
+<ol start="4">
+<li><strong>点击循环采样，运行</strong><code>Run</code><strong>，观察波形。</strong></li>
+</ol>
+<div align="center">
+<img src="/2024/05/29/ila-use/5.png" width="100%/">
+</div>
+
+<ul>
+<li>所查波形一般是为动态图，但由于本实验代码问题，与采样一次的波形一致。</li>
+<li>可见，计数器<code>cnt</code>始终为<code>0</code>，<code>led_OBUF</code>始终为<code>1</code>，<code>sys_rst_n_IBUF</code>始终为高电平</li>
+<li><strong>注意</strong>，在一般正常工作中，不能单单通过一次采样没有得到预想的数据就认为代码或者是硬件有问题。由于一些元器件初始化需要时间或是其他原因，可能正好采样到错误数据，需要多次采样才能确认。</li>
+</ul>
+<ol start="5">
+<li><strong>添加触发条件</strong></li>
+</ol>
+<ul>
+<li><p>添加触发条件的原因：</p>
+<ul>
+<li>可能正确的值出现时间很短，无法在波形上直接观察到，需要添加触发条件。</li>
+<li>添加触发条件可以大大提高调试效率。直接查看波形可能需要你手动筛选大量数据，以找到问题发生的时刻。而触发条件可以自动化这个过程，一旦条件满足就开始捕获，省去了大量手动查找的时间。</li>
+<li>FPGA 内部的存储资源有限，ILA 的存储深度也有限。如果没有触发条件，ILA 会持续捕获数据，很快就会耗尽存储资源，可能错过关键事件</li>
+</ul>
+</li>
+<li><p>可通过结果逆推，先由<code>led_OBUF</code>信号，反推到<code>cnt</code>计数器，再反推到<code>sys_rst_n_IBUF</code>复位信号。</p>
+</li>
+<li><p>添加<code>led_OBUF</code>的触发条件</p>
+<div align="center">
+<img src="/2024/05/29/ila-use/6.png" width="100%/">
+</div>
+</li>
+<li><p>改触发条件进制为二进制，数值为二进制<code>10</code>，观察是否存在<code>led1</code>点亮的情况</p>
+<div align="center">
+<img src="/2024/05/29/ila-use/7.png" width="80%/">
+</div>
+</li>
+<li><p>添加触发条件后，点击<code>Run</code>运行，观察波形。</p>
+<div align="center">
+<img src="/2024/05/29/ila-use/8.png" width="100%/">
+</div>
+</li>
+<li><p>可见，<code>led_OBUF</code>不存在为<code>10</code>时刻。</p>
+</li>
+<li><p>由此反推至<code>cnt</code>计数器，观察其值。其数值始终为0，说明<code>cnt</code>没有计数，而<code>cut</code>又与<code>sys_rst_n_IBUF</code>有关。观察到<code>sys_rst_n_IBUF</code>始终为高电平，由此可尝试观察其为低电平时，<code>cnt</code>计数器情况</p>
+</li>
+</ul>
+<ol start="6">
+<li><strong>根据情况调试</strong></li>
+</ol>
+<ul>
+<li>由上一步可知，需要观察<code>sys_rst_n_IBUF</code>为低电平时，<code>cnt</code>计数器情况。</li>
+<li>具体步骤：<ol>
+<li>长按开发板的led灯复位键</li>
+<li><code>Run</code>运行  </li>
+<li>观察波形</li>
+</ol>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/05/29/ila-use/9.png" width="80%/">
+</div>
+
+<ul>
+<li>可见，<code>sys_rst_n_IBUF</code>为低电平时，<code>cnt</code>计数器值出现变化，且经过多次采样，<code>cnt</code>计数器值开始逐渐增加。</li>
+<li>由此发现 <strong><font color="#dd0000">第一个错误</font></strong> ，需要将时钟复位信号<code>sys_rst_n</code>，由<code>if(sys_rst_n) cnt &lt;= 26&#39;d0;</code>改为<code>if(!sys_rst_n) cnt &lt;= 26&#39;d0;</code></li>
+</ul>
+<ol start="7">
+<li><strong>继续添加触发条件</strong></li>
+</ol>
+<ul>
+<li>添加<code>cnt</code>计数器的触发条件，观察其值。本次实验会使得<code>cnt</code>达到<code>25000000</code>，变化<code>led</code>的值，由此需要观察其是否能到达<code>25000000</code>。</li>
+<li>由此添加<code>cnt</code>计数器的触发条件，改为十进制，数值为<code>25000000</code></li>
+</ul>
+<div align="center">
+<img src="/2024/05/29/ila-use/10.png" width="80%/">
+</div>
+
+<ul>
+<li>发现直接报错，发现0至8的位宽，<code>cnt</code>无法达到<code>25000000</code>。</li>
+<li>由此发现 <strong><font color="#dd0000">第二个错误</font></strong> ，需要将计数器<code>cnt</code>的定义由<code>reg [26:0] cnt;</code>改为<code>reg [8:0] cnt; </code></li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jourser</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Jourser.github.io/2024/05/29/ila-use/">https://Jourser.github.io/2024/05/29/ila-use/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jourser</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/FPGA/">
+                                    <span class="chip bg-color">FPGA</span>
+                                </a>
+                            
+                                <a href="/tags/vivado/">
+                                    <span class="chip bg-color">vivado</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                                    <span class="chip bg-color">工具</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/06/04/simulator-use/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="FPGA学习笔记之simulator的使用">
+                        
+                        <span class="card-title">FPGA学习笔记之simulator的使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-06-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/05/29/vivado-use/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="FPGA学习笔记之vivado使用">
+                        
+                        <span class="card-title">FPGA学习笔记之vivado使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('200')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 白米粥のBlog<br />'
+            + '文章作者: Jourser<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022-2024</span>
+            
+            <a href="/about" target="_blank">Jourser</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/Jourser" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:863519940@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=863519940" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 863519940" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

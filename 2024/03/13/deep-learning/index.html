@@ -1,0 +1,1688 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="深度学习基础笔记, 白米粥のBlog">
+    <meta name="description" content="深度学习基础笔记
+深度学习简介
+深度学习，是一种基于无监督特征学习和特征层次结构学习的模型，在计算机视觉，语音识别，自然语言处理等领域有着突出的优势。
+
+传统机器学习与深度学习传统机器学习与深度学习对比
+
+
+传统机器学习
+深度学习
+
+
+
+对">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>深度学习基础笔记 | 白米粥のBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">白米粥のBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">白米粥のBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">深度学习基础笔记</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">笔记</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">深度学习</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">机器学习</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+                                <span class="chip bg-color">神经网络</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="post-category">
+                                人工智能
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-03-13
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="深度学习基础笔记"><a href="#深度学习基础笔记" class="headerlink" title="深度学习基础笔记"></a>深度学习基础笔记</h1><hr>
+<h2 id="深度学习简介"><a href="#深度学习简介" class="headerlink" title="深度学习简介"></a>深度学习简介</h2><ul>
+<li><strong>深度学习</strong>，是一种基于无监督特征学习和特征层次结构学习的模型，在计算机视觉，语音识别，自然语言处理等领域有着突出的优势。</li>
+</ul>
+<h3 id="传统机器学习与深度学习"><a href="#传统机器学习与深度学习" class="headerlink" title="传统机器学习与深度学习"></a>传统机器学习与深度学习</h3><h4 id="传统机器学习与深度学习对比"><a href="#传统机器学习与深度学习对比" class="headerlink" title="传统机器学习与深度学习对比"></a>传统机器学习与深度学习对比</h4><table>
+<thead>
+<tr>
+<th align="left">传统机器学习</th>
+<th align="left">深度学习</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">对计算机<strong>硬件需求较小</strong>：计算量级别有限，一般不需配用GPU显卡做并行运算</td>
+<td align="left">对硬件有一定要求：大量数据需进行大量的矩阵运算，<strong>需配用GPU</strong>做并行运算</td>
+</tr>
+<tr>
+<td align="left">适合<strong>小数据量</strong>训练，再增加数据量难以提升性能</td>
+<td align="left"><strong>高维的权重参数</strong>，海量的训练数据下可以获得高性能</td>
+</tr>
+<tr>
+<td align="left">需要将问题逐层分解</td>
+<td align="left">“端到端”的学习</td>
+</tr>
+<tr>
+<td align="left">人工进行特征选择</td>
+<td align="left">利用算法自动提取特征</td>
+</tr>
+<tr>
+<td align="left">特征可解释性强</td>
+<td align="left">特征可解释性弱</td>
+</tr>
+</tbody></table>
+<h4 id="传统机器学习一般流程"><a href="#传统机器学习一般流程" class="headerlink" title="传统机器学习一般流程"></a>传统机器学习一般流程</h4><div align="center">
+<img src="/2024/03/13/deep-learning/1.png" width="70%/">
+</div>
+
+<ul>
+<li>在深度学习中，特征工程往往由算法自动完成</li>
+</ul>
+<h4 id="深度学习介绍"><a href="#深度学习介绍" class="headerlink" title="深度学习介绍"></a>深度学习介绍</h4><ul>
+<li>深度学习一般指深度神经网络，深度指神经网络的层数（多层）。<div align="center">
+<img src="/2024/03/13/deep-learning/2.png" width="100%/">
+</div></li>
+</ul>
+<h3 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h3><h4 id="神经网络介绍"><a href="#神经网络介绍" class="headerlink" title="神经网络介绍"></a>神经网络介绍</h4><ul>
+<li>目前，关于神经网络的定义尚不统一，按美国神经网络学家Hecht Nielsen的观点，神经网络的定义是：“神经网络是由多个非常简单的处理单元彼此按某种方式相互连接而形成的计算机系统，该系统靠其状态对外部输入信息的动态响应来处理信息”。</li>
+<li>综合神经网络的来源、特点和各种解释，它可简单地表述为：<strong>人工神经网络是一种旨在模仿人脑结构及其功能的信息处理系统</strong>。</li>
+<li><strong>人工神经网络（简称神经网络）</strong>：是由人工神经元互连组成的网络，它是从微观结构和功能上对人脑的抽象、简化，是模拟人类智能的一条重要途径，反映了人脑功能的若干基本特征，如并行信息处理、学习、联想、模式分类记忆等。</li>
+</ul>
+<h4 id="神经网络发展历程"><a href="#神经网络发展历程" class="headerlink" title="神经网络发展历程"></a>神经网络发展历程</h4><div align="center">
+<img src="/2024/03/13/deep-learning/3.png" width="100%/">
+</div>
+
+<h3 id="单层感知机"><a href="#单层感知机" class="headerlink" title="单层感知机"></a>单层感知机</h3><h4 id="单层感知机原理"><a href="#单层感知机原理" class="headerlink" title="单层感知机原理"></a>单层感知机原理</h4><ul>
+<li><p>感知机 ( perceptron )是Frank Rosenblatt在1957年所发明的一种最简单的人工神经网络。单层感知机本质上是一个二分类器。</p>
+</li>
+<li><p>输入向量：$X&#x3D;[x_0,x_1,…x_n]^T$</p>
+</li>
+<li><p>权值：$W&#x3D;[w_0,w_1,…,w_n]^T$，其中$w_0$称之为<strong>偏置</strong></p>
+</li>
+<li><p>激活函数：$O&#x3D;sign(net)&#x3D;1,net&gt;0&#x2F;-1,otherwise$</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/4.png" width="70%/">
+</div>
+</li>
+<li><p>上面的感知器，相当于一个分类器，它使用高维$X$向量做输入，在高维空间对输入的样本进行二分类:当$W^TX&gt; 0$时，$O&#x3D;1$，相当于样本被归类为其中一类。否则，$O &#x3D; —1$，相当于样本被归类为另一类。这两类的边界在哪里呢?就是$W^TX&#x3D; 0$，这是一个高维的超平面。</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/5.png" width="70%/">
+</div></li>
+</ul>
+<h4 id="单层感知机所遇障碍-XOR问题"><a href="#单层感知机所遇障碍-XOR问题" class="headerlink" title="单层感知机所遇障碍 - XOR问题"></a>单层感知机所遇障碍 - XOR问题</h4><ul>
+<li>1969年，美国数学家及人工智能先驱Minsky在其著作中证明了感知器本质上是一种线性模型，只能处理线性分类问题，<strong>无法处理非线性数据</strong>。<div align="center">
+<img src="/2024/03/13/deep-learning/6.png" width="70%/">
+</div></li>
+</ul>
+<h3 id="前馈神经网络"><a href="#前馈神经网络" class="headerlink" title="前馈神经网络"></a>前馈神经网络</h3><h4 id="前馈神经网络结构原理"><a href="#前馈神经网络结构原理" class="headerlink" title="前馈神经网络结构原理"></a>前馈神经网络结构原理</h4><div align="center">
+<img src="/2024/03/13/deep-learning/7.png" width="70%/">
+</div>
+
+<ul>
+<li>计算功能的神经元都在隐含层，隐含层中有激活函数，这些激活函数通过计算传递到下一层。同样同一层的神经元之间并不存在相互的联系，层与层之间的信息只沿着一个方向。</li>
+</ul>
+<h4 id="解决异或问题"><a href="#解决异或问题" class="headerlink" title="解决异或问题"></a>解决异或问题</h4><div align="center">
+<img src="/2024/03/13/deep-learning/8.png" width="90%/">
+</div>
+
+<h4 id="隐藏层数对神经网络的影响"><a href="#隐藏层数对神经网络的影响" class="headerlink" title="隐藏层数对神经网络的影响"></a>隐藏层数对神经网络的影响</h4><div align="center">
+<img src="/2024/03/13/deep-learning/9.png" width="90%/">
+</div>
+
+<ul>
+<li>隐含层数越多，神经网络的分辨能力越强</li>
+</ul>
+<hr>
+<h2 id="训练法则"><a href="#训练法则" class="headerlink" title="训练法则"></a>训练法则</h2><h3 id="向前传播"><a href="#向前传播" class="headerlink" title="向前传播"></a>向前传播</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
+<li>输入信号从输入层传输到输出层</li>
+<li>对于每个神经元︰<ul>
+<li>计算上层输入的加权平均值: $\theta’&#x3D;WX +b$</li>
+<li>计算激活函数值：$\theta &#x3D; f(\theta’)$</li>
+</ul>
+</li>
+<li>最后输出：模型预测值$f(x,\overline{\theta})$<div align="center">
+<img src="/2024/03/13/deep-learning/10.png" width="80%/">
+</div></li>
+</ul>
+<h3 id="梯度下降与损失函数"><a href="#梯度下降与损失函数" class="headerlink" title="梯度下降与损失函数"></a>梯度下降与损失函数</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><ul>
+<li>对于多元函数 $o &#x3D; f(x) &#x3D; f(x_0,x_1,…,x_n)$ ，其在 $x’&#x3D; [x_0’ ,x_1 ‘,…,x_n’]^T$ 处的梯度为:$$\nabla f(x_0’ ,x_1 ‘,…,x_n’)&#x3D; [\frac{\partial f}{\partial x_0},\frac{\partial f}{\partial x_1},…,\frac{\partial f}{\partial x_n}]^T|X&#x3D;X’$$<br><strong>梯度向量的方向，指向函数增长最快的方向</strong>。因此，负梯度向量$-\nabla f$ ,则指向函数下降最快的方向。</li>
+<li>在训练深度学习网络的时候，我们要首先要参数化描述目标分类的错误，这就是<strong>损失函数</strong>（误差函数），它反映了感知器目标输出和实际输出之间的误差。最常用的误差函数为<strong>均方误差</strong>：$$E(W)&#x3D;\frac{1}{2}\sum_{d\in D}(t_d-o_d)^2$$ 其中，$d$ 为训练样例，$D$ 为训练样例集，$t_d$ 为目标输出，$o_d$ 为实际输出。</li>
+<li>梯度下降法的思想是让损失函数沿着负梯度的方向进行搜索，不断迭代更新参数，最终使得损失函数最小化。</li>
+</ul>
+<h4 id="损失函数极值"><a href="#损失函数极值" class="headerlink" title="损失函数极值"></a>损失函数极值</h4><ul>
+<li><strong>目的</strong>：损失函数$E(W)$是定义在权值空间上的函数。我们的目的是搜索使得$E(W)$<strong>最小</strong>的权值向量$W$。</li>
+<li><strong>限制</strong>：$E(W)&#x3D;\frac{1}{2}\sum_{d\in D}(t_d-o_d)^2$ 的复杂高维曲面，<strong>在数学上，尚没有求极值解有效方法。</strong></li>
+<li><strong>解决思路</strong>：负梯度方向是函数下降最快的方向，那我们可以从某个点开始，沿着 $-\nabla E(W)$ 方向一路前行，期望最终可以找到 $E(W)$ 的极小值点，这就是梯度下降法的核心思想。<div align="center">
+<img src="/2024/03/13/deep-learning/11.png" width="50%/">
+</div></li>
+</ul>
+<h4 id="深度学习中常用的损失函数"><a href="#深度学习中常用的损失函数" class="headerlink" title="深度学习中常用的损失函数"></a>深度学习中常用的损失函数</h4><ul>
+<li>均方误差：$$E(W)&#x3D;\frac{1}{2}\sum_{d\in D}(t_d-o_d)^2$$</li>
+<li>交叉熵误差：$$E(W)&#x3D;\frac{1}{n}\sum_{d\in D}(t_d \ln{o_d}+(1-t_d) \ln({1-o_d}))^2$$</li>
+<li>交叉嫡误差刻画了两个概率分布之间的距离，是分类问题中使用较多的一种损失函数。</li>
+<li>一般均方误差更多得用于<strong>回归问题</strong>，而交叉嫡误差更多的用于<strong>分类问题</strong>。</li>
+</ul>
+<h4 id="批量梯度下降-BGD"><a href="#批量梯度下降-BGD" class="headerlink" title="批量梯度下降(BGD)"></a>批量梯度下降(BGD)</h4><ul>
+<li>对于训练样例集$D$中的每一个样例记为 $&lt;X,t &gt;$ ，$X$ 是输入值向量，$t$  为目标输出，$o$ 为实际输出，$\eta$ 是学习率。<ul>
+<li>初始化每个 $w_i$ ，为绝对值较小的随机值</li>
+<li>遇到终止条件前，<strong>do</strong>：<ul>
+<li>初始化每个 $\triangle w_i$ 为零</li>
+<li>对于 $D$ 中每个 $&lt;X,t &gt;$，<strong>do</strong>：<ul>
+<li>将 $X$ 输入此单元，计算输出$o$</li>
+<li>对于此单元的每个 $w_i$，<strong>do</strong>：$\triangle w_i+&#x3D; \eta(t-o) x_i$</li>
+</ul>
+</li>
+<li>·对于此单元的每个 $w$ ,，<strong>do</strong>：$w_i+&#x3D;\triangle w_i$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>这个版本的梯度下降算法，实际上并不常用，它的主要问题是：<ul>
+<li>收敛过程非常慢，因为每次更新权值都需要计算所有的训练样例;</li>
+</ul>
+</li>
+</ul>
+<h4 id="随机梯度下降-SGD"><a href="#随机梯度下降-SGD" class="headerlink" title="随机梯度下降(SGD)"></a>随机梯度下降(SGD)</h4><ul>
+<li>针对原始梯度下降算法的弊端，一个常见的变体称为增量梯度下降( Incremental GradientDescent)，亦即<strong>随机梯度下降</strong>（SGD: Stochastic Gradient Descent ）。其中一种实现称为在线学习( online Learning )，它根据每一个样例来更新梯度：$$\triangle w_i&#x3D;\eta \sum_{d\in D}(t_d-o_d)x_{id} \Rightarrow \triangle w_i&#x3D;\eta (t_d-o_d)x_{id}$$</li>
+<li>ONLINE-GRADIENT-DESCENT $(D, \eta)$<ul>
+<li>初始化每个 $w_i$ 为绝对值较小的随机值。</li>
+<li>遇到终止条件前，<strong>do</strong>：</li>
+<li>在 $D$ 中随机出一个 $&lt;X, t&gt;$ ，<strong>do</strong>:<ul>
+<li>将x输入此单元，计算输出 $o$</li>
+<li>对于此单元的每个 $w_i$ ， <strong>do</strong>: $w_i +&#x3D; \eta(t-o)x_i$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="小批量梯度下降-MBGD"><a href="#小批量梯度下降-MBGD" class="headerlink" title="小批量梯度下降(MBGD)"></a>小批量梯度下降(MBGD)</h4><ul>
+<li>针对上两种梯度下降算法的弊端，提出了一个实际工作中<strong>最常用的梯度下降算法</strong>，即 <strong>Mini-BatchSGD</strong>。它的思想是每次使用一小批固定尺寸（BS: Batch Size）的样例来计算 $\triangle w_i$ ，然后更新权值。</li>
+<li>BATCH-GRADIENT-DESCENT $(D,\eta,BS)$<ul>
+<li>初始化每个 $w_i$ 为绝对值较小的随机值</li>
+<li>遇到终止条件前，<strong>do</strong>:<ul>
+<li>初始化每个 $\triangle w_i$ 为零</li>
+<li>从 $D$ 中下一批(BS个)样例，对这批样例中的每一个 $&lt;X,t &gt;$，<strong>do</strong>:<ul>
+<li>将 $X$ 输入此单元，计算输出 $o$</li>
+<li>对于此单元的每个 $w_i$ ，<strong>do</strong>: $\triangle w_i +&#x3D; \eta(t-o)x_i$</li>
+</ul>
+</li>
+<li>对于此单元的每个 $w_i$ ，<strong>do</strong>: $w_i+&#x3D;\triangle w_i$</li>
+<li>如果已经是最后一批，打乱训练样例的顺序。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="反向传播算法"><a href="#反向传播算法" class="headerlink" title="反向传播算法"></a>反向传播算法</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><ul>
+<li><p><strong>误差反向传播算法</strong>（Error Back Propagation）是神经网络的重要算法。它使用链式求导法则将输出层的误差反向传回给网络，使神经网络的权重有了较简单的梯度计算实现方法。</p>
+</li>
+<li><p>信号正向传播，误差反向传播</p>
+</li>
+<li><p>对于训练样例集 $D$ 中的每一个样例记为 $&lt;X,t&gt;$ ，$X$ 是输入值向量，$t$ 为目标输出，$o$ 为实际输出，$w$ 为权重系数</p>
+</li>
+<li><p>损失函数：$$E(W)&#x3D;\frac{1}{2}\sum_{d\in D}(t_d-o_d)^2$$</p>
+</li>
+<li><p>步骤:</p>
+<ul>
+<li>从最后一层开始，计算误差对于该层节点参数的梯度</li>
+<li>基于上一层的梯度值，对当前层参数的梯度值进行计算，重复该步骤，将参数传播至第一层</li>
+</ul>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/03/13/deep-learning/12.png" width="50%/">
+</div>
+
+
+<hr>
+<h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><h3 id="激活函数介绍"><a href="#激活函数介绍" class="headerlink" title="激活函数介绍"></a>激活函数介绍</h3><ul>
+<li><strong>激活函数</strong>（Activation functions）对于神经网络模型去学习、理<strong>解非常复杂和非线性的函数</strong>来说具有十分重要的作用，激活函数的存在将<strong>非线性特性</strong>引入到我们的网络中。</li>
+<li>如果我们不运用激活函数，则输出信号将仅仅是一个简单的线性函数。线性函数的复杂性有限，从数据中学习复杂函数映射的能力更小。<div align="center">
+<img src="/2024/03/13/deep-learning/13.png" width="70%/">
+</div></li>
+</ul>
+<h3 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h3><div align="center">
+<img src="/2024/03/13/deep-learning/14.png" width="70%/">
+</div>
+
+<ul>
+<li>会出现<strong>梯度消失问题</strong></li>
+<li><strong>梯度消失问题</strong>：激活函数在某些输入范围内(往往是远离中心点)的导数趋近于零，反向传播中的梯度也会变得非常小，从而导致梯度消失问题</li>
+</ul>
+<h3 id="tanh函数"><a href="#tanh函数" class="headerlink" title="tanh函数"></a>tanh函数</h3><div align="center">
+<img src="/2024/03/13/deep-learning/15.png" width="70%/">
+</div>
+
+<ul>
+<li>会出现<strong>梯度消失问题</strong></li>
+</ul>
+<h3 id="Softsign函数"><a href="#Softsign函数" class="headerlink" title="Softsign函数"></a>Softsign函数</h3><div align="center">
+<img src="/2024/03/13/deep-learning/16.png" width="70%/">
+</div>
+
+<ul>
+<li>会出现<strong>梯度消失问题</strong>，但比起Sigmoid和tanh要好，在一定程度上缓解了梯度消失问题</li>
+</ul>
+<h3 id="ReLU函数"><a href="#ReLU函数" class="headerlink" title="ReLU函数"></a>ReLU函数</h3><div align="center">
+<img src="/2024/03/13/deep-learning/17.png" width="70%/">
+</div>
+
+<ul>
+<li><strong>优点</strong>：<strong>计算量小</strong>，同时进行了<strong>特征选择</strong>，也减缓了梯度消失问题</li>
+<li><strong>缺点</strong>：由于 $x&#x3D;0$ 这个拐角，在分析某些问题时，不能将数据蕴含的一些信息表达出来，尤其是<strong>回归问题</strong>，无法更好地预测</li>
+</ul>
+<h3 id="Softplus函数"><a href="#Softplus函数" class="headerlink" title="Softplus函数"></a>Softplus函数</h3><div align="center">
+<img src="/2024/03/13/deep-learning/18.png" width="70%/">
+</div>
+
+<ul>
+<li>对ReLU函数的更新，计算量有所增加，但可更好地解决回归问题</li>
+</ul>
+<h3 id="Softmax函数"><a href="#Softmax函数" class="headerlink" title="Softmax函数"></a>Softmax函数</h3><ul>
+<li>Softmax函数体：$$\sigma(z)_j&#x3D;\frac{e^{Z_j}}{\sum_k e^{Z_k}}$$</li>
+<li>Softmax函数的功能就是将一个 $K$ 维的任意实数向量映射成另一个 $K$ 维的实数向量，其中向量中的每个元素取值都介于 $(0，1)$ 之间。新的向量所有维度模长之和为1。</li>
+<li>Softmax函数经常用作<strong>多分类任务</strong>的输出层。</li>
+</ul>
+<hr>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><h3 id="正则化介绍"><a href="#正则化介绍" class="headerlink" title="正则化介绍"></a>正则化介绍</h3><h4 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h4><ul>
+<li>正则化是机器学习中非常重要并且非常有效的减少泛化误差的技术，特别是在深度学习模型中，由于其模型参数非常多非常容易产生过拟合。因此研究者也提出很多有效的技术防止过拟合，比较常用的技术包括:<ul>
+<li>参数添加约束，例如$L_1$、$L_2$范数等。</li>
+<li>训练集合扩充，例如添加噪声、数据变换等。</li>
+<li>Dropout</li>
+<li>提前停止</li>
+</ul>
+</li>
+</ul>
+<h4 id="参数惩罚"><a href="#参数惩罚" class="headerlink" title="参数惩罚"></a>参数惩罚</h4><ul>
+<li>许多正则化方法通过对目标函数 $J$ 添加一个参数惩罚 $\Omega(\theta)$ ,限制模型的学习能力。我们将正则化后的目标函数记为 $\tilde{J}$。$$\tilde{J}(\theta;X,y)&#x3D;J(\theta;X,y)+\alpha\Omega(\theta)$$ 其中 $\alpha \in[0, \infty)$ 是权衡范数惩罚项 $\Omega$ 和标准目标函数 $J(X;\theta)$ 相对贡献的超参数。将 $\alpha$ 设为0表示没有正则化。 $\alpha$ 越大，对应正则化惩罚越大。</li>
+</ul>
+<h3 id="L-1-与-L-2-正则"><a href="#L-1-与-L-2-正则" class="headerlink" title="$L_1$与$L_2$正则"></a>$L_1$与$L_2$正则</h3><h4 id="L-1-正则"><a href="#L-1-正则" class="headerlink" title="$L_1$正则"></a>$L_1$正则</h4><ul>
+<li>对模型参数添加 $L_1$ 范数约束，即：$$\tilde{J}(w;X,y)&#x3D;J(w;X,y)+\alpha ||w||_1$$，</li>
+<li>如果通过梯度方法进行求解时，参数梯度为：$$\nabla \tilde{J}(w)&#x3D;\propto sign(w)+\nabla J(w)$$</li>
+</ul>
+<h4 id="L-2-正则"><a href="#L-2-正则" class="headerlink" title="$L_2$正则"></a>$L_2$正则</h4><ul>
+<li>参数约束添加 $L_2$ 范数惩罚项，该技术<strong>防止过拟合</strong> $$\tilde{J}(w;X,y)&#x3D;J(w;X,y)+\frac{1}{2}\alpha ||w||^2$$，</li>
+<li>通过最优化技术，例如梯度相关方法可以很快推导出，参数优化方式为：$$w &#x3D; (1 - \varepsilon \alpha)\omega - \varepsilon \nabla J(w)$$  其中 $\varepsilon$ 为学习率，相对于正常的梯度优化公式，对参数乘上一个缩减因子。</li>
+</ul>
+<h4 id="L-1-vs-L-2"><a href="#L-1-vs-L-2" class="headerlink" title="$L_1$ vs $L_2$"></a>$L_1$ vs $L_2$</h4><ul>
+<li>Lz与 $L_1$ 的主要区别如下:<ul>
+<li>通过上面的分析，$L_1$ 相对于 $L_2$ 能够产生 ，即当 $L_1$ 正则在参数 $w$ 比较小的情况下，能够直接缩减至0，因此可以起到特征选择的作用。</li>
+<li>如果从概率角度进行分析，很多范数约束相当于对参数添加先验分布，其中 $L_2$范数相当于参数服从<strong>高斯先验分布</strong>; $L_1$ 范数相当于<strong>拉普拉斯分布</strong>。<div align="center">
+<img src="/2024/03/13/deep-learning/19.png" width="70%/">
+</div></li>
+</ul>
+</li>
+</ul>
+<h3 id="数据集合扩充"><a href="#数据集合扩充" class="headerlink" title="数据集合扩充"></a>数据集合扩充</h3><ul>
+<li>防止过拟合最有效的方法是增加训练集合，<strong>训练集合越大过拟合概率越小</strong>。数据集合扩充是一个省时有效的方法，但是在不同领域方法不太通用<ul>
+<li>在目标识别领域常用的方法是将图片进行旋转、缩放等（图片变换的前提是通过变换不能改变图片所属类别，例如手写数字识别，类别6和9进行旋转后容易改变类目）。</li>
+<li>语音识别中对输入数据添加随机噪声。</li>
+<li>NLP中常用思路是进行近义词替换。</li>
+<li>噪声注入，可以对输入添加噪声，也可以对隐藏层或者输出层添加噪声。例如对于softmax分类问题可以通过Label Smoothing技术添加噪声，对于类目0-1添加噪声，则对应概率变成 $\frac{\varepsilon}{k}$，$1-\frac{k-1}{k} \varepsilon$</li>
+</ul>
+</li>
+</ul>
+<h3 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h3><ul>
+<li><p>Dropout是一类通用并且计算简洁的正则化方法，在2014年被提出后广泛的使用。简单的说，Dropout在训练过程中，随机的丢弃一部分输入，此时丢弃部分对应的参数不会更新。相当于Dropout是一个集成方法，将所有子网络结果进行合并，如图通过随机丢弃输入可以得到各种子网络。如图：</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/20.png" width="60%/">
+</div>
+</li>
+<li><p>Dropout工作流程：</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/21.png" width="100%/">
+</div>
+</li>
+<li><p><strong>Dropout的作用</strong>（为什么可以解决过拟合）：</p>
+<ul>
+<li>取平均的作用。</li>
+<li>减少神经元之间复杂的共适应关系。</li>
+<li>Dropout类似于性别在生物进化中的角色。</li>
+</ul>
+</li>
+</ul>
+<h3 id="提前停止训练"><a href="#提前停止训练" class="headerlink" title="提前停止训练"></a>提前停止训练</h3><ul>
+<li>在训练过程中，插入对验证集数据的测试。当发现验证集数据的Loss上升时，提前停止训练。<div align="center">
+<img src="/2024/03/13/deep-learning/22.png" width="60%/">
+</div></li>
+</ul>
+<h3 id="随机池化-卷积网络"><a href="#随机池化-卷积网络" class="headerlink" title="随机池化(卷积网络)"></a>随机池化(卷积网络)</h3><h4 id="池化的意义"><a href="#池化的意义" class="headerlink" title="池化的意义"></a>池化的意义</h4><ul>
+<li>既对数据进行降采样操作，又可以用 $p$ 范数作非线性映射的“卷积”:$$||A||<em>p&#x3D;(\sum</em>{i&#x3D;1} ^m \sum_{j&#x3D;1} ^n |a_{ij}|^p)^{\frac{1}{p}}$$</li>
+<li>具体作用为：<ul>
+<li>特征不变性：使模型更关注包含一定的自由度，能容忍特征微小的位移;</li>
+<li>特征降维：降采样使得后续操作的计算量得到减少</li>
+<li>一定程度防止过拟合。</li>
+</ul>
+</li>
+<li>池化层的常见操作∶最大值池化，均值池化，随机池化，中值池化，组合池化等</li>
+</ul>
+<h4 id="最大池化和均值池化"><a href="#最大池化和均值池化" class="headerlink" title="最大池化和均值池化"></a>最大池化和均值池化</h4><ul>
+<li><p><strong>最大池化</strong>：最大值池化的优点在于它能学习到图像的边缘和纹理结构。</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/23.png" width="60%/">
+</div>
+</li>
+<li><p><strong>均值池化</strong>：均值池化的优点在于可以减小估计均值的偏移，提升模型的鲁棒性。</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/24.png" width="60%/">
+</div></li>
+</ul>
+<h4 id="随机池化"><a href="#随机池化" class="headerlink" title="随机池化"></a>随机池化</h4><ul>
+<li><strong>随机池化</strong>：按一定概率随机选取其中一个元素，介于平均池化和最大池化之间，并且受dropout启发，具有更好的正则化效果；可以看作是，在输入图片的许多副本（有一些小的局部变形）上进行标准的最大池化操作。<div align="center">
+<img src="/2024/03/13/deep-learning/25.png" width="70%/">
+</div></li>
+</ul>
+<hr>
+<h2 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h2><h3 id="优化器基本介绍"><a href="#优化器基本介绍" class="headerlink" title="优化器基本介绍"></a>优化器基本介绍</h3><ul>
+<li>在梯度下降算法中，有各种不同的改进版本。在面向对象的语言实现中，往往把不同的梯度下降算法封装成一个对象，称为<strong>优化器</strong>。</li>
+<li>算法改进的目的，包括但不限于:<ul>
+<li>加快算法收敛速度;</li>
+<li>尽量避过或冲过局部极值;</li>
+<li>减小手工参数的设置难度，主要是Learning Rate ( LR)。</li>
+</ul>
+</li>
+<li>常见的优化器如︰普通GD优化器、动量优化器、Nesterov、<strong>Adagrad</strong>、Adadelta、<strong>RMSprop</strong>、<strong>Adam</strong>、AdaMax、Nadam。</li>
+</ul>
+<h3 id="动量优化器"><a href="#动量优化器" class="headerlink" title="动量优化器"></a>动量优化器</h3><h4 id="动量优化器原理"><a href="#动量优化器原理" class="headerlink" title="动量优化器原理"></a>动量优化器原理</h4><ul>
+<li>一个最基本的改进，是为 $\Delta w_{ji}(n)$ 增加动量项。记第 $n$ 次迭代时的权值修正量为 $\Delta w_{ji}(n)$ ，则权值修正法则变为：$$\Delta w_{ji}(n) &#x3D; \eta \delta_j x_{ji}+\alpha \Delta w_{ji}(n-1)$$<br>其中，$\delta_j$ 为惯性的大小，$0\leq a&lt;1$ 是一个常数，称为<strong>动量</strong>(Momentum) 。$\alpha\Delta w_{ji}(n-1)$ 称为动量项。</li>
+<li>想象一个小球，从一个随机的点开始，沿着误差曲面滚下。动量项的引入相当于赋予了小球惯性:<div align="center">
+<img src="/2024/03/13/deep-learning/26.png" width="60%/">
+</div></li>
+</ul>
+<h4 id="动量优化器优缺点"><a href="#动量优化器优缺点" class="headerlink" title="动量优化器优缺点"></a>动量优化器优缺点</h4><ul>
+<li>动量优化器的优点是:<ul>
+<li>增加了梯度修正方向的稳定性，减小突变。</li>
+<li>在梯度方向比较稳定的区域，小球滚动会越来越快（当然，因为 $\alpha &lt;1$，其有一个速度上限），这有助于小球快速冲过平坦区域，加快收敛。</li>
+<li>带有惯性的小球更容易滚过一些狭窄的局部极值。</li>
+</ul>
+</li>
+<li>动量优化器的缺点是:<ul>
+<li>学习率 $\eta$ 以及动量 $\alpha$ 仍需手动设置，这往往需要较多的实验来确定合适的值</li>
+</ul>
+</li>
+</ul>
+<h3 id="Adagrad优化器"><a href="#Adagrad优化器" class="headerlink" title="Adagrad优化器"></a>Adagrad优化器</h3><h4 id="Adagrad优化器原理"><a href="#Adagrad优化器原理" class="headerlink" title="Adagrad优化器原理"></a>Adagrad优化器原理</h4><ul>
+<li>随机梯度下降算法(SGD )、小批量梯度下降算法（MBGD）、动量优化器的共同特点是：对于每一个参数都用相同的学习率进行更新。</li>
+<li>Adagrad的思想则是应该为不同的参数设置不同的学习率<br>$$g_t \leftarrow + \frac{1}{m} \nabla_\theta \sum_i L(f(x_i;w),y_i)  ，计算梯度$$ $$r \leftarrow r+g_t^2，累积平方梯度$$ $$\Delta w&#x3D;-\frac{\eta}{\varepsilon +\sqrt{r}}g_t，计算更新$$ $$w \leftarrow w+ \Delta w，应用更新$$<ul>
+<li>$g_t$ 为第 $t$ 次的梯度，$r$ 为梯度累积变量，$r$ 的初始值为 $0$，会一直递增。$\eta$ 为全局学习率，需要手动设置。$\varepsilon$ 为小常数，为了数值稳定大约设置为 $10^{-7}$。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Adagrad优化器优缺点"><a href="#Adagrad优化器优缺点" class="headerlink" title="Adagrad优化器优缺点"></a>Adagrad优化器优缺点</h4><ul>
+<li>从Adagrad优化算法中可以看出，随着算法不断迭代，$r$ 会越来越大，整体的学习率会越来越小。这样做的原因是随着更新次数的增大，我们希望学习率越来越慢。因为我们认为在学习率的最初阶段，我们距离损失函数最优解还很远，随着更新次数的增加，越来越接近最优解，所以学习率也随之变慢。</li>
+<li>优点：<ul>
+<li>学习率自动更新，随着更新次数增加，学习率随之变慢。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>分母会不断累积，这样学习率就会后所并最终变得非常小（可能会提前停止），算法会失去效用。</li>
+</ul>
+</li>
+</ul>
+<h3 id="RMSprop优化器"><a href="#RMSprop优化器" class="headerlink" title="RMSprop优化器"></a>RMSprop优化器</h3><ul>
+<li>RMSprop优化器是一种改进的Adagrad优化器，通过引入一个衰减系数，让 $r$ 每回合都衰减一定的比例。</li>
+<li>RMSprop优化器很好的解决了Adagrad优化器过早结束的问题，很合适处理<strong>非平稳目标</strong>，对于<strong>RNN网络</strong>效果很好。<br>$$g_t \leftarrow + \frac{1}{m} \nabla_\theta \sum_i L(f(x_i;w),y_i)  ，计算梯度$$ $$r \leftarrow \beta r+(1-\beta)g_t^2，累积平方梯度$$ $$\Delta w&#x3D;-\frac{\eta}{\varepsilon +\sqrt{r}}g_t，计算更新$$ $$w \leftarrow w+ \Delta w，应用更新$$<ul>
+<li>$g_t$ 为第 $t$ 次的梯度，$r$ 为梯度累积变量，$r$ 的初始值为 $0$，<strong>未必递增，通过参数调节</strong>。$\beta$ 为<strong>衰减因子</strong>，$\eta$ 为全局学习率，需要手动设置。$\varepsilon$ 为小常数，为了数值稳定大约设置为 $10^{-7}$。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Adam优化器"><a href="#Adam优化器" class="headerlink" title="Adam优化器"></a>Adam优化器</h3><ul>
+<li>Adam ( Adaptive Moment Estimation )︰是从Adagrad、Adadelta上发展而来，Adam为每个待训练的变量，维护了两个附加的变量 $m_t$ 和 $v_t$：$$m_t&#x3D;\beta_1m_{t-1}+(1-\beta_1)g_t$$ $$v_t&#x3D;\beta_2v_{t-1}+(1-\beta_2)g_t^2$$</li>
+<li>其中 $t$ 表示第 $t$ 次迭代，$g_t$ 是本次计算出的梯度，从形式上来看 $m_t$ 和 $v_t$ 分别是梯度和梯度平方的移动均值。从统计意义上看，$m_t$ 和 $v_t$ 是梯度的一阶矩(均值）和二阶矩（非中心方差)的估计，因此而得名。</li>
+<li>如果以 $0$ 向量来初始化 $m_t$ 和 $v_t$ ，在开始的一些迭代，尤其是当 $\beta_1$ 和 $\beta_2$ ，接近于 $1$ 的时候， $m_t$ 和 $v_t$ 将非常接近于 $0$，为了解决这个问题，我们实际使用的是 $\widehat{m_t}$ 和 $\widehat{v_t}$：$$\widehat{m_t}&#x3D;\frac{m_t}{1-\beta_1^t}$$ $$\widehat{v_t}&#x3D;\frac{v_t}{1-\beta_2^t}$$</li>
+<li>而Adam的权值更新法则是：$$w_{t+1}&#x3D;w_t-\frac{\eta}{\sqrt{\widehat{v_t}}+\epsilon}\widehat{m_t}$$</li>
+<li>虽然上面的法则中依然存在人工设置 $\eta$ 、$\beta_1$ 、$\beta_2$ ，但他们的设置难度大大降低。根据实验，一般取 $\beta_1&#x3D;0.9$，$\beta_2&#x3D;0.999$，$\epsilon &#x3D; 10^{-8}$，$\eta&#x3D;0.001$。在实际使用过程中，Adam将迅速收敛，当收敛到饱和的时候，可以适当降低，一般降低几次之后，即会收敛到满意的（局部）极值。其他参数一般不必调整。</li>
+</ul>
+<h3 id="优化器性能比较"><a href="#优化器性能比较" class="headerlink" title="优化器性能比较"></a>优化器性能比较</h3><div align="center">
+<img src="/2024/03/13/deep-learning/27.png" width="100%/">
+</div>
+
+<hr>
+<h2 id="神经网络类型"><a href="#神经网络类型" class="headerlink" title="神经网络类型"></a>神经网络类型</h2><h3 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h3><h4 id="卷积神经网络基本介绍"><a href="#卷积神经网络基本介绍" class="headerlink" title="卷积神经网络基本介绍"></a>卷积神经网络基本介绍</h4><ul>
+<li><strong>卷积神经网络</strong>(Convolutional Neural Network,<strong>CNN</strong>)是一种前馈神经网络，它的人工神经元可以响应一部分覆盖范围内的周围单元，对于<strong>图像处理</strong>有出色表现。它包括<strong>卷积层</strong>(convolutional layer)，<strong>池化层</strong>(pooling layer)和<strong>全连接层</strong>(fully_connected layer)。</li>
+<li>20世纪60年代，Hubel和wiesel在研究猫脑皮层中用于局部敏感和方向选择的神经元时发现其独特的网络结构可以有效地降低反馈神经网络的复杂性，继而提出了卷积神经网络(ConvolutionalNeural Networks-简称CNN)。</li>
+<li>现在，CNN已经成为众多科学领域的研究热点之一，特别是在模式分类领域，由于该网络避免了对图像的复杂前期预处理，可以直接输入原始图像，因而得到了更为广泛的应用。</li>
+</ul>
+<h4 id="卷积神经网络核心思想"><a href="#卷积神经网络核心思想" class="headerlink" title="卷积神经网络核心思想"></a>卷积神经网络核心思想</h4><ul>
+<li><strong>局部感知</strong>：一般认为，人对外界的认知是从局部到全局的，而<strong>图像的空间联系也是局部的像素联系较为紧密，而距离较远的像素相关性则较弱</strong>。因而，每个神经元其实没有必要对全局图像进行感知，只需要对局部进行感知，然后在更高层将局部的信息综合起来就得到了全局的信息。</li>
+<li><strong>参数共享</strong>：对输入的图片，用一个或者多个卷积核扫描照片，卷积核自带的参数就是权重，在同一个卷积核扫描的图层当中，每个卷积核使用同样的参数进行加权计算。<strong>权值共享意味着每一个卷积核在遍历整个图像的时候，卷积核的参数是固定不变的。</strong></li>
+</ul>
+<h4 id="卷积神经网络架构"><a href="#卷积神经网络架构" class="headerlink" title="卷积神经网络架构"></a>卷积神经网络架构</h4><div align="center">
+<img src="/2024/03/13/deep-learning/28.png" width="100%/">
+</div>
+
+<h4 id="单卷积核计算"><a href="#单卷积核计算" class="headerlink" title="单卷积核计算"></a>单卷积核计算</h4><ul>
+<li><strong>卷积计算描述</strong><div align="center">
+<img src="/2024/03/13/deep-learning/29.png" width="100%/">
+</div></li>
+</ul>
+<div align="center">
+<img src="/2024/03/13/deep-learning/30.png" width="60%/">
+</div>
+
+<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><ul>
+<li>卷积神经网络的基本结构，就是多通道卷积（由多个单卷积构成)。上一层的输出（或者第一层的原始图像），作为本层的输入，然后和本层的卷积核卷积，作为本层输出。而各层的卷积核，就是要学习的权值。和FCN类似，卷积完成后，输入下一层之前，也需要经过偏置和通过激活函数进行激活。<div align="center">
+<img src="/2024/03/13/deep-learning/31.png" width="90%/">
+</div></li>
+</ul>
+<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><ul>
+<li>池化(Pooling)，它合并了附近的单元，减小了下层输入的尺寸，起到<strong>降维</strong>的作用。常用的池化有最大池化(Max Pooling)和平均池化(Average Pooling)，顾名思义，最大池化选择一小片正方形区域中最大的那个值作为这片小区域的代表，而平均池化则使用这篇小区域的均值代表之。这片小区域的边长为池化窗口尺寸。下图演示了池化窗口尺寸为2的一般最大池化操作。<div align="center">
+<img src="/2024/03/13/deep-learning/32.png" width="90%/">
+</div></li>
+</ul>
+<h4 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h4><ul>
+<li>全连接层实质上就是一个分类器，将前面经过卷积层与池化层所提取的特征，拉直后放到全连接层中，输出结果并分类。</li>
+<li>通常我们使用Softmax函数作为最后全连接输出层的激活函数，把所有局部特征结合变成全局特征，用来计算最后每一类的得分。<br>$$\sigma(z)_j&#x3D;\frac{e^{Z_j}}{\sum_k e^{Z_k}}$$</li>
+</ul>
+<h3 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h3><h4 id="循环神经网络基本介绍"><a href="#循环神经网络基本介绍" class="headerlink" title="循环神经网络基本介绍"></a>循环神经网络基本介绍</h4><ul>
+<li><strong>循环神经网络</strong>（Recurrent neural networks，简称<strong>RNN</strong>）是一种通过隐藏层节点周期性的连接，来<strong>捕捉序列化数据中动态信息的神经网络</strong>，可以对序列化的数据进行分类。</li>
+<li>和其他前向神经网络不同，RNN可以保存一种<strong>上下文</strong>的状态，甚至能够在任意长的上下文窗口中存储、学习、表达相关信息，而且不再局限于传统神经网络在空间上的边界，可以在<strong>时间序列上有延拓</strong>，直观上讲，就是本时间的隐藏层和下一时刻的隐藏层之间的节点间有边。</li>
+<li>RNN广泛应用在和序列有关的场景，如如一帧帧图像组成的视频，一个个片段组成的音频，和一个个词汇组成的句子。</li>
+</ul>
+<h4 id="循环神经网络架构"><a href="#循环神经网络架构" class="headerlink" title="循环神经网络架构"></a>循环神经网络架构</h4><div align="center">
+<img src="/2024/03/13/deep-learning/33.png" width="90%/">
+</div>
+
+<div align="center">
+<img src="/2024/03/13/deep-learning/34.png" width="90%/">
+</div>
+
+<h4 id="循环神经网络类型"><a href="#循环神经网络类型" class="headerlink" title="循环神经网络类型"></a>循环神经网络类型</h4><div align="center">
+<img src="/2024/03/13/deep-learning/35.png" width="90%/">
+</div>
+
+<h4 id="时序反向传播-BPTT"><a href="#时序反向传播-BPTT" class="headerlink" title="时序反向传播(BPTT)"></a>时序反向传播(BPTT)</h4><ul>
+<li>时序反向传播(BPTT):<ul>
+<li>传统反向传播(BP)在时间序列上的拓展</li>
+<li>t 时刻的梯度是前 t -1 时刻所有梯度的累积</li>
+<li>时间越长，梯度消失越明显</li>
+</ul>
+</li>
+<li>BPTT的三个步骤:<ul>
+<li>前向计算每个神经元的输出值</li>
+<li>反向计算每个神经元的误差值 $\delta_j$</li>
+<li>计算每个权重的梯度</li>
+</ul>
+</li>
+<li>最后使用随机梯度下降算法更新权重。</li>
+</ul>
+<h4 id="循环神经网络问题"><a href="#循环神经网络问题" class="headerlink" title="循环神经网络问题"></a>循环神经网络问题</h4><ul>
+<li>标准RNN结构解决了信息记忆的问题，但是对<strong>长时间记忆的信息会衰减</strong>。</li>
+<li>很多任务需要保存长时间的记忆信息，如推理小说开头埋下的伏笔，可能到结尾时候才解答。</li>
+<li>在记忆单元容量有限的情况下，RNN会丢失长时间间隔的信息。</li>
+<li>我们希望记忆单元能够选择性记住重点信息。</li>
+</ul>
+<h4 id="长短记忆性网络"><a href="#长短记忆性网络" class="headerlink" title="长短记忆性网络"></a>长短记忆性网络</h4><div align="center">
+<img src="/2024/03/13/deep-learning/36.png" width="90%/">
+</div>
+
+<h5 id="Gated-Recurrent-Unit-GRU"><a href="#Gated-Recurrent-Unit-GRU" class="headerlink" title="Gated Recurrent Unit ( GRU )"></a>Gated Recurrent Unit ( GRU )</h5><div align="center">
+<img src="/2024/03/13/deep-learning/37.png" width="90%/">
+</div>
+
+<h3 id="生成对抗网络"><a href="#生成对抗网络" class="headerlink" title="生成对抗网络"></a>生成对抗网络</h3><h4 id="生成对抗网络基本介绍"><a href="#生成对抗网络基本介绍" class="headerlink" title="生成对抗网络基本介绍"></a>生成对抗网络基本介绍</h4><ul>
+<li>生成对抗网络(Generative Adversarial Nets)是一种<strong>框架</strong>，通过对抗过程，通过训练生成器G和判别器D。两者进行的博弈，最终使判别器无法区分样本是来自生成器伪造的样本还是真实样本。训练GAN框架采用成熟的BP算法。</li>
+</ul>
+<ol>
+<li>生成器G：输入“噪声”z（z服从一个人为选取的先验概率分布，如均匀分布、高斯分布等）。采用多层感知机的网络结构，用最大似然估计(MLP)的参数来表示可导映射G(z)，将输入空间映射到样本空间。</li>
+<li>判别器D：输入为真实样本x和伪造样本G(z)，并分别带有标签real和fake。判别器网络可以用带有参数多层感知机。输出为判别样本是否为真实样本数据的概率D(G(z))。</li>
+</ol>
+<ul>
+<li>生成对抗网络可应用于<strong>图像生成</strong>、<strong>语义分割</strong>、<strong>文字生成</strong>、<strong>数据增强</strong>、<strong>聊天机器人和信息检索</strong>，排序等场景。</li>
+</ul>
+<h4 id="生成对抗网络架构"><a href="#生成对抗网络架构" class="headerlink" title="生成对抗网络架构"></a>生成对抗网络架构</h4><ul>
+<li>生成器( Generator)&#x2F;判别器( Discriminator )<div align="center">
+<img src="/2024/03/13/deep-learning/38.png" width="90%/">
+</div></li>
+</ul>
+<h4 id="生成模型与判别模型"><a href="#生成模型与判别模型" class="headerlink" title="生成模型与判别模型"></a>生成模型与判别模型</h4><div align="center">
+<img src="/2024/03/13/deep-learning/39.png" width="100%/">
+</div>
+
+<h4 id="生成对抗网络训练法则"><a href="#生成对抗网络训练法则" class="headerlink" title="生成对抗网络训练法则"></a>生成对抗网络训练法则</h4><ul>
+<li>优化目标：<ul>
+<li>价值函数(Value Function) $$min_{G} max_{D}V (D,G)&#x3D;E_{x\sim p_{data}(x)}[logD(x)]+E_{z\sim p_{z}(z)}[log(1-D(G(z)))]$$</li>
+<li>训练初期，当 $G$ 的生成效果很差时，$D$ 会以高置信度来判别生成样本为假，因为它们与训练数据明显不同此时，$log(1-D(G(z)))$ 饱和（即梯度为 $0$，无法迭代）。因此我们选择只通过最小化 $[-log(D(G(z)))]$ 来训练 $G$。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="深度学习的常见问题"><a href="#深度学习的常见问题" class="headerlink" title="深度学习的常见问题"></a>深度学习的常见问题</h2><h3 id="数据不平衡问题"><a href="#数据不平衡问题" class="headerlink" title="数据不平衡问题"></a>数据不平衡问题</h3><ul>
+<li><p><strong>问题描述</strong>：在分类任务的数据集中，各个类别的样本数目不均衡，出现巨大的差异，预测的类别里有一个或者多个类别的样本量非常少。</p>
+</li>
+<li><p>比如：图像识别实验中，在4251个训练图片中，有超过2000个类别中只有一张图片。还有一些类中有2-5个图片。</p>
+</li>
+<li><p>导致问题:</p>
+<ul>
+<li>对于不平衡类别，我们不能得到实时的最优结果，因为模型&#x2F;算法从来没有充分地考察隐含类。</li>
+<li>它对验证和测试样本的获取造成了一个问题，因为在一些类观测极少的情况下，很难在类中有代表性。</li>
+</ul>
+</li>
+<li><p><strong>解决办法</strong>：</p>
+<ul>
+<li>随机欠采样<ul>
+<li>删除样本中多的样本</li>
+<li>优点：运行或训练模型的时间比较少，减少存储</li>
+<li>缺点：一些有潜在价值的信息可能被删除，存在偏差，导致结果不精确</li>
+</ul>
+</li>
+<li>随机过采样<ul>
+<li>拷贝样本</li>
+<li>优点：不会导致偏差，结果要优于欠采样</li>
+<li>缺点：加大过拟合的可能性</li>
+</ul>
+</li>
+<li>合成采样<ul>
+<li>提取样本</li>
+<li>合成样本      </li>
+<li>优点：缓解过拟合问题，也不会导致有价值的信息被删除</li>
+<li>缺点：类重叠性增加，引入额外的噪音，导致模型效果差，不适用于高维数据</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="梯度消失问题"><a href="#梯度消失问题" class="headerlink" title="梯度消失问题"></a>梯度消失问题</h3><ul>
+<li><p><strong>梯度消失</strong>：当网络层数越多时，进行反向传播求导值越小，导致梯度消失。</p>
+</li>
+<li><p><strong>梯度爆炸</strong>：当网络层数越多时，进行反向传播求导值越大，导致梯度爆炸。</p>
+</li>
+<li><p>导致原因：$$y_i&#x3D;\sigma(z_i)&#x3D;\sigma (w_ix_i+b_i)，其中\sigma为sigmoid函数$$</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/40.png" width="60%/">
+</div>
+</li>
+<li><p>$\sigma’(x)$ 的最大值为 $\frac{1}{4}$</p>
+<div align="center">
+<img src="/2024/03/13/deep-learning/41.png" width="65%/">
+</div>
+</li>
+<li><p>而网络权值 $|w|$ 通常都小于 $1$ ，因此$|\sigma’(z)w|≤\frac{1}{4}$，因此对于上面的链式求导，层数越多，求导结果 $\frac{\partial C}{\partial b_1}$ 越小，因而导致梯度消失的情况出现。</p>
+</li>
+<li><p>当网络权值 $|w|$ 比较大时，导致 $|\sigma’(z)w| &gt;1$，出现梯度爆炸。</p>
+</li>
+<li><p><strong>解决方法</strong>：梯度剪切、正则、ReLU激活函数、LSTM神经网络等。</p>
+</li>
+</ul>
+<h3 id="过拟合问题"><a href="#过拟合问题" class="headerlink" title="过拟合问题"></a>过拟合问题</h3><ul>
+<li><strong>问题描述</strong>：模型在训练集表现优异，但在测试集上表现较差。</li>
+<li>根本原因：特征维度过多，模型假设过于复杂，参数过多，训练数据过少，噪声过多，导致拟合的函数完美的预测训练集，但对新数据的测试集预测结果差。过度的拟合了训练数据，而没有考虑到泛化能力。</li>
+<li><strong>解决方法</strong>:<ol>
+<li>数据增强;</li>
+<li>正则化，降低参数值;</li>
+<li>限制训练时间;</li>
+<li>Dropout。</li>
+</ol>
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jourser</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Jourser.github.io/2024/03/13/deep-learning/">https://Jourser.github.io/2024/03/13/deep-learning/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jourser</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">笔记</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">深度学习</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">机器学习</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+                                    <span class="chip bg-color">神经网络</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/04/18/review-of-image-anomaly-detection/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="图像异常检测研究现状概括">
+                        
+                        <span class="card-title">图像异常检测研究现状概括</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-04-18
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" class="post-category">
+                                    计算机视觉
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%9B%BE%E5%83%8F%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/">
+                        <span class="chip bg-color">图像异常检测</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BB%BC%E8%BF%B0/">
+                        <span class="chip bg-color">综述</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/03/13/machine-learning/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="机器学习基础笔记">
+                        
+                        <span class="card-title">机器学习基础笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="post-category">
+                                    人工智能
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">笔记</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">机器学习</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('200')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 白米粥のBlog<br />'
+            + '文章作者: Jourser<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022-2024</span>
+            
+            <a href="/about" target="_blank">Jourser</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/Jourser" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:863519940@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=863519940" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 863519940" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
