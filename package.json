@@ -12,7 +12,7 @@
     "version": "6.3.0"
   },
   "dependencies": {
-    "ejs": "^3.1.9",
+    "ejs": "^3.1.10",
     "hexo": "^6.3.0",
     "hexo-asset-image": "github:CodeFalling/hexo-asset-image",
     "hexo-deployer-git": "^4.0.0",
