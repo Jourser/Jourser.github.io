@@ -121,7 +121,7 @@ tags:
 #### 在原主机上操作
 ##### 1.创建分支
 - 创建分支的方法很多，本文只是其中一种，适合git初学者
-- 1. 在Github的username.github.io仓库上新建一个xxx分支
+1. 在Github的username.github.io仓库上新建一个xxx分支
 <div align="center">
 <img src=./problems-for-hexo/3.png width=70%/>
 </div>
@@ -130,7 +130,7 @@ tags:
 <img src=./problems-for-hexo/4.png width=100%/>
 </div>
 
-- 2. 将默认分支设为xxx，update保存。
+2. 将默认分支设为xxx，update保存。
   - 由于执行`hexo d` 对应的分支和默认分支是没有关系的，因为这是由配置文件决定的，配置文件写的哪个分支就是哪个分支。为了分别日后的提交和更新，需要将默认分支设为xxx。
 
 <div align="center">
@@ -138,20 +138,20 @@ tags:
 </div>
 
 ##### 2. 克隆新分支
-- 1. Git Bash执行`git clone git@github.com:username/username.github.io.git`
-- 2. 进入username.github.io文件夹，执行`git branch`命令查看当前所在分支，应为新建的分支xxx
+1. Git Bash执行`git clone git@github.com:username/username.github.io.git`
+2. 进入username.github.io文件夹，执行`git branch`命令查看当前所在分支，应为新建的分支xxx
 <div align="center">
 <img src=./problems-for-hexo/6.png width=70%/>
 </div>
 
-- 3. 该步骤可做可不做，但建议做，删除username.github.io文件夹内除了`.git`文件外的所有文件
-- 4. 先将本地博客的部署文件（Hexo目录下的全部文件，除`node_modules`,`public`,`.deploy_git`等文件可不用）全部拷贝进username.github.io文件目录中去
+3. 该步骤可做可不做，但建议做，删除username.github.io文件夹内除了`.git`文件外的所有文件
+4. 先将本地博客的部署文件（Hexo目录下的全部文件，除`node_modules`,`public`,`.deploy_git`等文件可不用）全部拷贝进username.github.io文件目录中去
 
 <div align="center">
 <img src=./problems-for-hexo/7.png width=100%/>
 </div>
 
-- 5.  Git Bash执行依次执行
+5.  Git Bash执行依次执行
 ```
 git add .
 git commit -m 'hexo' （引号内容可随意更改，只是类似注释的作用）
@@ -196,15 +196,15 @@ npm install hexo-deployer-git --save
   - `npm install hexo-deployer-git --save`：安装Git部署插件
 
 4. 至此，新电脑的hexo迁移已经完成了。以下是创建新博客同步的步骤。
-- 1. `git pull`合并更新，尤其是换新电脑更新的时候。若只在同一台电脑上操作，则不需要这一步。
-- 2. 创建新文章
-- 3. 将新文件上传至github仓库的`hexo`分支，也就是源文件分支
+    1. `git pull`合并更新，尤其是换新电脑更新的时候。若只在同一台电脑上操作，则不需要这一步。
+    2. 创建新文章
+    3. 将新文件上传至github仓库的`hexo`分支，也就是源文件分支
+    4. 部署网站
 ```
 git add .
 git commit –m '日期'
 git push
 ```
-- 4. 部署网站
 ```
 hexo clean 
 hexo g 
