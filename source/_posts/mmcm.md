@@ -128,16 +128,19 @@ tags:
 
 ## IP 核配置实验步骤
 
+### 一、创建工程
 1. 打开 Vivado，新建一个工程。工程名为`ip_clk_wiz`。接下来添加 PLL IP 核。在 Vivado 软件的左侧`Flow Navigator`栏中单击`IP Catalog`
 <div align="center">
 <img src=./mmcm/5.png width=40%/>
 </div>
 
+### 二、搜索创建CLOCK IP
 2. 打开`IP Catalog`窗口后，在搜索栏中输入`clock`关键字，可以看到 Vivado 已经自动查找出了与关键字匹配的 IP 核名称，如下图所示。双击`FPGA Features and Design`→`Clocking”下的“Clocking Wizard`
 <div align="center">
 <img src=./mmcm/6.png width=80%/>
 </div>
 
+### 三、配置 IP 核
 3. 弹出 `Customize IP` 窗口，开始配置 IP 核
 - 最上面的`Component Name`一栏设置该 IP 元件的名称，这里保持默认即可。在第一个`Clocking Options`选项卡中，`Primitive`选项用于选择是使用 MMCM 还是 PLL 来输出不同的时钟，对于我们的本次实验来说，MMCM 和 PLL 都可以完成，这里我们可以保持默认选择 MMCM。需要修改的是最下面的`Input Clock Information`一栏，把`Primary`时钟的输入频率修改为我们开发板的开发板上的晶振频率 50MHz，其他的设置保持默认即可，如下图所示。 
 <div align="center">
@@ -164,16 +167,20 @@ tags:
 <img src=./mmcm/11.png width=80%/>
 </div>
 
+### 四、生成 IP 核
 4. 配置完成后，弹出了`Generate Output Products`窗口，点击`Generate`按钮，开始生成 IP 核。
 <div align="center">
 <img src=./mmcm/12.png width=50%/>
 </div>
 
+### 五、等待综合
 5. 在`Design Run`窗口的`Out-of-Context Module Runs`一栏中出现了该 IP 核对应的 run `clk_wiz_0_synth_1`，其综合过程独立于顶层设计的综合，所以在我们可以看到其正在综合，如下图所示。 
 <div align="center">
 <img src=./mmcm/13.png width=60%/>
 </div>
 
+
+### 六、拷贝例化模板代码
 6. 综合完成后，便可开始编写代码。首先查看IP核的例化模板。在`Source` 窗口中的`IP Sources`选项卡中，依次用鼠标单击展开`IP`-`clk_wiz_0`-`Instantitation Template`，我们可以看到“clk_wiz.veo”文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :
 
 <div align="center">
@@ -196,6 +203,8 @@ tags:
     .clk_in1(clk_in1));      // input clk_in1
 ```
 
+
+### 七、创建源文件
 7. 创建一个 verilog 源文件，其名称为 ip_clk_wiz.v，代码如下： 
 ```verilog
 module clk_wiz(
@@ -230,6 +239,7 @@ endmodule
 </div>
 
 
+### 八、创建仿真文件并模拟
 8. 最后，仿真模拟。创建一个`tb_clk_wiz.v`的仿真文件，仿真代码编写如下：
 ```verilog
 `timescale 1ns / 1ps
