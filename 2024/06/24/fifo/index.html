@@ -1,0 +1,1603 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="FPGA学习笔记之IP核 FIFO, 白米粥のBlog">
+    <meta name="description" content="IP核之 FIFO前言
+FIFO（First In First Out，即先入先出），是一种数据缓存器，用来实现数据先入先出的读写方式。在FPGA 或者 ASIC 中使用到的 FIFO 一般指的是对数据的存储具有先入先出特性的缓存器，常被用">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>FPGA学习笔记之IP核 FIFO | 白米粥のBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">白米粥のBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">白米粥のBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">FPGA学习笔记之IP核 FIFO</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/FPGA/">
+                                <span class="chip bg-color">FPGA</span>
+                            </a>
+                        
+                            <a href="/tags/vivado/">
+                                <span class="chip bg-color">vivado</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                                <span class="chip bg-color">基础</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                硬件
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-06-24
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="IP核之-FIFO"><a href="#IP核之-FIFO" class="headerlink" title="IP核之 FIFO"></a>IP核之 FIFO</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><strong>FIFO</strong>（<strong>First In First Out</strong>，即<strong>先入先出</strong>），是一种数据缓存器，用来实现数据先入先出的读写方式。在FPGA 或者 ASIC 中使用到的 FIFO 一般指的是对数据的存储具有先入先出特性的缓存器，常被用于多比特数据跨时钟域的转换、读写数据带宽不同步等场合。</li>
+</ul>
+<h2 id="何为-FIFO"><a href="#何为-FIFO" class="headerlink" title="何为 FIFO"></a>何为 FIFO</h2><h3 id="FIFO与RAM的区别"><a href="#FIFO与RAM的区别" class="headerlink" title="FIFO与RAM的区别"></a>FIFO与RAM的区别</h3><ul>
+<li>FIFO 本质上是由 RAM 加读写控制逻辑构成的一种先进先出的数据缓冲器，其与普通存储器 RAM 的<br>区别在于 FIFO 没有外部读写地址线，使用起来非常简单，但 FIFO 只能顺序写入数据，并按顺序读出数据，其数据地址由内部读写指针自动加 1 完成，不能像普通存储器那样可以由地址线决定读取或写入某个指定的地址，不过也正是因为这个特性，使得 FIFO 在使用时并不存在像 RAM 那样的读写冲突问题。</li>
+</ul>
+<h3 id="FIFO-分类"><a href="#FIFO-分类" class="headerlink" title="FIFO 分类"></a>FIFO 分类</h3><ul>
+<li>根据 FIFO 工作的时钟域，可以将 FIFO 分为<strong>同步 FIFO</strong> 和<strong>异步 FIFO</strong>。</li>
+<li><strong>同步 FIFO</strong> 是指读时钟和写时钟为同一个时钟，在时钟沿来临时同时发生读写操作，常用于两边数据处理带宽不一致的临时缓冲。</li>
+<li><strong>异步FIFO</strong> 是指读写时钟不一致，读写时钟是互相独立的，一般用于数据信号跨时钟阈处理。 <div align="center">
+<img src="/2024/06/24/fifo/1.png" width="80%/">
+</div></li>
+</ul>
+<h3 id="FIFO-常见参数"><a href="#FIFO-常见参数" class="headerlink" title="FIFO 常见参数"></a>FIFO 常见参数</h3><ul>
+<li><p>对于 FIFO 我们还需要了解一些常见参数： </p>
+<ol>
+<li>FIFO 的宽度：FIFO 一次读写操作的数据位宽 N。</li>
+<li>FIFO 的深度：FIFO 可以存储多少个宽度为 N 位的数据。 </li>
+<li>将空标志：almost_empty，FIFO 即将被读空。 </li>
+<li>空标志：empty，FIFO 已空时由 FIFO 的状态电路送出的一个信号，以阻止 FIFO 的读操作继续从FIFO 中读出数据而造成无效数据的读出。 </li>
+<li>将满标志：almost_full，FIFO 即将被写满。 </li>
+<li>满标志：full，FIFO 已满时由 FIFO 的状态电路送出的一个信号，以阻止 FIFO 的写操作继续向FIFO 中写数据而造成溢出。 </li>
+<li>写时钟：写 FIFO 时所遵循的时钟，在每个时钟的上升沿触发。 </li>
+<li>读时钟：读 FIFO 时所遵循的时钟，在每个时钟的上升沿触发。 </li>
+<li>可配置满阈值：影响可配置满信号于何时有效，其可配置范围一般为 3~写深度-3。</li>
+<li>可配置满信号：prog_full，表示 FIFO 中存储的数据量达到可配置满阈值中配置的数值。 </li>
+<li>可配置空阈值：影响可配置空信号于何时有效，其可配置范围一般为 2~读深度-3。 </li>
+<li>可配置空信号：prog_empty，表示 FIFO 中剩余的数据量已经减少到可配置空阈值中配置的数值。</li>
+</ol>
+</li>
+<li><p>注意：</p>
+<ol>
+<li><code>almost_empty</code>和<code>almost_full</code>这两个信号分别被看作<code>empty</code>和<code>full</code>的警告信号，他们相对于真正的空（empty）和满（full）都会提前一个时钟周期拉高。 </li>
+<li>FIFO 中，先写入的数据被置于高位，后写入的数据被置于低位，由于其先入先出的特性，所以读出的数据也是高位在前，低位在后。这一点在读写数据位宽不对等时尤为重要，例如我们写数据位宽为8，读数据位宽为 2，当写入的数据为 11000111 时，读出的数据依次为 11、00、01、11。如下图所示：</li>
+</ol>
+  <div align="center">
+  <img src="/2024/06/24/fifo/2.png" width="70%/">
+  </div>
+
+<ul>
+<li>读位宽大于写位宽时，原理是相同的，如下图所示：</li>
+</ul>
+  <div align="center">
+  <img src="/2024/06/24/fifo/3.png" width="70%/">
+  </div></li>
+</ul>
+<h2 id="FIFO-设计"><a href="#FIFO-设计" class="headerlink" title="FIFO 设计"></a>FIFO 设计</h2><h3 id="FIFO-基础知识"><a href="#FIFO-基础知识" class="headerlink" title="FIFO 基础知识"></a>FIFO 基础知识</h3><ul>
+<li><p>FIFO Generato IP 核（FIFO 发生器）其信号框图</p>
+ <div align="center">
+ <img src="/2024/06/24/fifo/4.png" width="90%/">
+ </div>
+
+<ul>
+<li>PS：上图中<u><em>黑色箭头</em></u>表示此信号为<strong>必要信号</strong>；<u><em>蓝色箭头</em></u>表示此信号为<strong>可选信号</strong>；<u><em>灰色箭头</em></u>表示此信号为可选的<strong>边带信号</strong>。 </li>
+<li>从图中我们可以了解到：<ul>
+<li>当被配置为<strong>同步 FIFO</strong> 时，只使用 <code>wr_clk</code>，所有的输入输出信号都同步于<code>wr_clk</code> 信号。</li>
+<li>当被配置为<strong>异步 FIFO</strong>时，写端口和读端口分别有独立的时钟，所有与写相关的信号都是同步于写时钟 <code>wr_clk</code>，所有与读相关的信号都是同步于读时钟 <code>rd_clk</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>各常用端口的功能描述如下：</p>
+  <div align="center">
+  <img src="/2024/06/24/fifo/5.png" width="100%/">
+  </div>
+</li>
+<li><p>一个典型的写操作时序如下图所示： </p>
+  <div align="center">
+  <img src="/2024/06/24/fifo/27.png" width="80%/">
+  </div>
+
+<ul>
+<li>当 <code>wr_en</code>（写使能）信号使能时，会在 <code>wr_clk</code>（写时钟）的下一个上升沿上发生写操作，由于 FIFO 未满，因此 <code>wr_ack</code>（写应答）信号处于有效状态，表示写入操作成功。当只能再执行一次写操作时，<code>almost_full</code>（将满）信号会被拉高，此时若再进行一次写操作，<code>full</code>（满）信号就会被拉高，表示 FIFO 已被写满，在有数据被读出前，无法再写入数据了。如果在 <code>full</code> 信号拉高后执意要进行写操作，<code>wr_ack</code> 就会被拉低，表示此次数据写入失败，同时 <code>overflow</code>（满溢出）信号就会被拉高，表示 FIFO 存在溢出现象。</li>
+</ul>
+</li>
+<li><p>一个典型的读操作时序如下图所示： </p>
+  <div align="center">
+  <img src="/2024/06/24/fifo/28.png" width="80%/">
+  </div>
+
+<ul>
+<li>只要 FIFO 中存有数据，<code>empty</code>（空）信号就会一直为低电平，表明 FIFO 中有数据可以进行读取。当<code>rd_en</code>（读使能）信号使能时，会在 <code>rd_clk</code>（读时钟）的下一个上升沿上发生读操作，FIFO 会在 <code>dout</code>（数据输出线）上输出数据，并拉高 <code>valid</code>（读有效）信号，表示读操作成功。当 FIFO 中还剩最后一个数据时，<code>almost_empty</code>（将空）信号会被拉高，此时若再进行一次读操作，<code>empty</code>（空）信号就会被拉高，表示FIFO 已被读空，在 FIFO 中有存储数据前，读请求将被忽视。如果在 <code>empty</code> 信号拉高后执意要进行读操作，<code>valid</code> 就会被拉低，表示此次数据读出失败，同时 <code>underflow</code>（空溢出）信号就会被拉高，表示 FIFO 中已经没有可被读取的数据了。</li>
+</ul>
+</li>
+</ul>
+<h3 id="FIFO-设计思路"><a href="#FIFO-设计思路" class="headerlink" title="FIFO 设计思路"></a>FIFO 设计思路</h3><ul>
+<li>本文的实验任务是使用 Vivado 生成一个<strong>异步 FIFO</strong>，并实现以下功能：<ul>
+<li>当 FIFO 为空时，向 FIFO 中写入数据，直至将 FIFO 写满后停止写操作；</li>
+<li>当 FIFO 为满时，从 FIFO 中读出数据，直到 FIFO 被读空后停止读操作</li>
+</ul>
+</li>
+</ul>
+<h4 id="顶层模块设计"><a href="#顶层模块设计" class="headerlink" title="顶层模块设计"></a>顶层模块设计</h4><ul>
+<li><strong>顶层模块设计</strong>：本文设计的是异步 FIFO，因此需要一个 MMCM IP 核来输出 50MHz 的写时钟和 100MHz 的读时钟（当然输出其它频率的时钟也是可以的）；然后我们还需要一个<strong>写模块</strong><code>fifo_wr</code>和一个<strong>读模块</strong><code>fifo_rd</code>。写模块通过 FIFO 的状态来判断是否给出写请求信号和写数据，读模块通过 FIFO的状态来判断是否给出读请求信号，并接收从 FIFO 中读出的数据；系统时钟和系统复位是一个完整的工程中必不可少的输入端口信号，这里就不再多讲了。</li>
+<li>经过上述分析可以得一个大致的模块框图，如下图所示：    <div align="center">
+<img src="/2024/06/24/fifo/6.png" width="50%/">
+</div></li>
+</ul>
+<h4 id="写模块设计"><a href="#写模块设计" class="headerlink" title="写模块设计"></a>写模块设计</h4><ul>
+<li><p><strong>写模块设计</strong>：在 FIFO 写模块中，我们的输入信号主要有<strong>系统时钟信号</strong>（写时钟域的时钟）、<strong>系统复位信号</strong>；因为 FIFO 的写操作需要在 FIFO 完成复位后进行，所以我们还需要输入<strong>写复位忙信号</strong><code>wr_rst_busy</code>来判断 FIFO 是否结束了复位状态。实验任务中我们提到了 FIFO 为空时进行写操作，因此还需要引入一个空相关的信号，这里我们引入的是 <strong>空信号</strong><code>empty</code>；实验任务中我们还提到了写满了要停止写操作，所以这里我们引入了 <strong>将满信号</strong><code>almost_full</code>，因为将满信号表示 FIFO 还能再进行最后一次写操作，使用这个信号的话我们正好可以在写入最后一次数据后关闭写使能，当然引入<strong>满信号</strong><code>full</code>也是可以，区别只是在于这么做会在写使能关断前执行一次无效的写操作。输出信号有控制写 FIFO 所需的 <strong>写端口使能</strong><code>fifo_wr_en</code>和 <strong>写数据</strong><code>fifo_wr_data</code>这两个信号。</p>
+</li>
+<li><p>经过上述分析可以得一个大致的模块框图，如下图所示： </p>
+<div align="center">
+<img src="/2024/06/24/fifo/7.png" width="50%/">
+</div>
+</li>
+<li><p>模块端口与功能描述如下表所示：</p>
+<div align="center">
+<img src="/2024/06/24/fifo/8.png" width="80%/">
+</div></li>
+</ul>
+<h4 id="读模块设计"><a href="#读模块设计" class="headerlink" title="读模块设计"></a>读模块设计</h4><ul>
+<li><p><strong>读模块设计</strong>：在 FIFO 读模块中，我们的输入信号主要有<strong>系统时钟信号</strong>（读时钟域的时钟）、<strong>系统复位信号</strong>；因为 FIFO 的读操作需要在 FIFO 完成复位后进行，所以我们还需要输入<strong>读复位忙信号</strong><code>rd_rst_busy</code>来判断 FIFO 是否结束了复位状态；实验任务中我们提到了 FIFO 为满时进行读操作，因此还需要引入一个满相关的信号，这里我们引入的是 <strong>满信号</strong><code>full</code>；实验任务中我们还提到了读空了要停止读操作，所以这里我们引入了 <strong>将空信号</strong><code>almost_empty</code>，因为将空信号表示 FIFO 还能再进行最后一次读操作，使用这个信号的话我们正好可以在读出最后一个数据后关闭读使能，当然引入<strong>空信号</strong><code>empty</code>也是可以，区别只是在于这么做会在读使能关断前执行一次无效的读操作。输出信号仅有控制写 FIFO 所需的 <strong>读端口使能信号</strong><code>fifo_rd_en</code>。</p>
+</li>
+<li><p>经过上述分析可以得一个大致的模块框图，如下图所示：</p>
+<div align="center">
+<img src="/2024/06/24/fifo/9.png" width="50%/">
+</div>
+</li>
+<li><p>模块端口与功能描述如下表所示：</p>
+<div align="center">
+<img src="/2024/06/24/fifo/10.png" width="80%/">
+</div></li>
+</ul>
+<h3 id="FIFO-配置实验步骤"><a href="#FIFO-配置实验步骤" class="headerlink" title="FIFO 配置实验步骤"></a>FIFO 配置实验步骤</h3><h4 id="一、创建工程"><a href="#一、创建工程" class="headerlink" title="一、创建工程"></a>一、创建工程</h4><ol>
+<li>创建一个名为<code>ip_fifo</code>的空白工程，然后点击 Vivado 软件左侧<code>Flow Navigator</code>栏中的<code>IP Catalog</code>，如下图所示： <div align="center">
+<img src="/2024/06/24/fifo/4.png" width="40%/">
+</div></li>
+</ol>
+<h4 id="二、搜索创建-BMG-IP核"><a href="#二、搜索创建-BMG-IP核" class="headerlink" title="二、搜索创建 BMG IP核"></a>二、搜索创建 BMG IP核</h4><ol start="2">
+<li>在<code>IP Catalog</code>窗口的搜索栏中输入<code>fifo</code>关键字后，出现唯一匹配的<code>FIFO Generator</code>，如下图所示： <div align="center">
+<img src="/2024/06/24/fifo/11.png" width="80%/">
+</div></li>
+</ol>
+<h4 id="三、配置-IP-核"><a href="#三、配置-IP-核" class="headerlink" title="三、配置 IP 核"></a>三、配置 IP 核</h4><ol start="3">
+<li>双击<code>FIFO Generator</code>后弹出 IP 核的配置界面，对 BMG IP 核进行配置。</li>
+</ol>
+<ul>
+<li><p><code>Basic</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/24/fifo/12.png" width="80%/">
+</div>
+</li>
+<li><p>该选项卡下各参数（重点关注（2）和（3）中的内容）含义如下：</p>
+<ol>
+<li>最上面的<code>Component Name</code>一栏可以设置该 IP 元件的名称，这里我们保持默认命名，当然也可以命名为其它方便自己一眼看出其功能的名称。 </li>
+<li><code>lnterface Type（接口模式）</code>：有三种接口模式可选，分别为 <code>Native（常规）接口</code>、<code>AXI Memory Mapped（内存映射）接口</code>和 <code>AXI Stream（流）接口</code>。其中 AXI Memory Mapped 接口一般用于与PS 端进行数据交互；AXI Stream 接口一般应用于高速信号处理场景中，例如光口通信；通常情况下我们一般采用 Native 模式，所以本次实验我们选择 Native 模式。 </li>
+<li><code>Fifo Implementation（FIFO 实现）</code>：用于设置用什么资源来实现什么样的 FIFO。可配置用于实现 FIFO 的资源有四种，分别为 <code>Block RAM（块 RAM）</code>、<code>Distributed RAM（分布式 RAM）</code>、<code>Shift Register （移位寄存器）</code>和 <code>Builtin FIFO（内置 FIFO）</code>，其中移位寄存器仅可用于实现同步 FIFO。可配置的 FIFO 类型有两类，分别为 <code>Common Clocks（公共时钟，即同步 FIFO）</code>和 <code>Independent Clocks（独立时钟，即异步FIFO）</code>。资源与种类两两组合之下便有了七种不同的选择。需要说明的是 BRAM 和分布式 RAM 是创建FIFO 时最常选用的存储资源类型，一般来说，FIFO 容量超过 1024 个字节就需要考虑使用 BRAM 了，没超过 1024 字节选择分布式 RAM。当然，如果芯片 BRAM 资源很富余的话，全部采用 BRAM 也是可以的，后两种基本用不到。本次实验我们选择<code>Independent Clocks Block RAM</code>，即使用 BRAM 资源来实现一个异步 FIFO。 </li>
+<li><code>synchronization Stages（同步阶段）</code>：定义跨交叉时钟域逻辑的同步器级数，即设置读写状态信号的输出延迟。保持默认设置 2 即可。 </li>
+<li><code>FIFO Implementation Options（FIFO 实现方案）</code>：此处的表格将实现 FIFO 的七种方案的特征都一一列出了，当我们不清楚自己的 FIFO 设计该使用哪种方案实现时，可以看下此处的表格。</li>
+</ol>
+</li>
+<li><p><code>Native Ports</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/24/fifo/13.png" width="80%/">
+</div>
+</li>
+<li><p>该选项卡下各参数（重点关注（1）、（2）和（4）中的内容）含义如下：</p>
+<ol>
+<li><code>Read Mode（读取模式）</code>：有 <code>Standard FIFO（标准 FIFO）</code>和<code>First Word Fall Through（首字直通，简称 FWFT 模式，即预读模式）</code>两种可选，需要注意的是标准模式的数据输出会比读使能延迟一拍，预读模式的数据与读使能同时输出，这里我们选择默认的标准模式。 </li>
+<li><code>Data Port Parameters（数据端口参数）</code>：用于设置 FIFO 的读写数据位宽和读写深度，其中写数据位宽可在 1<del>1024 内任意设置；写深度的可支持参数配置我们可以通过下拉来查看，这里我们设置为256，需要注意的是，虽然我们设置的深度为 256，但实际深度只有 255；读数据位宽支持 1：8</del>8：1 之间的偶数比，这里我们保持默认的 1：1 比例，即读数据位宽为 8；读深度是我们设置完读写数据位宽和写深度后自动确定的，无需我们进行设置。<br>  这里有一点需要我们注意，在实际应用中，FIFO 的读写数据位宽和深度在满足设计需求的情况下要尽量设置的小一点，因为 FIFO 使用的是片上 BRAM 资源，而 FPGA 内部的片上 BRAM 资源是有限的，所以大家不要将位宽和深度设置成远远超过实际需求的值，造成 BRAM 资源的过度浪费。 </li>
+<li><code>ECC，Output Register and Power Gating Options（ECC、输出寄存器和电源选通选项）</code>，其下各配置如下： <ul>
+<li>第一行有四个信号，当我们勾选 <code>ECC（纠错码）</code>后，可以选择 <code>Hard ECC（硬 ECC）</code>或 <code>Soft ECC （软 ECC）</code>，并可以勾选 <code>Single Bit Error Injection（注入单 bit 错误）</code>和 <code>Double Bit Error Injection（注入双bit 错误）</code>，这里我们保持默认的不启用 ECC 即可。 </li>
+<li>第二行有两个信号，<code>ECC Pipeline Reg（ECC 管道寄存器）</code>和<code>Dynamic Power Gating（动态功率选通）</code>都是仅限 UltraScale 系列芯片使用 Builtin FIFO 资源实现 FIFO 时才可进行配置。</li>
+<li>第三行用于配置输出寄存器，勾选<code>Output Registers（输出寄存器）</code>后，可以选择添加<code>Embedded Registers（嵌入式寄存器）</code>和<code>Fabric Registers（结构寄存器）</code>。其作用是可以改善 FIFO 的时序，为此付出的代价是每添加一个输出寄存器，输出就会延后一拍。这里我们保持默认，不做勾选。</li>
+</ul>
+</li>
+<li><code>Initialization（初始化）</code>，也就是设置复位相关的参数，详情如下： <ul>
+<li><code>Reset Pin（复位脚）</code>：选择是否引入复位信号，高电平有效。实际设计中，在 FPGA 配置完成后，读写操作开始前，FIFO 必须要进行复位操作，需要注意的是，在进行复位操作时，读写时钟必须是有效的。这里我们保持默认的勾选状态，即启用复位信号。 </li>
+<li><code>Enable Reset Synchronization（启用复位同步）</code>：用于设置异步 FIFO 时是否启用同步复位，需要注意的是官方文档中建议复位信号至少要保持三个时钟周期（以慢时钟为准）的有效，且在复位后至少要经过三十个时钟周期（以慢时钟为准）后，才能对 FIFO 进行写数据操作。这里我们保持默认的勾选状态，即启用同步复位。 </li>
+<li><code>Enable Safety Circuit（启用安全电路）</code>：用于设置 FIFO 是否向外输出 <code>wr_rst_busy</code>（写复位忙信号）和 <code>rd_rst_busy</code>（读复位忙信号），这两个信号皆是高电平表示处于复位状态，低电平表示空闲，我们可以通过这两个信号来判断 FIFO 是否复位完成，防止我们在复位完成前对 FIFO 进行读写操作而导致读写错误，所以我们保持默认的勾选状态，即启用安全电路。需要注意的是官方文档中建议当启用安全电路时，复位信号至少要保持八个时钟周期（以慢时钟为准）的有效，且在复位后至少要经过六十个时钟周期（以慢时钟为准）后，才能对 FIFO 进行写数据操作。 </li>
+<li><code>Reset Type（复位类型）</code>：当选择使用非 Builtin FIFO 资源来实现同步 FIFO 时，可以选择复位类型为<code>Asynchronous Reset（异步复位）</code>或 <code>Synchronous Reset（同步复位）</code>，使用异步 FIFO 模式时不需要考虑该配置。 </li>
+<li><code>Full Flags Reset Value（满信号的重置值）</code>：用于设置复位时三个满信号（满信号，将满信号，设置满信号）的状态是高电平还是低电平。这里我们保持默认设置 1 即可。 </li>
+<li><code>Dout Reset Value（输出的数据重置值）</code>：设置复位期间 FIFO 输出总线上的数据值，若未启用，则复位期间输出总线上的值时未知的。切记设置时此值的位宽不可超过读数据的位宽，这里我们保持默认的 0 即可。</li>
+</ul>
+</li>
+<li><code>Read Latency（读延迟）</code>，可以在此处看出经过以上设置后，输出被延迟了几拍。因为我们选择的读取模式是标准模式，且没有启用任何输出寄存器，所以输出延迟了一拍。</li>
+</ol>
+</li>
+<li><p><code>Status Flags</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/24/fifo/14.png" width="80%/">
+</div>
+</li>
+<li><p>该选项卡下各参数（重点关注（1）中的内容）含义如下：</p>
+<ol>
+<li><code>Optional Flags（可选标准）</code>，可勾选是否输出 <code>Almost Full Flag（将满信号）</code>和 <code>Almost Empty Flag（将空信号）</code>，两个信号皆为高有效。其中将满信号是在 FIFO 内部写数据个数<strong>大于等于FIFO 深度-1</strong> 之后的第一个写时钟上升沿置高，直到 FIFO 内部写数据个数<strong>小于FIFO 深度-1</strong> 后的第一个写时钟上升沿拉低；将空信号是在 FIFO 内部读数据个数<strong>小于等于1</strong> 之后的第一个读时钟上升沿置高，直到 FIFO 内部读数据个数<strong>大于1</strong> 后的第一个读时钟上升沿拉低。这里我们选择输出这两个标志信号。</li>
+<li><code>Handshaking Options（握手选项）</code>，可用于配置读写端口的握手机制，这里我们简单的介绍下各个配置含义：<ul>
+<li><code>Write Port Handshaking（写端口握手）</code>：可使能 <code>Write Ackongledge</code>（写应答）信号和 <code>Overflow</code>（满溢出）信号。其中写应答信号是成功写入数据的标志，一次成功写入对应一个写时钟周期的写应答，有效电平状态可配；满溢出信号是写入数据无效（溢出）的标志，一次溢出对应一个写时钟周期，有效电平状态可配。这里我们不做任何勾选。 </li>
+<li><code>Read Port Handshaking（读端口握手）</code>：可使能 <code>Valid Flag</code>（读有效标志）信号和 <code>Underflow Flag</code>（空溢出）信号。这两个信号的有效电平状态同样可配，信号含义和写端口握手中的两个信号类似，这里就不多赘述了，这里我们不做任何勾选。</li>
+</ul>
+</li>
+<li><code>Programmable Flags（可编程标志）</code>有六个可配置参数，这里的参数配置将影响到可编程空满信号（<code>prog_empty</code>和 <code>prog_full</code> 信号）在何时使能，各参数含义如下：<ul>
+<li><code>Programmable Full Type（可编程满类型）</code>：有五种类型可选，如下表所示：<img src="/2024/06/24/fifo/16.png"></li>
+<li><code>Full Therhold Assert Value（满阈值有效值）</code>：当类型配置为单可编程满阈值常量，其可配置范围为 3~ 写深度-3；当类型配置为双可编程满阈值常量，其可配置范围为 4~写深度-3。 </li>
+<li><code>Full Therhold Negate Value（满阈值无效值）</code>：当类型配置为双可编程满阈值常量才可进行配置，可配置范围为 3~满阈值有效值-1。</li>
+<li><code>Programmable Empty Type（可编程空类型）</code>：有五种类型可选，含义与可编程满类型相同，只是满阈值变成了空阈值，这里就不再赘述了。 </li>
+<li><code>Empty Threshold Assert Value（空阈值有效值）</code>：当类型配置为单可编程空阈值常量，其可配置范围为2<del>读实际深度-3；当类型配置为双可编程满阈值常量，其可配置范围为 2</del>读实际深度-4。 </li>
+<li><code>Empty Threshold Negate Value（空阈值无效值）</code>：当类型配置为双可编程满阈值常量才可进行配置，可配置范围为空阈值有效值+1~读实际深度-3。 </li>
+<li>以可编程满阈值为例，假如在单可编程满阈值类型下，写深度为 32，而我们将满阈值有效值设置为28，那么 <code>prog_full</code> 信号将会在 FIFO 中的数据<strong>大于等于28</strong> 后的第一个写时钟上升沿置高，直到 FIFO 内部写数据个数<strong>小于28</strong> 后的第一个写时钟上升沿拉低。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><code>Data Counts</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/24/fifo/15.png" width="80%/">
+</div>
+</li>
+<li><p>该选项卡下各参数（重点关注（1）中的内容）含义如下：</p>
+<ol>
+<li><code>More Accurate Data Counts（更精确的数据计数）</code>，该功能只有选择使用块 RAM 或者分布式RAM 来实现 FIFO 时，将读取模式设置为预读模式才可进行配置和使用。 </li>
+<li><code>Data Counts（数据计数）</code>，当使用非 Builtin FIFO 资源来实现同步 FIFO 时可进行设置，可用于跟踪 FIFO 中的字数（数据个数），我们可以指定其计数总线的宽度，最小为 1，最大宽度为 log2（FIFO 深度），如果指定的宽度小于最大宽度，则低位会被截断。例如数据深度为 16，则 Data Counts 的最大位宽为 4，如果我们设置为 3，那么 FIFO 中的数据量&#x3D;2 时，Data Counts 才会加 1。 </li>
+<li><code>Write Data Count(写数据计数)</code>，与写时钟同步。当使用非 Builtin FIFO 资源来实现异步 FIFO 时可进行设置，可用于跟踪写 FIFO 中的字数（数据个数），我们可以指定其计数总线的宽度，最小为 1，最大宽度为 log2（写 FIFO 深度），如果指定的宽度小于最大宽度，则低位会被截断。 </li>
+<li><code>Read Data Count(读数据计数)</code>，与读时钟同步。当使用非 Builtin FIFO 资源来实现异步 FIFO 时可进行设置，可用于跟踪读 FIFO 中的字数（数据个数），我们可以指定其计数总线的宽度，最小为 1，最大宽度为 log2（读 FIFO 深度），如果指定的宽度小于最大宽度，则低位会被截断。</li>
+</ol>
+</li>
+<li><p><code>Summary</code>选项卡，该界面显示了我们配置的存储器的类型，消耗的 BRAM 资源等信息，我们直接点击<code>OK</code>按钮完成 FIFO Generator IP 核的配置，如下图所示：</p>
+<div align="center">
+<img src="/2024/06/24/fifo/17.png" width="80%/">
+</div></li>
+</ul>
+<h4 id="四、生成-IP-核"><a href="#四、生成-IP-核" class="headerlink" title="四、生成 IP 核"></a>四、生成 IP 核</h4><ol start="4">
+<li>配置完成后，弹出了<code>Generate Output Products</code>窗口，点击<code>Generate</code>按钮，开始生成 IP 核。<div align="center">
+<img src="/2024/06/24/fifo/18.png" width="50%/">
+</div></li>
+</ol>
+<h4 id="五、等待综合"><a href="#五、等待综合" class="headerlink" title="五、等待综合"></a>五、等待综合</h4><ol start="5">
+<li>在<code>Design Run</code>窗口的<code>Out-of-Context Module Runs</code>一栏中看到该 IP 核对应的run <code>fifo_generator_0_synth_1</code>，其综合过程独立于顶层设计的综合，所以我们可以看到其正在综合，如下图所示： <div align="center">
+<img src="/2024/06/24/fifo/19.png" width="60%/">
+</div></li>
+</ol>
+<h4 id="六、拷贝例化模板代码"><a href="#六、拷贝例化模板代码" class="headerlink" title="六、拷贝例化模板代码"></a>六、拷贝例化模板代码</h4><ol start="6">
+<li>综合完成后，便可开始编写代码。首先查看IP核的例化模板。在<code>Source</code> 窗口中的<code>IP Sources</code>选项卡中，依次用鼠标单击展开<code>IP</code>-<code>fifo_generator_0</code>-<code>Instantitation Template</code>，我们可以看到<code>fifo_generator_0.veo</code>文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :<div align="center">
+<img src="/2024/06/24/fifo/20.png" width="100%/">
+</div></li>
+</ol>
+<h4 id="七、创建顶层模块"><a href="#七、创建顶层模块" class="headerlink" title="七、创建顶层模块"></a>七、创建顶层模块</h4><ol start="7">
+<li>本次实验除了调用 BMG IP 核外，需要使用到 PLL IP 核来输出两路不同频率的时钟来生成一个异步 FIFO，还需要例化一个写模块<code>fifo_wr</code>和一个读模块<code>fifo_rd</code>来进行异步的读写操作，所以需要创建一个顶层模块来例化两个 IP 核与读&#x2F;写模块。创建源文件后，将顶层模块命名为 <code>ip_fifo</code>，代码如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ip_fifo</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>    sys_clk <span class="token punctuation">,</span>  <span class="token comment">// 系统时钟信号</span>
+    <span class="token keyword">input</span>    sys_rst_n  <span class="token comment">// 系统复位信号</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token comment">//wire define</span>
+<span class="token keyword">wire</span>         clk_50m       <span class="token punctuation">;</span>  <span class="token comment">// 50M时钟</span>
+<span class="token keyword">wire</span>         clk_100m      <span class="token punctuation">;</span>  <span class="token comment">// 100M时钟</span>
+<span class="token keyword">wire</span>         locked        <span class="token punctuation">;</span>  <span class="token comment">// 时钟锁定信号</span>
+<span class="token keyword">wire</span>         rst_n         <span class="token punctuation">;</span>  <span class="token comment">// 复位，低有效</span>
+<span class="token keyword">wire</span>         wr_rst_busy   <span class="token punctuation">;</span>  <span class="token comment">// 写复位忙信号</span>
+<span class="token keyword">wire</span>         rd_rst_busy   <span class="token punctuation">;</span>  <span class="token comment">// 读复位忙信号</span>
+<span class="token keyword">wire</span>         fifo_wr_en    <span class="token punctuation">;</span>  <span class="token comment">// FIFO写使能信号</span>
+<span class="token keyword">wire</span>         fifo_rd_en    <span class="token punctuation">;</span>  <span class="token comment">// FIFO读使能信号</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  fifo_wr_data  <span class="token punctuation">;</span>  <span class="token comment">// 写入到FIFO的数据</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  fifo_rd_data  <span class="token punctuation">;</span>  <span class="token comment">// 从FIFO读出的数据</span>
+<span class="token keyword">wire</span>         almost_full   <span class="token punctuation">;</span>  <span class="token comment">// FIFO将满信号</span>
+<span class="token keyword">wire</span>         almost_empty  <span class="token punctuation">;</span>  <span class="token comment">// FIFO将空信号</span>
+<span class="token keyword">wire</span>         full          <span class="token punctuation">;</span>  <span class="token comment">// FIFO满信号</span>
+<span class="token keyword">wire</span>         empty         <span class="token punctuation">;</span>  <span class="token comment">// FIFO空信号</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  wr_data_count <span class="token punctuation">;</span>  <span class="token comment">// FIFO写时钟域的数据计数</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  rd_data_count <span class="token punctuation">;</span>  <span class="token comment">// FIFO读时钟域的数据计数</span>
+
+
+<span class="token comment">//通过系统复位信号和时钟锁定信号来产生一个新的复位信号</span>
+<span class="token keyword">assign</span>   rst_n <span class="token operator">=</span> sys_rst_n <span class="token operator">&amp;</span> locked<span class="token punctuation">;</span>
+
+<span class="token comment">//例化PLL IP核</span>
+clk_wiz_0 <span class="token function">clk_wiz_0</span><span class="token punctuation">(</span>
+   <span class="token comment">// Clock out ports</span>
+   <span class="token punctuation">.</span><span class="token function">clk_out1</span><span class="token punctuation">(</span>clk_50m<span class="token punctuation">)</span><span class="token punctuation">,</span>     <span class="token comment">// output clk_out1</span>
+   <span class="token punctuation">.</span><span class="token function">clk_out2</span><span class="token punctuation">(</span>clk_100m<span class="token punctuation">)</span><span class="token punctuation">,</span>     <span class="token comment">// output clk_out2</span>
+   <span class="token comment">// Status and control signals</span>
+   <span class="token punctuation">.</span><span class="token function">locked</span><span class="token punctuation">(</span>locked<span class="token punctuation">)</span><span class="token punctuation">,</span>       <span class="token comment">// output locked</span>
+   <span class="token comment">// Clock in ports</span>
+   <span class="token punctuation">.</span><span class="token function">clk_in1</span><span class="token punctuation">(</span>sys_clk <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// input clk_in1</span>
+<span class="token comment">//例化FIFO IP核</span>
+fifo_generator_0 fifo_generator_0_u <span class="token punctuation">(</span>
+      <span class="token punctuation">.</span><span class="token function">rst</span><span class="token punctuation">(</span><span class="token operator">~</span>rst_n<span class="token punctuation">)</span><span class="token punctuation">,</span>                      <span class="token comment">// input wire rst</span>
+      <span class="token punctuation">.</span><span class="token function">wr_clk</span><span class="token punctuation">(</span>clk_50m <span class="token punctuation">)</span><span class="token punctuation">,</span>                <span class="token comment">// input wire wr_clk</span>
+      <span class="token punctuation">.</span><span class="token function">rd_clk</span><span class="token punctuation">(</span>clk_100m<span class="token punctuation">)</span><span class="token punctuation">,</span>                <span class="token comment">// input wire rd_clk</span>
+      <span class="token punctuation">.</span><span class="token function">din</span><span class="token punctuation">(</span>fifo_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span>                      <span class="token comment">// input wire [7 : 0] din</span>
+      <span class="token punctuation">.</span><span class="token function">wr_en</span><span class="token punctuation">(</span>fifo_wr_en<span class="token punctuation">)</span><span class="token punctuation">,</span>                  <span class="token comment">// input wire wr_en</span>
+      <span class="token punctuation">.</span><span class="token function">rd_en</span><span class="token punctuation">(</span>fifo_rd_en<span class="token punctuation">)</span><span class="token punctuation">,</span>                  <span class="token comment">// input wire rd_en</span>
+      <span class="token punctuation">.</span><span class="token function">dout</span><span class="token punctuation">(</span>fifo_rd_data<span class="token punctuation">)</span><span class="token punctuation">,</span>                    <span class="token comment">// output wire [7 : 0] dout</span>
+      <span class="token punctuation">.</span><span class="token function">full</span><span class="token punctuation">(</span>full<span class="token punctuation">)</span><span class="token punctuation">,</span>                    <span class="token comment">// output wire full</span>
+      <span class="token punctuation">.</span><span class="token function">almost_full</span><span class="token punctuation">(</span>almost_full<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// output wire almost_full</span>
+      <span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span>empty<span class="token punctuation">)</span><span class="token punctuation">,</span>                  <span class="token comment">// output wire empty</span>
+      <span class="token punctuation">.</span><span class="token function">almost_empty</span><span class="token punctuation">(</span>almost_empty<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// output wire almost_empty</span>
+      <span class="token punctuation">.</span><span class="token function">rd_data_count</span><span class="token punctuation">(</span>rd_data_count<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// output wire [7 : 0] rd_data_count</span>
+      <span class="token punctuation">.</span><span class="token function">wr_data_count</span><span class="token punctuation">(</span>wr_data_count<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// output wire [7 : 0] wr_data_count</span>
+      <span class="token punctuation">.</span><span class="token function">wr_rst_busy</span><span class="token punctuation">(</span>wr_rst_busy<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// output wire wr_rst_busy</span>
+      <span class="token punctuation">.</span><span class="token function">rd_rst_busy</span><span class="token punctuation">(</span>rd_rst_busy<span class="token punctuation">)</span>      <span class="token comment">// output wire rd_rst_busy</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//例化写FIFO模块</span>
+fifo_wr <span class="token function">fifo_wr_u</span><span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>wr_clk      <span class="token punctuation">(</span>clk_50m<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// 写时钟</span>
+    <span class="token punctuation">.</span>rst_n       <span class="token punctuation">(</span>rst_n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 复位信号</span>
+    <span class="token punctuation">.</span>wr_rst_busy <span class="token punctuation">(</span>wr_rst_busy<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// 写复位忙信号 </span>
+    <span class="token punctuation">.</span>almost_full <span class="token punctuation">(</span>almost_full<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// fifo将满信号</span>
+    <span class="token punctuation">.</span>empty       <span class="token punctuation">(</span>empty<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// fifo空信号</span>
+    <span class="token punctuation">.</span>fifo_wr_en  <span class="token punctuation">(</span>fifo_wr_en<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// fifo写请求</span>
+    <span class="token punctuation">.</span><span class="token function">fifo_wr_data</span><span class="token punctuation">(</span>fifo_wr_data<span class="token punctuation">)</span>  <span class="token comment">// 写入FIFO的数据</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//例化读FIFO模块</span>
+fifo_rd <span class="token function">fifo_rd_u</span><span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>rd_clk       <span class="token punctuation">(</span>clk_100m<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// 读时钟</span>
+    <span class="token punctuation">.</span>rst_n        <span class="token punctuation">(</span>rst_n<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// 复位信号     </span>
+    <span class="token punctuation">.</span>rd_rst_busy  <span class="token punctuation">(</span>rd_rst_busy<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// 读复位忙信号</span>
+    <span class="token punctuation">.</span>almost_empty <span class="token punctuation">(</span>almost_empty<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// fifo将空信号</span>
+    <span class="token punctuation">.</span>full         <span class="token punctuation">(</span>full        <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// fifo满信号</span>
+    <span class="token punctuation">.</span>fifo_rd_en   <span class="token punctuation">(</span>fifo_rd_en  <span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// fifo读请求</span>
+    <span class="token punctuation">.</span>fifo_rd_data <span class="token punctuation">(</span>fifo_rd_data<span class="token punctuation">)</span> <span class="token comment">// 从FIFO输出的数据</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<ul>
+<li>例化了 <strong>FIFO IP 核</strong><code>fifo_generator_0</code>、<strong>PLL IP 核</strong><code>clk_wiz_0</code>、<strong>读模块</strong><code>fifo_rd</code>和<strong>写模块</strong><code>fifo_wr</code>，其中写模块负责产生 FIFO IP 核写操作所需的所有数据、写请求等信号；读模块负责产生 FIFO IP 核读操作所需读请求信号，并将读出的数据也连接至读模块。 </li>
+<li>因为读写模块的时钟皆来自 PLL IP 核，而 PLL IP 核需要一定的时间才能输出稳定的时钟，所以需要通过系统复位信号和时钟锁定信号来产生一个新的复位信号，使读&#x2F;写模块及 FIFO IP 核在时钟稳定后才进入工作状态。</li>
+</ul>
+<h4 id="八、创建写模块"><a href="#八、创建写模块" class="headerlink" title="八、创建写模块"></a>八、创建写模块</h4><ol start="8">
+<li><code>fifo_wr</code> 模块用于产生 FIFO 写操作所需的信号，绘制大致的模块端口信号的波形图方便理解。<div align="center">
+<img src="/2024/06/24/fifo/21.png" width="90%/">
+</div></li>
+</ol>
+<ul>
+<li>由上图可知，当系统复位结束后，FIFO 还处于复位状态，我们需要等待 FIFO 写复位结束（即<code>wr_rst_busy</code> 信号拉低）后，再对 FIFO 进行写操作。这里说明一下，因为 <code>empty</code>（空）信号是 FIFO 读时钟域的输出信号，对于写操作来说属于异步信号，所以这里我们通过打拍的方式将 <code>empty</code> 信号同步到写时钟域下。需要注意的是，当 FIFO 中有两个或两个以上的数据时，将空信号就会被拉低，但是因为是异步FIFO，所以状态信号的同步需要一定的时间，因此将空信号并不是在写入第二个数据后拉低的。 </li>
+<li>代码如下：<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">fifo_wr</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>                  wr_clk      <span class="token punctuation">,</span>  <span class="token comment">// 时钟信号</span>
+    <span class="token keyword">input</span>                  rst_n       <span class="token punctuation">,</span>  <span class="token comment">// 复位信号</span>
+    <span class="token comment">//FIFO interface       </span>
+    <span class="token keyword">input</span>                  wr_rst_busy <span class="token punctuation">,</span>  <span class="token comment">// 写复位忙信号</span>
+    <span class="token keyword">input</span>                  almost_full <span class="token punctuation">,</span>  <span class="token comment">// FIFO将满信号</span>
+    <span class="token keyword">input</span>                  empty       <span class="token punctuation">,</span>  <span class="token comment">// FIFO空信号</span>
+    <span class="token keyword">output</span>    <span class="token keyword">reg</span>          fifo_wr_en  <span class="token punctuation">,</span>  <span class="token comment">// FIFO写使能</span>
+    <span class="token keyword">output</span>    <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   fifo_wr_data   <span class="token comment">// 写入FIFO的数据</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+   
+<span class="token comment">//reg define</span>
+<span class="token keyword">reg</span>        empty_d0<span class="token punctuation">;</span>
+<span class="token keyword">reg</span>        empty_d1<span class="token punctuation">;</span>    
+
+<span class="token comment">//因为empty信号是属于FIFO读时钟域的</span>
+<span class="token comment">//所以对empty打两拍同步到写时钟域下</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> wr_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+        empty_d0 <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+        empty_d1 <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span> <span class="token keyword">begin</span>
+        empty_d0 <span class="token operator">&lt;=</span> empty<span class="token punctuation">;</span>
+        empty_d1 <span class="token operator">&lt;=</span> empty_d0<span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">end</span>    
+
+<span class="token comment">//对fifo_wr_en赋值，当FIFO为空时开始写入，写满后停止写</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> wr_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span> 
+        fifo_wr_en <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>wr_rst_busy<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+        <span class="token function">if</span><span class="token punctuation">(</span>empty_d1<span class="token punctuation">)</span>
+            fifo_wr_en <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>almost_full<span class="token punctuation">)</span>
+            fifo_wr_en <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>  
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span>
+        fifo_wr_en <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>  
+
+<span class="token comment">//对fifo_wr_data赋值,0~254</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> wr_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span> 
+        fifo_wr_data <span class="token operator">&lt;=</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>fifo_wr_en <span class="token operator">&amp;&amp;</span> fifo_wr_data <span class="token operator">&lt;</span> <span class="token number">8'd254</span><span class="token punctuation">)</span>
+        fifo_wr_data <span class="token operator">&lt;=</span> fifo_wr_data <span class="token operator">+</span> <span class="token number">8'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        fifo_wr_data <span class="token operator">&lt;=</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h4 id="九、创建读模块"><a href="#九、创建读模块" class="headerlink" title="九、创建读模块"></a>九、创建读模块</h4><ol start="8">
+<li><code>fifo_rd</code> 模块用于产生 FIFO 读操作所需的信号，绘制大致的模块端口信号的波形图方便理解。<div align="center">
+<img src="/2024/06/24/fifo/22.png" width="90%/">
+</div></li>
+</ol>
+<ul>
+<li>由上图可知，当系统复位结束后，FIFO 还处于复位状态，我们需要等待 FIFO 读复位结束（即<code>wr_rst_busy</code> 信号拉低）后，再对 FIFO 进行读操作。这里说明一下，因为 <code>full</code>（满）信号是 FIFO 写时钟域的输出信号，对于写操作来说属于异步信号，所以这里我们通过打拍的方式将 <code>full</code> 信号同步到写时钟域下。需要注意的是，当 FIFO 中的数据量小于写深度-1 时，将满信号就会被拉低，但是因为是异步 FIFO，所以状态信号的同步需要一定的时间，因此将空信号并不是在读出第二个数据后拉低的。 </li>
+<li>代码如下：<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">fifo_rd</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>                  rd_clk      <span class="token punctuation">,</span>  <span class="token comment">// 时钟信号</span>
+    <span class="token keyword">input</span>                  rst_n       <span class="token punctuation">,</span>  <span class="token comment">// 复位信号</span>
+    <span class="token comment">//FIFO interface       </span>
+    <span class="token keyword">input</span>                  rd_rst_busy <span class="token punctuation">,</span>  <span class="token comment">// 读复位忙信号</span>
+    <span class="token keyword">input</span>                  almost_empty <span class="token punctuation">,</span>  <span class="token comment">// FIFO将满空信号</span>
+    <span class="token keyword">input</span>                  full       <span class="token punctuation">,</span>  <span class="token comment">// FIFO满信号</span>
+    <span class="token keyword">output</span>    <span class="token keyword">reg</span>          fifo_rd_en  <span class="token punctuation">,</span>  <span class="token comment">// FIFO读使能</span>
+    <span class="token keyword">input</span>          <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   fifo_rd_data   <span class="token comment">// 读入FIFO的数据</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+ <span class="token comment">//reg define</span>
+ <span class="token keyword">reg</span>       full_d0<span class="token punctuation">;</span>
+ <span class="token keyword">reg</span>       full_d1<span class="token punctuation">;</span>   
+    
+    
+<span class="token comment">//因为full信号是属于FIFO写时钟域的</span>
+ <span class="token comment">//所以对full打两拍同步到读时钟域下</span>
+ <span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> rd_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+     <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+         full_d0 <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+         full_d1 <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+     <span class="token keyword">end</span>
+     <span class="token keyword">else</span> <span class="token keyword">begin</span>
+         full_d0 <span class="token operator">&lt;=</span> full<span class="token punctuation">;</span>
+         full_d1 <span class="token operator">&lt;=</span> full_d0<span class="token punctuation">;</span>
+     <span class="token keyword">end</span>
+ <span class="token keyword">end</span>    
+    
+<span class="token comment">//对fifo_rd_en进行赋值,FIFO写满之后开始读，读空之后停止读</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> rd_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span> 
+        fifo_rd_en <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rd_rst_busy<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+        <span class="token function">if</span><span class="token punctuation">(</span>full_d1<span class="token punctuation">)</span>
+           fifo_rd_en <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>almost_empty<span class="token punctuation">)</span>
+           fifo_rd_en <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span>
+        fifo_rd_en <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>    
+              
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h4 id="十、引脚约束"><a href="#十、引脚约束" class="headerlink" title="十、引脚约束"></a>十、引脚约束</h4><ol start="10">
+<li>完成模块设计后，需要将模块的端口与 FPGA 的引脚进行约束。对应的 XDC 约束语句如下所示：</li>
+</ol>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">create_clock <span class="token operator">-</span>period <span class="token number">20.000</span> <span class="token operator">-</span>name sys_clk <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span> 
+set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN R4 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span> 
+set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN U2 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_rst_n<span class="token punctuation">]</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+<h4 id="十一、添加-ILA-IP-核"><a href="#十一、添加-ILA-IP-核" class="headerlink" title="十一、添加 ILA IP 核"></a>十一、添加 ILA IP 核</h4><ol start="11">
+<li>添加两个 ILA IP 核，用于观察 FIFO 的读&#x2F;写状态</li>
+</ol>
+<ul>
+<li>本例程是将 ILA 例化在了 <code>ip_fifo</code> 模块中，例化代码如下所示：<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//写时钟域下 ila    </span>
+ila_0 ila_wr <span class="token punctuation">(</span>
+	<span class="token punctuation">.</span><span class="token function">clk</span><span class="token punctuation">(</span>clk_50m<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire clk</span>
+
+
+	<span class="token punctuation">.</span><span class="token function">probe0</span><span class="token punctuation">(</span>fifo_wr_en<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe0  </span>
+	<span class="token punctuation">.</span><span class="token function">probe1</span><span class="token punctuation">(</span>fifo_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [7:0]  probe1 </span>
+	<span class="token punctuation">.</span><span class="token function">probe2</span><span class="token punctuation">(</span>almost_full<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe2 </span>
+	<span class="token punctuation">.</span><span class="token function">probe3</span><span class="token punctuation">(</span>full<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe3 </span>
+	<span class="token punctuation">.</span><span class="token function">probe4</span><span class="token punctuation">(</span>wr_data_count<span class="token punctuation">)</span> <span class="token comment">// input wire [7:0]  probe4</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token comment">//读时钟域下 ila   </span>
+ila_1 your_instance_name <span class="token punctuation">(</span>
+	<span class="token punctuation">.</span><span class="token function">clk</span><span class="token punctuation">(</span>clk_100m<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire clk</span>
+
+
+	<span class="token punctuation">.</span><span class="token function">probe0</span><span class="token punctuation">(</span>fifo_rd_en<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe0  </span>
+	<span class="token punctuation">.</span><span class="token function">probe1</span><span class="token punctuation">(</span>fifo_rd_data<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [7:0]  probe1 </span>
+	<span class="token punctuation">.</span><span class="token function">probe2</span><span class="token punctuation">(</span>almost_empty<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe2 </span>
+	<span class="token punctuation">.</span><span class="token function">probe3</span><span class="token punctuation">(</span>empty<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe3 </span>
+	<span class="token punctuation">.</span><span class="token function">probe4</span><span class="token punctuation">(</span>rd_data_count<span class="token punctuation">)</span> <span class="token comment">// input wire [7:0]  probe4</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h4 id="十二、上板验证"><a href="#十二、上板验证" class="headerlink" title="十二、上板验证"></a>十二、上板验证</h4><ul>
+<li><p>综合、实现、下载比特流后，在 FPGA 上验证 FIFO 的读写功能。</p>
+</li>
+<li><p><strong>FIFO 写操作</strong>在 ILA 中观察到的波形如下图所示： </p>
+<div align="center">
+<img src="/2024/06/24/fifo/23.png" width="75%/">
+</div>
+<div align="center">
+<img src="/2024/06/24/fifo/24.png" width="90%/">
+</div>
+</li>
+<li><p>由上图可知，写使能拉高后，开始向 FIFO 中写入数据，当还能进行最后一次写操作时，将满信号<code>almost_full</code>拉高，当写入最后一个数据后，满信号<code>fifo_full</code>拉高，此时写使能关闭，等待读使能打开。 </p>
+</li>
+<li><p><strong>FIFO 读操作</strong>在 ILA 中观察到的波形如下图所示： </p>
+<div align="center">
+<img src="/2024/06/24/fifo/25.png" width="75%/">
+</div>
+<div align="center">
+<img src="/2024/06/24/fifo/26.png" width="90%/">
+</div>
+</li>
+<li><p>由上图可知，读使能拉高后，开始从 FIFO 中读出数据，当读出倒数第二个数后，将空信号<code>almost_empty</code>拉高，当读出最后一个数据后，空信号<code>fifo_empty</code>拉高，此时读使能关闭，等待写使能打开。从图中我们也可以看出读使能拉高后，读数据会延后一拍输出，和我们的设置相符。</p>
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jourser</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Jourser.github.io/2024/06/24/fifo/">https://Jourser.github.io/2024/06/24/fifo/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jourser</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/FPGA/">
+                                    <span class="chip bg-color">FPGA</span>
+                                </a>
+                            
+                                <a href="/tags/vivado/">
+                                    <span class="chip bg-color">vivado</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                                    <span class="chip bg-color">基础</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/06/24/fifo/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="FPGA学习笔记之IP核 FIFO">
+                        
+                        <span class="card-title">FPGA学习笔记之IP核 FIFO</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">基础</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/06/19/ram/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="FPGA学习笔记之IP核 RAM">
+                        
+                        <span class="card-title">FPGA学习笔记之IP核 RAM</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">基础</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('200')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 白米粥のBlog<br />'
+            + '文章作者: Jourser<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022-2024</span>
+            
+            <a href="/about" target="_blank">Jourser</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/Jourser" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:863519940@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=863519940" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 863519940" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

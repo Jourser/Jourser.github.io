@@ -316,7 +316,7 @@ Clock IP核（Clock IP Core）是FPGA设计中一种用于时钟管理和生成�
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.1k
                 </div>
                 
 
@@ -490,19 +490,18 @@ Clock IP核（Clock IP Core）是FPGA设计中一种用于时钟管理和生成�
 <li><p>MMCM（ Mixed-Mode Clock Manager）混合模式时钟管理器， MMCM 功能是 PLL 的超集，它是在 PLL的基础上加了相位动态调整功能， PLL 是模拟的，而动态调相是数字电路，所以称为混合模式。其相对于 PLL 的优势是相位可以动态调整，占用面积较大。 MMCM 主要用于驱动器件逻辑（ CLB、 DSP、 RAM 等）的时钟。 PLL 是和 IO 资源紧密绑定的，占用面积小，常用于为内存接口生成所需的时钟信号，但也具有与其他器件逻辑的连接，因此如果需要额外的功能，它们可以用作额外的时钟资源。</p>
 </li>
 </ul>
-<h2 id="IP-核配置实验步骤"><a href="#IP-核配置实验步骤" class="headerlink" title="IP 核配置实验步骤"></a>IP 核配置实验步骤</h2><ol>
-<li><p>打开 Vivado，新建一个工程。工程名为<code>ip_clk_wiz</code>。接下来添加 PLL IP 核。在 Vivado 软件的左侧<code>Flow Navigator</code>栏中单击<code>IP Catalog</code></p>
-<div align="center">
+<h2 id="IP-核配置实验步骤"><a href="#IP-核配置实验步骤" class="headerlink" title="IP 核配置实验步骤"></a>IP 核配置实验步骤</h2><h3 id="一、创建工程"><a href="#一、创建工程" class="headerlink" title="一、创建工程"></a>一、创建工程</h3><ol>
+<li>打开 Vivado，新建一个工程。工程名为<code>ip_clk_wiz</code>。接下来添加 PLL IP 核。在 Vivado 软件的左侧<code>Flow Navigator</code>栏中单击<code>IP Catalog</code><div align="center">
 <img src="/2024/06/17/mmcm/5.png" width="40%/">
-</div>
-</li>
-<li><p>打开<code>IP Catalog</code>窗口后，在搜索栏中输入<code>clock</code>关键字，可以看到 Vivado 已经自动查找出了与关键字匹配的 IP 核名称，如下图所示。双击<code>FPGA Features and Design</code>→<code>Clocking”下的“Clocking Wizard</code></p>
-<div align="center">
+</div></li>
+</ol>
+<h3 id="二、搜索创建CLOCK-IP"><a href="#二、搜索创建CLOCK-IP" class="headerlink" title="二、搜索创建CLOCK IP"></a>二、搜索创建CLOCK IP</h3><ol start="2">
+<li>打开<code>IP Catalog</code>窗口后，在搜索栏中输入<code>clock</code>关键字，可以看到 Vivado 已经自动查找出了与关键字匹配的 IP 核名称，如下图所示。双击<code>FPGA Features and Design</code>→<code>Clocking”下的“Clocking Wizard</code><div align="center">
 <img src="/2024/06/17/mmcm/6.png" width="80%/">
-</div>
-</li>
-<li><p>弹出 <code>Customize IP</code> 窗口，开始配置 IP 核</p>
-</li>
+</div></li>
+</ol>
+<h3 id="三、配置-IP-核"><a href="#三、配置-IP-核" class="headerlink" title="三、配置 IP 核"></a>三、配置 IP 核</h3><ol start="3">
+<li>弹出 <code>Customize IP</code> 窗口，开始配置 IP 核</li>
 </ol>
 <ul>
 <li><p>最上面的<code>Component Name</code>一栏设置该 IP 元件的名称，这里保持默认即可。在第一个<code>Clocking Options</code>选项卡中，<code>Primitive</code>选项用于选择是使用 MMCM 还是 PLL 来输出不同的时钟，对于我们的本次实验来说，MMCM 和 PLL 都可以完成，这里我们可以保持默认选择 MMCM。需要修改的是最下面的<code>Input Clock Information</code>一栏，把<code>Primary</code>时钟的输入频率修改为我们开发板的开发板上的晶振频率 50MHz，其他的设置保持默认即可，如下图所示。 </p>
@@ -530,19 +529,18 @@ Clock IP核（Clock IP Core）是FPGA设计中一种用于时钟管理和生成�
 <img src="/2024/06/17/mmcm/11.png" width="80%/">
 </div></li>
 </ul>
-<ol start="4">
-<li><p>配置完成后，弹出了<code>Generate Output Products</code>窗口，点击<code>Generate</code>按钮，开始生成 IP 核。</p>
-<div align="center">
+<h3 id="四、生成-IP-核"><a href="#四、生成-IP-核" class="headerlink" title="四、生成 IP 核"></a>四、生成 IP 核</h3><ol start="4">
+<li>配置完成后，弹出了<code>Generate Output Products</code>窗口，点击<code>Generate</code>按钮，开始生成 IP 核。<div align="center">
 <img src="/2024/06/17/mmcm/12.png" width="50%/">
-</div>
-</li>
-<li><p>在<code>Design Run</code>窗口的<code>Out-of-Context Module Runs</code>一栏中出现了该 IP 核对应的 run <code>clk_wiz_0_synth_1</code>，其综合过程独立于顶层设计的综合，所以在我们可以看到其正在综合，如下图所示。 </p>
-<div align="center">
+</div></li>
+</ol>
+<h3 id="五、等待综合"><a href="#五、等待综合" class="headerlink" title="五、等待综合"></a>五、等待综合</h3><ol start="5">
+<li>在<code>Design Run</code>窗口的<code>Out-of-Context Module Runs</code>一栏中出现了该 IP 核对应的 run <code>clk_wiz_0_synth_1</code>，其综合过程独立于顶层设计的综合，所以在我们可以看到其正在综合，如下图所示。 <div align="center">
 <img src="/2024/06/17/mmcm/13.png" width="60%/">
-</div>
-</li>
-<li><p>综合完成后，便可开始编写代码。首先查看IP核的例化模板。在<code>Source</code> 窗口中的<code>IP Sources</code>选项卡中，依次用鼠标单击展开<code>IP</code>-<code>clk_wiz_0</code>-<code>Instantitation Template</code>，我们可以看到“clk_wiz.veo”文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :</p>
-</li>
+</div></li>
+</ol>
+<h3 id="六、拷贝例化模板代码"><a href="#六、拷贝例化模板代码" class="headerlink" title="六、拷贝例化模板代码"></a>六、拷贝例化模板代码</h3><ol start="6">
+<li>综合完成后，便可开始编写代码。首先查看IP核的例化模板。在<code>Source</code> 窗口中的<code>IP Sources</code>选项卡中，依次用鼠标单击展开<code>IP</code>-<code>clk_wiz_0</code>-<code>Instantitation Template</code>，我们可以看到<code>clk_wiz.veo</code>文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :</li>
 </ol>
 <div align="center">
 <img src="/2024/06/17/mmcm/14.png" width="90%/">
@@ -562,7 +560,7 @@ Clock IP核（Clock IP Core）是FPGA设计中一种用于时钟管理和生成�
   <span class="token comment">// Clock in ports</span>
    <span class="token punctuation">.</span><span class="token function">clk_in1</span><span class="token punctuation">(</span>clk_in1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// input clk_in1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<ol start="7">
+<h3 id="七、创建源文件"><a href="#七、创建源文件" class="headerlink" title="七、创建源文件"></a>七、创建源文件</h3><ol start="7">
 <li>创建一个 verilog 源文件，其名称为 ip_clk_wiz.v，代码如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">clk_wiz</span><span class="token punctuation">(</span>
     <span class="token keyword">input</span>  sys_clk<span class="token punctuation">,</span>
     <span class="token keyword">input</span>  sys_rst_n<span class="token punctuation">,</span>
@@ -593,7 +591,7 @@ Clock IP核（Clock IP Core）是FPGA设计中一种用于时钟管理和生成�
 <img src="/2024/06/17/mmcm/15.png" width="70%/">
 </div></li>
 </ul>
-<ol start="8">
+<h3 id="八、创建仿真文件并模拟"><a href="#八、创建仿真文件并模拟" class="headerlink" title="八、创建仿真文件并模拟"></a>八、创建仿真文件并模拟</h3><ol start="8">
 <li>最后，仿真模拟。创建一个<code>tb_clk_wiz.v</code>的仿真文件，仿真代码编写如下：<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
 
 <span class="token keyword">module</span> <span class="token function">tb_clk_wiz</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -793,17 +791,16 @@ clk_wiz <span class="token function">clk_wiz_inst</span><span class="token punct
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/06/17/mmcm/">
+                <a href="/2024/06/19/ram/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="FPGA学习笔记之IP核 MMCM/PLL">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="FPGA学习笔记之IP核 RAM">
                         
-                        <span class="card-title">FPGA学习笔记之IP核 MMCM/PLL</span>
+                        <span class="card-title">FPGA学习笔记之IP核 RAM</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -813,9 +810,9 @@ clk_wiz <span class="token function">clk_wiz_inst</span><span class="token punct
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-17
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-06-19
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -828,7 +825,6 @@ clk_wiz <span class="token function">clk_wiz_inst</span><span class="token punct
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     

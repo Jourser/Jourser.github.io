@@ -1,0 +1,1472 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="FPGA学习笔记之IP核 RAM, 白米粥のBlog">
+    <meta name="description" content="IP核之 RAM前言
+由下图可知，存储器包括随机存储器和只读存储器
+随机存储器包括静态 RAM 和动态 RAM。静态RAM 只要有供电，它保存的数据就不会丢失；而动态 RAM 在供电的情况下，还需要根据其要求的时间来对存储的数据进行刷新，才">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>FPGA学习笔记之IP核 RAM | 白米粥のBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">白米粥のBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">白米粥のBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">FPGA学习笔记之IP核 RAM</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/FPGA/">
+                                <span class="chip bg-color">FPGA</span>
+                            </a>
+                        
+                            <a href="/tags/vivado/">
+                                <span class="chip bg-color">vivado</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                                <span class="chip bg-color">基础</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                硬件
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-06-19
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.3k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="IP核之-RAM"><a href="#IP核之-RAM" class="headerlink" title="IP核之 RAM"></a>IP核之 RAM</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>由下图可知，存储器包括随机存储器和只读存储器</li>
+<li><strong>随机存储器</strong>包括<strong>静态 RAM</strong> 和<strong>动态 RAM</strong>。静态RAM 只要有供电，它保存的数据就不会丢失；而动态 RAM 在供电的情况下，还需要根据其要求的时间来对存储的数据进行刷新，才能保持存储的数据不会丢失。</li>
+<li><strong>只读存储器</strong>一般包括 <strong>PROM</strong>、<strong>EPROM</strong> 和 <strong>EEPROM</strong> 等，是非易失性的存储器。目前使用率较高的是EEPROM，其特点是容量相对较小，存储的一般是器件的配置参数信息，例如 USB 2.0 芯片一般会配有一个 EEPROM 来存储相关的固件信息。 </li>
+<li>想要了解更多关于存储器的内容，可访问本人博客另一文章《计算机组成原理》的存储系统板块</li>
+</ul>
+<p><img src="/2024/06/19/ram/1.png"> </p>
+<h2 id="何为-RAM"><a href="#何为-RAM" class="headerlink" title="何为 RAM"></a>何为 RAM</h2><h3 id="静态-RAM-和-动态-RAM"><a href="#静态-RAM-和-动态-RAM" class="headerlink" title="静态 RAM 和 动态 RAM"></a>静态 RAM 和 动态 RAM</h3><ul>
+<li><strong>静态 RAM</strong> 一般包括<strong>单端口 RAM</strong>（Single Port RAM，缩写为 SP RAM）、<strong>简单双端口 RAM</strong>（Simple Dual Port RAM，缩写为 SDP RAM，也叫伪双端口 RAM）和<strong>真双端口 RAM</strong>（True Dual Port RAM，缩写为 TDP RAM）。静态 RAM 的特点是存储容量相对不是很大，但是读写速度非常高，其在 FPGA 或者 ASIC 设计中都属于非常重要的器件，可以说查找表、寄存器、组合逻辑和静态 RAM 构成了整个数字电路体系，足见静态 RAM 的重要性。 </li>
+<li><strong>动态 RAM</strong> 一般包括 <strong>SDRAM</strong> 和 <strong>DDR SDRAM</strong>。目前 DDR SDRAM 已经从 DDR1 代发展到 DDR5 代了，DDR3 和 DDR4 SDRAM 是目前非常主流的存储器，大量使用在电脑、嵌入式和 FPGA 板卡上面，其特点是存储容量非常大、但是读写速度相比于静态 RAM 会稍低一些，这一点在数据量较少的情况下尤为明显。 </li>
+<li>本文主要讲解<strong>静态 RAM</strong></li>
+</ul>
+<h3 id="静态-RAM-的常见种类及其特性与区别"><a href="#静态-RAM-的常见种类及其特性与区别" class="headerlink" title="静态 RAM 的常见种类及其特性与区别"></a>静态 RAM 的常见种类及其特性与区别</h3><table>
+<thead>
+<tr>
+<th align="center">RAM类型</th>
+<th align="left">特性说明</th>
+<th align="center">数据读写口数量</th>
+<th align="center">地址口数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">单端口RAM</td>
+<td align="left">1. 允许通过一个端口对存储进行读写访问。<br> 2. 只有一组数据总线、地址总线、时钟信号以及读写使能信号。<br></td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">伪双端口RAM</td>
+<td align="left">1. 提供A和B两个端口，端口A只能进行写访问，端口B只能进行读访问。 <br>2. 有两组数据总线、地址总线、时钟信号以及读写使能信号。<br></td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">真双端口RAM</td>
+<td align="left">1. 提供A和B两个端口，两个端口均可对存储进行读写访问。 <br>2. 有两组数据总线、地址总线、时钟信号以及读写使能信号。<br></td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+</tbody></table>
+<ul>
+<li>从上表可以看出:<ul>
+<li><strong>单端口 RAM</strong> ，其只有一个端口进行读写，即读&#x2F;写只能通过这一个端口来进行。</li>
+<li><strong>伪双端口 RAM</strong> ，其也有两个端口可以用于读写，但是其中一个端口只能读不能写，另一个端口只能写不能读；</li>
+<li><strong>真双端口 RAM</strong> ，其有两个端口可以用于读写，且两个端口都可以进行读或写</li>
+</ul>
+</li>
+</ul>
+<h3 id="静态-RAM-的使用场景"><a href="#静态-RAM-的使用场景" class="headerlink" title="静态 RAM 的使用场景"></a>静态 RAM 的使用场景</h3><ul>
+<li>不同的特性决定不同的应用场景，在 RAM 的实际应用中，一般根据功能需求和带宽需求来选择合适的 RAM 类型，例如： <ol>
+<li>当我们需要读取一个配置，且这个配置只在上电的时候配置一次，其他时候不需要写操作，那么我们直接选择单端口 RAM 即可，通过一个端口要么进行写操作，要么进行读操作。</li>
+<li>当我们需要使用 FIFO（先进先出存储器）来存储数据，就可以选择伪双端口 RAM，一个写端口，一个读端口，且读写可以同时进行。 </li>
+<li>当我们想要实现一个对 10000 节车厢的人数进行统计的功能，每节车厢有两个门，一个门仅用于上车，另一个门仅用于下车，有人上车时需要在原有的人数基础上加一，有人下车时需要在原有的人数基础上减一，每时每刻都可能有人上下车，那么要使用逻辑统计这么多节车厢的人数时，就需要有两个写端<br>口的 RAM，深度为 10000（对应 10000 节车厢），这时就要选择真双端口 RAM 了。因为如果单纯的使用寄存器资源进行统计的话，仅这 10000 节车厢的计数就很可能把 FPGA 的寄存器资源消耗殆尽了。</li>
+</ol>
+</li>
+</ul>
+<h2 id="RAM-设计"><a href="#RAM-设计" class="headerlink" title="RAM 设计"></a>RAM 设计</h2><h3 id="单端口-RAM-配置"><a href="#单端口-RAM-配置" class="headerlink" title="单端口 RAM 配置"></a>单端口 RAM 配置</h3><h4 id="单端口-RAM-基础知识"><a href="#单端口-RAM-基础知识" class="headerlink" title="单端口 RAM 基础知识"></a>单端口 RAM 基础知识</h4><ul>
+<li><p>BMG IP 核配置成单端口 RAM 的框图</p>
+<div align="center">
+<img src="/2024/06/19/ram/2.png" width="70%/">
+</div>
+</li>
+<li><p>各个端口的功能描述如下：</p>
+<div align="center">
+<img src="/2024/06/19/ram/3.png" width="100%/">
+</div></li>
+</ul>
+<h4 id="单端口-RAM-设计思路"><a href="#单端口-RAM-设计思路" class="headerlink" title="单端口 RAM 设计思路"></a>单端口 RAM 设计思路</h4><ul>
+<li>本次实验的目的是为了将 Xilinx BMG IP 核配置成一个单端口的 RAM 并对其进行读写操作。</li>
+</ul>
+<h5 id="顶层模块设计"><a href="#顶层模块设计" class="headerlink" title="顶层模块设计"></a>顶层模块设计</h5><ul>
+<li><strong>顶层模块设计</strong>：由于单端口 RAM 的读写是共用一组信号总线的，所以这里我们将读写操作合成一个模块，可以将其命名为 <code>ram_rw</code>；系统时钟和系统复位是一个完整的工程中必不可少的输入端口信号，这里就不再多讲了；因为 RAM 主要用于存储程序中的数据，并不需要输出到 IO 引脚上，所以本实验不需要输出端口。</li>
+<li>综上可得一个大致的模块框图：<div align="center">
+<img src="/2024/06/19/ram/15.png" width="50%/">
+</div></li>
+</ul>
+<h5 id="读写模块设计"><a href="#读写模块设计" class="headerlink" title="读写模块设计"></a>读写模块设计</h5><ul>
+<li><p><strong>读写模块设计</strong>：在 RAM 读写模块中，我们的输入信号主要有系统时钟信号、系<br>统复位信号和 RAM IP 核输出的读数据（ram_rd_data），输出有控制 RAM 所需的 ram_en（RAM 端口使能）、ram_we（读写使能）、ram_addr（读写地址）和 ram_wr_data（写数据）这四个信号。</p>
+</li>
+<li><p>综上可得一个大致的模块框图：</p>
+<div align="center">
+<img src="/2024/06/19/ram/17.png" width="50%/">
+</div>
+</li>
+<li><p>模块端口与功能描述如下表所示：</p>
+<div align="center">
+<img src="/2024/06/19/ram/18.png" width="80%/">
+</div></li>
+</ul>
+<h4 id="单端口-RAM-配置实验步骤"><a href="#单端口-RAM-配置实验步骤" class="headerlink" title="单端口 RAM 配置实验步骤"></a>单端口 RAM 配置实验步骤</h4><h5 id="一、创建工程"><a href="#一、创建工程" class="headerlink" title="一、创建工程"></a>一、创建工程</h5><ol>
+<li>创建一个名为<code>ip_1port_ram</code>的空白工程，然后点击 Vivado 软件左侧<code>Flow Navigator</code>栏中的<code>IP Catalog</code>，如下图所示： <div align="center">
+<img src="/2024/06/19/ram/4.png" width="40%/">
+</div></li>
+</ol>
+<h5 id="二、搜索创建-BMG-IP核"><a href="#二、搜索创建-BMG-IP核" class="headerlink" title="二、搜索创建 BMG IP核"></a>二、搜索创建 BMG IP核</h5><ol start="2">
+<li>在<code>IP Catalog</code>窗口的搜索栏中输入<code>Block Memory</code>关键字后，出现唯一匹配的<code>Block Memory Generator</code>，如下图所示（图中出现的两个 IP 核为同一个 BMG IP 核）： <div align="center">
+<img src="/2024/06/19/ram/5.png" width="60%/">
+</div></li>
+</ol>
+<h5 id="三、配置-IP-核"><a href="#三、配置-IP-核" class="headerlink" title="三、配置 IP 核"></a>三、配置 IP 核</h5><ol start="3">
+<li>双击<code>Block Memory Generator</code>后弹出 IP 核的配置界面，对 BMG IP 核进行配置。</li>
+</ol>
+<ul>
+<li><p><code>Basic</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/19/ram/6.png" width="100%/">
+</div>
+</li>
+<li><p>该选项卡下各参数（重点关注（2）和（3）中的内容）含义如下： </p>
+<ol>
+<li>最上面的 <code>Component Name</code>一栏可以设置该 IP 元件的名称，这里我们保持默认命名，当然也可以命名为其它方便自己一眼看出其功能的名称。 </li>
+<li><code>lnterface Type（接口模式）</code>：有两种接口模式可选，分别为 <strong>Native（常规）接口</strong>和 <strong>AXI4 接口</strong>。AXI4 模式一般是在处理器中的数据需要和 BRAM 交互时才会使用，当不需要与处理器数据进行交互时，我们一般采用 Native 模式，所以本次实验我们选择 Native 模式。 </li>
+<li><code>Memory Type（存储类型）</code>：有五种类型可选，分别为<code>Single Port RAM（单端口RAM）</code>、<code>Simple Dual Port RAM（伪双端口 RAM）</code>、<code>True Dual Port RAM（真双端口 RAM）</code>、<code>Single Port ROM（单端口 ROM）</code>和<code>Dual Port ROM（双端口 ROM）</code>，因为本节的试验任务是学习单端口 RAM，所以我们选择 <code>Single Port RAM</code>。</li>
+<li><code>ECC（全称 Error Correcting Code，即纠错码） Options</code>，纠错码选项只有在伪双端口 RAM 类型下才可以进行配置。 </li>
+<li><code>Write Enable（写使能）</code>：可以选择是否使用字节写使能功能，启用后可设置字节大小为 8 位（无奇偶校验）或 9 位（包括奇偶校验），需要注意的是启用后内存的数据位宽必须设置为所选字节大小的整数倍。这里我们不启用字节写使能功能。</li>
+<li><code>Algorithm Options（算法选项）</code>：算法选项主要用于决定 BRAM 的拼接的方式，一般在BRAM 深度、宽度较大的时候起作用，有三种算法可选，分别为<code>Minimum Area（最小面积算法）</code>、<code>Low Power（低功耗算法）</code>和<code>Fixed Primitives（固定单元算法）</code>。这里我们保持默认即可</li>
+<li><code>Generate address interface with 32 bits</code>选项为是否生成位宽为 32 的地址接口，勾选后内存的数据位宽必须设置成 32 的整数倍，在实际应用中，我们一般不做勾选。</li>
+<li><code>Common Clock</code>选项为是否启用同步时钟，在单端口模式下不需要考虑这个问题，所以该选项也无法进行设置。</li>
+</ol>
+</li>
+<li><p><code>Port A Options</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/19/ram/7.png" width="100%/">
+</div>
+</li>
+<li><p>该选项卡下各参数（重点关注（1）（2）（3）（4）中的内容）含义如下： </p>
+<ol>
+<li><code>Write Width</code>：写数据位宽，单位 bit，本次实验我们设置成 8，可设置的位宽范围为 1~4608。</li>
+<li><code>Read Width</code>：读数据位宽，其位宽设置必须与写数据位宽存在倍数关系（倍数比仅支持 1：1、1：2、1：4、1：8、2：1、4：1、8：1 和 16：1），通常情况下读&#x2F;写数据位宽保持一致，所以这里设置成 8。</li>
+<li><code>Write Depth</code>：写深度，这里设置成 32，即 RAM 所能访问的地址范围为 0~31。这里有一点需要大家注意，那就是写深度和写位宽的乘积不要超过器件本身的 ram 资源的大小，否则软件会报错。</li>
+<li><code>Read Depth</code>：读深度，当写数据位宽、读数据位宽和写深度的值确定后，读深度的值就会自动确定。</li>
+<li><ul>
+<li><code>Operating Mode</code>：RAM 运作模式。该选项决定了我们在进行写操作期间，DOUT（读数据线）上的数据变化，有三种模式可选，分别为： <ol>
+<li><p><code>Write First（写优先模式）</code>：当我们在对某个地址进行写操作时，则会将写入的数据传递到读数据线上。在写优先模式下，当 ENA（使能信号）为高后，第一个时钟上升沿 WEA（读&#x2F;写使能信号）为低电平，表示读数据，此时的地址为 aa，所以读出的就是 aa 内的数据；第二个时钟上升沿 WEA 为高电平，表示写数据，此时的地址为 bb，即先将数据（DAIN）“1111”写入地址 bb 后再读出，所以读出的数据也是“1111”；第三个时钟上升沿同理，将 DINA 数据写入存储器后再将更新后的数据送到 DOUTA 上进行输出；第四个时钟上升沿 WEA 为低电平，表示读数据，读取的就是地址 dd 内的数据。 </p>
+<div align="center">
+<img src="/2024/06/19/ram/12.png" width="70%/">
+</div>
+</li>
+<li><p><code>Read First（读优先模式）</code>：当我们在对某个地址进行写操作时，则会将上次写入该地址的数据递到读数据线上。 在读优先模式下，当 ENA（使能信号）为高后，第一个时钟上升沿 WEA 为低电平，表示读数据，此时的地址为 aa，所以读出的就是 aa 内的数据；第二个时钟上升沿 WEA 为高电平，表示写数据，此时的地址为 bb，即先读出地址 bb 中的旧数据，然后再将数据（DAIN）“1111”写入地址 bb；第三个时钟上升沿同理，先将当前存储器中的旧数据送到 DOUTA 上进行输出，然后再将 DINA 数据写入当前存储地址；第四个时钟上升沿 WEA 为低电平，表示读数据，读取的就是地址 dd 内的数据。 </p>
+<div align="center">
+<img src="/2024/06/19/ram/13.png" width="70%/">
+</div>
+</li>
+<li><p><code>No Change（不变模式）</code>：在该模式下，进行写操作时，读数据线上的数据保持不变。在不变模式下，当 ENA 和 WEA 同时为高时，只进行写操作，读数据保持不变，也就是说 DOUTA 保持前一拍数据，直到 WEA 为低。 </p>
+<div align="center">
+<img src="/2024/06/19/ram/14.png" width="70%/">
+</div>
+</li>
+<li><p>总结一下就是在进行写操作时，读数据线（DOUT）上的数据在写优先模式和读优先模式下会随着地址的变化而输出相应的数据，在不变模式下则会保持最后一次读操作输出的数据。 </p>
+</li>
+<li><p>这里我们选择 No Change 模式。</p>
+</li>
+</ol>
+</li>
+<li><code>Enable Port Type</code>：使能端口类型。有两种可选，分别为 <code>Use ENA pin</code>（添加使能端口 A 信号）和 <code>Always Enabled</code>（取消使能信号，端口 A 一直处于使能状态），这里选择默认的 Use ENA pin。</li>
+</ul>
+</li>
+<li><code>Port A Optional Output Register</code>：用于为 RAM 的输出端添加寄存器。其作用是提高 BRAM 的运行频率和改善时序，当然为此付出的代价就是每勾选一个寄存器，输出就会延迟一拍。其中： <ul>
+<li><code>Primitives Output Register</code>，使用 BRAM 内部的寄存器打拍输出。 </li>
+<li><code>Core Output Register</code>，使用 SLICE 的寄存器打拍输出。 </li>
+<li><code>SoftECC Input Register</code>，当使用软 ECC 的时候，用 SLICE 的寄存器打拍。 </li>
+<li><code>REGCEA</code>，当使用 Primitives Output Register 或者 Core Output Register 时，可以用 REGCEA 来使能相应的输出。 </li>
+<li>本次实验中，建议生成 ip 的时候，取消 primitives output register 配置，这样我们在当前时钟周期发起读操作的话，在下一个时钟周期就可以读出有效数据了。</li>
+</ul>
+</li>
+<li><code>Port A Output Reset Options</code>用于设置端口的复位信号，可以添加一个复位信号（RSTA Pin）、设置复位时 ram 输出总线上的数据值（Output Reset Value）、设置是否复位内置锁存器（Reset Memory Latch）和设置复位信号与时钟使能之间的优先级（Reset Priority），这里我们不需要添加，所以不做勾选。 </li>
+<li><code>READ Address Change A</code>用于更改端口的读地址，这个功能只在 UltraScale 设备上使用，一般在某些低功耗场景中会应用到。</li>
+</ol>
+</li>
+<li><p><code>Other Options</code>选项卡配置界面如下图所示:</p>
+<div align="center">
+<img src="/2024/06/19/ram/8.png" width="100%/">
+</div>
+</li>
+<li><p>该选项卡下各参数含义如下： </p>
+<ol>
+<li><code>Pipeline Stages within Mux</code>，输出端 Mux 选择器的流水线级数。在大位宽、大深度的 BRAM 拼接场景中，我们会用 MUX 来选择输出地址所对应的数据，勾选该选项后可以使输出数据具有更好的时序。 </li>
+<li><code>Memory Initialization（初始化文件）</code>，选择是否使用本地初始化文件（.coe 文件）来对存储空间进行初始化。 </li>
+<li><code>Structural/UniSim Simulation Model Options</code>，用于选择结构仿真模型发生碰撞时生成的警告消息和输出的类型。 </li>
+<li><code>Behavioral Simulation Model Options</code>，用于关闭仿真时的冲突告警和超出范围告警。</li>
+</ol>
+</li>
+<li><p><code>Other Options</code>选项卡，用于设置 RAM 的初始值等信息</p>
+</li>
+<li><p><code>Summary</code>选项卡，该界面显示了我们配置的存储器的类型，消耗的 BRAM 资源等信息，我们直接点击<code>OK</code>按钮完成 BMG IP 核的配置，如下图所示： </p>
+<div align="center">
+<img src="/2024/06/19/ram/9.png" width="70%/">
+</div></li>
+</ul>
+<h5 id="四、生成-IP-核"><a href="#四、生成-IP-核" class="headerlink" title="四、生成 IP 核"></a>四、生成 IP 核</h5><ol start="4">
+<li>配置完成后，弹出了<code>Generate Output Products</code>窗口，点击<code>Generate</code>按钮，开始生成 IP 核。<div align="center">
+<img src="/2024/06/19/ram/10.png" width="50%/">
+</div></li>
+</ol>
+<h5 id="五、等待综合"><a href="#五、等待综合" class="headerlink" title="五、等待综合"></a>五、等待综合</h5><ol start="5">
+<li>在<code>Design Run</code>窗口的<code>Out-of-Context Module Runs</code>一栏中看到该 IP 核对应的run <code>blk_mem_gen_0_synth_1</code>，其综合过程独立于顶层设计的综合，所以我们可以看到其正在综合，如下图所示： <div align="center">
+<img src="/2024/06/19/ram/11.png" width="60%/">
+</div></li>
+</ol>
+<h5 id="六、拷贝例化模板代码"><a href="#六、拷贝例化模板代码" class="headerlink" title="六、拷贝例化模板代码"></a>六、拷贝例化模板代码</h5><ol start="6">
+<li>综合完成后，便可开始编写代码。首先查看IP核的例化模板。在<code>Source</code> 窗口中的<code>IP Sources</code>选项卡中，依次用鼠标单击展开<code>IP</code>-<code>blk_mem_gen_0</code>-<code>Instantitation Template</code>，我们可以看到<code>blk_mem_gen_0.veo</code>文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :<div align="center">
+<img src="/2024/06/19/ram/16.png" width="100%/">
+</div></li>
+</ol>
+<h5 id="七、创建顶层模块"><a href="#七、创建顶层模块" class="headerlink" title="七、创建顶层模块"></a>七、创建顶层模块</h5><ol start="7">
+<li>本次实验除了调用 BMG IP 核外还需要例化一个读写模块（这里我们将其命名为 <code>ram_rw</code>），所以需要创建一个顶层模块来例化 IP 核与读写模块。创建源文件后，将顶层模块命名为 <code>ip_1port_ram</code>，代码如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ip_ram</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>         sys_clk <span class="token punctuation">,</span>  <span class="token comment">//系统时钟</span>
+    <span class="token keyword">input</span>         sys_rst_n  <span class="token comment">//系统复位，低电平有效</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token comment">//wire define</span>
+    <span class="token keyword">wire</span>             ram_en      <span class="token punctuation">;</span>  <span class="token comment">//RAM使能    </span>
+    <span class="token keyword">wire</span>             ram_wea      <span class="token punctuation">;</span>  <span class="token comment">//ram读写使能信号,高电平写入,低电平读出 </span>
+    <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>    ram_addr    <span class="token punctuation">;</span>  <span class="token comment">//ram读写地址 </span>
+    <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>    ram_wr_data <span class="token punctuation">;</span>  <span class="token comment">//ram写数据  </span>
+    <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>    ram_rd_data <span class="token punctuation">;</span>  <span class="token comment">//ram读数据   </span>
+
+<span class="token comment">//ram读写模块</span>
+ram_rw  <span class="token function">u_ram_rw</span><span class="token punctuation">(</span>
+<span class="token punctuation">.</span>clk        <span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span><span class="token punctuation">,</span>  
+<span class="token punctuation">.</span>rst_n      <span class="token punctuation">(</span>sys_rst_n<span class="token punctuation">)</span><span class="token punctuation">,</span>     
+<span class="token punctuation">.</span>ram_en     <span class="token punctuation">(</span>ram_en     <span class="token punctuation">)</span><span class="token punctuation">,</span> 
+<span class="token punctuation">.</span>ram_wea    <span class="token punctuation">(</span>ram_wea     <span class="token punctuation">)</span><span class="token punctuation">,</span> 
+<span class="token punctuation">.</span>ram_addr   <span class="token punctuation">(</span>ram_addr   <span class="token punctuation">)</span><span class="token punctuation">,</span>  
+<span class="token punctuation">.</span><span class="token function">ram_wr_data</span><span class="token punctuation">(</span>ram_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span>  
+<span class="token punctuation">.</span><span class="token function">ram_rd_data</span><span class="token punctuation">(</span>ram_rd_data<span class="token punctuation">)</span> 
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//ram ip 核</span>
+blk_mem_gen_0 your_instance_name <span class="token punctuation">(</span>
+     <span class="token punctuation">.</span><span class="token function">clka</span><span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clka</span>
+     <span class="token punctuation">.</span>ena  <span class="token punctuation">(</span> ram_en     <span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire ena</span>
+     <span class="token punctuation">.</span>wea  <span class="token punctuation">(</span> ram_wea     <span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire [0 : 0] wea</span>
+     <span class="token punctuation">.</span><span class="token function">addra</span><span class="token punctuation">(</span> ram_addr   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [4 : 0] addra</span>
+     <span class="token punctuation">.</span>dina <span class="token punctuation">(</span> ram_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire [7 : 0] dina</span>
+     <span class="token punctuation">.</span><span class="token function">douta</span><span class="token punctuation">(</span> ram_rd_data<span class="token punctuation">)</span>  <span class="token comment">// output wire [7 : 0] douta</span>
+   <span class="token punctuation">)</span><span class="token punctuation">;</span>        
+
+<span class="token keyword">endmodule</span>
+```  
+
+##### 八、创建读写模块
+<span class="token number">8</span><span class="token punctuation">.</span> <span class="token constant">`ram_rw</span>` 模块用于产生 RAM 读<span class="token operator">/</span>写操作所需的信号，绘制大致的模块端口信号的波形图方便理解。
+
+<span class="token operator">&lt;</span>div align<span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token punctuation">.</span><span class="token operator">/</span>ram<span class="token operator">/</span><span class="token number">19</span><span class="token punctuation">.</span>png width<span class="token operator">=</span><span class="token number">100</span><span class="token operator">%/></span>
+<span class="token operator">&lt;/</span>div<span class="token operator">></span>
+
+<span class="token operator">-</span> 当系统复位结束后，一直对 RAM 进行读写操作，所以 ram_en 在复位结束后一直处于使能状态。因为是读写 <span class="token number">32</span> 个数据，所以地址一直在 <span class="token number">0</span><span class="token operator">~</span><span class="token number">31</span> 之间循环计数。接着我们用一个计数器（<span class="token constant">`rw_cnt</span>`）循环计数 <span class="token number">0</span><span class="token operator">~</span><span class="token number">63</span>，以此来对读写使能信号（<span class="token constant">`ram_we</span>`）进行切换。当计数器值在 <span class="token number">0</span><span class="token operator">~</span><span class="token number">31</span> 时进行写操作，写操作期间需要将 <span class="token constant">`ram_we</span>` 置为高；当计数器值在 <span class="token number">32</span><span class="token operator">~</span><span class="token number">63</span> 时进行读操作，读操作期间需要将 <span class="token constant">`ram_we</span>` 置为低。 
+<span class="token operator">-</span> 在写操作期间，写数据（<span class="token constant">`ram_wr_data</span>`）由 <span class="token number">0</span> 开始累加（步进为 <span class="token number">1</span>），直到累加值等于 <span class="token number">31</span>（即写入 <span class="token number">32</span> 个数据）时清零。而读数据只需要给出地址即可，需要注意的是读数据的输出会比地址晚一个时钟周期，当由读状态切换至写状态时，读数据会保持最后一次读出的数据。 
+<span class="token operator">-</span> 代码如下：
+``<span class="token constant">`verilog</span>
+<span class="token keyword">module</span> <span class="token function">ram_rw</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>               clk        <span class="token punctuation">,</span>  <span class="token comment">//时钟信号</span>
+    <span class="token keyword">input</span>               rst_n      <span class="token punctuation">,</span>  <span class="token comment">//复位信号，低电平有效</span>
+    
+    <span class="token keyword">output</span>               ram_en     <span class="token punctuation">,</span>      <span class="token comment">//ram使能信号</span>
+    <span class="token keyword">output</span>               ram_wea    <span class="token punctuation">,</span>     <span class="token comment">//ram读写选择</span>
+    <span class="token keyword">output</span>  <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   ram_addr   <span class="token punctuation">,</span>    <span class="token comment">//ram读写地址</span>
+    <span class="token keyword">output</span>  <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   ram_wr_data<span class="token punctuation">,</span>   <span class="token comment">//ram写数据</span>
+    <span class="token keyword">input</span>         <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  ram_rd_data   <span class="token comment">//ram读数据      </span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//reg define</span>
+    <span class="token keyword">reg</span>    <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  rw_cnt <span class="token punctuation">;</span>                <span class="token comment">//读写控制计数器    </span>
+<span class="token comment">//rw_cnt计数范围在0~31,写入数据;32~63时,读出数据</span>
+<span class="token keyword">assign</span> ram_wea <span class="token operator">=</span> <span class="token punctuation">(</span>rw_cnt <span class="token operator">&lt;=</span> <span class="token number">6'd31</span> <span class="token operator">&amp;&amp;</span> ram_en <span class="token operator">==</span> <span class="token number">1'b1</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">1'b1</span> <span class="token punctuation">:</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+    
+ <span class="token comment">//控制RAM使能信号</span>
+<span class="token keyword">assign</span> ram_en <span class="token operator">=</span> rst_n<span class="token punctuation">;</span> 
+<span class="token comment">//读写控制计数器,计数器范围0~63</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span>
+        rw_cnt <span class="token operator">&lt;=</span> <span class="token number">6'b0</span><span class="token punctuation">;</span>    
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>rw_cnt <span class="token operator">==</span> <span class="token number">6'd63</span>  <span class="token operator">&amp;&amp;</span> ram_en<span class="token punctuation">)</span>
+        rw_cnt <span class="token operator">&lt;=</span> <span class="token number">6'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ram_en<span class="token punctuation">)</span>
+        rw_cnt <span class="token operator">&lt;=</span> rw_cnt <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span>
+        rw_cnt <span class="token operator">&lt;=</span> <span class="token number">6'b0</span><span class="token punctuation">;</span>      
+<span class="token keyword">end</span> 
+
+<span class="token comment">//读写地址信号 范围：0~31</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span>
+        ram_addr <span class="token operator">&lt;=</span> <span class="token number">5'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ram_addr <span class="token operator">==</span> <span class="token number">5'd31</span> <span class="token operator">&amp;&amp;</span> ram_en<span class="token punctuation">)</span>
+        ram_addr <span class="token operator">&lt;=</span> <span class="token number">5'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ram_en<span class="token punctuation">)</span>   
+        ram_addr <span class="token operator">&lt;=</span> ram_addr <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        ram_addr <span class="token operator">&lt;=</span> <span class="token number">5'b0</span><span class="token punctuation">;</span>         
+<span class="token keyword">end</span>
+
+<span class="token comment">//在WE拉高期间产生RAM写数据,变化范围是0~31</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span>
+        ram_wr_data <span class="token operator">&lt;=</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>  
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ram_wr_data <span class="token operator">&lt;</span> <span class="token number">8'd31</span> <span class="token operator">&amp;&amp;</span> ram_wea<span class="token punctuation">)</span>
+        ram_wr_data <span class="token operator">&lt;=</span> ram_wr_data <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        ram_wr_data <span class="token operator">&lt;=</span> <span class="token number">8'b0</span> <span class="token punctuation">;</span>   
+<span class="token keyword">end</span>  
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<ul>
+<li>模块中定义了一个读写控制计数器（<code>rw_cnt</code>），当计数范围在 0<del>31 之间时，向 ram 的 0</del>31 地址写入数据（0<del>31）；当计数范围在 32</del>63 之间时，从 ram 的 0~31 地址中读出数据。</li>
+</ul>
+<h5 id="九、引脚约束"><a href="#九、引脚约束" class="headerlink" title="九、引脚约束"></a>九、引脚约束</h5><ol start="9">
+<li>完成模块设计后，需要将模块的端口与 FPGA 的引脚进行约束。对应的 XDC 约束语句如下所示：</li>
+</ol>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">create_clock <span class="token operator">-</span>period <span class="token number">20.000</span> <span class="token operator">-</span>name sys_clk <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span> 
+set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN R4 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span> 
+set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN U2 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_rst_n<span class="token punctuation">]</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="十、添加-ILA-IP-核"><a href="#十、添加-ILA-IP-核" class="headerlink" title="十、添加 ILA IP 核"></a>十、添加 ILA IP 核</h5><ol start="10">
+<li>添加 ILA IP 核，用于观察 RAM 的读写状态。同时，由于本次实验中没有使用输出端口，所以<code>ram_rd_data (ram读数据 )</code>没有输出，若是没有ILA IP 核用作其输出，在生成比特流时，vivado软件会报错，认为该程序为无效程序，如下图所示：<div align="center">
+<img src="/2024/06/19/ram/20.png" width="100%/">
+</div></li>
+</ol>
+<ul>
+<li>添加 ILA IP 核，将 <code>ram_en</code>（1 位）、<code>ram_wea</code>（1 位）、<code>ram_addr</code>（5 位）、<code>ram_wr_data</code>（8 位）和 <code>ram_rd_data</code>（8 位）信号添加至观察列表中，添加 ILA IP 核的方法这里就不再赘述了，按如下图所示创建：</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/21.png" width="90%/">
+</div>
+
+<ul>
+<li>本例程是将 ILA 例化在了 <code>ram_rw</code> 模块中，例化代码如下所示：<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ila_0 your_instance_name <span class="token punctuation">(</span>
+	<span class="token punctuation">.</span><span class="token function">clk</span><span class="token punctuation">(</span>clk<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire clk</span>
+
+
+	<span class="token punctuation">.</span><span class="token function">probe0</span><span class="token punctuation">(</span>ram_en     <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe0  </span>
+	<span class="token punctuation">.</span><span class="token function">probe1</span><span class="token punctuation">(</span>ram_wea    <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe1 </span>
+	<span class="token punctuation">.</span><span class="token function">probe2</span><span class="token punctuation">(</span>ram_addr   <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [4:0]  probe2 </span>
+	<span class="token punctuation">.</span><span class="token function">probe3</span><span class="token punctuation">(</span>ram_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [7:0]  probe3 </span>
+	<span class="token punctuation">.</span><span class="token function">probe4</span><span class="token punctuation">(</span>ram_rd_data<span class="token punctuation">)</span> <span class="token comment">// input wire [7:0]  probe4</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>如图所示：<div align="center">
+<img src="/2024/06/19/ram/22.png" width="90%/">
+</div></li>
+</ul>
+<h5 id="十一、上板验证"><a href="#十一、上板验证" class="headerlink" title="十一、上板验证"></a>十一、上板验证</h5><ol start="11">
+<li>综合、实现、下载比特流后，在 FPGA 上验证 RAM 的读写功能。</li>
+</ol>
+<ul>
+<li><p>RAM 写操作在 ILA 中观察到的波形如下图所示： </p>
+<div align="center">
+<img src="/2024/06/19/ram/23.png" width="90%/">
+</div>
+</li>
+<li><p>由上图可知，<code>ram_wea</code> 信号拉高之后，地址和数据都从 0 开始累加，也就说当 ram 地址为 0 时，写入的数据也是 0；当 ram 地址为 1 时，写入的数据也是 1。可以发现，写操作的验证结果正确。 </p>
+</li>
+<li><p>RAM 读操作在 ILA 中观察到的波形如下图所示： </p>
+<div align="center">
+<img src="/2024/06/19/ram/24.png" width="90%/">
+</div>
+</li>
+<li><p>由上图可知，<code>ram_wea</code> 信号拉低之后，<code>ram_addr</code> 从 0 开始增加，即从 ram 的地址 0 开始读数据；<code>ram_rd_data</code> 在给出地址的下一个时钟周期后，开始输出数据，输出的数据为 0，1，2……30，31，和我们写入的值是相等的。可以发现，读操作的验证结果正确。</p>
+</li>
+<li><p>至此说明了 IP 核之单端口 RAM 实验验证成功。</p>
+</li>
+</ul>
+<h3 id="双端口-RAM-配置"><a href="#双端口-RAM-配置" class="headerlink" title="双端口 RAM 配置"></a>双端口 RAM 配置</h3>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Jourser</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://Jourser.github.io/2024/06/19/ram/">https://Jourser.github.io/2024/06/19/ram/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Jourser</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/FPGA/">
+                                    <span class="chip bg-color">FPGA</span>
+                                </a>
+                            
+                                <a href="/tags/vivado/">
+                                    <span class="chip bg-color">vivado</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                                    <span class="chip bg-color">基础</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/06/24/fifo/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="FPGA学习笔记之IP核 FIFO">
+                        
+                        <span class="card-title">FPGA学习笔记之IP核 FIFO</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-06-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">基础</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/06/17/mmcm/">
+                    <div class="card-image">
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="FPGA学习笔记之IP核 MMCM/PLL">
+                        
+                        <span class="card-title">FPGA学习笔记之IP核 MMCM/PLL</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">基础</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('200')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 白米粥のBlog<br />'
+            + '文章作者: Jourser<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022-2024</span>
+            
+            <a href="/about" target="_blank">Jourser</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/Jourser" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:863519940@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=863519940" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 863519940" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
