@@ -717,7 +717,7 @@ fifo_rd <span class="token function">fifo_rd_u</span><span class="token punctuat
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h4 id="九、创建读模块"><a href="#九、创建读模块" class="headerlink" title="九、创建读模块"></a>九、创建读模块</h4><ol start="8">
+<h4 id="九、创建读模块"><a href="#九、创建读模块" class="headerlink" title="九、创建读模块"></a>九、创建读模块</h4><ol start="9">
 <li><code>fifo_rd</code> 模块用于产生 FIFO 读操作所需的信号，绘制大致的模块端口信号的波形图方便理解。<div align="center">
 <img src="/2024/06/24/fifo/22.png" width="90%/">
 </div></li>
@@ -804,9 +804,10 @@ ila_1 your_instance_name <span class="token punctuation">(</span>
 	<span class="token punctuation">.</span><span class="token function">probe4</span><span class="token punctuation">(</span>rd_data_count<span class="token punctuation">)</span> <span class="token comment">// input wire [7:0]  probe4</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h4 id="十二、上板验证"><a href="#十二、上板验证" class="headerlink" title="十二、上板验证"></a>十二、上板验证</h4><ul>
-<li><p>综合、实现、下载比特流后，在 FPGA 上验证 FIFO 的读写功能。</p>
-</li>
+<h4 id="十二、上板验证"><a href="#十二、上板验证" class="headerlink" title="十二、上板验证"></a>十二、上板验证</h4><ol start="12">
+<li>综合、实现、下载比特流后，在 FPGA 上验证 FIFO 的读写功能。</li>
+</ol>
+<ul>
 <li><p><strong>FIFO 写操作</strong>在 ILA 中观察到的波形如下图所示： </p>
 <div align="center">
 <img src="/2024/06/24/fifo/23.png" width="75%/">

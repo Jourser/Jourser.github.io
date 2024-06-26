@@ -317,7 +317,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.3k
+                    8.1k
                 </div>
                 
 
@@ -414,7 +414,7 @@
 </div></li>
 </ul>
 <h5 id="读写模块设计"><a href="#读写模块设计" class="headerlink" title="读写模块设计"></a>读写模块设计</h5><ul>
-<li><p><strong>读写模块设计</strong>：在 RAM 读写模块中，我们的输入信号主要有系统时钟信号、系<br>统复位信号和 RAM IP 核输出的读数据（ram_rd_data），输出有控制 RAM 所需的 ram_en（RAM 端口使能）、ram_we（读写使能）、ram_addr（读写地址）和 ram_wr_data（写数据）这四个信号。</p>
+<li><p><strong>读写模块设计</strong>：在 RAM 读写模块中，我们的输入信号主要有<strong>系统时钟信号</strong>、<strong>系统复位信号</strong>和 RAM IP 核输出的读数据<code>ram_rd_data</code>，输出有控制 RAM 所需的 <strong>RAM 端口使能</strong><code>ram_en</code>、<strong>读写使能</strong><code>ram_we</code>、<strong>读写地址</strong><code>ram_addr</code>和 <strong>写数据</strong><code>ram_wr_data</code>这四个信号。</p>
 </li>
 <li><p>综上可得一个大致的模块框图：</p>
 <div align="center">
@@ -702,7 +702,369 @@ set_property <span class="token operator">-</span>dict <span class="token operat
 <li><p>至此说明了 IP 核之单端口 RAM 实验验证成功。</p>
 </li>
 </ul>
-<h3 id="双端口-RAM-配置"><a href="#双端口-RAM-配置" class="headerlink" title="双端口 RAM 配置"></a>双端口 RAM 配置</h3>
+<h3 id="双端口-RAM-配置"><a href="#双端口-RAM-配置" class="headerlink" title="双端口 RAM 配置"></a>双端口 RAM 配置</h3><h4 id="双端口-RAM-配置基础知识"><a href="#双端口-RAM-配置基础知识" class="headerlink" title="双端口 RAM 配置基础知识"></a>双端口 RAM 配置基础知识</h4><ul>
+<li><p>BMG IP 核配置成简单(伪)双端口 RAM 的框图：</p>
+<div align="center">
+<img src="/2024/06/19/ram/25.png" width="70%/">
+</div>
+</li>
+<li><p>与单端口 RAM 对比：</p>
+<ul>
+<li>伪双端口 RAM 输入有两路时钟信号 CLKA&#x2F;CLKB；</li>
+<li>独立的两组地址信号ADDRA&#x2F;ADDRB；</li>
+<li>Port A 仅提供 DINA 写数据总线，作为数据的写入口；</li>
+<li>Port B 仅提供数据读的功能，读出的数据为 DOUTB。</li>
+</ul>
+</li>
+<li><p>各个新端口（这些信号很少使用，我们一般不用关注）的功能描述如下：</p>
+<ul>
+<li>INJECTSBITERR：Inject Single-Bit Error 的简写，即注入单 bit 错误，仅适用于 Xilinx Zynq-7000 和 7系列芯片的 ECC 配置。 </li>
+<li>INJECTDBITERR：Inject Double-Bit Error 的简写，即注入双 bit 错误，同样仅适用于 Xilinx Zynq-7000 和 7 系列芯片的 ECC 配置。 </li>
+<li>SBITERR：Single-Bit Error 的简写，即单 bit 错误，标记内存中存在的单 bit 错误，该错误已在输出总线上自动更正。 </li>
+<li>DBITERR：Double-Bit Error 的简写，即双 bit 错误，标记内存中存在双 bit 错误，需要注意的是内置的ECC 解码模块不能自动纠正双 bit 错误。 </li>
+<li>RDADDRECC：Read Address for ECC Error output 的简写，即读地址 ECC 错误输出，同样仅适用于Xilinx Zynq-7000 和 7 系列芯片的 ECC 配置。</li>
+</ul>
+</li>
+<li><p>BMG IP 核配置成真双端口 RAM 的框图：</p>
+<div align="center">
+<img src="/2024/06/19/ram/26.png" width="70%/">
+</div>
+</li>
+<li><p>真双端口 RAM 提供了两个独立的读写端口（A 和 B），既可以同时读，也可以同时写，也可以一个读一个写。通过框图对比可以发现，真双端口 RAM 只是将单端口 RAM 的所有信号做了一个复制处理，不同端口的同一信号以 A 和 B 作为区分</p>
+</li>
+<li><p>三种静态 RAM 的端口对比表：</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/27.png" width="100%/">
+</div>
+
+<ul>
+<li><p><strong>注意</strong>，伪双端口模式下我们需要避免<strong>读写冲突</strong>；在真双端口模式下我们需要避免<strong>读写冲突</strong>和<strong>写写冲突</strong></p>
+</li>
+<li><p><strong>读写冲突</strong>：即同时刻读写同一地址所出现的冲突，例如理论上我们已经向某个地址写入了新的数据，我们也希望可以同时读到这个地址内新写入的数据，但实际上，这个新数据还没有写入 RAM 中，所以我们读出来的可能是 RAM 默认值，或者是 RAM 该地址中上一次的值，这便是读写冲突。</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/28.png" width="70%/">
+</div>
+
+<ul>
+<li><p>由上图可知当发生读写冲突时，读优先的模式下读出的是读地址中存储的上一个数据；写优先模式时读出的是未知的数据“XX”。 </p>
+</li>
+<li><p><strong>写写冲突</strong>：表示两个端口写使能同时有效且写地址相同，此时需要关断一个写，把两个写端口都需要更新的值处理到一个写端口上。切记任何双端口 RAM 都不支持写写冲突。</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/29.png" width="70%/">
+</div>
+
+<ul>
+<li>由上图可知当发生写写冲突时，发生冲突的地址写入的是未知的数据“XX”</li>
+</ul>
+<h4 id="双端口-RAM-设计思路"><a href="#双端口-RAM-设计思路" class="headerlink" title="双端口 RAM 设计思路"></a>双端口 RAM 设计思路</h4><h5 id="顶层模块设计-1"><a href="#顶层模块设计-1" class="headerlink" title="顶层模块设计"></a>顶层模块设计</h5><ul>
+<li><strong>顶层模块设计</strong>：本节设计的是伪双端口 RAM 并对其进行读写操作。因为伪双端口的数据线，地址线及其他信号线都是相互独立的，所以这里我们将读写分为两个子模块，分别命名为 <code>ram_rd</code>（读模块）和 <code>ram_wr</code>（写模块）。同样系统时钟和系统复位信号不再赘述。</li>
+<li>综上可得一个大致的模块框图：</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/30.png" width="50%/">
+</div>
+
+
+
+<h5 id="写模块设计"><a href="#写模块设计" class="headerlink" title="写模块设计"></a>写模块设计</h5><ul>
+<li><p><strong>写模块设计</strong>：在 RAM 写模块中，我们的输入信号主要有<strong>系统时钟信号</strong>和<strong>系统复位信号</strong>；输出有控制写 RAM 所需的 <strong>写端口使能</strong><code>ram_wr_en</code>、<strong>写使能</strong><code>ram_wr_we</code>、<strong>写地址</strong><code>ram_wr_addr</code>和 <strong>写数据</strong><code>ram_wr_data</code>这四个信号，以及控制读模块启动 <strong>读启动</strong><code>rd_flag</code>信号。</p>
+</li>
+<li><p>经过上述分析可以得一个大致的模块框图，如下图所示：</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/31.png" width="50%/">
+</div>
+
+<ul>
+<li>模块端口与功能描述如下表所示：</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/32.png" width="80%/">
+</div>
+
+<h5 id="读模块设计"><a href="#读模块设计" class="headerlink" title="读模块设计"></a>读模块设计</h5><ul>
+<li><p><strong>读模块设计</strong>：在 RAM 读模块中，我们的输入信号主要有系<strong>统时钟信号</strong>、<strong>系统复位信号</strong>、从 RAM 中<strong>读出的数据</strong><code>ram_rd_data</code>以及我们自己定义的<strong>读启动标志信号</strong><code>rd_flag</code>；输出有控制读 RAM 所需的 <strong>读端口使能</strong><code>ram_rd_en</code>和 <strong>读地址</strong><code>ram_rd_addr</code>这两个信号。</p>
+</li>
+<li><p>经过上述分析可以得一个大致的模块框图，如下图所示：</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/33.png" width="50%/">
+</div>
+
+<ul>
+<li>模块端口与功能描述如下表所示：</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/34.png" width="80%/">
+</div>
+
+
+<h4 id="双端口-RAM-配置实验步骤"><a href="#双端口-RAM-配置实验步骤" class="headerlink" title="双端口 RAM 配置实验步骤"></a>双端口 RAM 配置实验步骤</h4><h5 id="一、创建工程-1"><a href="#一、创建工程-1" class="headerlink" title="一、创建工程"></a>一、创建工程</h5><ol>
+<li>创建一个名为<code>ip_2port_ram</code>的空白工程，然后点击 Vivado 软件左侧<code>Flow Navigator</code>栏中的<code>IP Catalog</code>，如下图所示： <div align="center">
+<img src="/2024/06/19/ram/4.png" width="40%/">
+</div></li>
+</ol>
+<h5 id="二、搜索创建-BMG-IP核-1"><a href="#二、搜索创建-BMG-IP核-1" class="headerlink" title="二、搜索创建 BMG IP核"></a>二、搜索创建 BMG IP核</h5><ol start="2">
+<li>在<code>IP Catalog</code>窗口的搜索栏中输入<code>Block Memory</code>关键字后，出现唯一匹配的<code>Block Memory Generator</code>，如下图所示（图中出现的两个 IP 核为同一个 BMG IP 核）： <div align="center">
+<img src="/2024/06/19/ram/5.png" width="60%/">
+</div></li>
+</ol>
+<h5 id="三、配置-IP-核-1"><a href="#三、配置-IP-核-1" class="headerlink" title="三、配置 IP 核"></a>三、配置 IP 核</h5><ol start="3">
+<li>双击<code>Block Memory Generator</code>后弹出 IP 核的配置界面，对 BMG IP 核进行配置。</li>
+</ol>
+<ul>
+<li><code>Basic</code>选项卡配置界面如下图所示:</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/35.png" width="90%/">
+</div>
+
+<ul>
+<li><p>本节是创建一个同步的伪双端口 RAM，所以<code>Memory Type（存储类型）</code>我们选择<code>Simple Dual Port RAM（伪双端口 RAM）</code>，并勾选<code>Common Clock（同步时钟）</code>选项</p>
+</li>
+<li><p><code>Port A Options</code>选项卡配置界面如下图所示:</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/36.png" width="90%/">
+</div>
+
+
+
+<ul>
+<li><code>Port B Options</code>选项卡配置界面如下图所示:</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/37.png" width="90%/">
+</div>
+
+<ul>
+<li>接下来是<code>Other Options</code>选项卡，同上一章一样，该选项卡无需配置，保存默认即可。 </li>
+<li>最后一个是<code>Summary</code>选项卡，该界面显示了我们配置的存储器的类型，消耗的 BRAM 资源等信息，我们直接点击<code>OK</code>按钮完成 BMG IP 核的配置</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/38.png" width="70%/">
+</div>
+
+<h5 id="四、生成-IP-核-1"><a href="#四、生成-IP-核-1" class="headerlink" title="四、生成 IP 核"></a>四、生成 IP 核</h5><ol start="4">
+<li>配置完成后，弹出了<code>Generate Output Products</code>窗口，点击<code>Generate</code>按钮，开始生成 IP 核。<div align="center">
+<img src="/2024/06/19/ram/10.png" width="50%/">
+</div></li>
+</ol>
+<h5 id="五、等待综合-1"><a href="#五、等待综合-1" class="headerlink" title="五、等待综合"></a>五、等待综合</h5><ol start="5">
+<li>在<code>Design Run</code>窗口的<code>Out-of-Context Module Runs</code>一栏中看到该 IP 核对应的run <code>blk_mem_gen_0_synth_1</code>，其综合过程独立于顶层设计的综合，所以我们可以看到其正在综合，如下图所示： <div align="center">
+<img src="/2024/06/19/ram/11.png" width="60%/">
+</div></li>
+</ol>
+<h5 id="六、拷贝例化模板代码-1"><a href="#六、拷贝例化模板代码-1" class="headerlink" title="六、拷贝例化模板代码"></a>六、拷贝例化模板代码</h5><ol start="6">
+<li>综合完成后，便可开始编写代码。首先查看IP核的例化模板。在<code>Source</code> 窗口中的<code>IP Sources</code>选项卡中，依次用鼠标单击展开<code>IP</code>-<code>blk_mem_gen_0</code>-<code>Instantitation Template</code>，我们可以看到<code>blk_mem_gen_0.veo</code>文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :<div align="center">
+<img src="/2024/06/19/ram/39.png" width="100%/">
+</div></li>
+</ol>
+<h5 id="七、创建顶层模块-1"><a href="#七、创建顶层模块-1" class="headerlink" title="七、创建顶层模块"></a>七、创建顶层模块</h5><ol>
+<li>本次实验除了调用 BMG IP 核外还需要例化两个子模块，分别命名为 <code>ram_rd</code>（读模块）和 <code>ram_wr</code>（写模块），所以需要创建一个顶层模块来例化 IP 核与读&#x2F;写模块。创建源文件后，将顶层模块命名为 <code>ip_2port_ram</code>，代码如下：</li>
+</ol>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ip_2port_ram</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>       sys_clk    <span class="token punctuation">,</span>  <span class="token comment">//系统时钟</span>
+    <span class="token keyword">input</span>       sys_rst_n     <span class="token comment">//系统复位，低电平有效</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token comment">//wire define    </span>
+<span class="token keyword">wire</span>        ram_wr_we   <span class="token punctuation">;</span><span class="token comment">//ram端口A写使能  </span>
+<span class="token keyword">wire</span>        ram_wr_en   <span class="token punctuation">;</span><span class="token comment">//端口A使能</span>
+<span class="token keyword">wire</span>        rd_flag     <span class="token punctuation">;</span><span class="token comment">//读启动标志</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_wr_addr <span class="token punctuation">;</span><span class="token comment">//ram写地址</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_wr_data <span class="token punctuation">;</span><span class="token comment">//ram写数据</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_rd_data <span class="token punctuation">;</span><span class="token comment">//ram读地址</span>
+<span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_rd_addr <span class="token punctuation">;</span><span class="token comment">//ram读数据</span>
+<span class="token keyword">wire</span>        ram_rd_en   <span class="token punctuation">;</span><span class="token comment">//端口B使能</span>
+
+
+
+
+<span class="token comment">//简单双端口RAM</span>
+blk_mem_gen_0 your_instance_name <span class="token punctuation">(</span>
+  <span class="token punctuation">.</span>clka <span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clka</span>
+  <span class="token punctuation">.</span>ena  <span class="token punctuation">(</span>ram_wr_en<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire ena</span>
+  <span class="token punctuation">.</span>wea  <span class="token punctuation">(</span>ram_wr_we<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire [0 : 0] wea</span>
+  <span class="token punctuation">.</span><span class="token function">addra</span><span class="token punctuation">(</span>ram_wr_addr<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [5 : 0] addra</span>
+  <span class="token punctuation">.</span>dina <span class="token punctuation">(</span>ram_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire [7 : 0] dina</span>
+  <span class="token punctuation">.</span>clkb <span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clkb</span>
+  <span class="token punctuation">.</span>enb  <span class="token punctuation">(</span>ram_rd_en<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire enb</span>
+  <span class="token punctuation">.</span><span class="token function">addrb</span><span class="token punctuation">(</span>ram_rd_addr <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [5 : 0] addrb</span>
+  <span class="token punctuation">.</span><span class="token function">doutb</span><span class="token punctuation">(</span> ram_rd_data<span class="token punctuation">)</span>  <span class="token comment">// output wire [7 : 0] doutb</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//RAM写模块</span>
+ram_wr <span class="token function">ram_wr_u</span><span class="token punctuation">(</span>
+        <span class="token punctuation">.</span>clk          <span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>rst_n        <span class="token punctuation">(</span>sys_rst_n<span class="token punctuation">)</span><span class="token punctuation">,</span>         
+        <span class="token punctuation">.</span>ram_wr_we    <span class="token punctuation">(</span>ram_wr_we  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>ram_wr_en    <span class="token punctuation">(</span>ram_wr_en  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>rd_flag      <span class="token punctuation">(</span>rd_flag    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>ram_wr_addr  <span class="token punctuation">(</span>ram_wr_addr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>ram_wr_data  <span class="token punctuation">(</span>ram_wr_data<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//RAM读模块 </span>
+ram_rd <span class="token function">ram_rd_u</span><span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>clk           <span class="token punctuation">(</span>sys_clk    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>rst_n         <span class="token punctuation">(</span>sys_rst_n  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>rd_flag       <span class="token punctuation">(</span>rd_flag    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ram_rd_en     <span class="token punctuation">(</span>ram_rd_en  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ram_rd_addr   <span class="token punctuation">(</span>ram_rd_addr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ram_rd_data   <span class="token punctuation">(</span>ram_rd_data<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h5 id="八、创建写模块"><a href="#八、创建写模块" class="headerlink" title="八、创建写模块"></a>八、创建写模块</h5><ol start="8">
+<li><code>ram_wr</code> 模块用于产生 RAM 写操作所需的信号，绘制大致的模块端口信号的波形图方便理解。</li>
+</ol>
+<div align="center">
+<img src="/2024/06/19/ram/40.png" width="90%/">
+</div>
+
+<ul>
+<li><p>因为需要一直向 RAM 中写入数据，所以当复位结束后，就将 <code>ram_wr_en</code>（写端口使能）和 <code>ram_wr_we</code>（ram 写使能）一直置为高。当写使能拉高后，写地址一直在 0 ~ 63 之间循环计数，并向对应的RAM 地址中写入数据，当写地址第一次计数到 31 时，将 <code>rd_flag</code> 信号拉高并保持，以启动读模块进行读操作。 </p>
+</li>
+<li><p>代码如下：</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ram_wr</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>            clk         <span class="token punctuation">,</span> <span class="token comment">//时钟信号</span>
+    <span class="token keyword">input</span>            rst_n       <span class="token punctuation">,</span> <span class="token comment">//复位信号，低电平有效</span>
+                                    
+    <span class="token comment">//RAM写端口操作                </span>
+    <span class="token keyword">output</span>           ram_wr_we   <span class="token punctuation">,</span> <span class="token comment">//ram写使能</span>
+    <span class="token keyword">output</span>           ram_wr_en   <span class="token punctuation">,</span> <span class="token comment">//端口使能</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span>       rd_flag     <span class="token punctuation">,</span> <span class="token comment">//读启动信号</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_wr_addr <span class="token punctuation">,</span> <span class="token comment">//ram写地址        </span>
+    <span class="token keyword">output</span>     <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_wr_data   <span class="token comment">//ram写数据   </span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//控制RAM使能信号</span>
+<span class="token keyword">assign</span> ram_wr_en <span class="token operator">=</span> rst_n<span class="token punctuation">;</span>   
+
+<span class="token comment">//ram_wr_we为高电平表示写数据</span>
+<span class="token keyword">assign</span> ram_wr_we <span class="token operator">=</span> ram_wr_en <span class="token punctuation">;</span>
+
+<span class="token comment">//写数据与写地址相同，因位宽不等，所以高位补0</span>
+<span class="token keyword">assign</span> ram_wr_data <span class="token operator">=</span> <span class="token operator">&#123;</span><span class="token number">2'b0</span><span class="token punctuation">,</span>ram_wr_addr<span class="token operator">&#125;</span> <span class="token punctuation">;</span>
+
+<span class="token comment">//写地址信号 范围:0~63        </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span>        
+        ram_wr_addr <span class="token operator">&lt;=</span> <span class="token number">6'd0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ram_wr_addr <span class="token operator">&lt;</span> <span class="token number">6'd63</span> <span class="token operator">&amp;&amp;</span> ram_wr_we<span class="token punctuation">)</span>
+        ram_wr_addr <span class="token operator">&lt;=</span> ram_wr_addr <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        ram_wr_addr <span class="token operator">&lt;=</span> <span class="token number">6'd0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>  
+
+<span class="token comment">//当写入32个数据（0~31）后，拉高读启动信号</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span>
+        rd_flag <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ram_wr_addr <span class="token operator">==</span> <span class="token number">6'd31</span><span class="token punctuation">)</span>  
+        rd_flag <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        rd_flag <span class="token operator">&lt;=</span> rd_flag<span class="token punctuation">;</span>
+<span class="token keyword">end</span>    
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h5 id="九、创建读模块"><a href="#九、创建读模块" class="headerlink" title="九、创建读模块"></a>九、创建读模块</h5><ol start="9">
+<li><code>ram_rd</code> 模块用于产生 RAM 读操作所需的信号，绘制大致的模块端口信号的波形图方便理解。</li>
+</ol>
+<div align="center">
+<img src="/2024/06/19/ram/41.png" width="90%/">
+</div>
+
+<ul>
+<li><p>因为需要一直从 RAM 中读出数据，所以当复位结束且读启动信号拉高后，就将 <code>ram_rd_en</code> （读端口使能）一直置为高。当读端口使能后，读地址就会一直在 0 ~ 63 之间循环计数，并读出对应 RAM 地址中的数据，需要注意的是读数据的输出会比读地址晚一个时钟周期。 </p>
+</li>
+<li><p>代码如下：</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ram_rd</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>            clk         <span class="token punctuation">,</span> <span class="token comment">//时钟信号</span>
+    <span class="token keyword">input</span>            rst_n       <span class="token punctuation">,</span> <span class="token comment">//复位信号，低电平有效</span>
+    
+    <span class="token comment">//RAM读端口操作   </span>
+    <span class="token keyword">input</span>             rd_flag     <span class="token punctuation">,</span> <span class="token comment">//读启动标志</span>
+    <span class="token keyword">input</span>       <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ram_rd_data <span class="token punctuation">,</span><span class="token comment">//ram读数据</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  ram_rd_addr <span class="token punctuation">,</span><span class="token comment">//ram读地址     </span>
+    <span class="token keyword">output</span>            ram_rd_en   <span class="token comment">//端口使能</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token comment">//控制RAM使能信号</span>
+<span class="token keyword">assign</span> ram_rd_en <span class="token operator">=</span> rd_flag<span class="token punctuation">;</span>  
+
+<span class="token comment">//读地址信号 范围:0~63        </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span><span class="token operator">!</span>rst_n<span class="token punctuation">)</span>        
+        ram_rd_addr <span class="token operator">&lt;=</span> <span class="token number">6'd0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ram_rd_addr <span class="token operator">&lt;</span> <span class="token number">6'd63</span> <span class="token operator">&amp;&amp;</span> ram_rd_en<span class="token punctuation">)</span>
+        ram_rd_addr <span class="token operator">&lt;=</span> ram_rd_addr <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        ram_rd_addr <span class="token operator">&lt;=</span> <span class="token number">6'd0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+   
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h5 id="十、引脚约束"><a href="#十、引脚约束" class="headerlink" title="十、引脚约束"></a>十、引脚约束</h5><ol start="10">
+<li>完成模块设计后，需要将模块的端口与 FPGA 的引脚进行约束。对应的 XDC 约束语句如下所示：</li>
+</ol>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">create_clock <span class="token operator">-</span>period <span class="token number">20.000</span> <span class="token operator">-</span>name sys_clk <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span> 
+set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN R4 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span> 
+set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN U2 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_rst_n<span class="token punctuation">]</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+<h5 id="十一、添加-ILA-IP-核"><a href="#十一、添加-ILA-IP-核" class="headerlink" title="十一、添加 ILA IP 核"></a>十一、添加 ILA IP 核</h5><ol start="11">
+<li>添加两个 ILA IP 核，用于观察 RAM 的读&#x2F;写状态</li>
+</ol>
+<ul>
+<li><p>ILA IP 核，将 <code>ram_wr_en</code>（1 位）、<code>ram_wr_we</code>（1 位）、<code>ram_rd_en</code>（1 位）、<code>rd_flag</code>（1 位）、<code>ram_wr_addr</code>（6 位）、<code>ram_wr_data</code>（8 位）、<code>ram_rd_addr</code>（6 位）和 <code>ram_rd_data</code>（8 位）信号添加至观察列表中</p>
+</li>
+<li><p>本例程是将 ILA 例化在了 <code>ip_2port_ram</code> 模块中，例化代码如下所示：</p>
+</li>
+</ul>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ila_0 ila_0_u <span class="token punctuation">(</span>
+	<span class="token punctuation">.</span><span class="token function">clk</span><span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire clk</span>
+
+
+	<span class="token punctuation">.</span><span class="token function">probe0</span><span class="token punctuation">(</span>ram_wr_we<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe0  </span>
+	<span class="token punctuation">.</span><span class="token function">probe1</span><span class="token punctuation">(</span>ram_wr_en<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe1 </span>
+	<span class="token punctuation">.</span><span class="token function">probe2</span><span class="token punctuation">(</span>rd_flag  <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe2 </span>
+	<span class="token punctuation">.</span><span class="token function">probe3</span><span class="token punctuation">(</span>ram_rd_en<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [0:0]  probe3 </span>
+	<span class="token punctuation">.</span><span class="token function">probe4</span><span class="token punctuation">(</span>ram_wr_addr<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [5:0]  probe4 </span>
+	<span class="token punctuation">.</span><span class="token function">probe5</span><span class="token punctuation">(</span>ram_wr_data<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [7:0]  probe5 </span>
+	<span class="token punctuation">.</span><span class="token function">probe6</span><span class="token punctuation">(</span>ram_rd_addr <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input wire [5:0]  probe6 </span>
+	<span class="token punctuation">.</span><span class="token function">probe7</span><span class="token punctuation">(</span> ram_rd_data<span class="token punctuation">)</span> <span class="token comment">// input wire [7:0]  probe7</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h5 id="十二、上板验证"><a href="#十二、上板验证" class="headerlink" title="十二、上板验证"></a>十二、上板验证</h5><ul>
+<li>综合、实现、下载比特流后，在 FPGA 上验证 简单双端RAM 的读写功能。</li>
+<li>双端口 ram 的读写在 ILA 中观察到的波形如下图所示：</li>
+</ul>
+<div align="center">
+<img src="/2024/06/19/ram/42.png" width="50%/">
+<img src="/2024/06/19/ram/43.png" width="100%/">
+<img src="/2024/06/19/ram/44.png" width="90%/">
+</div>
+
+
+
+
+<ul>
+<li>由上图可知，读写端口和读端口能够同时对 ram 进行相应的操作，且没有发生读写冲突现象，至此说明了 IP 核之双端口 RAM 实验验证成功。</li>
+</ul>
+
                 
             </div>
             <hr/>
