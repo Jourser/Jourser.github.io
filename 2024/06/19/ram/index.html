@@ -542,7 +542,9 @@
 </div></li>
 </ol>
 <h5 id="七、创建顶层模块"><a href="#七、创建顶层模块" class="headerlink" title="七、创建顶层模块"></a>七、创建顶层模块</h5><ol start="7">
-<li>本次实验除了调用 BMG IP 核外还需要例化一个读写模块（这里我们将其命名为 <code>ram_rw</code>），所以需要创建一个顶层模块来例化 IP 核与读写模块。创建源文件后，将顶层模块命名为 <code>ip_1port_ram</code>，代码如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ip_ram</span><span class="token punctuation">(</span>
+<li>本次实验除了调用 BMG IP 核外还需要例化一个读写模块（这里我们将其命名为 <code>ram_rw</code>），所以需要创建一个顶层模块来例化 IP 核与读写模块。创建源文件后，将顶层模块命名为 <code>ip_1port_ram</code>，代码如下：</li>
+</ol>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ip_ram</span><span class="token punctuation">(</span>
     <span class="token keyword">input</span>         sys_clk <span class="token punctuation">,</span>  <span class="token comment">//系统时钟</span>
     <span class="token keyword">input</span>         sys_rst_n  <span class="token comment">//系统复位，低电平有效</span>
     <span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -575,21 +577,20 @@ blk_mem_gen_0 your_instance_name <span class="token punctuation">(</span>
      <span class="token punctuation">.</span><span class="token function">douta</span><span class="token punctuation">(</span> ram_rd_data<span class="token punctuation">)</span>  <span class="token comment">// output wire [7 : 0] douta</span>
    <span class="token punctuation">)</span><span class="token punctuation">;</span>        
 
-<span class="token keyword">endmodule</span>
-```  
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="八、创建读写模块"><a href="#八、创建读写模块" class="headerlink" title="八、创建读写模块"></a>八、创建读写模块</h5><ol start="8">
+<li><code>ram_rw</code> 模块用于产生 RAM 读&#x2F;写操作所需的信号，绘制大致的模块端口信号的波形图方便理解。</li>
+</ol>
+<div align="center">
+<img src="/2024/06/19/ram/19.png" width="100%/">
+</div>
 
-##### 八、创建读写模块
-<span class="token number">8</span><span class="token punctuation">.</span> <span class="token constant">`ram_rw</span>` 模块用于产生 RAM 读<span class="token operator">/</span>写操作所需的信号，绘制大致的模块端口信号的波形图方便理解。
-
-<span class="token operator">&lt;</span>div align<span class="token operator">=</span><span class="token string">"center"</span><span class="token operator">></span>
-<span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token punctuation">.</span><span class="token operator">/</span>ram<span class="token operator">/</span><span class="token number">19</span><span class="token punctuation">.</span>png width<span class="token operator">=</span><span class="token number">100</span><span class="token operator">%/></span>
-<span class="token operator">&lt;/</span>div<span class="token operator">></span>
-
-<span class="token operator">-</span> 当系统复位结束后，一直对 RAM 进行读写操作，所以 ram_en 在复位结束后一直处于使能状态。因为是读写 <span class="token number">32</span> 个数据，所以地址一直在 <span class="token number">0</span><span class="token operator">~</span><span class="token number">31</span> 之间循环计数。接着我们用一个计数器（<span class="token constant">`rw_cnt</span>`）循环计数 <span class="token number">0</span><span class="token operator">~</span><span class="token number">63</span>，以此来对读写使能信号（<span class="token constant">`ram_we</span>`）进行切换。当计数器值在 <span class="token number">0</span><span class="token operator">~</span><span class="token number">31</span> 时进行写操作，写操作期间需要将 <span class="token constant">`ram_we</span>` 置为高；当计数器值在 <span class="token number">32</span><span class="token operator">~</span><span class="token number">63</span> 时进行读操作，读操作期间需要将 <span class="token constant">`ram_we</span>` 置为低。 
-<span class="token operator">-</span> 在写操作期间，写数据（<span class="token constant">`ram_wr_data</span>`）由 <span class="token number">0</span> 开始累加（步进为 <span class="token number">1</span>），直到累加值等于 <span class="token number">31</span>（即写入 <span class="token number">32</span> 个数据）时清零。而读数据只需要给出地址即可，需要注意的是读数据的输出会比地址晚一个时钟周期，当由读状态切换至写状态时，读数据会保持最后一次读出的数据。 
-<span class="token operator">-</span> 代码如下：
-``<span class="token constant">`verilog</span>
-<span class="token keyword">module</span> <span class="token function">ram_rw</span><span class="token punctuation">(</span>
+<ul>
+<li>当系统复位结束后，一直对 RAM 进行读写操作，所以 ram_en 在复位结束后一直处于使能状态。因为是读写 32 个数据，所以地址一直在 0<del>31 之间循环计数。接着我们用一个计数器（<code>rw_cnt</code>）循环计数 0</del>63，以此来对读写使能信号（<code>ram_we</code>）进行切换。当计数器值在 0<del>31 时进行写操作，写操作期间需要将 <code>ram_we</code> 置为高；当计数器值在 32</del>63 时进行读操作，读操作期间需要将 <code>ram_we</code> 置为低。 </li>
+<li>在写操作期间，写数据（<code>ram_wr_data</code>）由 0 开始累加（步进为 1），直到累加值等于 31（即写入 32 个数据）时清零。而读数据只需要给出地址即可，需要注意的是读数据的输出会比地址晚一个时钟周期，当由读状态切换至写状态时，读数据会保持最后一次读出的数据。 </li>
+<li>代码如下：</li>
+</ul>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ram_rw</span><span class="token punctuation">(</span>
     <span class="token keyword">input</span>               clk        <span class="token punctuation">,</span>  <span class="token comment">//时钟信号</span>
     <span class="token keyword">input</span>               rst_n      <span class="token punctuation">,</span>  <span class="token comment">//复位信号，低电平有效</span>
     
@@ -639,10 +640,12 @@ blk_mem_gen_0 your_instance_name <span class="token punctuation">(</span>
     <span class="token keyword">else</span>
         ram_wr_data <span class="token operator">&lt;=</span> <span class="token number">8'b0</span> <span class="token punctuation">;</span>   
 <span class="token keyword">end</span>  
-<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ol>
+<span class="token keyword">endmodule</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 <ul>
-<li>模块中定义了一个读写控制计数器（<code>rw_cnt</code>），当计数范围在 0<del>31 之间时，向 ram 的 0</del>31 地址写入数据（0<del>31）；当计数范围在 32</del>63 之间时，从 ram 的 0~31 地址中读出数据。</li>
+<li>模块中定义了一个读写控制计数器（<code>rw_cnt</code>），当计数范围在 0~31 之间时，向 ram 的 0 ~ 31 地址写入数据（0 ~ 31）；当计数范围在 32 ~ 63 之间时，从 ram 的 0 ~ 31 地址中读出数据。</li>
 </ul>
 <h5 id="九、引脚约束"><a href="#九、引脚约束" class="headerlink" title="九、引脚约束"></a>九、引脚约束</h5><ol start="9">
 <li>完成模块设计后，需要将模块的端口与 FPGA 的引脚进行约束。对应的 XDC 约束语句如下所示：</li>
