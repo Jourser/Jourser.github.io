@@ -82,8 +82,7 @@ tags:
 
 
 ##### 读写模块设计
-- **读写模块设计**：在 RAM 读写模块中，我们的输入信号主要有系统时钟信号、系
-统复位信号和 RAM IP 核输出的读数据（ram_rd_data），输出有控制 RAM 所需的 ram_en（RAM 端口使能）、ram_we（读写使能）、ram_addr（读写地址）和 ram_wr_data（写数据）这四个信号。
+- **读写模块设计**：在 RAM 读写模块中，我们的输入信号主要有**系统时钟信号**、**系统复位信号**和 RAM IP 核输出的读数据`ram_rd_data`，输出有控制 RAM 所需的 **RAM 端口使能**`ram_en`、**读写使能**`ram_we`、**读写地址**`ram_addr`和 **写数据**`ram_wr_data`这四个信号。
 - 综上可得一个大致的模块框图：
 <div align="center">
 <img src=./ram/17.png width=50%/>
@@ -382,3 +381,368 @@ ila_0 your_instance_name (
 
 
 ### 双端口 RAM 配置
+
+#### 双端口 RAM 配置基础知识
+
+- BMG IP 核配置成简单(伪)双端口 RAM 的框图：
+<div align="center">
+<img src=./ram/25.png width=70%/>
+</div>
+
+- 与单端口 RAM 对比：
+  -  伪双端口 RAM 输入有两路时钟信号 CLKA/CLKB；
+  -  独立的两组地址信号ADDRA/ADDRB；
+  -  Port A 仅提供 DINA 写数据总线，作为数据的写入口；
+  -  Port B 仅提供数据读的功能，读出的数据为 DOUTB。
+
+- 各个新端口（这些信号很少使用，我们一般不用关注）的功能描述如下：
+  - INJECTSBITERR：Inject Single-Bit Error 的简写，即注入单 bit 错误，仅适用于 Xilinx Zynq-7000 和 7系列芯片的 ECC 配置。 
+  - INJECTDBITERR：Inject Double-Bit Error 的简写，即注入双 bit 错误，同样仅适用于 Xilinx Zynq-7000 和 7 系列芯片的 ECC 配置。 
+  - SBITERR：Single-Bit Error 的简写，即单 bit 错误，标记内存中存在的单 bit 错误，该错误已在输出总线上自动更正。 
+  - DBITERR：Double-Bit Error 的简写，即双 bit 错误，标记内存中存在双 bit 错误，需要注意的是内置的ECC 解码模块不能自动纠正双 bit 错误。 
+  - RDADDRECC：Read Address for ECC Error output 的简写，即读地址 ECC 错误输出，同样仅适用于Xilinx Zynq-7000 和 7 系列芯片的 ECC 配置。
+
+- BMG IP 核配置成真双端口 RAM 的框图：
+<div align="center">
+<img src=./ram/26.png width=70%/>
+</div>
+
+- 真双端口 RAM 提供了两个独立的读写端口（A 和 B），既可以同时读，也可以同时写，也可以一个读一个写。通过框图对比可以发现，真双端口 RAM 只是将单端口 RAM 的所有信号做了一个复制处理，不同端口的同一信号以 A 和 B 作为区分
+
+- 三种静态 RAM 的端口对比表：
+
+<div align="center">
+<img src=./ram/27.png width=100%/>
+</div>
+
+- **注意**，伪双端口模式下我们需要避免**读写冲突**；在真双端口模式下我们需要避免**读写冲突**和**写写冲突**
+
+- **读写冲突**：即同时刻读写同一地址所出现的冲突，例如理论上我们已经向某个地址写入了新的数据，我们也希望可以同时读到这个地址内新写入的数据，但实际上，这个新数据还没有写入 RAM 中，所以我们读出来的可能是 RAM 默认值，或者是 RAM 该地址中上一次的值，这便是读写冲突。
+
+<div align="center">
+<img src=./ram/28.png width=70%/>
+</div>
+
+- 由上图可知当发生读写冲突时，读优先的模式下读出的是读地址中存储的上一个数据；写优先模式时读出的是未知的数据“XX”。 
+
+- **写写冲突**：表示两个端口写使能同时有效且写地址相同，此时需要关断一个写，把两个写端口都需要更新的值处理到一个写端口上。切记任何双端口 RAM 都不支持写写冲突。
+
+<div align="center">
+<img src=./ram/29.png width=70%/>
+</div>
+
+- 由上图可知当发生写写冲突时，发生冲突的地址写入的是未知的数据“XX”
+
+
+#### 双端口 RAM 设计思路
+
+##### 顶层模块设计
+- **顶层模块设计**：本节设计的是伪双端口 RAM 并对其进行读写操作。因为伪双端口的数据线，地址线及其他信号线都是相互独立的，所以这里我们将读写分为两个子模块，分别命名为 `ram_rd`（读模块）和 `ram_wr`（写模块）。同样系统时钟和系统复位信号不再赘述。
+- 综上可得一个大致的模块框图：
+
+<div align="center">
+<img src=./ram/30.png width=50%/>
+</div>
+
+
+
+##### 写模块设计
+- **写模块设计**：在 RAM 写模块中，我们的输入信号主要有**系统时钟信号**和**系统复位信号**；输出有控制写 RAM 所需的 **写端口使能**`ram_wr_en`、**写使能**`ram_wr_we`、**写地址**`ram_wr_addr`和 **写数据**`ram_wr_data`这四个信号，以及控制读模块启动 **读启动**`rd_flag`信号。
+
+- 经过上述分析可以得一个大致的模块框图，如下图所示： 
+
+<div align="center">
+<img src=./ram/31.png width=50%/>
+</div>
+
+- 模块端口与功能描述如下表所示：
+
+<div align="center">
+<img src=./ram/32.png width=80%/>
+</div>
+
+##### 读模块设计
+- **读模块设计**：在 RAM 读模块中，我们的输入信号主要有系**统时钟信号**、**系统复位信号**、从 RAM 中**读出的数据**`ram_rd_data`以及我们自己定义的**读启动标志信号**`rd_flag`；输出有控制读 RAM 所需的 **读端口使能**`ram_rd_en`和 **读地址**`ram_rd_addr`这两个信号。
+
+- 经过上述分析可以得一个大致的模块框图，如下图所示： 
+
+<div align="center">
+<img src=./ram/33.png width=50%/>
+</div>
+
+- 模块端口与功能描述如下表所示：
+
+<div align="center">
+<img src=./ram/34.png width=80%/>
+</div>
+
+
+#### 双端口 RAM 配置实验步骤
+
+##### 一、创建工程
+1. 创建一个名为`ip_2port_ram`的空白工程，然后点击 Vivado 软件左侧`Flow Navigator`栏中的`IP Catalog`，如下图所示： 
+<div align="center">
+<img src=./ram/4.png width=40%/>
+</div>
+
+##### 二、搜索创建 BMG IP核
+2. 在`IP Catalog`窗口的搜索栏中输入`Block Memory`关键字后，出现唯一匹配的`Block Memory Generator`，如下图所示（图中出现的两个 IP 核为同一个 BMG IP 核）： 
+<div align="center">
+<img src=./ram/5.png width=60%/>
+</div>
+
+
+##### 三、配置 IP 核
+3. 双击`Block Memory Generator`后弹出 IP 核的配置界面，对 BMG IP 核进行配置。
+
+- `Basic`选项卡配置界面如下图所示:
+
+<div align="center">
+<img src=./ram/35.png width=90%/>
+</div>
+
+- 本节是创建一个同步的伪双端口 RAM，所以`Memory Type（存储类型）`我们选择`Simple Dual Port RAM（伪双端口 RAM）`，并勾选`Common Clock（同步时钟）`选项
+
+- `Port A Options`选项卡配置界面如下图所示:
+
+<div align="center">
+<img src=./ram/36.png width=90%/>
+</div>
+
+
+
+- `Port B Options`选项卡配置界面如下图所示:
+
+<div align="center">
+<img src=./ram/37.png width=90%/>
+</div>
+
+- 接下来是`Other Options`选项卡，同上一章一样，该选项卡无需配置，保存默认即可。 
+- 最后一个是`Summary`选项卡，该界面显示了我们配置的存储器的类型，消耗的 BRAM 资源等信息，我们直接点击`OK`按钮完成 BMG IP 核的配置
+
+<div align="center">
+<img src=./ram/38.png width=70%/>
+</div>
+
+##### 四、生成 IP 核
+4. 配置完成后，弹出了`Generate Output Products`窗口，点击`Generate`按钮，开始生成 IP 核。
+<div align="center">
+<img src=./ram/10.png width=50%/>
+</div>
+
+
+##### 五、等待综合
+5. 在`Design Run`窗口的`Out-of-Context Module Runs`一栏中看到该 IP 核对应的run `blk_mem_gen_0_synth_1`，其综合过程独立于顶层设计的综合，所以我们可以看到其正在综合，如下图所示： 
+<div align="center">
+<img src=./ram/11.png width=60%/>
+</div>
+
+
+##### 六、拷贝例化模板代码
+6. 综合完成后，便可开始编写代码。首先查看IP核的例化模板。在`Source` 窗口中的`IP Sources`选项卡中，依次用鼠标单击展开`IP`-`blk_mem_gen_0`-`Instantitation Template`，我们可以看到`blk_mem_gen_0.veo`文件，它是由 IP 核自动生成的只读的 verilog 例化模板文件，双击就可以打开它，在例化时钟 IP 核模块的时钟，可以直接从这里拷贝，如下图所示 :
+<div align="center">
+<img src=./ram/39.png width=100%/>
+</div>
+
+
+##### 七、创建顶层模块
+1. 本次实验除了调用 BMG IP 核外还需要例化两个子模块，分别命名为 `ram_rd`（读模块）和 `ram_wr`（写模块），所以需要创建一个顶层模块来例化 IP 核与读/写模块。创建源文件后，将顶层模块命名为 `ip_2port_ram`，代码如下：
+
+
+```verilog
+module ip_2port_ram(
+    input       sys_clk    ,  //系统时钟
+    input       sys_rst_n     //系统复位，低电平有效
+    );
+    
+//wire define    
+wire        ram_wr_we   ;//ram端口A写使能  
+wire        ram_wr_en   ;//端口A使能
+wire        rd_flag     ;//读启动标志
+wire  [5:0] ram_wr_addr ;//ram写地址
+wire  [7:0] ram_wr_data ;//ram写数据
+wire  [7:0] ram_rd_data ;//ram读地址
+wire  [5:0] ram_rd_addr ;//ram读数据
+wire        ram_rd_en   ;//端口B使能
+
+
+
+
+//简单双端口RAM
+blk_mem_gen_0 your_instance_name (
+  .clka (sys_clk),    // input wire clka
+  .ena  (ram_wr_en),      // input wire ena
+  .wea  (ram_wr_we),      // input wire [0 : 0] wea
+  .addra(ram_wr_addr),  // input wire [5 : 0] addra
+  .dina (ram_wr_data),    // input wire [7 : 0] dina
+  .clkb (sys_clk),    // input wire clkb
+  .enb  (ram_rd_en),      // input wire enb
+  .addrb(ram_rd_addr ),  // input wire [5 : 0] addrb
+  .doutb( ram_rd_data)  // output wire [7 : 0] doutb
+);
+
+//RAM写模块
+ram_wr ram_wr_u(
+        .clk          (sys_clk),
+        .rst_n        (sys_rst_n),         
+        .ram_wr_we    (ram_wr_we  ),
+        .ram_wr_en    (ram_wr_en  ),
+        .rd_flag      (rd_flag    ),
+        .ram_wr_addr  (ram_wr_addr),
+        .ram_wr_data  (ram_wr_data)
+);
+//RAM读模块 
+ram_rd ram_rd_u(
+    .clk           (sys_clk    ),
+    .rst_n         (sys_rst_n  ),
+    .rd_flag       (rd_flag    ),
+    .ram_rd_en     (ram_rd_en  ),
+    .ram_rd_addr   (ram_rd_addr),
+    .ram_rd_data   (ram_rd_data)
+    ); 
+
+endmodule
+```
+
+
+##### 八、创建写模块
+8. `ram_wr` 模块用于产生 RAM 写操作所需的信号，绘制大致的模块端口信号的波形图方便理解。
+
+<div align="center">
+<img src=./ram/40.png width=90%/>
+</div>
+
+- 因为需要一直向 RAM 中写入数据，所以当复位结束后，就将 `ram_wr_en`（写端口使能）和 `ram_wr_we`（ram 写使能）一直置为高。当写使能拉高后，写地址一直在 0 \~ 63 之间循环计数，并向对应的RAM 地址中写入数据，当写地址第一次计数到 31 时，将 `rd_flag` 信号拉高并保持，以启动读模块进行读操作。 
+
+- 代码如下：
+```verilog
+module ram_wr(
+    input            clk         , //时钟信号
+    input            rst_n       , //复位信号，低电平有效
+                                    
+    //RAM写端口操作                
+    output           ram_wr_we   , //ram写使能
+    output           ram_wr_en   , //端口使能
+    output reg       rd_flag     , //读启动信号
+    output reg [5:0] ram_wr_addr , //ram写地址        
+    output     [7:0] ram_wr_data   //ram写数据   
+    );
+//控制RAM使能信号
+assign ram_wr_en = rst_n;   
+
+//ram_wr_we为高电平表示写数据
+assign ram_wr_we = ram_wr_en ;
+
+//写数据与写地址相同，因位宽不等，所以高位补0
+assign ram_wr_data = {2'b0,ram_wr_addr} ;
+
+//写地址信号 范围:0~63        
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n)        
+        ram_wr_addr <= 6'd0;
+    else if(ram_wr_addr < 6'd63 && ram_wr_we)
+        ram_wr_addr <= ram_wr_addr + 1'b1;
+    else
+        ram_wr_addr <= 6'd0;
+end  
+
+//当写入32个数据（0~31）后，拉高读启动信号
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n)
+        rd_flag <= 1'b0;
+    else if(ram_wr_addr == 6'd31)  
+        rd_flag <= 1'b1;
+    else
+        rd_flag <= rd_flag;
+end    
+
+endmodule
+```
+
+##### 九、创建读模块
+9. `ram_rd` 模块用于产生 RAM 读操作所需的信号，绘制大致的模块端口信号的波形图方便理解。
+
+<div align="center">
+<img src=./ram/41.png width=90%/>
+</div>
+
+- 因为需要一直从 RAM 中读出数据，所以当复位结束且读启动信号拉高后，就将 `ram_rd_en` （读端口使能）一直置为高。当读端口使能后，读地址就会一直在 0 \~ 63 之间循环计数，并读出对应 RAM 地址中的数据，需要注意的是读数据的输出会比读地址晚一个时钟周期。 
+
+- 代码如下：
+```verilog
+module ram_rd(
+    input            clk         , //时钟信号
+    input            rst_n       , //复位信号，低电平有效
+    
+    //RAM读端口操作   
+    input             rd_flag     , //读启动标志
+    input       [7:0] ram_rd_data ,//ram读数据
+    output reg [5:0]  ram_rd_addr ,//ram读地址     
+    output            ram_rd_en   //端口使能
+    );
+ 
+//控制RAM使能信号
+assign ram_rd_en = rd_flag;  
+
+//读地址信号 范围:0~63        
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n)        
+        ram_rd_addr <= 6'd0;
+    else if(ram_rd_addr < 6'd63 && ram_rd_en)
+        ram_rd_addr <= ram_rd_addr + 1'b1;
+    else
+        ram_rd_addr <= 6'd0;
+end
+   
+endmodule
+```
+
+
+##### 十、引脚约束
+10. 完成模块设计后，需要将模块的端口与 FPGA 的引脚进行约束。对应的 XDC 约束语句如下所示： 
+
+```verilog
+create_clock -period 20.000 -name sys_clk [get_ports sys_clk] 
+set_property -dict {PACKAGE_PIN R4 IOSTANDARD LVCMOS33} [get_ports sys_clk] 
+set_property -dict {PACKAGE_PIN U2 IOSTANDARD LVCMOS33} [get_ports sys_rst_n] 
+```
+
+
+##### 十一、添加 ILA IP 核
+11.  添加两个 ILA IP 核，用于观察 RAM 的读/写状态
+
+-  ILA IP 核，将 `ram_wr_en`（1 位）、`ram_wr_we`（1 位）、`ram_rd_en`（1 位）、`rd_flag`（1 位）、`ram_wr_addr`（6 位）、`ram_wr_data`（8 位）、`ram_rd_addr`（6 位）和 `ram_rd_data`（8 位）信号添加至观察列表中
+
+- 本例程是将 ILA 例化在了 `ip_2port_ram` 模块中，例化代码如下所示：
+
+```verilog
+ila_0 ila_0_u (
+	.clk(sys_clk), // input wire clk
+
+
+	.probe0(ram_wr_we), // input wire [0:0]  probe0  
+	.probe1(ram_wr_en), // input wire [0:0]  probe1 
+	.probe2(rd_flag  ), // input wire [0:0]  probe2 
+	.probe3(ram_rd_en), // input wire [0:0]  probe3 
+	.probe4(ram_wr_addr), // input wire [5:0]  probe4 
+	.probe5(ram_wr_data), // input wire [7:0]  probe5 
+	.probe6(ram_rd_addr ), // input wire [5:0]  probe6 
+	.probe7( ram_rd_data) // input wire [7:0]  probe7
+);
+```
+
+
+##### 十二、上板验证
+- 综合、实现、下载比特流后，在 FPGA 上验证 简单双端RAM 的读写功能。
+- 双端口 ram 的读写在 ILA 中观察到的波形如下图所示： 
+
+<div align="center">
+<img src=./ram/42.png width=50%/>
+<img src=./ram/43.png width=100%/>
+<img src=./ram/44.png width=90%/>
+</div>
+
+
+
+
+- 由上图可知，读写端口和读端口能够同时对 ram 进行相应的操作，且没有发生读写冲突现象，至此说明了 IP 核之双端口 RAM 实验验证成功。

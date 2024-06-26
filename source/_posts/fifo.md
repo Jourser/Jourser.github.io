@@ -391,7 +391,7 @@ endmodule
 ```
 
 #### 九、创建读模块
-8. `fifo_rd` 模块用于产生 FIFO 读操作所需的信号，绘制大致的模块端口信号的波形图方便理解。
+9. `fifo_rd` 模块用于产生 FIFO 读操作所需的信号，绘制大致的模块端口信号的波形图方便理解。
 <div align="center">
 <img src=./fifo/22.png width=90%/>
 </div>
@@ -485,7 +485,7 @@ ila_1 your_instance_name (
 
 
 #### 十二、上板验证
-- 综合、实现、下载比特流后，在 FPGA 上验证 FIFO 的读写功能。
+12. 综合、实现、下载比特流后，在 FPGA 上验证 FIFO 的读写功能。
 - **FIFO 写操作**在 ILA 中观察到的波形如下图所示： 
 <div align="center">
 <img src=./fifo/23.png width=75%/>
