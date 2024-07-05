@@ -869,7 +869,7 @@ set_property <span class="token operator">-</span>dict <span class="token operat
 <img src="/2024/06/19/ram/39.png" width="100%/">
 </div></li>
 </ol>
-<h5 id="七、创建顶层模块-1"><a href="#七、创建顶层模块-1" class="headerlink" title="七、创建顶层模块"></a>七、创建顶层模块</h5><ol>
+<h5 id="七、创建顶层模块-1"><a href="#七、创建顶层模块-1" class="headerlink" title="七、创建顶层模块"></a>七、创建顶层模块</h5><ol start="7">
 <li>本次实验除了调用 BMG IP 核外还需要例化两个子模块，分别命名为 <code>ram_rd</code>（读模块）和 <code>ram_wr</code>（写模块），所以需要创建一个顶层模块来例化 IP 核与读&#x2F;写模块。创建源文件后，将顶层模块命名为 <code>ip_2port_ram</code>，代码如下：</li>
 </ol>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">ip_2port_ram</span><span class="token punctuation">(</span>
@@ -1048,8 +1048,10 @@ set_property <span class="token operator">-</span>dict <span class="token operat
 <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
-<h5 id="十二、上板验证"><a href="#十二、上板验证" class="headerlink" title="十二、上板验证"></a>十二、上板验证</h5><ul>
+<h5 id="十二、上板验证"><a href="#十二、上板验证" class="headerlink" title="十二、上板验证"></a>十二、上板验证</h5><ol start="12">
 <li>综合、实现、下载比特流后，在 FPGA 上验证 简单双端RAM 的读写功能。</li>
+</ol>
+<ul>
 <li>双端口 ram 的读写在 ILA 中观察到的波形如下图所示：</li>
 </ul>
 <div align="center">
