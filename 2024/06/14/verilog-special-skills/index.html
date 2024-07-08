@@ -352,8 +352,7 @@
 </li>
 <li><strong>实验原理</strong>：通过捕捉按键的上升沿或者下降沿，实现LED的亮灭控制。</li>
 </ul>
-<h3 id="技巧功能"><a href="#技巧功能" class="headerlink" title="技巧功能"></a>技巧功能</h3><p>实现：</p>
-<h4 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h4><ul>
+<h3 id="技巧功能"><a href="#技巧功能" class="headerlink" title="技巧功能"></a>技巧功能</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ul>
 <li>设计两个寄存器，$d_0$ 和 $d_1$<ul>
 <li>假设 $T$ 为电容触摸按键<code>touch_key</code>的电平，则 $d_0$ 和 $d_1$ 的值分别为：<ul>
 <li>$d_0$：保存 $T$ 的值</li>
@@ -374,7 +373,7 @@
 </blockquote>
 </li>
 </ul>
-<h4 id="代码："><a href="#代码：" class="headerlink" title="代码："></a><font color="#dd0000">代码：</font></h4><p>此代码可作为抓取上升或下降沿的参考代码架构：</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="#dd0000">代码</font></h4><p>此代码可作为抓取上升或下降沿的参考代码架构：</p>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//reg define</span>
 <span class="token keyword">reg</span>    d0<span class="token punctuation">;</span>    <span class="token comment">//端口的数据延迟一个时钟周期</span>
 <span class="token keyword">reg</span>    d1<span class="token punctuation">;</span>    <span class="token comment">//端口的数据延迟两个时钟周期</span>
@@ -398,7 +397,7 @@
     <span class="token keyword">end</span> 
 <span class="token keyword">end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="实例代码实现："><a href="#实例代码实现：" class="headerlink" title="实例代码实现："></a>实例代码实现：</h3><h4 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">touch_led</span><span class="token punctuation">(</span>
+<h3 id="实例代码实现"><a href="#实例代码实现" class="headerlink" title="实例代码实现"></a>实例代码实现</h3><h4 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">touch_led</span><span class="token punctuation">(</span>
     <span class="token comment">//input</span>
     <span class="token keyword">input</span>        sys_clk<span class="token punctuation">,</span>      <span class="token comment">//时钟信号50Mhz</span>
     <span class="token keyword">input</span>        sys_rst_n<span class="token punctuation">,</span>    <span class="token comment">//复位信号</span>
@@ -529,14 +528,14 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </li>
 </ul>
 <div align="center">
-<img src="/2024/06/14/verilog-special-skills/9.png" width="50%/">
+<img src="/2024/06/14/verilog-special-skills/7.png" width="50%/">
 </div>
 
 <ul>
 <li>除法器模块端口与功能描述如下表所示：</li>
 </ul>
 <div align="center">
-<img src="/2024/06/14/verilog-special-skills/10.png" width="90%/">
+<img src="/2024/06/14/verilog-special-skills/8.png" width="90%/">
 </div>
 
 
@@ -544,7 +543,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <li>除法器模块波形图：</li>
 </ul>
 <div align="center">
-<img src="/2024/06/14/verilog-special-skills/15.png" width="100%/">
+<img src="/2024/06/14/verilog-special-skills/9.png" width="100%/">
 </div>
 
 <ul>
@@ -715,21 +714,21 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </li>
 </ul>
 <div align="center">
-<img src="/2024/06/14/verilog-special-skills/11.png" width="50%/">
+<img src="/2024/06/14/verilog-special-skills/10.png" width="50%/">
 </div>
 
 <ul>
 <li>二进制转 BCD 码模块端口与功能描述如下表所示：</li>
 </ul>
 <div align="center">
-<img src="/2024/06/14/verilog-special-skills/12.png" width="90%/">
+<img src="/2024/06/14/verilog-special-skills/11.png" width="90%/">
 </div>
 
 <h3 id="二进制转BCD码模块代码"><a href="#二进制转BCD码模块代码" class="headerlink" title="二进制转BCD码模块代码"></a>二进制转BCD码模块代码</h3><ul>
 <li>二进制转 BCD 码模块模块波形图：</li>
 </ul>
 <div align="center">
-<img src="/2024/06/14/verilog-special-skills/16.png" width="100%/">
+<img src="/2024/06/14/verilog-special-skills/12.png" width="100%/">
 </div>
 
 <ul>
