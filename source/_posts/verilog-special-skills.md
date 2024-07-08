@@ -36,9 +36,9 @@ tags:
 - **实验原理**：通过捕捉按键的上升沿或者下降沿，实现LED的亮灭控制。
 
 ### 技巧功能
-实现：
 
-#### 原理：
+
+#### 原理
 
 - 设计两个寄存器，$d_0$ 和 $d_1$
   - 假设 $T$ 为电容触摸按键`touch_key`的电平，则 $d_0$ 和 $d_1$ 的值分别为：
@@ -52,7 +52,7 @@ tags:
 - 同理，抓取下降沿，操作判断为：
 > d1&~d0 = 1
 
-#### <font color="#dd0000">代码：</font>
+#### <font color="#dd0000">代码</font>
 此代码可作为抓取上升或下降沿的参考代码架构：
 ```verilog
 //reg define
@@ -79,7 +79,7 @@ always @ (posedge sys_clk or negedge sys_rst_n) begin
 end
 ```
 
-###  实例代码实现：
+###  实例代码实现
 #### 实验代码
 ```verilog
 module touch_led(
@@ -215,13 +215,13 @@ endmodule
 - 该模块的框图如下图所示：
 
 <div align="center">
-<img src=./cymometer/9.png width=50%/>
+<img src=./verilog-special-skills/7.png width=50%/>
 </div>
 
 - 除法器模块端口与功能描述如下表所示： 
 
 <div align="center">
-<img src=./cymometer/10.png width=90%/>
+<img src=./verilog-special-skills/8.png width=90%/>
 </div>
 
 
@@ -230,7 +230,7 @@ endmodule
 - 除法器模块波形图：
   
 <div align="center">
-<img src=./cymometer/15.png width=100%/>
+<img src=./verilog-special-skills/9.png width=100%/>
 </div>
 
 - 由上方波形图可知代码实现流程如下：
@@ -396,13 +396,13 @@ endmodule
 - 该模块的框图如下图所示：
 
 <div align="center">
-<img src=./cymometer/11.png width=50%/>
+<img src=./verilog-special-skills/10.png width=50%/>
 </div>
 
 - 二进制转 BCD 码模块端口与功能描述如下表所示： 
 
 <div align="center">
-<img src=./cymometer/12.png width=90%/>
+<img src=./verilog-special-skills/11.png width=90%/>
 </div>
 
 ### 二进制转BCD码模块代码
@@ -410,7 +410,7 @@ endmodule
 - 二进制转 BCD 码模块模块波形图：
   
 <div align="center">
-<img src=./cymometer/16.png width=100%/>
+<img src=./verilog-special-skills/12.png width=100%/>
 </div>
 
 - 如上图所示，当复位键拉高后，移位计数器开始计时，当计时到最大值时移位数据寄存器完成一次寄存，然后取移位数据寄存器的高 36 位作为 BCD 码输出。 
