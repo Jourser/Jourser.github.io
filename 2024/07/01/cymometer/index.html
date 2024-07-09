@@ -1256,22 +1256,30 @@ lcd_rgb_char
     <span class="token keyword">end</span>
 <span class="token keyword">end</span>
 
-<span class="token keyword">endmodule</span>
-```  
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
 
 
 
-#### 创建 LCD 显示字符模块
 
-<span class="token operator">-</span> 该模块不是本文的重点，该模块下子模块有 <span class="token operator">**</span>LCD 读 ID 模块<span class="token operator">**</span>（<span class="token constant">`rd_id</span>`）、<span class="token operator">**</span>LCD 时钟分频模块<span class="token operator">**</span>（<span class="token constant">`clk_div</span>`）、<span class="token operator">**</span>二进制转 BCD 码模块<span class="token operator">**</span>（<span class="token constant">`binary2bcd</span>`）、<span class="token operator">**</span>LCD 显示模块<span class="token operator">**</span>（<span class="token constant">`lcd_display</span>`）和 <span class="token operator">**</span>LCD 驱动模块<span class="token operator">**</span>（<span class="token constant">`lcd_driver</span>`）。
 
-<span class="token operator">-</span> 本文只提供 LCD 显示字符顶层模块的代码：
 
-``<span class="token constant">`verilog</span>
-<span class="token keyword">module</span>  <span class="token function">lcd_rgb_char</span><span class="token punctuation">(</span>
+
+
+
+
+
+
+
+<h4 id="创建-LCD-显示字符模块"><a href="#创建-LCD-显示字符模块" class="headerlink" title="创建 LCD 显示字符模块"></a>创建 LCD 显示字符模块</h4><ul>
+<li><p>该模块不是本文的重点，该模块下子模块有 <strong>LCD 读 ID 模块</strong>（<code>rd_id</code>）、<strong>LCD 时钟分频模块</strong>（<code>clk_div</code>）、<strong>二进制转 BCD 码模块</strong>（<code>binary2bcd</code>）、<strong>LCD 显示模块</strong>（<code>lcd_display</code>）和 <strong>LCD 驱动模块</strong>（<code>lcd_driver</code>）。</p>
+</li>
+<li><p>本文只提供 LCD 显示字符顶层模块的代码：</p>
+</li>
+</ul>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span>  <span class="token function">lcd_rgb_char</span><span class="token punctuation">(</span>
     <span class="token keyword">input</span>              sys_clk      <span class="token punctuation">,</span>
     <span class="token keyword">input</span>              sys_rst_n    <span class="token punctuation">,</span>
 	<span class="token keyword">input</span>      <span class="token punctuation">[</span><span class="token number">29</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  data         <span class="token punctuation">,</span> 
@@ -1374,7 +1382,7 @@ lcd_driver <span class="token function">u_lcd_driver</span><span class="token pu
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">endmodule</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 <h4 id="引脚约束"><a href="#引脚约束" class="headerlink" title="引脚约束"></a>引脚约束</h4><ul>
