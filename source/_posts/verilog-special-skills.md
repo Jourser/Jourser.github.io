@@ -214,11 +214,20 @@ endmodule
 
 - 该模块的框图如下图所示：
 
+
+
+
+
+
 <div align="center">
 <img src=./verilog-special-skills/7.png width=50%/>
 </div>
 
+
+
 - 除法器模块端口与功能描述如下表所示： 
+
+
 
 <div align="center">
 <img src=./verilog-special-skills/8.png width=90%/>
@@ -227,11 +236,14 @@ endmodule
 
 ### 除法器模块代码
 
+
 - 除法器模块波形图：
   
+
 <div align="center">
 <img src=./verilog-special-skills/9.png width=100%/>
 </div>
+
 
 - 由上方波形图可知代码实现流程如下：
   1. 首先产生一个计算使能信号`en`，在该信号为高时进入计算过程，并通过状态机来实现移位和比较大小。
@@ -395,23 +407,40 @@ endmodule
 
 - 该模块的框图如下图所示：
 
+
+
 <div align="center">
 <img src=./verilog-special-skills/10.png width=50%/>
 </div>
 
+
+
+
 - 二进制转 BCD 码模块端口与功能描述如下表所示： 
+
+
+
 
 <div align="center">
 <img src=./verilog-special-skills/11.png width=90%/>
 </div>
 
+
+
+
 ### 二进制转BCD码模块代码
 
 - 二进制转 BCD 码模块模块波形图：
-  
+
+
+
+
 <div align="center">
 <img src=./verilog-special-skills/12.png width=100%/>
 </div>
+
+
+
 
 - 如上图所示，当复位键拉高后，移位计数器开始计时，当计时到最大值时移位数据寄存器完成一次寄存，然后取移位数据寄存器的高 36 位作为 BCD 码输出。 
 
