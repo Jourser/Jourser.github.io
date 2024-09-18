@@ -33,7 +33,9 @@ tags:
 ### AI相关
 * [Copilot](https://www.bing.com/search?form=MY0291&OCID=MY0291&q=Bing+AI&showconv=1) 微软AI助手
 * [ChatGPT](https://chat.openai.com/) OpenAI的ChatGPT
+* [Gemini](https://gemini.google.com/app) 谷歌AI助手
 * [文心一言](https://yiyan.baidu.com/) 百度的AI工具
+* [kimi](https://kimi.moonshot.cn/) Moonshot AI 出品的智能助手
 
 ### 代码相关
 * [CODELF](https://unbug.github.io/codelf/) Codelf 是一款帮助开发者命名变量的神器
