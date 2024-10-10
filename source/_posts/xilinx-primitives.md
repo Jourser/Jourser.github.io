@@ -103,11 +103,11 @@ BUFIO BUFIO_inst (
 ### IDDR
 - 在 7 系列设备的 `ILOGIC block` 中有专属的 `registers` 来实现 `input double-data-rate(IDDR) registers`，将输入的上下边沿 DDR 信号，转换成两位单边沿 SDR 信号。即为实现输入数据双沿采样。
 - `IDDR` 的原语结构图如下图所示：
-    - C：输入的同步时钟； 
-    - D：输入的 1 位 DDR 数据； 
-    - Q1 和 Q2：分别是“C”时钟上升沿和下降沿同步输出的 SDR 数据。 
-    - CE：时钟使能信号； 
-    - S/R：置位/复位信号，这两个信号不能同时拉高。
+    - `C`：输入的同步时钟； 
+    - `D`：输入的 1 位 DDR 数据； 
+    - `Q1` 和 `Q2`：分别是“C”时钟上升沿和下降沿同步输出的 SDR 数据。 
+    - `CE`：时钟使能信号； 
+    - `S/R`：置位/复位信号，这两个信号不能同时拉高。
 <div align="center">
 <img src=./xilinx-primitives/10.png width=30%/>
 </div>
@@ -133,7 +133,7 @@ IDDR #(
 
 - `DDR_CLK_EDGE` 参数为 `IDDR` 的三种采集模式，分别为`OPPOSITE_EDGE`、`SAME_EDGE`和`SAME_EDGE_PIPELINED`模式。 
 - `OPPOSITE_EDGE` 模式的时序图如下图所示： 
-  - `OPPOSITE_EDGE` 模式下，在时钟的上升沿输出的 Q1，时钟的下降沿输出 Q2。
+  - `OPPOSITE_EDGE` 模式下，在时钟的上升沿输出的 `Q1`，时钟的下降沿输出 `Q2`。
 <div align="center">
 <img src=./xilinx-primitives/11.png width=70%/>
 </div>
@@ -141,30 +141,92 @@ IDDR #(
   
 
 - `SAME_EDGE` 模式的时序图如下图所示：
-    - `SAME_EDGE` 模式下，在时钟的上升沿输出 Q1 和 Q2，但 Q1 和 Q2 不在同一个 cycle 输出。 
+    - `SAME_EDGE` 模式下，在时钟的上升沿输出 `Q1` 和 `Q2`，但 `Q1` 和 `Q2` 不在同一个 cycle 输出。 
 <div align="center">
 <img src=./xilinx-primitives/12.png width=70%/>
 </div>
 
 
 - `SAME_EDGE_PIPELINED` 模式的时序图如下图所示： 
-    - `SAME_EDGE_PIPELINED` 模式下，在时钟的上升沿输出 Q1 和 Q2，Q1 和 Q2 虽然在同一个 cycle 输出，但整体延时了一个时钟周期。在使用 `IDDR` 时，**一般采用此种模式**。 
+    - `SAME_EDGE_PIPELINED` 模式下，在时钟的上升沿输出 `Q1` 和 `Q2`，`Q1` 和 `Q2` 虽然在同一个 cycle 输出，但整体延时了一个时钟周期。在使用 `IDDR` 时，**一般采用此种模式**。 
 <div align="center">
 <img src=./xilinx-primitives/13.png width=70%/>
 </div>
 
+### IDDR2 
+- `IDDR2`是较新的版本中引入的原语，在 `IDDR` 的基础上进行了优化，具有更丰富的功能和更好的性能。
+- `IDDR2` 提供了更多的配置选项，例如不同的时钟边沿选择、异步复位/置位、流水线等，使得设计者可以根据具体需求进行更灵活的配置
+- `IDDR2` 的原语结构图如下图所示：
+    - `D`：输入，数据输入
+    - `C0`：输入，时钟输入，可选反相
+    - `C1`：输入，第二个时钟输入，相对于 C0 有 180° 的相位差，可选反相
+    - `CE`：输入，时钟使能
+    - `R`：输入，复位。如果 R 和 S 同时连接，软件会报错
+    - `S`：输入，置位。如果 R 和 S 同时连接，软件会报错
+    - `Q0` 和 `Q1`：输出，上升沿和下降沿同步输出的 SDR 数据
+<div align="center">
+<img src=./xilinx-primitives/31.png width=30%/>
+</div>
 
+
+- `IDDR2` 原语模板如下： 
+```verilog
+IDDR2 #(
+        .DDR_ALIGNMENT("C0"),  // DDR_ALIGNMENT: "NONE","C0" or "C1" 数据对齐方式
+        .INIT_Q0(1'b0), // Initial value of Q1: 1'b0 or 1'b1 Q0 初始值
+        .INIT_Q1(1'b0), // Initial value of Q2: 1'b0 or 1'b1 Q1 初始值
+        .SRTYPE("SYNC") // Set/Reset type: "SYNC" or "ASYNC" 复位类型
+) IDDR_inst (
+        .Q0(Q0), // 1-bit output for positive edge of clock  输出数据，在时钟上升沿有效
+        .Q1(Q1), // 1-bit output for negative edge of clock  输出数据，在时钟下降沿有效
+        .C0(C0), // 1-bit clock input 时钟输入
+        .C1(C1),// 反相时钟输入
+        .CE(CE), // 1-bit clock enable input 时钟使能
+        .D(D),   // 1-bit DDR data input 数据输入
+        .R(R),   // 1-bit reset 复位输入
+        .S(S)    // 1-bit set 置位输入
+    );
+```
+- 对比`IDDR`,`IDDR2` 取消了`DDR_CLK_EDGE` 参数，固定为互补边沿采集模式，即为在时钟的上升沿输出的 `Q1`，时钟的下降沿输出 `Q2`。
+- 同时，`IDDR2`多了一个`DDR_ALIGNMENT`参数用以确定数据对齐方式，可选`NONE`,`C0`和`C1`。
+- `C0`和`C1`是两个互为反相的时钟输入，其中`C1`也是`IDDR2`比`IDDR`多出一个输入参数
+- `IDDR2` 使用 `C0` 的上升沿将输入数据寄存到 `Q0`，使用 `C1` 的上升沿（通常与 `C0` 的下降沿相同）将输入数据寄存到 `Q1`。然后，这些数据被传输到 FPGA 逻辑中。
+- `NONE` 模式的实现图和时序图如下图所示：
+    - 类似于`IDDR`的`OPPOSITE_EDGE`模式，在时钟的上升沿(即`C0`的上升沿)输出的 `Q1`，时钟的下降沿(即`C1`的上升沿)输出 `Q2`。
+<div align="center">
+<img src=./xilinx-primitives/32.png width=50%/>
+<img src=./xilinx-primitives/33.png width=70%/>
+</div>
+
+- 当 `DDR_ALIGNMENT` 参数为 `C0`（或 `C1`）时，信号 `Q1`（`Q0`）会被重新寄存到 `C0`（`C1`），然后才被送入互连的 CLB 逻辑中，从而保持输出在同一个时钟域内。
+
+- `C0` 模式的实现图和时序图如下图所示：
+    - 类似于`IDDR`的`SAME_EDGE_PIPELINED`模式，`Q1` 和 `Q2` 在同一个 cycle 输出，但没有像`SAME_EDGE_PIPELINED`一样整体延时一个时钟。
+
+<div align="center">
+<img src=./xilinx-primitives/34.png width=50%/>
+<img src=./xilinx-primitives/35.png width=70%/>
+</div>
+
+
+- `C1` 模式的实现图和时序图如下图所示：
+    - 可以说是与`IDDR`的`SAME_EDGE_PIPELINED`模式一致，`Q1` 和 `Q2` 在同一个 cycle 输出，整体也延时了一个时钟周期。也是在使用 `IDDR2` 时，**一般采用的模式**。
+
+<div align="center">
+<img src=./xilinx-primitives/36.png width=50%/>
+<img src=./xilinx-primitives/37.png width=70%/>
+</div>
 
 
 
 ### ODDR
 - 通过 `ODDR` 把两路单端的数据合并到一路上输出，上下沿同时输出数据，上升沿输出 a 路，下降沿输出 b 路；如果两路输入信号一路固定为 1，另外一路固定为 0，那么输出的信号实际上是时钟信号。即为实现输出数据双沿采样。
-- `0DDR` 的原语结构图如下图所示：
-    - C：输入的同步时钟； 
-    - Q：输出的 1 位 DDR 数据； 
-    - D1 和 D2：分别是“C”时钟上升沿和下降沿同步输入的 SDR 数据。 
-    - CE：时钟使能信号； 
-    - S/R：置位/复位信号，这两个信号不能同时拉高。
+- `ODDR` 的原语结构图如下图所示：
+    - `C`：输入的同步时钟； 
+    - `Q`：输出的 1 位 DDR 数据； 
+    - `D1` 和 `D2`：分别是“`C`”时钟上升沿和下降沿同步输入的 SDR 数据。 
+    - `CE`：时钟使能信号； 
+    - `S/R`：置位/复位信号，这两个信号不能同时拉高。
 <div align="center">
 <img src=./xilinx-primitives/14.png width=30%/>
 </div>
@@ -188,16 +250,79 @@ ODDR #(
 
 - `DDR_CLK_EDGE` 参数为 `ODDR` 的两种输出模式，分别为`OPPOSITE_EDGE`和`SAME_EDGE`模式。 
 - `OPPOSITE_EDGE` 模式的时序图如下图所示： 
-  -  此种模式下，在 FPGA 内部需要两个反相时钟来同步 D1 和 D2，此种模式使用较少。 
+  -  此种模式下，在 FPGA 内部需要两个反相时钟来同步 `D1` 和 `D2`，此种模式使用较少。 
 <div align="center">
 <img src=./xilinx-primitives/15.png width=70%/>
 </div>
 
 - `SAME_EDGE` 模式的时序图如下图所示： 
-  - 此种模式下，数据可以在相同的时钟边沿输出到 Q，一般采用此种模式。 
+  - 此种模式下，数据可以在相同的时钟边沿输出到 `Q`，一般采用此种模式。 
 <div align="center">
 <img src=./xilinx-primitives/16.png width=70%/>
 </div>
+
+
+### ODDR2 
+- `ODDR2`同样也是较新的版本中引入的原语，在 `ODDR` 的基础上进行了优化，具有更丰富的功能和更好的性能。
+- `ODDR2` 的原语结构图如下图所示：
+    - `D0`：输入，从 FPGA 逻辑传入的数据
+    - `D1`：输入，从 FPGA 逻辑传入的数据
+    - `C0`：输入，时钟输入，可选反相
+    - `C1`：输入，第二个时钟输入，相对于 C0 反相 180°，可选反相
+    - `CE`：输入，时钟使能
+    - `R`：输入，复位。如果 R 和 S 同时连接为 1，软件会报错
+    - `S`：输入，置位。如果 R 和 S 同时连接为 1，软件会报错
+    - `Q`：输出，数据输出
+<div align="center">
+<img src=./xilinx-primitives/38.png width=30%/>
+</div>
+
+
+- `ODDR2` 原语模板如下： 
+```verilog
+ODDR2 #(
+    .DDR_ALIGNMENT("C0"),   // Sets output alignment to "NONE", "C0" or "C1" 输出对齐方式
+    .INIT(1'b0),            // Initial value of Q: 1'b0 or 1'b1 指定输出Q的初始值，可以是1'b0或1'b1
+    .SRTYPE("SYNC")        // Specifies "SYNC" or "ASYNC" set/reset 指定复位/置位类型
+    ) TX_DDR_i (
+    .Q(Q),      // 1-bit DDR output data 输出数据
+    .C0(C0),    // 1-bit clock input 输入时钟
+    .C1(C1),    // 1-bit clock input  反相输入时钟
+    .CE(CE),    // 1-bit clock enable input 时钟使能
+    .D0(D1),    // 1-bit data input (associated with C0) 输入数据，与时钟 C0 相关联
+    .D1(D1),    // 1-bit data input (associated with C1) 输入数据，与时钟 C1 相关联
+    .R(R),      // 1-bit reset input 复位输入
+    .S(S)       // 1-bit set input  置位输入
+);
+```
+- 与`IDDR2`相同，对比旧版本`ODDR`,`ODDR2` 取消了`DDR_CLK_EDGE` 参数，固定采集模式，多了一个`DDR_ALIGNMENT`参数用以确定数据对齐方式，可选`NONE`,`C0`和`C1`
+- `NONE` 模式的实现图和时序图如下图所示：
+    - `NONE` 模式 使用来自两个时钟 `C0` 和 `C1` 的上升沿。在这种情况下，分别在上升沿捕获数据 `D0` 和 `D1`。这两个数据位通过 DDR 复用器进行复用，并转发到输出引脚。
+<div align="center">
+<img src=./xilinx-primitives/39.png width=50%/>
+<img src=./xilinx-primitives/40.png width=70%/>
+</div>
+
+- 当 `DDR_ALIGNMENT` 参数为 `C0`（或 `C1`）时，信号 `Q1`（`Q0`）会被重新寄存到 `C0`（`C1`），然后才被送入互连的 CLB 逻辑中，从而保持输出在同一个时钟域内。
+
+- `C0` 模式的实现图和时序图如下图所示：
+    - `C0` 模式 在时钟 `C0` 的上升沿输出来自 `ODDR2` 原语的两个数据位。
+<div align="center">
+<img src=./xilinx-primitives/41.png width=50%/>
+<img src=./xilinx-primitives/42.png width=70%/>
+</div>
+
+
+- `C1` 模式的实现图和时序图如下图所示：
+    - `C1` 模式 在时钟 `C1` 的上升沿输出来自 `ODDR2` 原语的两个数据位。
+
+<div align="center">
+<img src=./xilinx-primitives/43.png width=50%/>
+<img src=./xilinx-primitives/44.png width=70%/>
+</div>
+
+
+
 
 
 ### IBUFDS
