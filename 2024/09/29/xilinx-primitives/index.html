@@ -270,16 +270,16 @@
                     
                     <div class="article-tag">
                         
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
+                            </a>
+                        
                             <a href="/tags/FPGA/">
                                 <span class="chip bg-color">FPGA</span>
                             </a>
                         
                             <a href="/tags/vivado/">
                                 <span class="chip bg-color">vivado</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                <span class="chip bg-color">教程</span>
                             </a>
                         
                             <a href="/tags/%E5%B7%A5%E5%85%B7/">
@@ -316,7 +316,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    4.2k
                 </div>
                 
 
@@ -415,11 +415,11 @@
 </li>
 <li><p><code>IDDR</code> 的原语结构图如下图所示：</p>
 <ul>
-<li>C：输入的同步时钟； </li>
-<li>D：输入的 1 位 DDR 数据； </li>
-<li>Q1 和 Q2：分别是“C”时钟上升沿和下降沿同步输出的 SDR 数据。 </li>
-<li>CE：时钟使能信号； </li>
-<li>S&#x2F;R：置位&#x2F;复位信号，这两个信号不能同时拉高。<div align="center">
+<li><code>C</code>：输入的同步时钟； </li>
+<li><code>D</code>：输入的 1 位 DDR 数据； </li>
+<li><code>Q1</code> 和 <code>Q2</code>：分别是“C”时钟上升沿和下降沿同步输出的 SDR 数据。 </li>
+<li><code>CE</code>：时钟使能信号； </li>
+<li><code>S/R</code>：置位&#x2F;复位信号，这两个信号不能同时拉高。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/10.png" width="30%/">
 </div></li>
 </ul>
@@ -445,36 +445,113 @@
 </li>
 <li><p><code>OPPOSITE_EDGE</code> 模式的时序图如下图所示： </p>
 <ul>
-<li><code>OPPOSITE_EDGE</code> 模式下，在时钟的上升沿输出的 Q1，时钟的下降沿输出 Q2。<div align="center">
+<li><code>OPPOSITE_EDGE</code> 模式下，在时钟的上升沿输出的 <code>Q1</code>，时钟的下降沿输出 <code>Q2</code>。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/11.png" width="70%/">
 </div></li>
 </ul>
 </li>
 <li><p><code>SAME_EDGE</code> 模式的时序图如下图所示：</p>
 <ul>
-<li><code>SAME_EDGE</code> 模式下，在时钟的上升沿输出 Q1 和 Q2，但 Q1 和 Q2 不在同一个 cycle 输出。 <div align="center">
+<li><code>SAME_EDGE</code> 模式下，在时钟的上升沿输出 <code>Q1</code> 和 <code>Q2</code>，但 <code>Q1</code> 和 <code>Q2</code> 不在同一个 cycle 输出。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/12.png" width="70%/">
 </div></li>
 </ul>
 </li>
 <li><p><code>SAME_EDGE_PIPELINED</code> 模式的时序图如下图所示： </p>
 <ul>
-<li><code>SAME_EDGE_PIPELINED</code> 模式下，在时钟的上升沿输出 Q1 和 Q2，Q1 和 Q2 虽然在同一个 cycle 输出，但整体延时了一个时钟周期。在使用 <code>IDDR</code> 时，<strong>一般采用此种模式</strong>。 <div align="center">
+<li><code>SAME_EDGE_PIPELINED</code> 模式下，在时钟的上升沿输出 <code>Q1</code> 和 <code>Q2</code>，<code>Q1</code> 和 <code>Q2</code> 虽然在同一个 cycle 输出，但整体延时了一个时钟周期。在使用 <code>IDDR</code> 时，<strong>一般采用此种模式</strong>。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/13.png" width="70%/">
 </div></li>
 </ul>
 </li>
 </ul>
+<h3 id="IDDR2"><a href="#IDDR2" class="headerlink" title="IDDR2"></a>IDDR2</h3><ul>
+<li><p><code>IDDR2</code>是较新的版本中引入的原语，在 <code>IDDR</code> 的基础上进行了优化，具有更丰富的功能和更好的性能。</p>
+</li>
+<li><p><code>IDDR2</code> 提供了更多的配置选项，例如不同的时钟边沿选择、异步复位&#x2F;置位、流水线等，使得设计者可以根据具体需求进行更灵活的配置</p>
+</li>
+<li><p><code>IDDR2</code> 的原语结构图如下图所示：</p>
+<ul>
+<li><code>D</code>：输入，数据输入</li>
+<li><code>C0</code>：输入，时钟输入，可选反相</li>
+<li><code>C1</code>：输入，第二个时钟输入，相对于 C0 有 180° 的相位差，可选反相</li>
+<li><code>CE</code>：输入，时钟使能</li>
+<li><code>R</code>：输入，复位。如果 R 和 S 同时连接，软件会报错</li>
+<li><code>S</code>：输入，置位。如果 R 和 S 同时连接，软件会报错</li>
+<li><code>Q0</code> 和 <code>Q1</code>：输出，上升沿和下降沿同步输出的 SDR 数据<div align="center">
+<img src="/2024/09/29/xilinx-primitives/31.png" width="30%/">
+</div></li>
+</ul>
+</li>
+<li><p><code>IDDR2</code> 原语模板如下： </p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">IDDR2 #<span class="token punctuation">(</span>
+        <span class="token punctuation">.</span><span class="token function">DDR_ALIGNMENT</span><span class="token punctuation">(</span><span class="token string">"C0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// DDR_ALIGNMENT: "NONE","C0" or "C1" 数据对齐方式</span>
+        <span class="token punctuation">.</span><span class="token function">INIT_Q0</span><span class="token punctuation">(</span><span class="token number">1'b0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Initial value of Q1: 1'b0 or 1'b1 Q0 初始值</span>
+        <span class="token punctuation">.</span><span class="token function">INIT_Q1</span><span class="token punctuation">(</span><span class="token number">1'b0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Initial value of Q2: 1'b0 or 1'b1 Q1 初始值</span>
+        <span class="token punctuation">.</span><span class="token function">SRTYPE</span><span class="token punctuation">(</span><span class="token string">"SYNC"</span><span class="token punctuation">)</span> <span class="token comment">// Set/Reset type: "SYNC" or "ASYNC" 复位类型</span>
+<span class="token punctuation">)</span> IDDR_inst <span class="token punctuation">(</span>
+        <span class="token punctuation">.</span><span class="token function">Q0</span><span class="token punctuation">(</span>Q0<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 1-bit output for positive edge of clock  输出数据，在时钟上升沿有效</span>
+        <span class="token punctuation">.</span><span class="token function">Q1</span><span class="token punctuation">(</span>Q1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 1-bit output for negative edge of clock  输出数据，在时钟下降沿有效</span>
+        <span class="token punctuation">.</span><span class="token function">C0</span><span class="token punctuation">(</span>C0<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 1-bit clock input 时钟输入</span>
+        <span class="token punctuation">.</span><span class="token function">C1</span><span class="token punctuation">(</span>C1<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">// 反相时钟输入</span>
+        <span class="token punctuation">.</span><span class="token function">CE</span><span class="token punctuation">(</span>CE<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 1-bit clock enable input 时钟使能</span>
+        <span class="token punctuation">.</span><span class="token function">D</span><span class="token punctuation">(</span>D<span class="token punctuation">)</span><span class="token punctuation">,</span>   <span class="token comment">// 1-bit DDR data input 数据输入</span>
+        <span class="token punctuation">.</span><span class="token function">R</span><span class="token punctuation">(</span>R<span class="token punctuation">)</span><span class="token punctuation">,</span>   <span class="token comment">// 1-bit reset 复位输入</span>
+        <span class="token punctuation">.</span><span class="token function">S</span><span class="token punctuation">(</span>S<span class="token punctuation">)</span>    <span class="token comment">// 1-bit set 置位输入</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>对比<code>IDDR</code>,<code>IDDR2</code> 取消了<code>DDR_CLK_EDGE</code> 参数，固定为互补边沿采集模式，即为在时钟的上升沿输出的 <code>Q1</code>，时钟的下降沿输出 <code>Q2</code>。</p>
+</li>
+<li><p>同时，<code>IDDR2</code>多了一个<code>DDR_ALIGNMENT</code>参数用以确定数据对齐方式，可选<code>NONE</code>,<code>C0</code>和<code>C1</code>。</p>
+</li>
+<li><p><code>C0</code>和<code>C1</code>是两个互为反相的时钟输入，其中<code>C1</code>也是<code>IDDR2</code>比<code>IDDR</code>多出一个输入参数</p>
+</li>
+<li><p><code>IDDR2</code> 使用 <code>C0</code> 的上升沿将输入数据寄存到 <code>Q0</code>，使用 <code>C1</code> 的上升沿（通常与 <code>C0</code> 的下降沿相同）将输入数据寄存到 <code>Q1</code>。然后，这些数据被传输到 FPGA 逻辑中。</p>
+</li>
+<li><p><code>NONE</code> 模式的实现图和时序图如下图所示：</p>
+<ul>
+<li>类似于<code>IDDR</code>的<code>OPPOSITE_EDGE</code>模式，在时钟的上升沿(即<code>C0</code>的上升沿)输出的 <code>Q1</code>，时钟的下降沿(即<code>C1</code>的上升沿)输出 <code>Q2</code>。<div align="center">
+<img src="/2024/09/29/xilinx-primitives/32.png" width="50%/">
+<img src="/2024/09/29/xilinx-primitives/33.png" width="70%/">
+</div></li>
+</ul>
+</li>
+<li><p>当 <code>DDR_ALIGNMENT</code> 参数为 <code>C0</code>（或 <code>C1</code>）时，信号 <code>Q1</code>（<code>Q0</code>）会被重新寄存到 <code>C0</code>（<code>C1</code>），然后才被送入互连的 CLB 逻辑中，从而保持输出在同一个时钟域内。</p>
+</li>
+<li><p><code>C0</code> 模式的实现图和时序图如下图所示：</p>
+<ul>
+<li>类似于<code>IDDR</code>的<code>SAME_EDGE_PIPELINED</code>模式，<code>Q1</code> 和 <code>Q2</code> 在同一个 cycle 输出，但没有像<code>SAME_EDGE_PIPELINED</code>一样整体延时一个时钟。</li>
+</ul>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/34.png" width="50%/">
+<img src="/2024/09/29/xilinx-primitives/35.png" width="70%/">
+</div>
+
+
+<ul>
+<li><code>C1</code> 模式的实现图和时序图如下图所示：<ul>
+<li>可以说是与<code>IDDR</code>的<code>SAME_EDGE_PIPELINED</code>模式一致，<code>Q1</code> 和 <code>Q2</code> 在同一个 cycle 输出，整体也延时了一个时钟周期。也是在使用 <code>IDDR2</code> 时，<strong>一般采用的模式</strong>。</li>
+</ul>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/36.png" width="50%/">
+<img src="/2024/09/29/xilinx-primitives/37.png" width="70%/">
+</div>
+
+
+
 <h3 id="ODDR"><a href="#ODDR" class="headerlink" title="ODDR"></a>ODDR</h3><ul>
 <li><p>通过 <code>ODDR</code> 把两路单端的数据合并到一路上输出，上下沿同时输出数据，上升沿输出 a 路，下降沿输出 b 路；如果两路输入信号一路固定为 1，另外一路固定为 0，那么输出的信号实际上是时钟信号。即为实现输出数据双沿采样。</p>
 </li>
-<li><p><code>0DDR</code> 的原语结构图如下图所示：</p>
+<li><p><code>ODDR</code> 的原语结构图如下图所示：</p>
 <ul>
-<li>C：输入的同步时钟； </li>
-<li>Q：输出的 1 位 DDR 数据； </li>
-<li>D1 和 D2：分别是“C”时钟上升沿和下降沿同步输入的 SDR 数据。 </li>
-<li>CE：时钟使能信号； </li>
-<li>S&#x2F;R：置位&#x2F;复位信号，这两个信号不能同时拉高。<div align="center">
+<li><code>C</code>：输入的同步时钟； </li>
+<li><code>Q</code>：输出的 1 位 DDR 数据； </li>
+<li><code>D1</code> 和 <code>D2</code>：分别是“<code>C</code>”时钟上升沿和下降沿同步输入的 SDR 数据。 </li>
+<li><code>CE</code>：时钟使能信号； </li>
+<li><code>S/R</code>：置位&#x2F;复位信号，这两个信号不能同时拉高。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/14.png" width="30%/">
 </div></li>
 </ul>
@@ -498,19 +575,86 @@
 </li>
 <li><p><code>OPPOSITE_EDGE</code> 模式的时序图如下图所示： </p>
 <ul>
-<li>此种模式下，在 FPGA 内部需要两个反相时钟来同步 D1 和 D2，此种模式使用较少。 <div align="center">
+<li>此种模式下，在 FPGA 内部需要两个反相时钟来同步 <code>D1</code> 和 <code>D2</code>，此种模式使用较少。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/15.png" width="70%/">
 </div></li>
 </ul>
 </li>
 <li><p><code>SAME_EDGE</code> 模式的时序图如下图所示： </p>
 <ul>
-<li>此种模式下，数据可以在相同的时钟边沿输出到 Q，一般采用此种模式。 <div align="center">
+<li>此种模式下，数据可以在相同的时钟边沿输出到 <code>Q</code>，一般采用此种模式。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/16.png" width="70%/">
 </div></li>
 </ul>
 </li>
 </ul>
+<h3 id="ODDR2"><a href="#ODDR2" class="headerlink" title="ODDR2"></a>ODDR2</h3><ul>
+<li><p><code>ODDR2</code>同样也是较新的版本中引入的原语，在 <code>ODDR</code> 的基础上进行了优化，具有更丰富的功能和更好的性能。</p>
+</li>
+<li><p><code>ODDR2</code> 的原语结构图如下图所示：</p>
+<ul>
+<li><code>D0</code>：输入，从 FPGA 逻辑传入的数据</li>
+<li><code>D1</code>：输入，从 FPGA 逻辑传入的数据</li>
+<li><code>C0</code>：输入，时钟输入，可选反相</li>
+<li><code>C1</code>：输入，第二个时钟输入，相对于 C0 反相 180°，可选反相</li>
+<li><code>CE</code>：输入，时钟使能</li>
+<li><code>R</code>：输入，复位。如果 R 和 S 同时连接为 1，软件会报错</li>
+<li><code>S</code>：输入，置位。如果 R 和 S 同时连接为 1，软件会报错</li>
+<li><code>Q</code>：输出，数据输出<div align="center">
+<img src="/2024/09/29/xilinx-primitives/38.png" width="30%/">
+</div></li>
+</ul>
+</li>
+<li><p><code>ODDR2</code> 原语模板如下： </p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ODDR2 #<span class="token punctuation">(</span>
+    <span class="token punctuation">.</span><span class="token function">DDR_ALIGNMENT</span><span class="token punctuation">(</span><span class="token string">"C0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>   <span class="token comment">// Sets output alignment to "NONE", "C0" or "C1" 输出对齐方式</span>
+    <span class="token punctuation">.</span><span class="token function">INIT</span><span class="token punctuation">(</span><span class="token number">1'b0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>            <span class="token comment">// Initial value of Q: 1'b0 or 1'b1 指定输出Q的初始值，可以是1'b0或1'b1</span>
+    <span class="token punctuation">.</span><span class="token function">SRTYPE</span><span class="token punctuation">(</span><span class="token string">"SYNC"</span><span class="token punctuation">)</span>        <span class="token comment">// Specifies "SYNC" or "ASYNC" set/reset 指定复位/置位类型</span>
+    <span class="token punctuation">)</span> TX_DDR_i <span class="token punctuation">(</span>
+    <span class="token punctuation">.</span><span class="token function">Q</span><span class="token punctuation">(</span>Q<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// 1-bit DDR output data 输出数据</span>
+    <span class="token punctuation">.</span><span class="token function">C0</span><span class="token punctuation">(</span>C0<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// 1-bit clock input 输入时钟</span>
+    <span class="token punctuation">.</span><span class="token function">C1</span><span class="token punctuation">(</span>C1<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// 1-bit clock input  反相输入时钟</span>
+    <span class="token punctuation">.</span><span class="token function">CE</span><span class="token punctuation">(</span>CE<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// 1-bit clock enable input 时钟使能</span>
+    <span class="token punctuation">.</span><span class="token function">D0</span><span class="token punctuation">(</span>D1<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// 1-bit data input (associated with C0) 输入数据，与时钟 C0 相关联</span>
+    <span class="token punctuation">.</span><span class="token function">D1</span><span class="token punctuation">(</span>D1<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// 1-bit data input (associated with C1) 输入数据，与时钟 C1 相关联</span>
+    <span class="token punctuation">.</span><span class="token function">R</span><span class="token punctuation">(</span>R<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// 1-bit reset input 复位输入</span>
+    <span class="token punctuation">.</span><span class="token function">S</span><span class="token punctuation">(</span>S<span class="token punctuation">)</span>       <span class="token comment">// 1-bit set input  置位输入</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>与<code>IDDR2</code>相同，对比旧版本<code>ODDR</code>,<code>ODDR2</code> 取消了<code>DDR_CLK_EDGE</code> 参数，固定采集模式，多了一个<code>DDR_ALIGNMENT</code>参数用以确定数据对齐方式，可选<code>NONE</code>,<code>C0</code>和<code>C1</code></p>
+</li>
+<li><p><code>NONE</code> 模式的实现图和时序图如下图所示：</p>
+<ul>
+<li><code>NONE</code> 模式 使用来自两个时钟 <code>C0</code> 和 <code>C1</code> 的上升沿。在这种情况下，分别在上升沿捕获数据 <code>D0</code> 和 <code>D1</code>。这两个数据位通过 DDR 复用器进行复用，并转发到输出引脚。<div align="center">
+<img src="/2024/09/29/xilinx-primitives/39.png" width="50%/">
+<img src="/2024/09/29/xilinx-primitives/40.png" width="70%/">
+</div></li>
+</ul>
+</li>
+<li><p>当 <code>DDR_ALIGNMENT</code> 参数为 <code>C0</code>（或 <code>C1</code>）时，信号 <code>Q1</code>（<code>Q0</code>）会被重新寄存到 <code>C0</code>（<code>C1</code>），然后才被送入互连的 CLB 逻辑中，从而保持输出在同一个时钟域内。</p>
+</li>
+<li><p><code>C0</code> 模式的实现图和时序图如下图所示：</p>
+<ul>
+<li><code>C0</code> 模式 在时钟 <code>C0</code> 的上升沿输出来自 <code>ODDR2</code> 原语的两个数据位。<div align="center">
+<img src="/2024/09/29/xilinx-primitives/41.png" width="50%/">
+<img src="/2024/09/29/xilinx-primitives/42.png" width="70%/">
+</div></li>
+</ul>
+</li>
+<li><p><code>C1</code> 模式的实现图和时序图如下图所示：</p>
+<ul>
+<li><code>C1</code> 模式 在时钟 <code>C1</code> 的上升沿输出来自 <code>ODDR2</code> 原语的两个数据位。</li>
+</ul>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/43.png" width="50%/">
+<img src="/2024/09/29/xilinx-primitives/44.png" width="70%/">
+</div>
+
+
+
+
+
 <h3 id="IBUFDS"><a href="#IBUFDS" class="headerlink" title="IBUFDS"></a>IBUFDS</h3><ul>
 <li>即<strong>专用差分输入时钟缓冲器</strong>，在实验工程中如果需要将<strong>差分时钟转换成单端时钟</strong>作为全局时钟。<code>IBUFDS</code>是一个输入缓冲器，支持低压差分信号（如<code>LVCMOS</code>、<code>LVDS</code>等）。在<code>IBUFDS</code>中，一个电平接口用两个独特的电平接口（<code>I</code>和<code>IB</code>）表示。一个可以认为是主信号，另外一个可以认为是从信号。主信号和从信号是同一个逻辑信号，但是相位相反。</li>
 <li><code>IBUFDS</code> 原语示意图如下所示：<div align="center">
@@ -758,16 +902,16 @@ IDELAYCTRL IDELAYCTRL_inst <span class="token punctuation">(</span>
                     
                         <div class="article-tag">
                             
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
+                                </a>
+                            
                                 <a href="/tags/FPGA/">
                                     <span class="chip bg-color">FPGA</span>
                                 </a>
                             
                                 <a href="/tags/vivado/">
                                     <span class="chip bg-color">vivado</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                    <span class="chip bg-color">教程</span>
                                 </a>
                             
                                 <a href="/tags/%E5%B7%A5%E5%85%B7/">
@@ -889,16 +1033,16 @@ IDELAYCTRL IDELAYCTRL_inst <span class="token punctuation">(</span>
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
                     <a href="/tags/FPGA/">
                         <span class="chip bg-color">FPGA</span>
                     </a>
                     
                     <a href="/tags/vivado/">
                         <span class="chip bg-color">vivado</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
                     </a>
                     
                     <a href="/tags/%E5%B7%A5%E5%85%B7/">
@@ -949,16 +1093,16 @@ IDELAYCTRL IDELAYCTRL_inst <span class="token punctuation">(</span>
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
                     <a href="/tags/FPGA/">
                         <span class="chip bg-color">FPGA</span>
                     </a>
                     
                     <a href="/tags/vivado/">
                         <span class="chip bg-color">vivado</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
                     </a>
                     
                     <a href="/tags/%E5%9F%BA%E7%A1%80/">
