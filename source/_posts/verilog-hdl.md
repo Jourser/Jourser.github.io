@@ -406,61 +406,62 @@ reg  [6:0]   next_st     ;     //下一个状态
 
 4. 接下来就可以使用三个 `always` 语句来开始编写状态机的代码，第一个 always 采用同步时序描述状态转移，第二个 `always` 采用组合逻辑判断状态转移条件，第三个 `always` 是描述状态输出，一个完整的三段式状态机的例子如下代码所示： 
 ```verilog
-1  module divider7_fsm (  
-2      //系统时钟与复位 
-3      input       sys_clk      ,  
-4      input       sys_rst_n    , 
-5   
-6      //输出时钟 
-7      output reg  clk_divide_7  
-8      ); 
-9   
-10 //parameter define  
-11 parameter S0 = 7'b0000001;     //独热码定义方式 12 parameter S1 = 7'b0000010; 
-13 parameter S2 = 7'b0000100; 
-14 parameter S3 = 7'b0001000; 
-15 parameter S4 = 7'b0010000; 
-16 parameter S5 = 7'b0100000; 
-17 parameter S6 = 7'b1000000;     
-18      
-19 //reg define  
-20 reg  [6:0]   curr_st     ;     //当前状态 
-21 reg  [6:0]   next_st     ;     //下一个状态 
-22  
-23 //***************************************************** 24 //**                    main code 
-25 //*****************************************************  26  
-27 //状态机的第一段采用同步时序描述状态转移 
-28 always @(posedge sys_clk or negedge sys_rst_n) begin  29         if (!sys_rst_n) 
-30             curr_st <= S0; 
-31         else 
-32             curr_st <= next_st; 
-33 end 
-34  
-35 //状态机的第二段采用组合逻辑判断状态转移条件 36 always @(*) begin  
-37     case (curr_st)  
-38         S0: next_st = S1; 
-39         S1: next_st = S2; 
-40         S2: next_st = S3; 
-41         S3: next_st = S4; 
-42         S4: next_st = S5; 
-43         S5: next_st = S6; 
-44         S6: next_st = S0; 
-45         default: next_st = S0;
-46     endcase 
-47 end 
-48  
-49 //状态机的第三段描述状态输出（这里采用时序电路输出） 
-50 always @(posedge sys_clk or negedge sys_rst_n) begin  
-51     if (!sys_rst_n) 
-52         clk_divide_7 <= 1'b0; 
-53     else if ((curr_st == S0) | (curr_st == S1) | (curr_st == S2)  | (curr_st == S3))  54         clk_divide_7  <= 1'b0; 
-55     else if ((curr_st == S4) | (curr_st == S5) | (curr_st == S6))  
-56         clk_divide_7  <= 1'b1;    
-57     else 
-58         ;  
-59 end 
-60  
-61 endmodule 
+module divider7_fsm (  
+    //系统时钟与复位 
+    input       sys_clk      ,  
+    input       sys_rst_n    , 
+ 
+    //输出时钟 
+    output reg  clk_divide_7  
+    ); 
+ 
+//parameter define  
+parameter S0 = 7'b0000001;     //独热码定义方式 12 parameter S1 = 7'b0000010; 
+parameter S2 = 7'b0000100; 
+parameter S3 = 7'b0001000; 
+parameter S4 = 7'b0010000; 
+parameter S5 = 7'b0100000; 
+parameter S6 = 7'b1000000;     
+     
+//reg define  
+reg  [6:0]   curr_st     ;     //当前状态 
+reg  [6:0]   next_st     ;     //下一个状态 
+ 
+//***************************************************** 
+//*****************************************************
+//状态机的第一段采用同步时序描述状态转移 
+always @(posedge sys_clk or negedge sys_rst_n) begin                   
+    if (!sys_rst_n) 
+        curr_st <= S0; 
+    else 
+        curr_st <= next_st; 
+end 
+ 
+//状态机的第二段采用组合逻辑判断状态转移条件  
+always @(*) begin  
+    case (curr_st)  
+        S0: next_st = S1; 
+        S1: next_st = S2; 
+        S2: next_st = S3; 
+        S3: next_st = S4; 
+        S4: next_st = S5; 
+        S5: next_st = S6; 
+        S6: next_st = S0; 
+        default: next_st = S0;
+    endcase 
+end 
+ 
+//状态机的第三段描述状态输出（这里采用时序电路输出） 
+always @(posedge sys_clk or negedge sys_rst_n) begin  
+    if (!sys_rst_n) 
+        clk_divide_7 <= 1'b0; 
+    else if ((curr_st == S0) | (curr_st == S1) | (curr_st == S2)  | (curr_st == S3))                 
+        clk_divide_7  <= 1'b0; 
+    else if ((curr_st == S4) | (curr_st == S5) | (curr_st == S6))  
+        clk_divide_7  <= 1'b1;     
+end 
+ 
+endmodule 
 ```
 
 - 第一个 `always` 语句实现同步状态跳转（如代码的第 27 至第 33 行所示），在复位的时候，当前状态处在 S0 状态，否则将下一个状态赋值给当前状态
