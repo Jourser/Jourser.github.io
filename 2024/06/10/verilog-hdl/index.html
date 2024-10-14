@@ -272,16 +272,16 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                <span class="chip bg-color">教程</span>
-                            </a>
-                        
                             <a href="/tags/FPGA/">
                                 <span class="chip bg-color">FPGA</span>
                             </a>
                         
                             <a href="/tags/vivado/">
                                 <span class="chip bg-color">vivado</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
                             </a>
                         
                             <a href="/tags/%E8%AF%AD%E6%B3%95/">
@@ -763,61 +763,62 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   next_st     <span class="token punctuation">;</span>     <span class="token comment">//下一个状态 </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
 <li><p>接下来就可以使用三个 <code>always</code> 语句来开始编写状态机的代码，第一个 always 采用同步时序描述状态转移，第二个 <code>always</code> 采用组合逻辑判断状态转移条件，第三个 <code>always</code> 是描述状态输出，一个完整的三段式状态机的例子如下代码所示： </p>
-<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token number">1</span>  <span class="token keyword">module</span> divider7_fsm <span class="token punctuation">(</span>  
-<span class="token number">2</span>      <span class="token comment">//系统时钟与复位 </span>
-<span class="token number">3</span>      <span class="token keyword">input</span>       sys_clk      <span class="token punctuation">,</span>  
-<span class="token number">4</span>      <span class="token keyword">input</span>       sys_rst_n    <span class="token punctuation">,</span> 
-<span class="token number">5</span>   
-<span class="token number">6</span>      <span class="token comment">//输出时钟 </span>
-<span class="token number">7</span>      <span class="token keyword">output</span> <span class="token keyword">reg</span>  clk_divide_7  
-<span class="token number">8</span>      <span class="token punctuation">)</span><span class="token punctuation">;</span> 
-<span class="token number">9</span>   
-<span class="token number">10</span> <span class="token comment">//parameter define  </span>
-<span class="token number">11</span> <span class="token keyword">parameter</span> S0 <span class="token operator">=</span> <span class="token number">7'b0000001</span><span class="token punctuation">;</span>     <span class="token comment">//独热码定义方式 12 parameter S1 = 7'b0000010; </span>
-<span class="token number">13</span> <span class="token keyword">parameter</span> S2 <span class="token operator">=</span> <span class="token number">7'b0000100</span><span class="token punctuation">;</span> 
-<span class="token number">14</span> <span class="token keyword">parameter</span> S3 <span class="token operator">=</span> <span class="token number">7'b0001000</span><span class="token punctuation">;</span> 
-<span class="token number">15</span> <span class="token keyword">parameter</span> S4 <span class="token operator">=</span> <span class="token number">7'b0010000</span><span class="token punctuation">;</span> 
-<span class="token number">16</span> <span class="token keyword">parameter</span> S5 <span class="token operator">=</span> <span class="token number">7'b0100000</span><span class="token punctuation">;</span> 
-<span class="token number">17</span> <span class="token keyword">parameter</span> S6 <span class="token operator">=</span> <span class="token number">7'b1000000</span><span class="token punctuation">;</span>     
-<span class="token number">18</span>      
-<span class="token number">19</span> <span class="token comment">//reg define  </span>
-<span class="token number">20</span> <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   curr_st     <span class="token punctuation">;</span>     <span class="token comment">//当前状态 </span>
-<span class="token number">21</span> <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   next_st     <span class="token punctuation">;</span>     <span class="token comment">//下一个状态 </span>
-<span class="token number">22</span>  
-<span class="token number">23</span> <span class="token comment">//***************************************************** 24 //**                    main code </span>
-<span class="token number">25</span> <span class="token comment">//*****************************************************  26  </span>
-<span class="token number">27</span> <span class="token comment">//状态机的第一段采用同步时序描述状态转移 </span>
-<span class="token number">28</span> <span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>  <span class="token number">29</span>         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>sys_rst_n<span class="token punctuation">)</span> 
-<span class="token number">30</span>             curr_st <span class="token operator">&lt;=</span> S0<span class="token punctuation">;</span> 
-<span class="token number">31</span>         <span class="token keyword">else</span> 
-<span class="token number">32</span>             curr_st <span class="token operator">&lt;=</span> next_st<span class="token punctuation">;</span> 
-<span class="token number">33</span> <span class="token keyword">end</span> 
-<span class="token number">34</span>  
-<span class="token number">35</span> <span class="token comment">//状态机的第二段采用组合逻辑判断状态转移条件 36 always @(*) begin  </span>
-<span class="token number">37</span>     <span class="token keyword">case</span> <span class="token punctuation">(</span>curr_st<span class="token punctuation">)</span>  
-<span class="token number">38</span>         S0<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S1<span class="token punctuation">;</span> 
-<span class="token number">39</span>         S1<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S2<span class="token punctuation">;</span> 
-<span class="token number">40</span>         S2<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S3<span class="token punctuation">;</span> 
-<span class="token number">41</span>         S3<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S4<span class="token punctuation">;</span> 
-<span class="token number">42</span>         S4<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S5<span class="token punctuation">;</span> 
-<span class="token number">43</span>         S5<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S6<span class="token punctuation">;</span> 
-<span class="token number">44</span>         S6<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S0<span class="token punctuation">;</span> 
-<span class="token number">45</span>         <span class="token keyword">default</span><span class="token punctuation">:</span> next_st <span class="token operator">=</span> S0<span class="token punctuation">;</span>
-<span class="token number">46</span>     <span class="token keyword">endcase</span> 
-<span class="token number">47</span> <span class="token keyword">end</span> 
-<span class="token number">48</span>  
-<span class="token number">49</span> <span class="token comment">//状态机的第三段描述状态输出（这里采用时序电路输出） </span>
-<span class="token number">50</span> <span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>  
-<span class="token number">51</span>     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>sys_rst_n<span class="token punctuation">)</span> 
-<span class="token number">52</span>         clk_divide_7 <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
-<span class="token number">53</span>     <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S0<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S1<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S2<span class="token punctuation">)</span>  <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S3<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token number">54</span>         clk_divide_7  <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
-<span class="token number">55</span>     <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S4<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S5<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S6<span class="token punctuation">)</span><span class="token punctuation">)</span>  
-<span class="token number">56</span>         clk_divide_7  <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>    
-<span class="token number">57</span>     <span class="token keyword">else</span> 
-<span class="token number">58</span>         <span class="token punctuation">;</span>  
-<span class="token number">59</span> <span class="token keyword">end</span> 
-<span class="token number">60</span>  
-<span class="token number">61</span> <span class="token keyword">endmodule</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> divider7_fsm <span class="token punctuation">(</span>  
+    <span class="token comment">//系统时钟与复位 </span>
+    <span class="token keyword">input</span>       sys_clk      <span class="token punctuation">,</span>  
+    <span class="token keyword">input</span>       sys_rst_n    <span class="token punctuation">,</span> 
+ 
+    <span class="token comment">//输出时钟 </span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span>  clk_divide_7  
+    <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+ 
+<span class="token comment">//parameter define  </span>
+<span class="token keyword">parameter</span> S0 <span class="token operator">=</span> <span class="token number">7'b0000001</span><span class="token punctuation">;</span>     <span class="token comment">//独热码定义方式 12 parameter S1 = 7'b0000010; </span>
+<span class="token keyword">parameter</span> S2 <span class="token operator">=</span> <span class="token number">7'b0000100</span><span class="token punctuation">;</span> 
+<span class="token keyword">parameter</span> S3 <span class="token operator">=</span> <span class="token number">7'b0001000</span><span class="token punctuation">;</span> 
+<span class="token keyword">parameter</span> S4 <span class="token operator">=</span> <span class="token number">7'b0010000</span><span class="token punctuation">;</span> 
+<span class="token keyword">parameter</span> S5 <span class="token operator">=</span> <span class="token number">7'b0100000</span><span class="token punctuation">;</span> 
+<span class="token keyword">parameter</span> S6 <span class="token operator">=</span> <span class="token number">7'b1000000</span><span class="token punctuation">;</span>     
+     
+<span class="token comment">//reg define  </span>
+<span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   curr_st     <span class="token punctuation">;</span>     <span class="token comment">//当前状态 </span>
+<span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   next_st     <span class="token punctuation">;</span>     <span class="token comment">//下一个状态 </span>
+ 
+<span class="token comment">//***************************************************** </span>
+<span class="token comment">//*****************************************************</span>
+<span class="token comment">//状态机的第一段采用同步时序描述状态转移 </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>                   
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>sys_rst_n<span class="token punctuation">)</span> 
+        curr_st <span class="token operator">&lt;=</span> S0<span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> 
+        curr_st <span class="token operator">&lt;=</span> next_st<span class="token punctuation">;</span> 
+<span class="token keyword">end</span> 
+ 
+<span class="token comment">//状态机的第二段采用组合逻辑判断状态转移条件  </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">begin</span>  
+    <span class="token keyword">case</span> <span class="token punctuation">(</span>curr_st<span class="token punctuation">)</span>  
+        S0<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S1<span class="token punctuation">;</span> 
+        S1<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S2<span class="token punctuation">;</span> 
+        S2<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S3<span class="token punctuation">;</span> 
+        S3<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S4<span class="token punctuation">;</span> 
+        S4<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S5<span class="token punctuation">;</span> 
+        S5<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S6<span class="token punctuation">;</span> 
+        S6<span class="token punctuation">:</span> next_st <span class="token operator">=</span> S0<span class="token punctuation">;</span> 
+        <span class="token keyword">default</span><span class="token punctuation">:</span> next_st <span class="token operator">=</span> S0<span class="token punctuation">;</span>
+    <span class="token keyword">endcase</span> 
+<span class="token keyword">end</span> 
+ 
+<span class="token comment">//状态机的第三段描述状态输出（这里采用时序电路输出） </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span>  
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>sys_rst_n<span class="token punctuation">)</span> 
+        clk_divide_7 <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S0<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S1<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S2<span class="token punctuation">)</span>  <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S3<span class="token punctuation">)</span><span class="token punctuation">)</span>                 
+        clk_divide_7  <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S4<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S5<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span>curr_st <span class="token operator">==</span> S6<span class="token punctuation">)</span><span class="token punctuation">)</span>  
+        clk_divide_7  <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>     
+<span class="token keyword">end</span> 
+ 
+<span class="token keyword">endmodule</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <ul>
 <li>第一个 <code>always</code> 语句实现同步状态跳转（如代码的第 27 至第 33 行所示），在复位的时候，当前状态处在 S0 状态，否则将下一个状态赋值给当前状态</li>
@@ -897,16 +898,16 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                    <span class="chip bg-color">教程</span>
-                                </a>
-                            
                                 <a href="/tags/FPGA/">
                                     <span class="chip bg-color">FPGA</span>
                                 </a>
                             
                                 <a href="/tags/vivado/">
                                     <span class="chip bg-color">vivado</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
                                 </a>
                             
                                 <a href="/tags/%E8%AF%AD%E6%B3%95/">
@@ -1026,16 +1027,16 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
-                    </a>
-                    
                     <a href="/tags/FPGA/">
                         <span class="chip bg-color">FPGA</span>
                     </a>
                     
                     <a href="/tags/vivado/">
                         <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
                     </a>
                     
                     <a href="/tags/%E8%AF%AD%E6%B3%95/">
@@ -1087,16 +1088,16 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
-                    </a>
-                    
                     <a href="/tags/FPGA/">
                         <span class="chip bg-color">FPGA</span>
                     </a>
                     
                     <a href="/tags/vivado/">
                         <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
                     </a>
                     
                     <a href="/tags/%E5%B7%A5%E5%85%B7/">
