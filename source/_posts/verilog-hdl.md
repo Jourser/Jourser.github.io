@@ -196,65 +196,64 @@ parameter    DATA_WIDTH = 8;  //数据位宽为8位
 - 以 《正点原子 达芬奇 Pro 之 FPGA 开发指南》提供的LED 流水灯程序为例来展示 Verilog 的程序框架，代码如下所示（注意：代码中前面的行号只是为了方便大家阅读代码与快速定位到行号的位置，在实际编写代码时不可以添加行号，否则编译代码时会报错）。
 
 ```verilog
-1  module led( 
-2      input               sys_clk  ,  //系统时钟 
-3      input               sys_rst_n,  //系统复位，低电平有效 
-4      output  reg  [3:0]  led         //4 位 LED 灯 
-5      ); 
-6   
-7  //parameter define 
-8  parameter  WIDTH     = 25        ; 
-9  parameter  COUNT_MAX = 25_000_000;  //板载 50M 时钟=20ns，0.5s/20ns=25000000，需要 25bit 
-10                                     //位宽 
-11
-12 //reg define 
-13 reg    [WIDTH-1:0]  counter     ; 
-14 reg    [1:0]        led_ctrl_cnt; 
-15  
-16 //wire define 
-17 wire                counter_en  ; 
-18  
-19 //*******************************************************************
-20 //**                                 main code 
-21 //*******************************************************************
-22  
-23 //计数到最大值时产生高电平使能信号 
-24 assign  counter_en = (counter == (COUNT_MAX - 1'b1))  ?  1'b1  :  1'b0;   
-25           
-26 //用于产生 0.5 秒使能信号的计数器 
-27 always @(posedge sys_clk or negedge sys_rst_n) begin 
-28     if (sys_rst_n == 1'b0) 
-29         counter <= 1'b0; 
-30     else if (counter_en) 
-31         counter <= 1'b0; 
-32     else 
-33         counter <= counter + 1'b1; 
-34 end 
-35  
-36 //led 流水控制计数器 
-37 always @(posedge sys_clk or negedge sys_rst_n) begin 
-38     if (sys_rst_n == 1'b0) 
-39         led_ctrl_cnt <= 2'b0; 
-40     else if (counter_en) 
-41         led_ctrl_cnt <= led_ctrl_cnt + 2'b1; 
-42 end 
-43  
-44 //通过控制 IO 口的高低电平实现发光二极管的亮灭 
-45 always @(posedge sys_clk or negedge sys_rst_n) begin 
-46     if (sys_rst_n == 1'b0) 
-47         led <= 4'b0; 
-48     else begin 
-49         case (led_ctrl_cnt)                  
-50             2'd0 : led <= 4'b0001; 
-51             2'd1 : led <= 4'b0010; 
-52             2'd2 : led <= 4'b0100; 
-53             2'd3 : led <= 4'b1000; 
-54             default : ; 
-55         endcase 
-56     end 
-57 end 
-58  
-59 endmodule  
+module led( 
+    input               sys_clk  ,  //系统时钟 
+    input               sys_rst_n,  //系统复位，低电平有效 
+    output  reg  [3:0]  led         //4 位 LED 灯 
+    ); 
+ 
+//parameter define 
+parameter  WIDTH     = 25        ; 
+parameter  COUNT_MAX = 25_000_000;  //板载 50M 时钟=20ns，0.5s/20ns=25000000，需要 25bit 
+                                    //位宽 
+//reg define 
+reg    [WIDTH-1:0]  counter     ; 
+reg    [1:0]        led_ctrl_cnt; 
+ 
+//wire define 
+wire                counter_en  ; 
+ 
+//*******************************************************************
+//**                                 main code 
+//*******************************************************************
+ 
+//计数到最大值时产生高电平使能信号 
+assign  counter_en = (counter == (COUNT_MAX - 1'b1))  ?  1'b1  :  1'b0;   
+          
+//用于产生 0.5 秒使能信号的计数器 
+always @(posedge sys_clk or negedge sys_rst_n) begin 
+    if (sys_rst_n == 1'b0) 
+        counter <= 1'b0; 
+    else if (counter_en) 
+        counter <= 1'b0; 
+    else 
+        counter <= counter + 1'b1; 
+end 
+ 
+//led 流水控制计数器 
+always @(posedge sys_clk or negedge sys_rst_n) begin 
+    if (sys_rst_n == 1'b0) 
+        led_ctrl_cnt <= 2'b0; 
+    else if (counter_en) 
+        led_ctrl_cnt <= led_ctrl_cnt + 2'b1; 
+end 
+ 
+//通过控制 IO 口的高低电平实现发光二极管的亮灭 
+always @(posedge sys_clk or negedge sys_rst_n) begin 
+    if (sys_rst_n == 1'b0) 
+        led <= 4'b0; 
+    else begin 
+        case (led_ctrl_cnt)                  
+            2'd0 : led <= 4'b0001; 
+            2'd1 : led <= 4'b0010; 
+            2'd2 : led <= 4'b0100; 
+            2'd3 : led <= 4'b1000; 
+            default : ; 
+        endcase 
+    end 
+end 
+ 
+endmodule  
 ```
 - 首先//开头的都是注释，这个之前我们讲解过了。下面我们来看下具体的解释。 
 - 第 1 行为模块定义，模块定义以 module 开始，endmodule 结束，如 59 行所示。 
