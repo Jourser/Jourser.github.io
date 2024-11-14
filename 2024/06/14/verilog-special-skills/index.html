@@ -318,7 +318,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.1k
+                    6.3k
                 </div>
                 
 
@@ -830,6 +830,343 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-乒乓-pingpong-操作"><a href="#4-乒乓-pingpong-操作" class="headerlink" title="4. 乒乓(pingpong)操作"></a>4. 乒乓(pingpong)操作</h2><h3 id="理论学习"><a href="#理论学习" class="headerlink" title="理论学习"></a>理论学习</h3><h4 id="乒乓操作简介"><a href="#乒乓操作简介" class="headerlink" title="乒乓操作简介"></a>乒乓操作简介</h4><div align="center">
+<img src="/2024/06/14/verilog-special-skills/13.png" width="100%/">
+</div>
+
+<ul>
+<li>上图为“乒乓操作”的结构图，其结构一般是由数据选择器和数据缓冲器构成的，数据缓冲模块可以为任何存储模块，比较常用的存储单元为双口 RAM(DPRAM) 、单口 RAM(SPRAM) 、FIFO等。<font color="#dd0000">乒乓ram结构：这种结构是将输入数据流通过输入数据选择单元等时地将数据流分配到两个数据缓冲区。通过两个数据缓冲区的读和写的切换，来实现数据的流水式传输。</font></li>
+<li>具体操作流程：<ol>
+<li>在<strong>第一个缓冲周期</strong>，数据流通过“输入数据流选择单元”将数据写入“数据缓冲模块1”。</li>
+<li>进入<strong>第二个缓冲周期</strong>，在第二个缓冲周期数据流通过“输入数据流选择单元”将数据写入到“数据缓冲模块2”的同时“输出数据流选择单元”将“数据缓冲模块1”的数据流读出</li>
+<li>进入<strong>第三个缓冲周期</strong>。在第三个缓冲周期数据流通过“输入数据流选择单元”将数据写入到“数据缓存模块1”的同时将“数据缓冲模块2”的数据读出。</li>
+<li>重复第2、第3步操作，即为乒乓操作，直到数据流结束。</li>
+</ol>
+</li>
+<li>乒乓操作原理：就是打乒乓球一样，一个球（数据流），两个拍子（缓存），两个拍子相互击球（轮流读写数据，写1读2，写2读1）这样就可以做到球不停一直移动（数据流不会停，数据无丢失）。 </li>
+<li>**PS：<font color="#dd0000">注意这里的数据流始终是要从输入端移动到输出端</font>**，只是不同时间选取的路径不同，而不要理解成“乒乓操作”是数据在两端来回传输。换句话说，我们这里的“拍子”是两个缓存器，而不是两端的数据选择器。</li>
+</ul>
+<h4 id="乒乓操作特点"><a href="#乒乓操作特点" class="headerlink" title="乒乓操作特点"></a>乒乓操作特点</h4><ul>
+<li>乒乓操作的最大特点是<strong>通过“输入数据流选择单元”和“输出数据选择单元”按节拍、相互配合的切换，将经过缓冲的数据流没有停顿地送到“数据流运算处理模块”进行运算与处理</strong>。把乒乓操作模块当做一个整体，站在这个模块的两端看数据，输入数据流和输出数据流都是连续不断的，没有任何停顿的，因此非常适合对数据流进行流水线 式处理。所以乒乓操作常常应用于流水线式算法，完成数据的<strong>无缝缓冲与处理</strong>。</li>
+<li>乒乓操作的第二个特点是<strong>可以节约缓存空间</strong>，使用双存储单元比单存储单元更节省存储空间，这是很明显的。同时在某些数据处理时，必须要数据达到一定个数才能进行运算，故还可以达到数据缓存的目的。</li>
+<li>通过乒乓操作实现<strong>低速模块处理高速数据</strong>的实质是：通过缓存单元实现了数据流的串并转换，并行用 “ 数据缓冲器ram A” 和 “ 数据缓冲器ram B” 处理分流的数据，是<strong>面积与速度互换原则的体现</strong>。</li>
+</ul>
+<h4 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h4><ul>
+<li>在低速处理高速数据流时，可以使用乒乓操作。</li>
+<li>例如：10M的数据流，用乒乓操作，分流成两个FIFO，一个FIFO的吞吐速度只有原来的一半5M，就可以满足低速的处理方法，处理高速的数据，处理后在用合并成一个10M的数据流，数据就被不丢失且高速的处理过了，top层看起就是10M的处理速度了。</li>
+</ul>
+<h3 id="乒乓操作模块设计"><a href="#乒乓操作模块设计" class="headerlink" title="乒乓操作模块设计"></a>乒乓操作模块设计</h3><div align="center">
+<img src="/2024/06/14/verilog-special-skills/14.png" width="100%/">
+</div>
+
+<ul>
+<li>上图为乒乓操作模块整体框图（提供的代码与该图参数上有差别，但形式一致）<ul>
+<li><strong>ram为数据缓冲模块</strong>，这里我们使用两个双口RAM来缓存数据。</li>
+<li><strong>clk_gen为时钟生成模块</strong>，使用PLL核来生成不同的读写时钟。</li>
+<li><strong>data_gen为数据生成模块</strong>，产生输入数据（由于我们是举例为大家讲解乒乓操作，数据就由我们自己产生）。</li>
+<li><strong>ram_ctrl为输入输出数据流选择模块</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="乒乓操作模块代码"><a href="#乒乓操作模块代码" class="headerlink" title="乒乓操作模块代码"></a>乒乓操作模块代码</h3><h4 id="ramA-ramB模块设计"><a href="#ramA-ramB模块设计" class="headerlink" title="ramA,ramB模块设计"></a>ramA,ramB模块设计</h4><ul>
+<li>该实验我们调用RAM IP核作为存储单元来完成乒乓操作，使用的是简单双口RAM，读写位宽设置为8，深度设置为32</li>
+</ul>
+<h4 id="clk-gen模块设计"><a href="#clk-gen模块设计" class="headerlink" title="clk_gen模块设计"></a>clk_gen模块设计</h4><ul>
+<li>调用PLL核来生成RAM的读写时钟，设计系统输入时钟是100MHZ，输出时钟有2个分别为clk_5M和clk_10M</li>
+</ul>
+<h4 id="data-gen模块设计"><a href="#data-gen模块设计" class="headerlink" title="data_gen模块设计"></a>data_gen模块设计</h4><ul>
+<li>数据生成模块的设计，这里我们可以设计数据从0开始在10MHZ时钟的驱动下，逐渐加1。</li>
+</ul>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
+
+<span class="token keyword">module</span> <span class="token function">data_gen</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span>  clk<span class="token punctuation">,</span>
+    <span class="token keyword">input</span>  rst<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> data_en<span class="token punctuation">,</span>             <span class="token comment">//使能信号</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> data_gen   <span class="token comment">//输出数据</span>
+
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">assign</span> data_en <span class="token operator">=</span> <span class="token punctuation">(</span>rst <span class="token operator">==</span> <span class="token number">1'b1</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">1'b0</span> <span class="token punctuation">:</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+
+
+<span class="token important">always@</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk <span class="token keyword">or</span> <span class="token keyword">posedge</span> rst<span class="token punctuation">)</span><span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst<span class="token punctuation">)</span>
+        data_gen <span class="token operator">&lt;=</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data_gen <span class="token operator">==</span> <span class="token number">8'd31</span><span class="token punctuation">)</span>
+        data_gen <span class="token operator">&lt;=</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> 
+        data_gen <span class="token operator">&lt;=</span> data_gen <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="ram-ctrl模块设计"><a href="#ram-ctrl模块设计" class="headerlink" title="ram_ctrl模块设计"></a>ram_ctrl模块设计</h4><ul>
+<li>该模块我们需要产生控制两个双口RAM的读写相关信号，同时将两个RAM中读出的数据作为输入，通过简单的处理后对读出的数据进行输出。</li>
+</ul>
+<div align="center">
+<img src="/2024/06/14/verilog-special-skills/15.png" width="80%/">
+</div>
+
+<ul>
+<li>该模块要实现的功能，我们通过一个简单的状态机去进行了解<ul>
+<li><strong>IDLE</strong>：初始状态，在不工作或复位时就让状态机置为初始状态。</li>
+<li><strong>WRAM1</strong>：写RAM1状态</li>
+<li><strong>WRAM2_RRAM1</strong>：写RAM2读RAM1状态</li>
+<li><strong>WRAM1_RRAM2</strong>：写RAM1读RAM2状态</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
+
+<span class="token keyword">module</span> <span class="token function">ram_ctrl</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span> clk_50M<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> clk_100M<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> rst<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> data_en<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> data_gen<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ramA_data<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ramB_data<span class="token punctuation">,</span>
+
+    <span class="token keyword">output</span> ramA_ena<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> ramA_wea<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">4</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">]</span> ramA_addra<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token punctuation">[</span><span class="token number">7</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">]</span> ramA_dina<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> ramA_enb<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">4</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">]</span> ramA_addrb<span class="token punctuation">,</span>
+
+    <span class="token keyword">output</span> ramB_ena<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> ramB_wea<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">4</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">]</span> ramB_addra<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token punctuation">[</span><span class="token number">7</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">]</span> ramB_dina<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> ramB_enb<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">4</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">]</span> ramB_addrb<span class="token punctuation">,</span>
+
+    <span class="token keyword">output</span> <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> dout
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">assign</span> ramA_ena <span class="token operator">=</span> data_en<span class="token punctuation">;</span><span class="token comment">//ramA写端口使能</span>
+<span class="token keyword">assign</span> ramA_enb <span class="token operator">=</span> data_en<span class="token punctuation">;</span><span class="token comment">//ramA读端口使能</span>
+<span class="token keyword">assign</span> ramB_ena <span class="token operator">=</span> data_en<span class="token punctuation">;</span><span class="token comment">//ramB写端口使能</span>
+<span class="token keyword">assign</span> ramB_enb <span class="token operator">=</span> data_en<span class="token punctuation">;</span><span class="token comment">//ramB读端口使能</span>
+<span class="token keyword">assign</span> ramA_wea <span class="token operator">=</span> <span class="token punctuation">(</span>state <span class="token operator">==</span> WA <span class="token operator">||</span> state <span class="token operator">==</span> WA_RB<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">1'b1</span> <span class="token punctuation">:</span> <span class="token number">1'b0</span> <span class="token punctuation">;</span><span class="token comment">//ramA写使能</span>
+<span class="token keyword">assign</span> ramB_wea <span class="token operator">=</span> <span class="token punctuation">(</span>state <span class="token operator">==</span> RA_WB<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">1'b1</span> <span class="token punctuation">:</span> <span class="token number">1'b0</span> <span class="token punctuation">;</span><span class="token comment">////ramB写使能</span>
+
+
+<span class="token comment">//parameter define  </span>
+<span class="token keyword">parameter</span> IDLE  <span class="token operator">=</span> <span class="token number">4'b0001</span><span class="token punctuation">;</span><span class="token comment">//独热码定义方式</span>
+<span class="token keyword">parameter</span> WA    <span class="token operator">=</span> <span class="token number">4'b0010</span><span class="token punctuation">;</span><span class="token comment">//写ramA      </span>
+<span class="token keyword">parameter</span> RA_WB <span class="token operator">=</span> <span class="token number">4'b0100</span><span class="token punctuation">;</span><span class="token comment">//写ramB，读ramA</span>
+<span class="token keyword">parameter</span> WA_RB <span class="token operator">=</span> <span class="token number">4'b1000</span><span class="token punctuation">;</span><span class="token comment">//写ramA，读ramB</span>
+
+<span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   state     <span class="token punctuation">;</span>     <span class="token comment">//当前状态 </span>
+<span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   next_state     <span class="token punctuation">;</span>     <span class="token comment">//下一个状态 </span>
+ 
+<span class="token comment">//状态机的第一段采用同步时序描述状态转移</span>
+<span class="token important">always@</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk_100M <span class="token keyword">or</span> <span class="token keyword">posedge</span> rst<span class="token punctuation">)</span><span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst<span class="token punctuation">)</span>
+        state <span class="token operator">&lt;=</span> IDLE<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> 
+        state <span class="token operator">&lt;=</span> next_state<span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+
+<span class="token comment">//状态机的第二段采用组合逻辑判断状态转移条件  </span>
+<span class="token important">always@</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token keyword">begin</span>
+    <span class="token function">case</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span>
+        IDLE  <span class="token punctuation">:</span> next_state <span class="token operator">=</span> data_en <span class="token operator">?</span> WA <span class="token punctuation">:</span> IDLE <span class="token punctuation">;</span>
+        WA    <span class="token punctuation">:</span> next_state <span class="token operator">=</span> <span class="token punctuation">(</span>ramA_addra <span class="token operator">==</span> <span class="token number">5'd31</span><span class="token punctuation">)</span> <span class="token operator">?</span> RA_WB <span class="token punctuation">:</span> WA <span class="token punctuation">;</span>
+        RA_WB <span class="token punctuation">:</span> next_state <span class="token operator">=</span> <span class="token punctuation">(</span>ramB_addra <span class="token operator">==</span> <span class="token number">5'd31</span><span class="token punctuation">)</span> <span class="token operator">?</span> WA_RB <span class="token punctuation">:</span> RA_WB <span class="token punctuation">;</span>
+        WA_RB <span class="token punctuation">:</span> next_state <span class="token operator">=</span> <span class="token punctuation">(</span>ramA_addra <span class="token operator">==</span> <span class="token number">5'd31</span><span class="token punctuation">)</span> <span class="token operator">?</span> RA_WB <span class="token punctuation">:</span> WA_RB <span class="token punctuation">;</span>
+        <span class="token keyword">default</span> <span class="token punctuation">:</span> next_state <span class="token operator">=</span> IDLE<span class="token punctuation">;</span>
+    <span class="token keyword">endcase</span>
+<span class="token keyword">end</span>
+
+<span class="token comment">//状态机的第三段描述状态输出（这里采用时序电路输出）</span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk_100M <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst<span class="token punctuation">)</span> <span class="token keyword">begin</span>        
+        ramA_addra <span class="token operator">&lt;=</span> <span class="token number">4'd0</span><span class="token punctuation">;</span>
+        ramB_addra <span class="token operator">&lt;=</span> <span class="token number">4'd0</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ramA_addra <span class="token operator">&lt;</span> <span class="token number">5'd31</span> <span class="token operator">&amp;&amp;</span> ramB_addra <span class="token operator">&lt;</span> <span class="token number">5'd31</span> <span class="token punctuation">)</span> <span class="token keyword">begin</span>
+        <span class="token keyword">case</span> <span class="token punctuation">(</span>state<span class="token punctuation">)</span>
+            WA   <span class="token punctuation">:</span>ramA_addra <span class="token operator">&lt;=</span> ramA_addra <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+            RA_WB<span class="token punctuation">:</span>ramB_addra <span class="token operator">&lt;=</span> ramB_addra <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+            WA_RB<span class="token punctuation">:</span>ramA_addra <span class="token operator">&lt;=</span> ramA_addra <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+            <span class="token keyword">default</span><span class="token punctuation">:</span><span class="token keyword">begin</span>
+                ramA_addra <span class="token operator">&lt;=</span> ramA_addra<span class="token punctuation">;</span>
+                ramB_addra <span class="token operator">&lt;=</span> ramB_addra<span class="token punctuation">;</span>
+            <span class="token keyword">end</span>
+        <span class="token keyword">endcase</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span> <span class="token keyword">begin</span>
+        ramA_addra <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        ramB_addra <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk_100M <span class="token keyword">or</span> <span class="token keyword">negedge</span> rst<span class="token punctuation">)</span> <span class="token keyword">begin</span>
+    <span class="token function">if</span><span class="token punctuation">(</span>rst<span class="token punctuation">)</span> <span class="token keyword">begin</span>        
+        ramA_addrb <span class="token operator">&lt;=</span> <span class="token number">4'd0</span><span class="token punctuation">;</span>
+        ramB_addrb <span class="token operator">&lt;=</span> <span class="token number">4'd0</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span> <span class="token function">if</span><span class="token punctuation">(</span>ramA_addrb <span class="token operator">&lt;</span> <span class="token number">5'd31</span> <span class="token operator">&amp;&amp;</span> ramB_addrb <span class="token operator">&lt;</span> <span class="token number">5'd31</span><span class="token punctuation">)</span> <span class="token keyword">begin</span>
+        <span class="token keyword">case</span> <span class="token punctuation">(</span>state<span class="token punctuation">)</span>
+            RA_WB<span class="token punctuation">:</span>ramA_addrb <span class="token operator">&lt;=</span> ramA_addrb <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+            WA_RB<span class="token punctuation">:</span>ramB_addrb <span class="token operator">&lt;=</span> ramB_addrb <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+            <span class="token keyword">default</span><span class="token punctuation">:</span><span class="token keyword">begin</span>
+                ramA_addrb <span class="token operator">&lt;=</span> ramA_addrb<span class="token punctuation">;</span>
+                ramB_addrb <span class="token operator">&lt;=</span> ramB_addrb<span class="token punctuation">;</span>
+            <span class="token keyword">end</span>
+        <span class="token keyword">endcase</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">else</span> <span class="token keyword">begin</span>
+        ramA_addrb <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        ramB_addrb <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+
+
+<span class="token keyword">assign</span> ramA_dina <span class="token operator">=</span> <span class="token punctuation">(</span>state <span class="token operator">==</span> WA <span class="token operator">||</span> state <span class="token operator">==</span> WA_RB<span class="token punctuation">)</span> <span class="token operator">?</span> data_gen <span class="token punctuation">:</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+<span class="token keyword">assign</span> ramB_dina <span class="token operator">=</span> <span class="token punctuation">(</span>state <span class="token operator">==</span> RA_WB<span class="token punctuation">)</span> <span class="token operator">?</span> data_gen <span class="token punctuation">:</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+
+
+<span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> state_r<span class="token punctuation">;</span>
+<span class="token important">always@</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> clk_100M<span class="token punctuation">)</span><span class="token keyword">begin</span>
+    state_r <span class="token operator">&lt;=</span> state<span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+
+<span class="token important">always@</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token keyword">begin</span> 
+    <span class="token function">case</span><span class="token punctuation">(</span>state_r<span class="token punctuation">)</span>
+        RA_WB <span class="token punctuation">:</span> dout <span class="token operator">=</span> ramA_data<span class="token punctuation">;</span>
+        WA_RB <span class="token punctuation">:</span> dout <span class="token operator">=</span> ramB_data<span class="token punctuation">;</span>
+        <span class="token keyword">default</span> <span class="token punctuation">:</span> dout <span class="token operator">=</span> <span class="token number">8'b0</span><span class="token punctuation">;</span>
+    <span class="token keyword">endcase</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="顶层模块设计"><a href="#顶层模块设计" class="headerlink" title="顶层模块设计"></a>顶层模块设计</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
+
+<span class="token keyword">module</span> <span class="token function">pingpong</span><span class="token punctuation">(</span>
+    <span class="token keyword">input</span> sys_clk<span class="token punctuation">,</span>
+    <span class="token keyword">input</span> rst<span class="token punctuation">,</span>
+    <span class="token keyword">output</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> dout
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">wire</span> clk_50M<span class="token punctuation">,</span>clk_100M<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> data_en<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> data_gen<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> ramA_ena<span class="token punctuation">,</span>ramA_enb<span class="token punctuation">,</span>ramB_ena<span class="token punctuation">,</span>ramB_enb<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> ramA_wea<span class="token punctuation">,</span>ramB_wea<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ramA_addra<span class="token punctuation">,</span>ramB_addra<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ramA_addrb<span class="token punctuation">,</span>ramB_addrb<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ramA_data<span class="token punctuation">,</span>ramB_data<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> ramA_dina<span class="token punctuation">,</span>ramB_dina<span class="token punctuation">;</span>
+
+
+clk_div <span class="token function">clk_div_u1</span><span class="token punctuation">(</span>
+    <span class="token comment">// Clock out ports</span>
+    <span class="token punctuation">.</span><span class="token function">clk_50M</span><span class="token punctuation">(</span>clk_50M<span class="token punctuation">)</span><span class="token punctuation">,</span>     <span class="token comment">// output clk_50M</span>
+    <span class="token punctuation">.</span><span class="token function">clk_100M</span><span class="token punctuation">(</span>clk_100M<span class="token punctuation">)</span><span class="token punctuation">,</span>     <span class="token comment">// output clk_100M</span>
+    <span class="token comment">// Status and control signals</span>
+    <span class="token punctuation">.</span><span class="token function">reset</span><span class="token punctuation">(</span>rst<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// input reset</span>
+   <span class="token comment">// Clock in ports</span>
+    <span class="token punctuation">.</span><span class="token function">clk_in1</span><span class="token punctuation">(</span>sys_clk<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// input clk_in1</span>
+
+data_gen <span class="token function">data_gen_u1</span><span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>clk                <span class="token punctuation">(</span>clk_100M<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>rst                <span class="token punctuation">(</span>rst<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>data_en            <span class="token punctuation">(</span>data_en<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>data_gen           <span class="token punctuation">(</span>data_gen<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+blk_mem_gen_0 ramA <span class="token punctuation">(</span>
+  <span class="token punctuation">.</span><span class="token function">clka</span><span class="token punctuation">(</span>clk_100M<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clka</span>
+  <span class="token punctuation">.</span><span class="token function">ena</span><span class="token punctuation">(</span>ramA_ena<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire ena</span>
+  <span class="token punctuation">.</span><span class="token function">wea</span><span class="token punctuation">(</span>ramA_wea<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire [0 : 0] wea</span>
+  <span class="token punctuation">.</span><span class="token function">addra</span><span class="token punctuation">(</span>ramA_addra<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [4 : 0] addra</span>
+  <span class="token punctuation">.</span><span class="token function">dina</span><span class="token punctuation">(</span>ramA_dina<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire [7 : 0] dina</span>
+  <span class="token punctuation">.</span><span class="token function">clkb</span><span class="token punctuation">(</span>clk_100M<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clkb</span>
+  <span class="token punctuation">.</span><span class="token function">enb</span><span class="token punctuation">(</span>ramA_enb<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire enb</span>
+  <span class="token punctuation">.</span><span class="token function">addrb</span><span class="token punctuation">(</span>ramA_addrb<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [4 : 0] addrb</span>
+  <span class="token punctuation">.</span><span class="token function">doutb</span><span class="token punctuation">(</span>ramA_data<span class="token punctuation">)</span>  <span class="token comment">// output wire [7 : 0] doutb</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+blk_mem_gen_0 ramB <span class="token punctuation">(</span>
+  <span class="token punctuation">.</span><span class="token function">clka</span><span class="token punctuation">(</span>clk_100M<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clka</span>
+  <span class="token punctuation">.</span><span class="token function">ena</span><span class="token punctuation">(</span>ramB_ena<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire ena</span>
+  <span class="token punctuation">.</span><span class="token function">wea</span><span class="token punctuation">(</span>ramB_wea<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire [0 : 0] wea</span>
+  <span class="token punctuation">.</span><span class="token function">addra</span><span class="token punctuation">(</span>ramB_addra<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [4 : 0] addra</span>
+  <span class="token punctuation">.</span><span class="token function">dina</span><span class="token punctuation">(</span>ramB_dina<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire [7 : 0] dina</span>
+  <span class="token punctuation">.</span><span class="token function">clkb</span><span class="token punctuation">(</span>clk_100M<span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment">// input wire clkb</span>
+  <span class="token punctuation">.</span><span class="token function">enb</span><span class="token punctuation">(</span>ramB_enb<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// input wire enb</span>
+  <span class="token punctuation">.</span><span class="token function">addrb</span><span class="token punctuation">(</span>ramB_addrb<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// input wire [4 : 0] addrb</span>
+  <span class="token punctuation">.</span><span class="token function">doutb</span><span class="token punctuation">(</span>ramB_data<span class="token punctuation">)</span>  <span class="token comment">// output wire [7 : 0] doutb</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ram_ctrl <span class="token function">ram_ctrl_u1</span><span class="token punctuation">(</span>
+
+    <span class="token punctuation">.</span>clk_50M   <span class="token punctuation">(</span>clk_50M   <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>clk_100M  <span class="token punctuation">(</span>clk_100M  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>rst       <span class="token punctuation">(</span>rst       <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>data_en   <span class="token punctuation">(</span>data_en   <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>data_gen  <span class="token punctuation">(</span>data_gen  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramA_data <span class="token punctuation">(</span>ramA_data <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramB_data <span class="token punctuation">(</span>ramB_data <span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+    <span class="token punctuation">.</span>ramA_ena  <span class="token punctuation">(</span>ramA_ena  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramA_wea  <span class="token punctuation">(</span>ramA_wea  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token function">ramA_addra</span><span class="token punctuation">(</span>ramA_addra<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramA_dina <span class="token punctuation">(</span>ramA_dina <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramA_enb  <span class="token punctuation">(</span>ramA_enb  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token function">ramA_addrb</span><span class="token punctuation">(</span>ramA_addrb<span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+    <span class="token punctuation">.</span>ramB_ena  <span class="token punctuation">(</span>ramB_ena  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramB_wea  <span class="token punctuation">(</span>ramB_wea  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token function">ramB_addra</span><span class="token punctuation">(</span>ramB_addra<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramB_dina <span class="token punctuation">(</span>ramB_dina <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>ramB_enb  <span class="token punctuation">(</span>ramB_enb  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token function">ramB_addrb</span><span class="token punctuation">(</span>ramB_addrb<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>dout      <span class="token punctuation">(</span>dout      <span class="token punctuation">)</span>
+
+
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="测试文件"><a href="#测试文件" class="headerlink" title="测试文件"></a>测试文件</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
+
+<span class="token keyword">module</span> <span class="token function">tb_pingpang</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">reg</span> sys_clk<span class="token punctuation">;</span>
+<span class="token keyword">reg</span> rst<span class="token punctuation">;</span>
+<span class="token keyword">wire</span> <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> dout<span class="token punctuation">;</span>
+ 
+<span class="token important">always</span> <span class="token number">#5</span> sys_clk <span class="token operator">=</span> <span class="token operator">~</span>sys_clk<span class="token punctuation">;</span>
+
+<span class="token keyword">initial</span> <span class="token keyword">begin</span>
+    sys_clk <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    rst     <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token number">#15</span> 
+    rst     <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token number">#10</span> 
+    rst     <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span>
+pingpong <span class="token function">pingpong_u1</span><span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>sys_clk    <span class="token punctuation">(</span>   sys_clk   <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>rst        <span class="token punctuation">(</span>   rst       <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>dout       <span class="token punctuation">(</span>   dout      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="仿真波形"><a href="#仿真波形" class="headerlink" title="仿真波形"></a>仿真波形</h4><div align="center">
+<img src="/2024/06/14/verilog-special-skills/16.png" width="100%/">
+</div>
                 
             </div>
             <hr/>

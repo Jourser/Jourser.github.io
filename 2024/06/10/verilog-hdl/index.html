@@ -318,7 +318,7 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.3k
+                    6.2k
                 </div>
                 
 
@@ -565,65 +565,64 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <li><p>以 《正点原子 达芬奇 Pro 之 FPGA 开发指南》提供的LED 流水灯程序为例来展示 Verilog 的程序框架，代码如下所示（注意：代码中前面的行号只是为了方便大家阅读代码与快速定位到行号的位置，在实际编写代码时不可以添加行号，否则编译代码时会报错）。</p>
 </li>
 </ul>
-<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token number">1</span>  <span class="token keyword">module</span> <span class="token function">led</span><span class="token punctuation">(</span> 
-<span class="token number">2</span>      <span class="token keyword">input</span>               sys_clk  <span class="token punctuation">,</span>  <span class="token comment">//系统时钟 </span>
-<span class="token number">3</span>      <span class="token keyword">input</span>               sys_rst_n<span class="token punctuation">,</span>  <span class="token comment">//系统复位，低电平有效 </span>
-<span class="token number">4</span>      <span class="token keyword">output</span>  <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  led         <span class="token comment">//4 位 LED 灯 </span>
-<span class="token number">5</span>      <span class="token punctuation">)</span><span class="token punctuation">;</span> 
-<span class="token number">6</span>   
-<span class="token number">7</span>  <span class="token comment">//parameter define </span>
-<span class="token number">8</span>  <span class="token keyword">parameter</span>  WIDTH     <span class="token operator">=</span> <span class="token number">25</span>        <span class="token punctuation">;</span> 
-<span class="token number">9</span>  <span class="token keyword">parameter</span>  COUNT_MAX <span class="token operator">=</span> <span class="token number">25_000</span><span class="token number">_000</span><span class="token punctuation">;</span>  <span class="token comment">//板载 50M 时钟=20ns，0.5s/20ns=25000000，需要 25bit </span>
-<span class="token number">10</span>                                     <span class="token comment">//位宽 </span>
-<span class="token number">11</span>
-<span class="token number">12</span> <span class="token comment">//reg define </span>
-<span class="token number">13</span> <span class="token keyword">reg</span>    <span class="token punctuation">[</span>WIDTH<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  counter     <span class="token punctuation">;</span> 
-<span class="token number">14</span> <span class="token keyword">reg</span>    <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>        led_ctrl_cnt<span class="token punctuation">;</span> 
-<span class="token number">15</span>  
-<span class="token number">16</span> <span class="token comment">//wire define </span>
-<span class="token number">17</span> <span class="token keyword">wire</span>                counter_en  <span class="token punctuation">;</span> 
-<span class="token number">18</span>  
-<span class="token number">19</span> <span class="token comment">//*******************************************************************</span>
-<span class="token number">20</span> <span class="token comment">//**                                 main code </span>
-<span class="token number">21</span> <span class="token comment">//*******************************************************************</span>
-<span class="token number">22</span>  
-<span class="token number">23</span> <span class="token comment">//计数到最大值时产生高电平使能信号 </span>
-<span class="token number">24</span> <span class="token keyword">assign</span>  counter_en <span class="token operator">=</span> <span class="token punctuation">(</span>counter <span class="token operator">==</span> <span class="token punctuation">(</span>COUNT_MAX <span class="token operator">-</span> <span class="token number">1'b1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token operator">?</span>  <span class="token number">1'b1</span>  <span class="token punctuation">:</span>  <span class="token number">1'b0</span><span class="token punctuation">;</span>   
-<span class="token number">25</span>           
-<span class="token number">26</span> <span class="token comment">//用于产生 0.5 秒使能信号的计数器 </span>
-<span class="token number">27</span> <span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span> 
-<span class="token number">28</span>     <span class="token keyword">if</span> <span class="token punctuation">(</span>sys_rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span> 
-<span class="token number">29</span>         counter <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
-<span class="token number">30</span>     <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>counter_en<span class="token punctuation">)</span> 
-<span class="token number">31</span>         counter <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
-<span class="token number">32</span>     <span class="token keyword">else</span> 
-<span class="token number">33</span>         counter <span class="token operator">&lt;=</span> counter <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
-<span class="token number">34</span> <span class="token keyword">end</span> 
-<span class="token number">35</span>  
-<span class="token number">36</span> <span class="token comment">//led 流水控制计数器 </span>
-<span class="token number">37</span> <span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span> 
-<span class="token number">38</span>     <span class="token keyword">if</span> <span class="token punctuation">(</span>sys_rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span> 
-<span class="token number">39</span>         led_ctrl_cnt <span class="token operator">&lt;=</span> <span class="token number">2'b0</span><span class="token punctuation">;</span> 
-<span class="token number">40</span>     <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>counter_en<span class="token punctuation">)</span> 
-<span class="token number">41</span>         led_ctrl_cnt <span class="token operator">&lt;=</span> led_ctrl_cnt <span class="token operator">+</span> <span class="token number">2'b1</span><span class="token punctuation">;</span> 
-<span class="token number">42</span> <span class="token keyword">end</span> 
-<span class="token number">43</span>  
-<span class="token number">44</span> <span class="token comment">//通过控制 IO 口的高低电平实现发光二极管的亮灭 </span>
-<span class="token number">45</span> <span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span> 
-<span class="token number">46</span>     <span class="token keyword">if</span> <span class="token punctuation">(</span>sys_rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span> 
-<span class="token number">47</span>         led <span class="token operator">&lt;=</span> <span class="token number">4'b0</span><span class="token punctuation">;</span> 
-<span class="token number">48</span>     <span class="token keyword">else</span> <span class="token keyword">begin</span> 
-<span class="token number">49</span>         <span class="token keyword">case</span> <span class="token punctuation">(</span>led_ctrl_cnt<span class="token punctuation">)</span>                  
-<span class="token number">50</span>             <span class="token number">2'd0</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b0001</span><span class="token punctuation">;</span> 
-<span class="token number">51</span>             <span class="token number">2'd1</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b0010</span><span class="token punctuation">;</span> 
-<span class="token number">52</span>             <span class="token number">2'd2</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b0100</span><span class="token punctuation">;</span> 
-<span class="token number">53</span>             <span class="token number">2'd3</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b1000</span><span class="token punctuation">;</span> 
-<span class="token number">54</span>             <span class="token keyword">default</span> <span class="token punctuation">:</span> <span class="token punctuation">;</span> 
-<span class="token number">55</span>         <span class="token keyword">endcase</span> 
-<span class="token number">56</span>     <span class="token keyword">end</span> 
-<span class="token number">57</span> <span class="token keyword">end</span> 
-<span class="token number">58</span>  
-<span class="token number">59</span> <span class="token keyword">endmodule</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">led</span><span class="token punctuation">(</span> 
+    <span class="token keyword">input</span>               sys_clk  <span class="token punctuation">,</span>  <span class="token comment">//系统时钟 </span>
+    <span class="token keyword">input</span>               sys_rst_n<span class="token punctuation">,</span>  <span class="token comment">//系统复位，低电平有效 </span>
+    <span class="token keyword">output</span>  <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  led         <span class="token comment">//4 位 LED 灯 </span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+ 
+<span class="token comment">//parameter define </span>
+<span class="token keyword">parameter</span>  WIDTH     <span class="token operator">=</span> <span class="token number">25</span>        <span class="token punctuation">;</span> 
+<span class="token keyword">parameter</span>  COUNT_MAX <span class="token operator">=</span> <span class="token number">25_000</span><span class="token number">_000</span><span class="token punctuation">;</span>  <span class="token comment">//板载 50M 时钟=20ns，0.5s/20ns=25000000，需要 25bit </span>
+                                    <span class="token comment">//位宽 </span>
+<span class="token comment">//reg define </span>
+<span class="token keyword">reg</span>    <span class="token punctuation">[</span>WIDTH<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  counter     <span class="token punctuation">;</span> 
+<span class="token keyword">reg</span>    <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>        led_ctrl_cnt<span class="token punctuation">;</span> 
+ 
+<span class="token comment">//wire define </span>
+<span class="token keyword">wire</span>                counter_en  <span class="token punctuation">;</span> 
+ 
+<span class="token comment">//*******************************************************************</span>
+<span class="token comment">//**                                 main code </span>
+<span class="token comment">//*******************************************************************</span>
+ 
+<span class="token comment">//计数到最大值时产生高电平使能信号 </span>
+<span class="token keyword">assign</span>  counter_en <span class="token operator">=</span> <span class="token punctuation">(</span>counter <span class="token operator">==</span> <span class="token punctuation">(</span>COUNT_MAX <span class="token operator">-</span> <span class="token number">1'b1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token operator">?</span>  <span class="token number">1'b1</span>  <span class="token punctuation">:</span>  <span class="token number">1'b0</span><span class="token punctuation">;</span>   
+          
+<span class="token comment">//用于产生 0.5 秒使能信号的计数器 </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span> 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>sys_rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span> 
+        counter <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>counter_en<span class="token punctuation">)</span> 
+        counter <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> 
+        counter <span class="token operator">&lt;=</span> counter <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
+<span class="token keyword">end</span> 
+ 
+<span class="token comment">//led 流水控制计数器 </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span> 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>sys_rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span> 
+        led_ctrl_cnt <span class="token operator">&lt;=</span> <span class="token number">2'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>counter_en<span class="token punctuation">)</span> 
+        led_ctrl_cnt <span class="token operator">&lt;=</span> led_ctrl_cnt <span class="token operator">+</span> <span class="token number">2'b1</span><span class="token punctuation">;</span> 
+<span class="token keyword">end</span> 
+ 
+<span class="token comment">//通过控制 IO 口的高低电平实现发光二极管的亮灭 </span>
+<span class="token important">always @</span><span class="token punctuation">(</span><span class="token keyword">posedge</span> sys_clk <span class="token keyword">or</span> <span class="token keyword">negedge</span> sys_rst_n<span class="token punctuation">)</span> <span class="token keyword">begin</span> 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>sys_rst_n <span class="token operator">==</span> <span class="token number">1'b0</span><span class="token punctuation">)</span> 
+        led <span class="token operator">&lt;=</span> <span class="token number">4'b0</span><span class="token punctuation">;</span> 
+    <span class="token keyword">else</span> <span class="token keyword">begin</span> 
+        <span class="token keyword">case</span> <span class="token punctuation">(</span>led_ctrl_cnt<span class="token punctuation">)</span>                  
+            <span class="token number">2'd0</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b0001</span><span class="token punctuation">;</span> 
+            <span class="token number">2'd1</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b0010</span><span class="token punctuation">;</span> 
+            <span class="token number">2'd2</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b0100</span><span class="token punctuation">;</span> 
+            <span class="token number">2'd3</span> <span class="token punctuation">:</span> led <span class="token operator">&lt;=</span> <span class="token number">4'b1000</span><span class="token punctuation">;</span> 
+            <span class="token keyword">default</span> <span class="token punctuation">:</span> <span class="token punctuation">;</span> 
+        <span class="token keyword">endcase</span> 
+    <span class="token keyword">end</span> 
+<span class="token keyword">end</span> 
+ 
+<span class="token keyword">endmodule</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>首先&#x2F;&#x2F;开头的都是注释，这个之前我们讲解过了。下面我们来看下具体的解释。 </li>
 <li>第 1 行为模块定义，模块定义以 module 开始，endmodule 结束，如 59 行所示。 </li>
