@@ -320,7 +320,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    330
+                    328
                 </div>
                 
 
@@ -340,14 +340,11 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported"><a href="#1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported" class="headerlink" title="1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported"></a>1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported</h2><p><img src="/2023/03/13/vue-problem/1.png"></p>
+                <h2 id="1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported"><a href="#1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported" class="headerlink" title="1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported"></a>1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported</h2><p><img src="/2023/03/13/vue-problem/1.png" alt></p>
 <p>问题原因：node版本过高，因为 node.js V17版本中最近发布的OpenSSL3.0, 而OpenSSL3.0对允许算法和密钥大小增加了严格的限制，可能会对生态系统造成一些影响.</p>
 <h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><h4 id="1-通过命令设置NODE-OPTIONS参数"><a href="#1-通过命令设置NODE-OPTIONS参数" class="headerlink" title="1.通过命令设置NODE_OPTIONS参数"></a>1.通过命令设置NODE_OPTIONS参数</h4><p>这个办法的缺点是每次构建前都需要执行一次命令<br>windows与linux或mac系统设置命令不一样，并且需要在项目目录下执行该命令，直接cmd命令默认路径下执行会无效。</p>
-<p>windows系统：</p>
-<pre class="line-numbers language-none"><code class="language-none">set NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>linux或mac系统：</p>
-<pre class="line-numbers language-none"><code class="language-none">export NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="2-修改package-json"><a href="#2-修改package-json" class="headerlink" title="2.修改package.json"></a>2.修改package.json</h4><p>在相关构建命令之前加入set NODE_OPTIONS&#x3D;–openssl-legacy-provider，这个办法可以一劳永逸，以后直接通过npm执行scripts里面的命令即可。不管是项目迭代，还是团队开发，这种都比较有效。<br><img src="/2023/03/13/vue-problem/2.png"></p>
+<p>windows系统：<br><pre class="line-numbers language-none"><code class="language-none">set NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>linux或mac系统：<br><pre class="line-numbers language-none"><code class="language-none">export NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></p>
+<h4 id="2-修改package-json"><a href="#2-修改package-json" class="headerlink" title="2.修改package.json"></a>2.修改package.json</h4><p>在相关构建命令之前加入set NODE_OPTIONS=–openssl-legacy-provider，这个办法可以一劳永逸，以后直接通过npm执行scripts里面的命令即可。不管是项目迭代，还是团队开发，这种都比较有效。<br><img src="/2023/03/13/vue-problem/2.png" alt></p>
 <h4 id="3-降低node版本"><a href="#3-降低node版本" class="headerlink" title="3.降低node版本"></a>3.降低node版本</h4><p>回到16版本以下。这个办法也可以解决问题，不过需要考虑到整个系统架构与技术选型问题，以及不同版本的兼容问题。不管是卸载node重装还是使用nvm工具降低版本，均有风险。特别是nvm工具降版本有时会出现意想不到的错误。</p>
 
                 
@@ -834,7 +831,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022-2024</span>
+                <span id="year">2022-2025</span>
             
             <a href="/about" target="_blank">Jourser</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

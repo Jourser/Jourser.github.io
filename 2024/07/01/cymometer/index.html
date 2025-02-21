@@ -345,7 +345,7 @@
 </ul>
 <h2 id="何为频率计"><a href="#何为频率计" class="headerlink" title="何为频率计"></a>何为频率计</h2><h3 id="周期测量法和频率测量法"><a href="#周期测量法和频率测量法" class="headerlink" title="周期测量法和频率测量法"></a>周期测量法和频率测量法</h3><ul>
 <li>常用的频率测量方法有两种：<strong>周期测量法</strong>和<strong>频率测量法</strong>。</li>
-<li><strong>周期测量法</strong>是先测量出被测信号的周期 T，然后根据频率 f&#x3D;1&#x2F;T 求出被测信号的频率。 </li>
+<li><strong>周期测量法</strong>是先测量出被测信号的周期 T，然后根据频率 f=1/T 求出被测信号的频率。 </li>
 <li><strong>频率测量法</strong>是在时间 t 内对被测信号的脉冲数 N 进行计数，然后求出单位时间内的脉冲数，即为被测信号的频率。 </li>
 <li><strong>缺陷</strong>：上述两种方法都会产生±1 个基准时钟误差或被测时钟的误差，在实际应用中有一定的局限性。根据测量原理，很容易发现<u>周期测量法适合于低频信号测量</u>，<u>频率测量法适合于高频信号测量</u>，但二者都不能兼顾高低频率同样精度的测量要求。</li>
 </ul>
@@ -367,23 +367,24 @@
 </li>
 <li><p>基于这种思想，设计中以被测信号的上升沿作为开启门闸和关闭门闸的驱动信号，只有在被测信号的上升沿才将上图中预置的“软件闸门”的状态锁存，因此在“实际闸门” $Tx$ 内被测信号的个数就能保证整数个周期，这样就避免普通测量方法中被测信号的 ±1 的误差，但会产生高频的基准时钟信号的 ±1 周期误差，由于基准时钟频率较高，因此它产生的  ±1 周期误差对测量精度的影响十分有限，特别是在中低频测量的时候，相较于传统的频率测量和周期测量方法，可以大大提高测量精度。 </p>
 </li>
-<li><p>若在一次实际闸门时间 <strong>GATE_TIME</strong> 中，计数器对被测信号的计数值为 $𝑓𝑥_{𝑐𝑛𝑡}$，对基准时钟的计数值为$𝑓𝑠_{𝑐𝑛𝑡}$，而基准时钟的频率值为 $𝑐𝑙𝑘_{𝑓𝑠}$ ，如下图所示。则被测信号的频率为 $𝑐𝑙𝑘_{𝑓𝑥}$，则由公式 :$$GATE_{TIME}&#x3D;\frac{𝑓𝑠_{𝑐𝑛𝑡}}{𝑐𝑙𝑘_{𝑓𝑠}}&#x3D;\frac{𝑓𝑥_{𝑐𝑛𝑡}}{𝑐𝑙𝑘_{𝑓𝑥}}$$</p>
-</li>
+</ul>
+<ul>
+<li>若在一次实际闸门时间 <strong>GATE_TIME</strong> 中，计数器对被测信号的计数值为 $𝑓𝑥<em>{𝑐𝑛𝑡}$，对基准时钟的计数值为$𝑓𝑠</em>{𝑐𝑛𝑡}$，而基准时钟的频率值为 $𝑐𝑙𝑘<em>{𝑓𝑠}$ ，如下图所示。则被测信号的频率为 $𝑐𝑙𝑘</em>{𝑓𝑥}$，则由公式 :<script type="math/tex">GATE_{TIME}=\frac{𝑓𝑠_{𝑐𝑛𝑡}}{𝑐𝑙𝑘_{𝑓𝑠}}=\frac{𝑓𝑥_{𝑐𝑛𝑡}}{𝑐𝑙𝑘_{𝑓𝑥}}</script></li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/2.png" width="90%/">
 </div>
 
 <ul>
-<li>误差分析：$$\delta&#x3D;\frac{𝑐𝑙𝑘_{𝑓𝑥e}-𝑐𝑙𝑘_{𝑓𝑥}}{𝑐𝑙𝑘_{𝑓𝑥e}}×100 % $$</li>
+<li>误差分析：<script type="math/tex">\delta=\frac{𝑐𝑙𝑘_{𝑓𝑥e}-𝑐𝑙𝑘_{𝑓𝑥}}{𝑐𝑙𝑘_{𝑓𝑥e}}×100 \%</script></li>
 <li>其中$𝑐𝑙𝑘_{𝑓𝑥𝑒}$为被测信号的频率准确值。</li>
-<li>在测量中，由于 <code>clk_fx</code> 计数的启停时间都是由该信号的上升沿触发的，在闸门时间 <strong>GATE_TIME</strong> 内对<code>clk_fx</code> 的计数$𝑓𝑥_{𝑐𝑛𝑡}$无误差（$GATE_TIME&#x3D; 𝑓𝑥_{𝑐𝑛𝑡}&#x2F; 𝑐𝑙𝑘_{𝑓𝑥𝑒}$）；对 <code>clk_fs</code> 的计数$𝑓𝑠_{𝑐𝑛𝑡}$最多相差一个时钟的误差，即$|∆𝑓𝑠_{𝑐𝑛𝑡}| ≤ 1$，其测量频率如下所示： $$𝑐𝑙𝑘_{𝑓𝑥e}&#x3D;\frac{𝑓𝑥_{𝑐𝑛𝑡}}{𝑓𝑠_{𝑐𝑛𝑡}+∆𝑓𝑠_{𝑐𝑛𝑡}}×CLK_{FS}$$</li>
-<li>将上式统一整理后得到：$$\delta&#x3D;|\frac{∆𝑓𝑠_{𝑐𝑛𝑡}}{𝑓𝑠_{𝑐𝑛𝑡}}|≤\frac{1}{𝑓𝑠_{𝑐𝑛𝑡}}&#x3D;\frac{1}{GATE_{TIME}×CLK_{FS}}$$</li>
-<li>由上式可以看出，测量频率的相对误差与被测信号频率的大小无关，仅与<strong>闸门时间</strong>和<strong>基准时钟频率</strong>有关，即实现了整个测试频段的等精度测量。<u>闸门时间越长，基准时钟频率越高，测频的相对误差就越小</u>。基准时钟频率可由稳定度好、精度高的高频晶体振荡器产生，在保证测量精度不变的前提下，提高基准时钟频率，可使闸门时间缩短，即提高测试速度。</li>
+<li>在测量中，由于 <code>clk_fx</code> 计数的启停时间都是由该信号的上升沿触发的，在闸门时间 <strong>GATE_TIME</strong> 内对<code>clk_fx</code> 的计数$𝑓𝑥<em>{𝑐𝑛𝑡}$无误差（$GATE_TIME= 𝑓𝑥</em>{𝑐𝑛𝑡}/ 𝑐𝑙𝑘<em>{𝑓𝑥𝑒}$）；对 <code>clk_fs</code> 的计数$𝑓𝑠</em>{𝑐𝑛𝑡}$最多相差一个时钟的误差，即$|∆𝑓𝑠<em>{𝑐𝑛𝑡}| ≤ 1$，其测量频率如下所示： $$𝑐𝑙𝑘</em>{𝑓𝑥e}=\frac{𝑓𝑥<em>{𝑐𝑛𝑡}}{𝑓𝑠</em>{𝑐𝑛𝑡}+∆𝑓𝑠<em>{𝑐𝑛𝑡}}×CLK</em>{FS}$$</li>
+<li>将上式统一整理后得到：<script type="math/tex">\delta=|\frac{∆𝑓𝑠_{𝑐𝑛𝑡}}{𝑓𝑠_{𝑐𝑛𝑡}}|≤\frac{1}{𝑓𝑠_{𝑐𝑛𝑡}}=\frac{1}{GATE_{TIME}×CLK_{FS}}</script></li>
+<li>由上式可以看出，测量频率的相对误差与被测信号频率的大小无关，仅与<strong>闸门时间</strong>和<strong>基准时钟频率</strong>有关，即实现了整个测试频段的等精度测量。<u>闸门时间越长，基准时钟频率越高，测频的相对误差就越小</u>。基准时钟频率可由稳定度好、精度高的高频晶体振荡器产生，在保证测量精度不变的前提下，提高基准时钟频率，可使闸门时间缩短，即提高测试速度。 </li>
 </ul>
 <h2 id="频率计设计"><a href="#频率计设计" class="headerlink" title="频率计设计"></a>频率计设计</h2><h3 id="频率计-设计思路"><a href="#频率计-设计思路" class="headerlink" title="频率计 设计思路"></a>频率计 设计思路</h3><h4 id="硬件设计"><a href="#硬件设计" class="headerlink" title="硬件设计"></a>硬件设计</h4><ul>
 <li>本次实验不同于前面的实验，硬件设计同样需要重视。下面是将大致讲解本次实验流程。</li>
-<li>本次实验只需将 FPGA 开发板扩展口的三个 IO 分别使用跳帽或者杜邦线连接即可（频率较高时，使用跳帽）。测 5Hz 时将 K16、L16 号引脚相连，测 133.33333MHz 时将 K16、F20 号引脚相连。FPGA 的L16、F20 引脚做为分频产生的时钟的输出端，K16 引脚作为被测时钟的输入端，通过一根导线（杜邦线）或者跳帽进行连接。</li>
+<li>本次实验只需将 FPGA 开发板扩展口的三个 IO 分别使用跳帽或者杜邦线连接即可（频率较高时，使用跳帽）。测 5Hz 时将 K16、L16 号引脚相连，测 133.33333MHz 时将 K16、F20 号引脚相连。FPGA 的L16、F20 引脚做为分频产生的时钟的输出端，K16 引脚作为被测时钟的输入端，通过一根导线（杜邦线）或者跳帽进行连接。 </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/3.png" width="60%/">
@@ -401,17 +402,15 @@
 </li>
 <li><p>根据实验任务和控制流程，可以划分六个模块：<strong>顶层模块</strong><code>top_cymometer</code>、<strong>等精度频率计模块</strong><code>cymometer</code>、<strong>除法器模块</strong><code>div_fsm</code>、<strong>被测时钟产生模块</strong><code>clk_test</code>、<strong>基准时钟产生模块</strong><code>pll_100m</code>以及 <strong>LCD 显示字符模块</strong><code>lcd_rgb_char</code></p>
 </li>
-<li><p><strong>LCD 显示字符模块</strong>是复用正点原子开发板的“RGB LCD 字符和图片显示实验”，不是本次实验的重点，因此不再赘述。不过，由于需要显示数字，所以需要新增一个<strong>二进制转 BCD 码模块</strong><code>binary2bcd</code>，该模块运用范围广泛，可以较详细介绍。</p>
-</li>
-<li><p>接下来详细定义一下各个模块的端口功能：</p>
-<ul>
+<li><strong>LCD 显示字符模块</strong>是复用正点原子开发板的“RGB LCD 字符和图片显示实验”，不是本次实验的重点，因此不再赘述。不过，由于需要显示数字，所以需要新增一个<strong>二进制转 BCD 码模块</strong><code>binary2bcd</code>，该模块运用范围广泛，可以较详细介绍。</li>
+<li>接下来详细定义一下各个模块的端口功能：<ul>
 <li><strong>顶层模块</strong><code>top_cymometer</code>是为完成了对其它四个模块的例化、实现各模块之间的数据交互、以及与外部接口的通信。 </li>
 <li><strong>被测时钟产生模块</strong><code>clk_test</code>是产生 1hz-50Mhz 的被测的时钟<code>clk_out1</code>。该时钟是系统时钟经过分频后得到的。被测时钟是通过 FPGA 引脚输出给等精度频率计模块的。可通过杜邦线选择使用的被测时钟。 </li>
 <li><strong>基准时钟产生模块</strong><code>pll_100m</code>是通过锁相环 IP 核产生 100M 的基准时钟（clk_fs），为了节省 PLL 的资源我们同时产生一个 133.33333M 的高频的被测时钟（clk_out2）用于测试。 </li>
 <li><strong>等精度频率计模块</strong><code>cymometer</code>是测量输入的被测时钟的频率。并将测得的频率结果输出给 LCD 显示模块。通过 FPGA 引脚输入被测时钟，并将测得的值传递给 LCD 显示模块。 </li>
 <li><strong>除法器模块</strong><code>div_fsm</code>是将等精度测量模块获得的的值进行运算，获得商和余数。</li>
 <li><strong>二进制转 BCD 码模块</strong><code>binary2bcd</code>是将二进制数转成 BCD 码，方便 lcd 显示模块显示。该模块是在LCD 显示字符模块（lcd_rgb_char）中。 </li>
-<li><strong>LCD 显示字符模块</strong><code>lcd_rgb_char</code>是将等精度频率计测得的时钟频率值在 LCD 上显示出来。</li>
+<li><strong>LCD 显示字符模块</strong><code>lcd_rgb_char</code>是将等精度频率计测得的时钟频率值在 LCD 上显示出来。 </li>
 </ul>
 </li>
 </ul>
@@ -431,10 +430,10 @@
 <li>本次实验LCD 显示模块仅是作为显示功能，其的端口定义与功能描述不是本章重点。</li>
 </ul>
 <h4 id="顶层模块设计"><a href="#顶层模块设计" class="headerlink" title="顶层模块设计"></a>顶层模块设计</h4><ul>
-<li><p><strong>顶层模块设计</strong>：是为完成了对其它模块的例化、实现各模块之间的数据交互、以及与外部接口的通信。</p>
-</li>
-<li><p>顶层模块端口定义与功能描述如下表所示：</p>
-</li>
+<li><strong>顶层模块设计</strong>：是为完成了对其它模块的例化、实现各模块之间的数据交互、以及与外部接口的通信。</li>
+</ul>
+<ul>
+<li>顶层模块端口定义与功能描述如下表所示：    </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/6.png" width="90%/">
@@ -451,7 +450,7 @@
 </div>
 
 <ul>
-<li>等精度频率计模块端口定义与功能描述，如下表所示：</li>
+<li>等精度频率计模块端口定义与功能描述，如下表所示： </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/8.png" width="90%/">
@@ -469,7 +468,7 @@
 </div>
 
 <ul>
-<li>除法器模块端口与功能描述如下表所示：</li>
+<li>除法器模块端口与功能描述如下表所示： </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/10.png" width="90%/">
@@ -477,7 +476,7 @@
 
 
 <h4 id="二进制转-BCD-码模块"><a href="#二进制转-BCD-码模块" class="headerlink" title="二进制转 BCD 码模块"></a>二进制转 BCD 码模块</h4><ul>
-<li><p><strong>二进制转 BCD 码模块</strong>:该模块是将二进制数转成 BCD 码，方便 lcd 显示模块显示。该模块的输入信号有<strong>系统时钟信号</strong><code>clk</code>、<strong>复位信号</strong><code>sys_rst_n</code>、<strong>要显示的数值</strong><code>data</code>，输出信号为<strong>BCD数据</strong><code>bcd_data </code>.</p>
+<li><p><strong>二进制转 BCD 码模块</strong>:该模块是将二进制数转成 BCD 码，方便 lcd 显示模块显示。该模块的输入信号有<strong>系统时钟信号</strong><code>clk</code>、<strong>复位信号</strong><code>sys_rst_n</code>、<strong>要显示的数值</strong><code>data</code>，输出信号为<strong>BCD数据</strong><code>bcd_data</code>.</p>
 </li>
 <li><p>该模块的框图如下图所示：</p>
 </li>
@@ -487,7 +486,7 @@
 </div>
 
 <ul>
-<li>二进制转 BCD 码模块端口与功能描述如下表所示：</li>
+<li>二进制转 BCD 码模块端口与功能描述如下表所示： </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/12.png" width="90%/">
@@ -500,7 +499,7 @@
 <li>本章对于实验项目步骤不再从创建项目开始，则会重点会讲述关键模块代码</li>
 </ul>
 <h4 id="创建顶层模块"><a href="#创建顶层模块" class="headerlink" title="创建顶层模块"></a>创建顶层模块</h4><ul>
-<li>顶层模块完成了对其它模块的例化。</li>
+<li>顶层模块完成了对其它模块的例化。 </li>
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">
 <span class="token keyword">module</span> top_cymometer#<span class="token punctuation">(</span>
@@ -636,7 +635,6 @@ lcd_rgb_char
 
 <span class="token keyword">endmodule</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <h4 id="创建等精度频率计模块（重点）"><a href="#创建等精度频率计模块（重点）" class="headerlink" title="创建等精度频率计模块（重点）"></a>创建等精度频率计模块（重点）</h4><h5 id="等精度频率计实现具体流程"><a href="#等精度频率计实现具体流程" class="headerlink" title="等精度频率计实现具体流程"></a>等精度频率计实现具体流程</h5><ul>
 <li><p>通过前文对于等精度频率计实现原理的讲解可知，等精度测量需要一个闸门信号，该闸门可由被测时钟直接产生，也可由系统时钟产生软件闸门然后同步到被测时钟下获得。本次实验，我们用系统时钟产生，然后同步到被测时钟下。 </p>
 </li>
@@ -648,30 +646,22 @@ lcd_rgb_char
 </div>
 
 <ul>
-<li><p>由等精度测量的原理可知，需要把软件闸门同步到被测时钟下获得实际闸门<code>gate_fx</code>。本文在被测时钟下对软件闸门进行打四拍处理，获得稳定的闸门信号（<code>gate_fx_d0</code>、<code>gate_fx_d1</code>、<code>gate_fx_d2</code>、<code>gate_fx_d3</code>），同时也可以获得下降沿和上升沿（<code>gate_fx_nege</code>、<code>gate_fx_pose</code>）。</p>
-</li>
-<li><p>该<strong>边沿标志信号</strong>后面会用于计数值的缓存。</p>
-</li>
-<li><p><strong>打四拍</strong>是为了拓宽上升沿标志信号<code>gate_fx_pose</code>的宽度。这是由于最后是在系统时钟下进行赋值计算和清零操作的，为了能够在系统时钟下准确采集到<strong>实际闸门</strong>的上升沿<code>gate_fx_pose</code>，这里选择在被测时钟下对实际闸门打多拍处理，拓宽上升沿标志信号的宽度。（当然也可以将实际闸门同步到系统时钟下进行取沿）</p>
-</li>
-<li><p>在基准时钟下对实际闸门信号<code>gate_fx</code>，进行打拍处理以获取其在<strong>基准时钟</strong>下的下降沿<code>gate_fs_nege</code>。该下降沿是为了方便对数据进行缓存和上面打拍目的的一致。因为该模块的时钟有 50M、100M 以及未知频率的被测时钟，如果不进行跨时钟域的处理，数据会存在不稳定的状态。在获得标志信号后，接下来就是计数操作。 </p>
-</li>
-<li><p>在实际闸门为高时，分别在基准时钟和被测时钟下对脉冲个数进行计数得到 <code>cnt_fs</code> 和 <code>cnt_fx</code>，并分别在下降沿标志信号 <code>gate_fs_nege</code> 和 <code>gate_fx_nege</code> 为高时，进行缓存获得稳定值 <code>cnt_fx_reg</code> 和 <code>cnt_fs_reg</code>。</p>
-</li>
-<li><p>在得到脉冲个数后就可以计算得到被测时钟的频率。<strong>PS</strong>：但由前面的等精度的计算公式可知我们需要进行<strong>大位宽的乘除法</strong>。如果直接进行除法会耗费大量资源，所以综合来看，这里本文采取<u>先进行乘法运算再利用<strong>除法器</strong>进行除法运算</u>。</p>
-</li>
-<li><p>因为前面计算值已经被稳定缓存了，这里在 <code>cnt_gate_fs</code> 等于（<code>CNT_GATE_MAX - CNT_GATE_LOW + TIME</code>）时进行乘法运算，得到被除数（<code>numer</code>）。为了保证被除数值的稳定，我们将被除数（<code>numer</code>）在 <code>cnt_gate_fs == CNT_GATE_MAX - (CNT_GATE_LOW / 2&#39;d2) - TIME)</code>时进行缓存获得 <code>numer_reg</code>。同时将除数 <code>cnt_fs_reg</code> 也进行缓存获得 <code>cnt_fs_reg_reg</code>。 </p>
-</li>
-<li><p>在获得到稳定的除数与被除数后，就要将值赋给除法器的被除数（<code>dividend</code>）和除数信号（<code>divisor</code>）获得商值（<code>quotient</code>）。为了保证被除数 <code>numer</code> 和除数 <code>cnt_fs_reg_reg</code> 能稳定的传递给除法器，这里产生一个周期的高电平的计算标志信号 <code>calc_flag</code>，该信号在计算使能信号（<code>en</code>）拉高后拉高一个时钟周期，在该信号（<code>calc_flag</code>）为高时，将除数和被除数输出给除法器。 </p>
-</li>
-<li><p>如何确定除法器使能信号（<code>en</code>）：</p>
-<ul>
+<li>由等精度测量的原理可知，需要把软件闸门同步到被测时钟下获得实际闸门<code>gate_fx</code>。本文在被测时钟下对软件闸门进行打四拍处理，获得稳定的闸门信号（<code>gate_fx_d0</code>、<code>gate_fx_d1</code>、<code>gate_fx_d2</code>、<code>gate_fx_d3</code>），同时也可以获得下降沿和上升沿（<code>gate_fx_nege</code>、<code>gate_fx_pose</code>）。</li>
+<li>该<strong>边沿标志信号</strong>后面会用于计数值的缓存。</li>
+<li><strong>打四拍</strong>是为了拓宽上升沿标志信号<code>gate_fx_pose</code>的宽度。这是由于最后是在系统时钟下进行赋值计算和清零操作的，为了能够在系统时钟下准确采集到<strong>实际闸门</strong>的上升沿<code>gate_fx_pose</code>，这里选择在被测时钟下对实际闸门打多拍处理，拓宽上升沿标志信号的宽度。（当然也可以将实际闸门同步到系统时钟下进行取沿）</li>
+<li>在基准时钟下对实际闸门信号<code>gate_fx</code>，进行打拍处理以获取其在<strong>基准时钟</strong>下的下降沿<code>gate_fs_nege</code>。该下降沿是为了方便对数据进行缓存和上面打拍目的的一致。因为该模块的时钟有 50M、100M 以及未知频率的被测时钟，如果不进行跨时钟域的处理，数据会存在不稳定的状态。在获得标志信号后，接下来就是计数操作。 </li>
+<li>在实际闸门为高时，分别在基准时钟和被测时钟下对脉冲个数进行计数得到 <code>cnt_fs</code> 和 <code>cnt_fx</code>，并分别在下降沿标志信号 <code>gate_fs_nege</code> 和 <code>gate_fx_nege</code> 为高时，进行缓存获得稳定值 <code>cnt_fx_reg</code> 和 <code>cnt_fs_reg</code>。</li>
+<li>在得到脉冲个数后就可以计算得到被测时钟的频率。<strong>PS</strong>：但由前面的等精度的计算公式可知我们需要进行<strong>大位宽的乘除法</strong>。如果直接进行除法会耗费大量资源，所以综合来看，这里本文采取<u>先进行乘法运算再利用<strong>除法器</strong>进行除法运算</u>。</li>
+<li>因为前面计算值已经被稳定缓存了，这里在 <code>cnt_gate_fs</code> 等于（<code>CNT_GATE_MAX - CNT_GATE_LOW + TIME</code>）时进行乘法运算，得到被除数（<code>numer</code>）。为了保证被除数值的稳定，我们将被除数（<code>numer</code>）在 <code>cnt_gate_fs == CNT_GATE_MAX - (CNT_GATE_LOW / 2&#39;d2) - TIME)</code>时进行缓存获得 <code>numer_reg</code>。同时将除数 <code>cnt_fs_reg</code> 也进行缓存获得 <code>cnt_fs_reg_reg</code>。 </li>
+<li>在获得到稳定的除数与被除数后，就要将值赋给除法器的被除数（<code>dividend</code>）和除数信号（<code>divisor</code>）获得商值（<code>quotient</code>）。为了保证被除数 <code>numer</code> 和除数 <code>cnt_fs_reg_reg</code> 能稳定的传递给除法器，这里产生一个周期的高电平的计算标志信号 <code>calc_flag</code>，该信号在计算使能信号（<code>en</code>）拉高后拉高一个时钟周期，在该信号（<code>calc_flag</code>）为高时，将除数和被除数输出给除法器。 </li>
+<li>如何确定除法器使能信号（<code>en</code>）：<ul>
 <li><strong>拉高</strong>：该信号输出给除法器，在除法器使能信号（<code>en</code>）为高电平时除法器进入计算过程。在 <code>cnt_gate_fs == (CNT_GATE_MAX - CNT_GATE_LOW / 2&#39;d2)</code>时<strong>拉高该信号</strong></li>
 <li><strong>拉低</strong>：在商值有效信号 <code>vld_out</code> 为高时，表示本次的计算过程已经结束，此时可以将得到的商（<code>quotient</code>）赋值给被测时钟频率值（<code>data_fx</code>），同时<strong>拉低</strong>计算使能信号（<code>en</code>）信号。</li>
 </ul>
 </li>
-<li><p>完成了频率值的计算，之后传递给 LCD 显示字符模块即可</p>
-</li>
+<li>完成了频率值的计算，之后传递给 LCD 显示字符模块即可</li>
+</ul>
+<ul>
 <li><p>最后是两个所需要注意的<strong>问题</strong>： </p>
 <ul>
 <li>频率计存在上电后初始值不为零</li>
@@ -680,17 +670,15 @@ lcd_rgb_char
 </li>
 <li><p><strong>解决上电初始值不为零</strong>：上电初始值不为零，是由于刚开始没有进行赋值，但除法器还在运行此时显示的值是混乱值。可以设置一个标志信号（<code>fx_flag</code>），在（<code>clk_fx</code> 和 <code>gate_fx</code>）为高时将标志信号 <code>fx_flag</code> 拉高，在 <code>fx_flag</code> 标志信号为低时，将频率值（<code>data_fx</code>）赋为 0。</p>
 </li>
-<li><p><strong>解决测量断开后计数值不清零</strong>：这里采用到前面产生的上升沿标志信号（<code>gate_fx_pose</code>），同时定义一个计数器（<code>cnt_dely</code>）当检测到该标志信号（<code>gate_fx_pose</code>）为高时清零，其他时刻进行加一计数，当计数到 <code>CNT_TIME_MAX</code> 时拉高脉冲标志信号（<code>flag_dely</code>），当标志信号为高时，将频率值（<code>data_fx</code>）赋为 0。计数 2s 是因为我们的软件闸门周期为 1.5s，2s 内没有实际闸门产生，则测量结束后或断开，将频率值归零（测试低频信号时可适当延长，以避免数值闪烁）。</p>
-</li>
-<li><p>上电初始值不为零，是由于刚开始没有进行赋值，但除法器还在运行此时显示的值是混乱值。我们可以设置一个标志信号（<code>fx_flag</code>），在（<code>clk_fx</code> 和 <code>gate_fx</code>）为高时将标志信号 <code>fx_flag</code> 拉高，在 <code>fx_flag</code> 标志信号为低时，将频率值（<code>data_fx</code>）赋为 0。解决上电初始值不为零。</p>
-</li>
+<li><strong>解决测量断开后计数值不清零</strong>：这里采用到前面产生的上升沿标志信号（<code>gate_fx_pose</code>），同时定义一个计数器（<code>cnt_dely</code>）当检测到该标志信号（<code>gate_fx_pose</code>）为高时清零，其他时刻进行加一计数，当计数到 <code>CNT_TIME_MAX</code> 时拉高脉冲标志信号（<code>flag_dely</code>），当标志信号为高时，将频率值（<code>data_fx</code>）赋为 0。计数 2s 是因为我们的软件闸门周期为 1.5s，2s 内没有实际闸门产生，则测量结束后或断开，将频率值归零（测试低频信号时可适当延长，以避免数值闪烁）。</li>
+<li>上电初始值不为零，是由于刚开始没有进行赋值，但除法器还在运行此时显示的值是混乱值。我们可以设置一个标志信号（<code>fx_flag</code>），在（<code>clk_fx</code> 和 <code>gate_fx</code>）为高时将标志信号 <code>fx_flag</code> 拉高，在 <code>fx_flag</code> 标志信号为低时，将频率值（<code>data_fx</code>）赋为 0。解决上电初始值不为零。 </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/14.png" width="100%/">
 </div>
 
 <h5 id="等精度频率计编写代码"><a href="#等精度频率计编写代码" class="headerlink" title="等精度频率计编写代码"></a>等精度频率计编写代码</h5><ul>
-<li>等精度频率计模块（<code>cymometer</code>）是测量输入的被测时钟的频率。</li>
+<li>等精度频率计模块（<code>cymometer</code>）是测量输入的被测时钟的频率。 </li>
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> cymometer#<span class="token punctuation">(</span>
     <span class="token keyword">parameter</span>   CNT_GATE_MAX <span class="token operator">=</span> <span class="token number">28'd75_000_000</span><span class="token punctuation">,</span>      <span class="token comment">// 测频周期时间为1.5s </span>
@@ -971,12 +959,10 @@ lcd_rgb_char
 
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
 <h4 id="创建除法器模块（重点）"><a href="#创建除法器模块（重点）" class="headerlink" title="创建除法器模块（重点）"></a>创建除法器模块（重点）</h4><ul>
-<li><p>除法器模块的实现流程和原理将在<a href="https://jourser.github.io/2024/06/14/verilog-special-skills/#2-%E9%99%A4%E6%B3%95%E5%99%A8%E5%AE%9E%E7%8E%B0">《Verilog 特殊技巧————除法器设计》</a>详细介绍</p>
-</li>
+<li>除法器模块的实现流程和原理将在<a href="https://jourser.github.io/2024/06/14/verilog-special-skills/#2-%E9%99%A4%E6%B3%95%E5%99%A8%E5%AE%9E%E7%8E%B0">《Verilog 特殊技巧————除法器设计》</a>详细介绍</li>
+</ul>
+<ul>
 <li><p><strong>这一部分主要讲解代码</strong></p>
 </li>
 <li><p>除法器模块波形图：</p>
@@ -992,7 +978,7 @@ lcd_rgb_char
 <li>首先产生一个计算使能信号<code>en</code>，在该信号为高时进入计算过程，并通过状态机来实现移位和比较大小。</li>
 <li>在检测到 <code>en</code> 信号拉高后由初始状态<code>IDLE</code>进入值的比较状态 <code>SUB</code>，比较 <strong>a</strong> 和 <strong>b</strong> 的值，并进行运算与移位</li>
 <li>然后进入移位计数器判断状态<code>SHIFT</code>，判断移位计数器 <code>count</code> 是否计数到位宽数，如果未达到跳到状态<code>SUB</code>，直到以为计数器计数到位宽数，跳入状态 <code>DONE</code>，将商和余数输出。在计算过程中将数据有效信号<code>ready</code>拉低，此时不再从外部进行取值。</li>
-<li>在进入状态<code>DONE</code>时，同时将商值有效信号<code>vld_out</code>拉高一个周期的高电平。</li>
+<li>在进入状态<code>DONE</code>时，同时将商值有效信号<code>vld_out</code>拉高一个周期的高电平。 </li>
 </ol>
 </li>
 <li><p>除法器模块代码：</p>
@@ -1106,11 +1092,13 @@ lcd_rgb_char
     <span class="token keyword">end</span>
 <span class="token keyword">end</span>
 
-<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
 </ul>
 <h4 id="创建二进制转-BCD-码模块（重点）"><a href="#创建二进制转-BCD-码模块（重点）" class="headerlink" title="创建二进制转 BCD 码模块（重点）"></a>创建二进制转 BCD 码模块（重点）</h4><ul>
-<li><p>二进制转 BCD 码模块模块的实现流程和原理将在<a href="https://jourser.github.io/2024/06/14/verilog-special-skills/#3-%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%BD%ACBCD%E7%A0%81">《Verilog 特殊技巧————二进制转 BCD 码》</a>详细介绍</p>
-</li>
+<li>二进制转 BCD 码模块模块的实现流程和原理将在<a href="https://jourser.github.io/2024/06/14/verilog-special-skills/#3-%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%BD%ACBCD%E7%A0%81">《Verilog 特殊技巧————二进制转 BCD 码》</a>详细介绍</li>
+</ul>
+<ul>
 <li><p><strong>这一部分主要讲解代码</strong></p>
 </li>
 <li><p>二进制转 BCD 码模块模块波形图：</p>
@@ -1132,8 +1120,9 @@ lcd_rgb_char
 <li>需要注意的是无论是移位操作和判断操作都是在单个系统时钟下完成的，故判断 30 次和移位 30 次一共在 60 个系统时钟内就能完成。</li>
 </ul>
 </li>
-<li><p>二进制转 BCD 码模块代码：</p>
-</li>
+</ul>
+<ul>
+<li>二进制转 BCD 码模块代码：</li>
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">binary2bcd</span><span class="token punctuation">(</span>
     <span class="token keyword">input</span>   <span class="token keyword">wire</span>             sys_clk<span class="token punctuation">,</span>
@@ -1207,16 +1196,11 @@ lcd_rgb_char
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-
-
 <h4 id="创建基准时钟产生模块"><a href="#创建基准时钟产生模块" class="headerlink" title="创建基准时钟产生模块"></a>创建基准时钟产生模块</h4><ul>
 <li>基准时钟产生模块通过锁相环产生基准时钟，该模块的输入信号有系统时钟与复位信号，输出端口为<br>倍频后的基准时钟信号<code>clk_fs</code>。以及 133.33333MHz 的高频测试时钟<code>clk_out2</code>。</li>
 </ul>
 <h4 id="创建被测时钟产生模块"><a href="#创建被测时钟产生模块" class="headerlink" title="创建被测时钟产生模块"></a>创建被测时钟产生模块</h4><ul>
-<li>被测时钟产生模块是将系统时钟进行分频产生测试时钟，这里用偶数分频方法产生，通过修改 <code>DIV_N</code> 分频参数，可得到不同频率的时钟信号，时钟频率为<code>clk_in/DIV_N</code> 。由于该模块在顶层例化时 <code>clk_in</code> 为系统时钟 50MHz，分频参数为 100，产生的时钟频率为 50_000_000&#x2F;10_000_000 &#x3D; 500_000Hz。由此可以绘制出波形图如下图所示：</li>
+<li>被测时钟产生模块是将系统时钟进行分频产生测试时钟，这里用偶数分频方法产生，通过修改 <code>DIV_N</code> 分频参数，可得到不同频率的时钟信号，时钟频率为<code>clk_in/DIV_N</code> 。由于该模块在顶层例化时 <code>clk_in</code> 为系统时钟 50MHz，分频参数为 100，产生的时钟频率为 50_000_000/10_000_000 = 500_000Hz。由此可以绘制出波形图如下图所示： </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/17.png" width="80%/">
@@ -1257,22 +1241,6 @@ lcd_rgb_char
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <h4 id="创建-LCD-显示字符模块"><a href="#创建-LCD-显示字符模块" class="headerlink" title="创建 LCD 显示字符模块"></a>创建 LCD 显示字符模块</h4><ul>
 <li><p>该模块不是本文的重点，该模块下子模块有 <strong>LCD 读 ID 模块</strong>（<code>rd_id</code>）、<strong>LCD 时钟分频模块</strong>（<code>clk_div</code>）、<strong>二进制转 BCD 码模块</strong>（<code>binary2bcd</code>）、<strong>LCD 显示模块</strong>（<code>lcd_display</code>）和 <strong>LCD 驱动模块</strong>（<code>lcd_driver</code>）。</p>
 </li>
@@ -1383,8 +1351,6 @@ lcd_driver <span class="token function">u_lcd_driver</span><span class="token pu
 
 <span class="token keyword">endmodule</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
 <h4 id="引脚约束"><a href="#引脚约束" class="headerlink" title="引脚约束"></a>引脚约束</h4><ul>
 <li>本实验中，各端口信号的管脚分配如下表所示：</li>
 </ul>
@@ -1394,7 +1360,7 @@ lcd_driver <span class="token function">u_lcd_driver</span><span class="token pu
 
 
 <ul>
-<li>对应的 XDC 约束语句如下所示：</li>
+<li>对应的 XDC 约束语句如下所示： </li>
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">
 create_clock <span class="token operator">-</span>period <span class="token number">20.000</span> <span class="token operator">-</span>name sys_clk <span class="token operator">-</span>waveform <span class="token operator">&#123;</span><span class="token number">0.000</span> <span class="token number">10.000</span><span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports sys_clk<span class="token punctuation">]</span>
@@ -1440,9 +1406,6 @@ set_property CLOCK_DEDICATED_ROUTE FALSE <span class="token punctuation">[</span
 set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN K16 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports clk_fx<span class="token punctuation">]</span>
 set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN L16 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports clk_out1<span class="token punctuation">]</span>
 set_property <span class="token operator">-</span>dict <span class="token operator">&#123;</span>PACKAGE_PIN F20 IOSTANDARD LVCMOS33<span class="token operator">&#125;</span> <span class="token punctuation">[</span>get_ports clk_out2<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
 <h3 id="上板验证"><a href="#上板验证" class="headerlink" title="上板验证"></a>上板验证</h3><ul>
 <li>编译工程并生成比特流.bit 文件。将扩展口的 K16、L16 引脚通过跳帽短接到一起，并连接好 LCD 排线的接口。将下载器一端连电脑，另一端与开发板上的 JTAG 端口连接，连接电源线并打开电源开关。</li>
 <li>下载完成后 LCD 上面显示“000500000Hz”，如下图所示，与期望的时钟频率一致。这里需要说明，lcd 屏幕底色显示为白色，字体为黑色。经拍照后颜色可能偏蓝。实际屏幕显示为白色，字体为黑色。</li>
@@ -1452,7 +1415,7 @@ set_property <span class="token operator">-</span>dict <span class="token operat
 </div>
 
 <ul>
-<li>将扩展口的 K16、F20 引脚通过跳帽短接到一起，LCD 上面显示“133333333Hz”，如下图所示，等精度频率计实验下载验证成功。</li>
+<li>将扩展口的 K16、F20 引脚通过跳帽短接到一起，LCD 上面显示“133333333Hz”，如下图所示，等精度频率计实验下载验证成功。 </li>
 </ul>
 <div align="center">
 <img src="/2024/07/01/cymometer/19.png" width="80%/">
@@ -1955,7 +1918,7 @@ set_property <span class="token operator">-</span>dict <span class="token operat
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022-2024</span>
+                <span id="year">2022-2025</span>
             
             <a href="/about" target="_blank">Jourser</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

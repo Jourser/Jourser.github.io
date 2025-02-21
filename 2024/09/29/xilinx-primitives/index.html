@@ -340,10 +340,10 @@
 <li>原语，是FPGA厂商针对其器件特征开发的一系列常用模块的名称。原语是FPGA芯片中基本元件，代表FPGA中实际拥有的硬件逻辑单元，如LUT，D触发器，RAM等。原语在设计中可以直接例化使用，是最直接的代码输入方式，原语和HDL原语的关系，类似于汇编语言和C语言的关系。</li>
 </ul>
 <h3 id="Xilinx-原语的分类"><a href="#Xilinx-原语的分类" class="headerlink" title="Xilinx 原语的分类"></a>Xilinx 原语的分类</h3><ul>
-<li>Xilinx公司的原语按功能分为10类，包括计算组件、I&#x2F;O端口组件、寄存器、时钟组件、处理器组件、移位寄存器、配置和检测组件、RAM&#x2F;ROM组件、Slice&#x2F;CLB组件以及吉比特收发器组件。常用的原语包括<strong>时钟缓冲</strong>、<strong>差分和单端信号相互转换</strong>以及<strong>I&#x2F;O处理（IDDR、ODDR）原语</strong>等。</li>
+<li>Xilinx公司的原语按功能分为10类，包括计算组件、I/O端口组件、寄存器、时钟组件、处理器组件、移位寄存器、配置和检测组件、RAM/ROM组件、Slice/CLB组件以及吉比特收发器组件。常用的原语包括<strong>时钟缓冲</strong>、<strong>差分和单端信号相互转换</strong>以及<strong>I/O处理（IDDR、ODDR）原语</strong>等。</li>
 </ul>
 <h2 id="时钟组件"><a href="#时钟组件" class="headerlink" title="时钟组件"></a>时钟组件</h2><ul>
-<li>时钟组件包括各种全局时钟缓冲器、全局时钟复用器、普通I&#x2F;O本地的时钟缓冲器以及高级时钟管理模块。与其相关的原语包括： <code>BUFG</code>、 <code>BUFR</code>、<code>BUFH</code>、 <code>BUFIO</code>、 <code>BUFGCE</code>、 <code>BUFGDLL</code>和<code>DCM</code>等。</li>
+<li>时钟组件包括各种全局时钟缓冲器、全局时钟复用器、普通I/O本地的时钟缓冲器以及高级时钟管理模块。与其相关的原语包括： <code>BUFG</code>、 <code>BUFR</code>、<code>BUFH</code>、 <code>BUFIO</code>、 <code>BUFGCE</code>、 <code>BUFGDLL</code>和<code>DCM</code>等。</li>
 </ul>
 <h3 id="BUFG"><a href="#BUFG" class="headerlink" title="BUFG"></a>BUFG</h3><ul>
 <li>全局缓冲，<code>BUFG</code> 的输出到达 FPGA 内部的 IOB、CLB、块 RAM 的时钟延迟和抖动最小。</li>
@@ -359,10 +359,8 @@
 
 
 <h3 id="BUFIO"><a href="#BUFIO" class="headerlink" title="BUFIO"></a>BUFIO</h3><ul>
-<li><p><code>BUFIO</code> 是 IO 时钟网络，其独立于全局时钟资源，适合采集源同步数据。它只能驱动 IO Block 里面的逻辑，不能驱动 CLB 里面的 LUT，REG 等逻辑。换句话说，就是其输出时钟只能作用在一个时钟区域的IO寄存器处，无法在FPGA内部逻辑使用</p>
-</li>
-<li><p>BUFIO 原语模板如下： </p>
-<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">BUFIO BUFIO_inst <span class="token punctuation">(</span> 
+<li><code>BUFIO</code> 是 IO 时钟网络，其独立于全局时钟资源，适合采集源同步数据。它只能驱动 IO Block 里面的逻辑，不能驱动 CLB 里面的 LUT，REG 等逻辑。换句话说，就是其输出时钟只能作用在一个时钟区域的IO寄存器处，无法在FPGA内部逻辑使用</li>
+<li>BUFIO 原语模板如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">BUFIO BUFIO_inst <span class="token punctuation">(</span> 
     <span class="token punctuation">.</span><span class="token function">O</span><span class="token punctuation">(</span>O<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 1-bit output: Clock output (connect to I/O clock loads). </span>
     <span class="token punctuation">.</span><span class="token function">I</span><span class="token punctuation">(</span>I<span class="token punctuation">)</span>  <span class="token comment">// 1-bit input: Clock input (connect to an IBUF or BUFMR). </span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
@@ -387,7 +385,7 @@
 
 
 <h2 id="IO端口组件"><a href="#IO端口组件" class="headerlink" title="IO端口组件"></a>IO端口组件</h2><ul>
-<li><p>I&#x2F;O组件提供了<strong>标准单端I&#x2F;O缓存</strong>(<code>IBUF/OBUF</code>)、<strong>DDR专用I&#x2F;O信号缓存</strong>(<code>IDDR/ODDR</code>)、<strong>可变抽头延迟链</strong>(<code>IDELAY/ODELAY</code>)、<strong>上拉</strong>(<code>PULLUP</code>)、<strong>下拉</strong>(<code>PULLDOWN</code>)以及<strong>单端信号和差分信号之间的相互转换</strong>(<code>IBUFDS/ OBUFDS</code>) 等。</p>
+<li><p>I/O组件提供了<strong>标准单端I/O缓存</strong>(<code>IBUF/OBUF</code>)、<strong>DDR专用I/O信号缓存</strong>(<code>IDDR/ODDR</code>)、<strong>可变抽头延迟链</strong>(<code>IDELAY/ODELAY</code>)、<strong>上拉</strong>(<code>PULLUP</code>)、<strong>下拉</strong>(<code>PULLDOWN</code>)以及<strong>单端信号和差分信号之间的相互转换</strong>(<code>IBUFDS/ OBUFDS</code>) 等。</p>
 </li>
 <li><p><code>HP BANK</code> 与 <code>HR BANK</code> IO资源的区别：</p>
 </li>
@@ -408,20 +406,22 @@
 <ul>
 <li>IO资源结构<div align="center">
 <img src="/2024/09/29/xilinx-primitives/9.png" width="70%/">
-</div></li>
+</div>
+
+</li>
 </ul>
 <h3 id="IDDR"><a href="#IDDR" class="headerlink" title="IDDR"></a>IDDR</h3><ul>
-<li><p>在 7 系列设备的 <code>ILOGIC block</code> 中有专属的 <code>registers</code> 来实现 <code>input double-data-rate(IDDR) registers</code>，将输入的上下边沿 DDR 信号，转换成两位单边沿 SDR 信号。即为实现输入数据双沿采样。</p>
-</li>
+<li>在 7 系列设备的 <code>ILOGIC block</code> 中有专属的 <code>registers</code> 来实现 <code>input double-data-rate(IDDR) registers</code>，将输入的上下边沿 DDR 信号，转换成两位单边沿 SDR 信号。即为实现输入数据双沿采样。</li>
 <li><p><code>IDDR</code> 的原语结构图如下图所示：</p>
 <ul>
 <li><code>C</code>：输入的同步时钟； </li>
 <li><code>D</code>：输入的 1 位 DDR 数据； </li>
 <li><code>Q1</code> 和 <code>Q2</code>：分别是“C”时钟上升沿和下降沿同步输出的 SDR 数据。 </li>
 <li><code>CE</code>：时钟使能信号； </li>
-<li><code>S/R</code>：置位&#x2F;复位信号，这两个信号不能同时拉高。<div align="center">
+<li><code>S/R</code>：置位/复位信号，这两个信号不能同时拉高。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/10.png" width="30%/">
-</div></li>
+</div>
+</li>
 </ul>
 </li>
 <li><p><code>IDDR</code> 原语模板如下：</p>
@@ -443,35 +443,42 @@
 </li>
 <li><p><code>DDR_CLK_EDGE</code> 参数为 <code>IDDR</code> 的三种采集模式，分别为<code>OPPOSITE_EDGE</code>、<code>SAME_EDGE</code>和<code>SAME_EDGE_PIPELINED</code>模式。 </p>
 </li>
-<li><p><code>OPPOSITE_EDGE</code> 模式的时序图如下图所示： </p>
-<ul>
+<li><code>OPPOSITE_EDGE</code> 模式的时序图如下图所示： <ul>
 <li><code>OPPOSITE_EDGE</code> 模式下，在时钟的上升沿输出的 <code>Q1</code>，时钟的下降沿输出 <code>Q2</code>。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/11.png" width="70%/">
-</div></li>
+</div>
+
+
+
+</li>
 </ul>
 </li>
-<li><p><code>SAME_EDGE</code> 模式的时序图如下图所示：</p>
+</ul>
 <ul>
+<li><code>SAME_EDGE</code> 模式的时序图如下图所示：<ul>
 <li><code>SAME_EDGE</code> 模式下，在时钟的上升沿输出 <code>Q1</code> 和 <code>Q2</code>，但 <code>Q1</code> 和 <code>Q2</code> 不在同一个 cycle 输出。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/12.png" width="70%/">
-</div></li>
+</div>
+
+
+</li>
 </ul>
 </li>
-<li><p><code>SAME_EDGE_PIPELINED</code> 模式的时序图如下图所示： </p>
+</ul>
 <ul>
+<li><code>SAME_EDGE_PIPELINED</code> 模式的时序图如下图所示： <ul>
 <li><code>SAME_EDGE_PIPELINED</code> 模式下，在时钟的上升沿输出 <code>Q1</code> 和 <code>Q2</code>，<code>Q1</code> 和 <code>Q2</code> 虽然在同一个 cycle 输出，但整体延时了一个时钟周期。在使用 <code>IDDR</code> 时，<strong>一般采用此种模式</strong>。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/13.png" width="70%/">
-</div></li>
+</div>
+
+</li>
 </ul>
 </li>
 </ul>
 <h3 id="IDDR2"><a href="#IDDR2" class="headerlink" title="IDDR2"></a>IDDR2</h3><ul>
-<li><p><code>IDDR2</code>是较新的版本中引入的原语，在 <code>IDDR</code> 的基础上进行了优化，具有更丰富的功能和更好的性能。</p>
-</li>
-<li><p><code>IDDR2</code> 提供了更多的配置选项，例如不同的时钟边沿选择、异步复位&#x2F;置位、流水线等，使得设计者可以根据具体需求进行更灵活的配置</p>
-</li>
-<li><p><code>IDDR2</code> 的原语结构图如下图所示：</p>
-<ul>
+<li><code>IDDR2</code>是较新的版本中引入的原语，在 <code>IDDR</code> 的基础上进行了优化，具有更丰富的功能和更好的性能。</li>
+<li><code>IDDR2</code> 提供了更多的配置选项，例如不同的时钟边沿选择、异步复位/置位、流水线等，使得设计者可以根据具体需求进行更灵活的配置</li>
+<li><code>IDDR2</code> 的原语结构图如下图所示：<ul>
 <li><code>D</code>：输入，数据输入</li>
 <li><code>C0</code>：输入，时钟输入，可选反相</li>
 <li><code>C1</code>：输入，第二个时钟输入，相对于 C0 有 180° 的相位差，可选反相</li>
@@ -480,11 +487,15 @@
 <li><code>S</code>：输入，置位。如果 R 和 S 同时连接，软件会报错</li>
 <li><code>Q0</code> 和 <code>Q1</code>：输出，上升沿和下降沿同步输出的 SDR 数据<div align="center">
 <img src="/2024/09/29/xilinx-primitives/31.png" width="30%/">
-</div></li>
+</div>
+
+
+</li>
 </ul>
 </li>
-<li><p><code>IDDR2</code> 原语模板如下： </p>
-<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">IDDR2 #<span class="token punctuation">(</span>
+</ul>
+<ul>
+<li><code>IDDR2</code> 原语模板如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">IDDR2 #<span class="token punctuation">(</span>
         <span class="token punctuation">.</span><span class="token function">DDR_ALIGNMENT</span><span class="token punctuation">(</span><span class="token string">"C0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// DDR_ALIGNMENT: "NONE","C0" or "C1" 数据对齐方式</span>
         <span class="token punctuation">.</span><span class="token function">INIT_Q0</span><span class="token punctuation">(</span><span class="token number">1'b0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Initial value of Q1: 1'b0 or 1'b1 Q0 初始值</span>
         <span class="token punctuation">.</span><span class="token function">INIT_Q1</span><span class="token punctuation">(</span><span class="token number">1'b0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Initial value of Q2: 1'b0 or 1'b1 Q1 初始值</span>
@@ -499,20 +510,17 @@
         <span class="token punctuation">.</span><span class="token function">R</span><span class="token punctuation">(</span>R<span class="token punctuation">)</span><span class="token punctuation">,</span>   <span class="token comment">// 1-bit reset 复位输入</span>
         <span class="token punctuation">.</span><span class="token function">S</span><span class="token punctuation">(</span>S<span class="token punctuation">)</span>    <span class="token comment">// 1-bit set 置位输入</span>
     <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>对比<code>IDDR</code>,<code>IDDR2</code> 取消了<code>DDR_CLK_EDGE</code> 参数，固定为互补边沿采集模式，即为在时钟的上升沿输出的 <code>Q1</code>，时钟的下降沿输出 <code>Q2</code>。</p>
-</li>
-<li><p>同时，<code>IDDR2</code>多了一个<code>DDR_ALIGNMENT</code>参数用以确定数据对齐方式，可选<code>NONE</code>,<code>C0</code>和<code>C1</code>。</p>
-</li>
-<li><p><code>C0</code>和<code>C1</code>是两个互为反相的时钟输入，其中<code>C1</code>也是<code>IDDR2</code>比<code>IDDR</code>多出一个输入参数</p>
-</li>
-<li><p><code>IDDR2</code> 使用 <code>C0</code> 的上升沿将输入数据寄存到 <code>Q0</code>，使用 <code>C1</code> 的上升沿（通常与 <code>C0</code> 的下降沿相同）将输入数据寄存到 <code>Q1</code>。然后，这些数据被传输到 FPGA 逻辑中。</p>
-</li>
+<li>对比<code>IDDR</code>,<code>IDDR2</code> 取消了<code>DDR_CLK_EDGE</code> 参数，固定为互补边沿采集模式，即为在时钟的上升沿输出的 <code>Q1</code>，时钟的下降沿输出 <code>Q2</code>。</li>
+<li>同时，<code>IDDR2</code>多了一个<code>DDR_ALIGNMENT</code>参数用以确定数据对齐方式，可选<code>NONE</code>,<code>C0</code>和<code>C1</code>。</li>
+<li><code>C0</code>和<code>C1</code>是两个互为反相的时钟输入，其中<code>C1</code>也是<code>IDDR2</code>比<code>IDDR</code>多出一个输入参数</li>
+<li><code>IDDR2</code> 使用 <code>C0</code> 的上升沿将输入数据寄存到 <code>Q0</code>，使用 <code>C1</code> 的上升沿（通常与 <code>C0</code> 的下降沿相同）将输入数据寄存到 <code>Q1</code>。然后，这些数据被传输到 FPGA 逻辑中。</li>
 <li><p><code>NONE</code> 模式的实现图和时序图如下图所示：</p>
 <ul>
 <li>类似于<code>IDDR</code>的<code>OPPOSITE_EDGE</code>模式，在时钟的上升沿(即<code>C0</code>的上升沿)输出的 <code>Q1</code>，时钟的下降沿(即<code>C1</code>的上升沿)输出 <code>Q2</code>。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/32.png" width="50%/">
 <img src="/2024/09/29/xilinx-primitives/33.png" width="70%/">
-</div></li>
+</div>
+</li>
 </ul>
 </li>
 <li><p>当 <code>DDR_ALIGNMENT</code> 参数为 <code>C0</code>（或 <code>C1</code>）时，信号 <code>Q1</code>（<code>Q0</code>）会被重新寄存到 <code>C0</code>（<code>C1</code>），然后才被送入互连的 CLB 逻辑中，从而保持输出在同一个时钟域内。</p>
@@ -543,17 +551,17 @@
 
 
 <h3 id="ODDR"><a href="#ODDR" class="headerlink" title="ODDR"></a>ODDR</h3><ul>
-<li><p>通过 <code>ODDR</code> 把两路单端的数据合并到一路上输出，上下沿同时输出数据，上升沿输出 a 路，下降沿输出 b 路；如果两路输入信号一路固定为 1，另外一路固定为 0，那么输出的信号实际上是时钟信号。即为实现输出数据双沿采样。</p>
-</li>
+<li>通过 <code>ODDR</code> 把两路单端的数据合并到一路上输出，上下沿同时输出数据，上升沿输出 a 路，下降沿输出 b 路；如果两路输入信号一路固定为 1，另外一路固定为 0，那么输出的信号实际上是时钟信号。即为实现输出数据双沿采样。</li>
 <li><p><code>ODDR</code> 的原语结构图如下图所示：</p>
 <ul>
 <li><code>C</code>：输入的同步时钟； </li>
 <li><code>Q</code>：输出的 1 位 DDR 数据； </li>
 <li><code>D1</code> 和 <code>D2</code>：分别是“<code>C</code>”时钟上升沿和下降沿同步输入的 SDR 数据。 </li>
 <li><code>CE</code>：时钟使能信号； </li>
-<li><code>S/R</code>：置位&#x2F;复位信号，这两个信号不能同时拉高。<div align="center">
+<li><code>S/R</code>：置位/复位信号，这两个信号不能同时拉高。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/14.png" width="30%/">
-</div></li>
+</div>
+</li>
 </ul>
 </li>
 <li><p><code>ODDR</code> 原语模板如下： </p>
@@ -577,22 +585,24 @@
 <ul>
 <li>此种模式下，在 FPGA 内部需要两个反相时钟来同步 <code>D1</code> 和 <code>D2</code>，此种模式使用较少。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/15.png" width="70%/">
-</div></li>
+</div>
+</li>
 </ul>
 </li>
 <li><p><code>SAME_EDGE</code> 模式的时序图如下图所示： </p>
 <ul>
 <li>此种模式下，数据可以在相同的时钟边沿输出到 <code>Q</code>，一般采用此种模式。 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/16.png" width="70%/">
-</div></li>
+</div>
+
+
+</li>
 </ul>
 </li>
 </ul>
 <h3 id="ODDR2"><a href="#ODDR2" class="headerlink" title="ODDR2"></a>ODDR2</h3><ul>
-<li><p><code>ODDR2</code>同样也是较新的版本中引入的原语，在 <code>ODDR</code> 的基础上进行了优化，具有更丰富的功能和更好的性能。</p>
-</li>
-<li><p><code>ODDR2</code> 的原语结构图如下图所示：</p>
-<ul>
+<li><code>ODDR2</code>同样也是较新的版本中引入的原语，在 <code>ODDR</code> 的基础上进行了优化，具有更丰富的功能和更好的性能。</li>
+<li><code>ODDR2</code> 的原语结构图如下图所示：<ul>
 <li><code>D0</code>：输入，从 FPGA 逻辑传入的数据</li>
 <li><code>D1</code>：输入，从 FPGA 逻辑传入的数据</li>
 <li><code>C0</code>：输入，时钟输入，可选反相</li>
@@ -602,11 +612,15 @@
 <li><code>S</code>：输入，置位。如果 R 和 S 同时连接为 1，软件会报错</li>
 <li><code>Q</code>：输出，数据输出<div align="center">
 <img src="/2024/09/29/xilinx-primitives/38.png" width="30%/">
-</div></li>
+</div>
+
+
+</li>
 </ul>
 </li>
-<li><p><code>ODDR2</code> 原语模板如下： </p>
-<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ODDR2 #<span class="token punctuation">(</span>
+</ul>
+<ul>
+<li><code>ODDR2</code> 原语模板如下： <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ODDR2 #<span class="token punctuation">(</span>
     <span class="token punctuation">.</span><span class="token function">DDR_ALIGNMENT</span><span class="token punctuation">(</span><span class="token string">"C0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>   <span class="token comment">// Sets output alignment to "NONE", "C0" or "C1" 输出对齐方式</span>
     <span class="token punctuation">.</span><span class="token function">INIT</span><span class="token punctuation">(</span><span class="token number">1'b0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>            <span class="token comment">// Initial value of Q: 1'b0 or 1'b1 指定输出Q的初始值，可以是1'b0或1'b1</span>
     <span class="token punctuation">.</span><span class="token function">SRTYPE</span><span class="token punctuation">(</span><span class="token string">"SYNC"</span><span class="token punctuation">)</span>        <span class="token comment">// Specifies "SYNC" or "ASYNC" set/reset 指定复位/置位类型</span>
@@ -620,14 +634,14 @@
     <span class="token punctuation">.</span><span class="token function">R</span><span class="token punctuation">(</span>R<span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token comment">// 1-bit reset input 复位输入</span>
     <span class="token punctuation">.</span><span class="token function">S</span><span class="token punctuation">(</span>S<span class="token punctuation">)</span>       <span class="token comment">// 1-bit set input  置位输入</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>与<code>IDDR2</code>相同，对比旧版本<code>ODDR</code>,<code>ODDR2</code> 取消了<code>DDR_CLK_EDGE</code> 参数，固定采集模式，多了一个<code>DDR_ALIGNMENT</code>参数用以确定数据对齐方式，可选<code>NONE</code>,<code>C0</code>和<code>C1</code></p>
-</li>
+<li>与<code>IDDR2</code>相同，对比旧版本<code>ODDR</code>,<code>ODDR2</code> 取消了<code>DDR_CLK_EDGE</code> 参数，固定采集模式，多了一个<code>DDR_ALIGNMENT</code>参数用以确定数据对齐方式，可选<code>NONE</code>,<code>C0</code>和<code>C1</code></li>
 <li><p><code>NONE</code> 模式的实现图和时序图如下图所示：</p>
 <ul>
 <li><code>NONE</code> 模式 使用来自两个时钟 <code>C0</code> 和 <code>C1</code> 的上升沿。在这种情况下，分别在上升沿捕获数据 <code>D0</code> 和 <code>D1</code>。这两个数据位通过 DDR 复用器进行复用，并转发到输出引脚。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/39.png" width="50%/">
 <img src="/2024/09/29/xilinx-primitives/40.png" width="70%/">
-</div></li>
+</div>
+</li>
 </ul>
 </li>
 <li><p>当 <code>DDR_ALIGNMENT</code> 参数为 <code>C0</code>（或 <code>C1</code>）时，信号 <code>Q1</code>（<code>Q0</code>）会被重新寄存到 <code>C0</code>（<code>C1</code>），然后才被送入互连的 CLB 逻辑中，从而保持输出在同一个时钟域内。</p>
@@ -637,11 +651,15 @@
 <li><code>C0</code> 模式 在时钟 <code>C0</code> 的上升沿输出来自 <code>ODDR2</code> 原语的两个数据位。<div align="center">
 <img src="/2024/09/29/xilinx-primitives/41.png" width="50%/">
 <img src="/2024/09/29/xilinx-primitives/42.png" width="70%/">
-</div></li>
+</div>
+
+
+</li>
 </ul>
 </li>
-<li><p><code>C1</code> 模式的实现图和时序图如下图所示：</p>
+</ul>
 <ul>
+<li><code>C1</code> 模式的实现图和时序图如下图所示：<ul>
 <li><code>C1</code> 模式 在时钟 <code>C1</code> 的上升沿输出来自 <code>ODDR2</code> 原语的两个数据位。</li>
 </ul>
 </li>
@@ -659,7 +677,9 @@
 <li>即<strong>专用差分输入时钟缓冲器</strong>，在实验工程中如果需要将<strong>差分时钟转换成单端时钟</strong>作为全局时钟。<code>IBUFDS</code>是一个输入缓冲器，支持低压差分信号（如<code>LVCMOS</code>、<code>LVDS</code>等）。在<code>IBUFDS</code>中，一个电平接口用两个独特的电平接口（<code>I</code>和<code>IB</code>）表示。一个可以认为是主信号，另外一个可以认为是从信号。主信号和从信号是同一个逻辑信号，但是相位相反。</li>
 <li><code>IBUFDS</code> 原语示意图如下所示：<div align="center">
 <img src="/2024/09/29/xilinx-primitives/28.png" width="40%/">
-</div></li>
+</div>
+
+</li>
 </ul>
 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/29.png" width="70%/">
@@ -674,11 +694,11 @@
       <span class="token punctuation">.</span><span class="token function">O</span><span class="token punctuation">(</span>O<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// Buffer output  缓冲器的输出</span>
       <span class="token punctuation">.</span><span class="token function">I</span><span class="token punctuation">(</span>I<span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// Diff_p buffer input (connect directly to top-level port) 差分输入信号的正极</span>
       <span class="token punctuation">.</span><span class="token function">IB</span><span class="token punctuation">(</span>IB<span class="token punctuation">)</span> <span class="token comment">// Diff_n buffer input (connect directly to top-level port) 差分输入信号的负极</span>
-   <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+   <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
 </ul>
 <h3 id="OBUFDS"><a href="#OBUFDS" class="headerlink" title="OBUFDS"></a>OBUFDS</h3><ul>
-<li><p>即差分输出时钟缓冲器，将<strong>单端信号转换成差分信号</strong>。<code>OBUFDS</code>是一个输出缓冲器，支持低压差分信号。<code>OBUFDS</code>隔离出了内电路并向芯片上的信号提供驱动电流。它的输出用<code>O</code>和<code>OB</code>两个独立接口表示。一个可以认为是主信号，另外一个可以认为是从信号。主信号和从信号是同一个逻辑信号，但是相位相反。</p>
-</li>
+<li>即差分输出时钟缓冲器，将<strong>单端信号转换成差分信号</strong>。<code>OBUFDS</code>是一个输出缓冲器，支持低压差分信号。<code>OBUFDS</code>隔离出了内电路并向芯片上的信号提供驱动电流。它的输出用<code>O</code>和<code>OB</code>两个独立接口表示。一个可以认为是主信号，另外一个可以认为是从信号。主信号和从信号是同一个逻辑信号，但是相位相反。</li>
 <li><p><code>OBUFDS</code> 原语示意图如下所示：</p>
 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/30.png" width="50%/">
@@ -692,21 +712,21 @@
       <span class="token punctuation">.</span><span class="token function">O</span><span class="token punctuation">(</span>O<span class="token punctuation">)</span><span class="token punctuation">,</span>     <span class="token comment">// Diff_p output (connect directly to top-level port) 差分输出信号的正极</span>
       <span class="token punctuation">.</span><span class="token function">OB</span><span class="token punctuation">(</span>OB<span class="token punctuation">)</span><span class="token punctuation">,</span>   <span class="token comment">// Diff_n output (connect directly to top-level port) 差分输出信号的负极</span>
       <span class="token punctuation">.</span><span class="token function">I</span><span class="token punctuation">(</span>I<span class="token punctuation">)</span>      <span class="token comment">// Buffer input 缓冲器的输入</span>
-   <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+   <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
 </ul>
 <h3 id="IDELAYE2"><a href="#IDELAYE2" class="headerlink" title="IDELAYE2"></a>IDELAYE2</h3><ul>
-<li><p><code>IDELAY</code> ：每个I&#x2F;O模块都包含了一个可编程的延迟原语，称作 <code>IDELAYE2</code> 。 <code>IDELAY2</code>是一个可编程的31阶延迟原语，它既可以应用于组合逻辑也可以应用于时序逻辑或者同时用于两者。</p>
-</li>
-<li><p>用于在信号通过引脚进入芯片内部之前，进行延时调节，一般高速端口信号由于走线延时等原因，需要通过 <code>IDELAYE2</code> 原语对数据做微调。</p>
-</li>
-<li><p>下表为<code>IDELAY</code>参数信息：</p>
-<div align="center">
+<li><code>IDELAY</code> ：每个I/O模块都包含了一个可编程的延迟原语，称作 <code>IDELAYE2</code> 。 <code>IDELAY2</code>是一个可编程的31阶延迟原语，它既可以应用于组合逻辑也可以应用于时序逻辑或者同时用于两者。</li>
+<li>用于在信号通过引脚进入芯片内部之前，进行延时调节，一般高速端口信号由于走线延时等原因，需要通过 <code>IDELAYE2</code> 原语对数据做微调。</li>
+<li>下表为<code>IDELAY</code>参数信息：<div align="center">
 <img src="/2024/09/29/xilinx-primitives/20.png" width="80%/">
 </div>
 
+
 </li>
-<li><p>下图为 <code>IDELAYE2</code> 的例化框图：</p>
-</li>
+</ul>
+<ul>
+<li>下图为 <code>IDELAYE2</code> 的例化框图：</li>
 </ul>
 <div align="center">
 <img src="/2024/09/29/xilinx-primitives/17.png" width="50%/">
@@ -732,30 +752,30 @@
 <ul>
 <li><p><code>VARIABLE</code> 模式</p>
 <ul>
-<li>在该模式下，延迟值可以在配置后通过CE和INC端口进行动态配置。</li>
-</ul>
-  <div align="center">
-  <img src="/2024/09/29/xilinx-primitives/21.png" width="50%/">
-  </div>
- 
-<ul>
-<li><code>VARIABLE</code> 模式时序  <div align="center">
-  <img src="/2024/09/29/xilinx-primitives/22.png" width="80%/">
-  </div></li>
+<li><p>在该模式下，延迟值可以在配置后通过CE和INC端口进行动态配置。</p>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/21.png" width="50%/">
+</div>
+</li>
+<li><p><code>VARIABLE</code> 模式时序</p>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/22.png" width="80%/">
+</div>
+</li>
 </ul>
 </li>
 <li><p><code>VAR_LOAD</code> 模式</p>
 <ul>
-<li>该模式下功能与<code>VARIABLE</code>模式下类似，只不过可以通过<code>CNTVALUEIN</code>加载延迟节拍数，多了一种延迟加载方法。当LD端口有效时可以加载新的延迟<code>CNTVALUE</code>值到控制模块。</li>
-</ul>
-  <div align="center">
-  <img src="/2024/09/29/xilinx-primitives/23.png" width="70%/">
-  </div>
- 
-<ul>
-<li><code>VAR_LOAD</code> 模式时序  <div align="center">
-  <img src="/2024/09/29/xilinx-primitives/24.png" width="70%/">
-  </div></li>
+<li><p>该模式下功能与<code>VARIABLE</code>模式下类似，只不过可以通过<code>CNTVALUEIN</code>加载延迟节拍数，多了一种延迟加载方法。当LD端口有效时可以加载新的延迟<code>CNTVALUE</code>值到控制模块。</p>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/23.png" width="70%/">
+</div>
+</li>
+<li><p><code>VAR_LOAD</code> 模式时序</p>
+<div align="center">
+<img src="/2024/09/29/xilinx-primitives/24.png" width="70%/">
+</div>
+</li>
 </ul>
 </li>
 <li><p><code>VAR_LOAD_PIPE</code> 模式</p>
@@ -798,16 +818,12 @@ IDELAYE2_inst <span class="token punctuation">(</span>
 </li>
 <li><p><code>IDATAIN</code> 为延时前的输入信号，<code>DATAOUT</code> 为延时后的输出信号。 </p>
 </li>
-<li><p><code>REFCLK_FREQUENCY</code> 参数为 <code>IDELAYCTRL</code> 原语的参考时钟频率，一般为 200Mhz； </p>
-</li>
-<li><p><code>IDELAY_VALUE</code> 参数用来设置延时的 <code>tap</code> 数，范围为 1~31，每个 <code>tap</code> 数的延时时间和参考时钟频率有关。</p>
-</li>
+<li><code>REFCLK_FREQUENCY</code> 参数为 <code>IDELAYCTRL</code> 原语的参考时钟频率，一般为 200Mhz； </li>
+<li><code>IDELAY_VALUE</code> 参数用来设置延时的 <code>tap</code> 数，范围为 1~31，每个 <code>tap</code> 数的延时时间和参考时钟频率有关。</li>
 </ul>
 <h3 id="IDELAYCTRL"><a href="#IDELAYCTRL" class="headerlink" title="IDELAYCTRL"></a>IDELAYCTRL</h3><ul>
-<li><p><code>IDELAYCTRL</code> 模块连续校准其区域内的各个 <code>IDELAY/ODELAY</code>，以减少工艺、电压和温度变化的影响。 <code>IDELAYCTRL</code> 模块使用用户提供的 <code>REFCLK</code> 校准 <code>IDELAY</code> 和 <code>ODELAY</code> 。</p>
-</li>
-<li><p>也就是说，<code>IDELAYCTRL</code> 和 <code>IDELAYE2</code> 一般同时使用，<code>IDELAYCTRL</code> 对 <code>IDELAYE2</code> 延时进行校准。</p>
-</li>
+<li><code>IDELAYCTRL</code> 模块连续校准其区域内的各个 <code>IDELAY/ODELAY</code>，以减少工艺、电压和温度变化的影响。 <code>IDELAYCTRL</code> 模块使用用户提供的 <code>REFCLK</code> 校准 <code>IDELAY</code> 和 <code>ODELAY</code> 。</li>
+<li>也就是说，<code>IDELAYCTRL</code> 和 <code>IDELAYE2</code> 一般同时使用，<code>IDELAYCTRL</code> 对 <code>IDELAYE2</code> 延时进行校准。</li>
 <li><p><code>IDELAYCTRL</code> 原语如下：</p>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token punctuation">(</span><span class="token operator">*</span> IODELAY_GROUP <span class="token operator">=</span> <span class="token operator">&lt;</span>iodelay_group_name<span class="token operator">></span> <span class="token operator">*</span><span class="token punctuation">)</span>  
 
@@ -820,8 +836,7 @@ IDELAYCTRL IDELAYCTRL_inst <span class="token punctuation">(</span>
 </li>
 <li><p><code>IODELAY_GROUP</code> 为延时 IO 分组，一般数据接口位于多个 <code>BANK</code> 时，才需要分组。 </p>
 </li>
-<li><p><code>IDELAYCTRL</code> 通过参考时钟 <code>REFCLK</code> 来校准 <code>IDELAY2</code> 每个 <code>tap</code> 的延时值，可用的 <code>REFCLK</code> 频率为190Mhz<del>210Mhz 或者 290Mhz</del>310Mhz。</p>
-</li>
+<li><code>IDELAYCTRL</code> 通过参考时钟 <code>REFCLK</code> 来校准 <code>IDELAY2</code> 每个 <code>tap</code> 的延时值，可用的 <code>REFCLK</code> 频率为190Mhz~210Mhz 或者 290Mhz~310Mhz。</li>
 <li><p>时钟频率越高对应的 <code>tap</code> 延时平均值越小，即延时调节精度越高。当参考时钟为 200Mhz 时，一个 <code>tap</code> 为 78ps。 </p>
 </li>
 <li><p><code>IDELAYCTRL</code> 时序 </p>
@@ -831,7 +846,7 @@ IDELAYCTRL IDELAYCTRL_inst <span class="token punctuation">(</span>
 </li>
 <li><p><code>IDELAYCTRL</code> 位置分布</p>
 <ul>
-<li><code>IDELAYCTRL</code> 模块存在于每个时钟区域的每个 I&#x2F;O 列中。 </li>
+<li><code>IDELAYCTRL</code> 模块存在于每个时钟区域的每个 I/O 列中。 </li>
 <li><code>IDELAYCTRL</code> 模块校准其时钟区域内的所有 <code>IDELAYE2</code> 和 <code>ODELAYE2</code> 模块</li>
 </ul>
 </li>
@@ -1332,7 +1347,7 @@ IDELAYCTRL IDELAYCTRL_inst <span class="token punctuation">(</span>
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022-2024</span>
+                <span id="year">2022-2025</span>
             
             <a href="/about" target="_blank">Jourser</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

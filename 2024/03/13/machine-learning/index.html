@@ -333,17 +333,19 @@
                 <h1 id="机器学习基础笔记"><a href="#机器学习基础笔记" class="headerlink" title="机器学习基础笔记"></a>机器学习基础笔记</h1><hr>
 <h2 id="机器学习介绍"><a href="#机器学习介绍" class="headerlink" title="机器学习介绍"></a>机器学习介绍</h2><h3 id="什么是机器学习？"><a href="#什么是机器学习？" class="headerlink" title="什么是机器学习？"></a>什么是机器学习？</h3><ul>
 <li>机器学习（包括深度学习分支）是研究“学习算法”的一门学问</li>
-<li>所谓“学习”是指:对于某类任务T和性能度量P，一个计算机程序在T上以P衡量的性能随着经验E而自我完善，那么我们称这个计算机程序在从经验E学习。<br><img src="/2024/03/13/machine-learning/1.png"></li>
+<li>所谓“学习”是指:对于某类任务T和性能度量P，一个计算机程序在T上以P衡量的性能随着经验E而自我完善，那么我们称这个计算机程序在从经验E学习。<br><img src="/2024/03/13/machine-learning/1.png" alt></li>
 <li>人类学习与机器学习<div align="center">
 <img src="/2024/03/13/machine-learning/2.png">
-</div></li>
+</div>
+
+</li>
 </ul>
-<h3 id="机器学习算法与传统基于规则的区别"><a href="#机器学习算法与传统基于规则的区别" class="headerlink" title="机器学习算法与传统基于规则的区别"></a>机器学习算法与传统基于规则的区别</h3><p><img src="/2024/03/13/machine-learning/3.png"></p>
+<h3 id="机器学习算法与传统基于规则的区别"><a href="#机器学习算法与传统基于规则的区别" class="headerlink" title="机器学习算法与传统基于规则的区别"></a>机器学习算法与传统基于规则的区别</h3><p><img src="/2024/03/13/machine-learning/3.png" alt></p>
 <h3 id="什么时候该使用机器学习"><a href="#什么时候该使用机器学习" class="headerlink" title="什么时候该使用机器学习"></a>什么时候该使用机器学习</h3><ul>
 <li>问题的解决方案很复杂，或者问题可能涉及到大量的数据却没有明确的数据分布函数</li>
-<li>遇到如下情况，可以考虑使用机器学习:<br><img src="/2024/03/13/machine-learning/4.png"></li>
+<li>遇到如下情况，可以考虑使用机器学习:<br><img src="/2024/03/13/machine-learning/4.png" alt></li>
 </ul>
-<h3 id="机器学习算法的理性认识"><a href="#机器学习算法的理性认识" class="headerlink" title="机器学习算法的理性认识"></a>机器学习算法的理性认识</h3><p><img src="/2024/03/13/machine-learning/5.png"></p>
+<h3 id="机器学习算法的理性认识"><a href="#机器学习算法的理性认识" class="headerlink" title="机器学习算法的理性认识"></a>机器学习算法的理性认识</h3><p><img src="/2024/03/13/machine-learning/5.png" alt></p>
 <ul>
 <li>目标函数$f$未知，学习算法无法得到一个完美的函数$f$</li>
 <li>假设函数$g$逼近函数$f$，但是可能和函数$f$不同</li>
@@ -376,7 +378,7 @@
 <li><strong>半监督学习</strong>：试图让学习器自动地对大量未标记数据进行利用以辅助少量有标记数据进行学习。</li>
 <li><strong>强化学习</strong>：学习系统从环境到行为<strong>映射</strong>的学习，以使奖励信号(强化信号)函数值最大，强化学习不同于连接主义学习中的监督学习，主要表现在教师信号上，强化学习中由环境提供的强化信号是对产生动作的好坏作一种评价(通常为标量信号)，而不是告诉强化学习系统如何去产生正确的动作。</li>
 </ul>
-<h3 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h3><p><img src="/2024/03/13/machine-learning/6.png"></p>
+<h3 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h3><p><img src="/2024/03/13/machine-learning/6.png" alt></p>
 <h4 id="监督学习-回归问题"><a href="#监督学习-回归问题" class="headerlink" title="监督学习 - 回归问题"></a>监督学习 - 回归问题</h4><ul>
 <li>回归：反映了样本数据集中样本的属性值的特性通过函数表达样本映射的关系来发现属性值之间的依赖关系。<ul>
 <li>下周股票能给我带来多少收益?</li>
@@ -384,31 +386,29 @@
 </ul>
 </li>
 <li>回归问题的关键在于，试图找到最适合的一条线拟合数据点</li>
-<li>如图所示:<br><img src="/2024/03/13/machine-learning/7.png"></li>
-</ul>
-<h4 id="监督学习-分类问题"><a href="#监督学习-分类问题" class="headerlink" title="监督学习 - 分类问题"></a>监督学习 - 分类问题</h4><ul>
+<li>如图所示:<br><img src="/2024/03/13/machine-learning/7.png" alt><h4 id="监督学习-分类问题"><a href="#监督学习-分类问题" class="headerlink" title="监督学习 - 分类问题"></a>监督学习 - 分类问题</h4></li>
 <li>分类：分类问题属于有监督学习，通过分类模型，将样本数据集中的样本映射到某个给定的类别中。<ul>
 <li>明天早高峰时间段xx路上会堵车吗?</li>
 <li>哪种手段更吸引顾客：5元代金券or打75折</li>
 </ul>
 </li>
 </ul>
-<h3 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h3><p><img src="/2024/03/13/machine-learning/8.png"></p>
+<h3 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h3><p><img src="/2024/03/13/machine-learning/8.png" alt></p>
 <h4 id="无监督学习-聚类问题"><a href="#无监督学习-聚类问题" class="headerlink" title="无监督学习 - 聚类问题"></a>无监督学习 - 聚类问题</h4><ul>
 <li>聚类：通过聚类模型，将样本数据集中的样本分为几个类别，属于同一类别的样本相似性比较大。<ul>
 <li>哪些观众喜欢看同一题材的电影?</li>
 <li>这些零部件中哪些破损的方式是相似的?<div align="center">
 <img src="/2024/03/13/machine-learning/9.png" width="60%/">
 <img src="/2024/03/13/machine-learning/10.png" width="60%/">
-</div></li>
+</div>
+
+</li>
 </ul>
 </li>
 </ul>
-<h3 id="半监督学习"><a href="#半监督学习" class="headerlink" title="半监督学习"></a>半监督学习</h3><p><img src="/2024/03/13/machine-learning/11.png"></p>
+<h3 id="半监督学习"><a href="#半监督学习" class="headerlink" title="半监督学习"></a>半监督学习</h3><p><img src="/2024/03/13/machine-learning/11.png" alt></p>
 <h3 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h3><ul>
-<li>模型感知环境，做出行动，根据状态与奖惩做出调整和选择<br><img src="/2024/03/13/machine-learning/12.png"></li>
-</ul>
-<h4 id="强化学习-最佳行为"><a href="#强化学习-最佳行为" class="headerlink" title="强化学习 - 最佳行为"></a>强化学习 - 最佳行为</h4><ul>
+<li>模型感知环境，做出行动，根据状态与奖惩做出调整和选择<br><img src="/2024/03/13/machine-learning/12.png" alt><h4 id="强化学习-最佳行为"><a href="#强化学习-最佳行为" class="headerlink" title="强化学习 - 最佳行为"></a>强化学习 - 最佳行为</h4></li>
 <li>强化学习：强化学习总是在寻找什么样的行动才是最佳的?强化学习针对的对象是机器或者机器人。<ul>
 <li>自动驾驶汽车:黄灯开始闪了，是刹车还是加速通过?</li>
 <li>对于一个吸尘机器人，是继续吸尘还是回去充电?</li>
@@ -416,16 +416,13 @@
 </li>
 </ul>
 <hr>
-<h2 id="机器学习整体流程"><a href="#机器学习整体流程" class="headerlink" title="机器学习整体流程"></a>机器学习整体流程</h2><p><img src="/2024/03/13/machine-learning/13.png"></p>
+<h2 id="机器学习整体流程"><a href="#机器学习整体流程" class="headerlink" title="机器学习整体流程"></a>机器学习整体流程</h2><p><img src="/2024/03/13/machine-learning/13.png" alt></p>
 <h3 id="机器学习基本概念-数据集"><a href="#机器学习基本概念-数据集" class="headerlink" title="机器学习基本概念 - 数据集"></a>机器学习基本概念 - 数据集</h3><ul>
 <li><strong>数据集</strong>：在机器学习任务中使用的一组数据，其中的每一个数据称为一个样本。反映样本在某方面的表现或性质的事项或属性称为特征。</li>
 <li><strong>训练集</strong>：训练过程中使用的数据集，其中每个训练样本称为训练样本。从数据中学得模型的过程称为学习(训练)。</li>
 <li><strong>测试集</strong>：学得模型后，使用其进行预测的过程称为测试，使用的数据集称为测风果，母个样本称为测试样本。</li>
-<li>典型的数据集样式：<br><img src="/2024/03/13/machine-learning/14.png"></li>
-<li>数据对于模型来说就是至关重要的，是<strong>模型能力的天花板</strong>，没有好的数据，就没有好的模型。因此<strong>数据预处理</strong>也就是重中之重。</li>
-</ul>
-<h3 id="数据预处理-数据清洗"><a href="#数据预处理-数据清洗" class="headerlink" title="数据预处理(数据清洗)"></a>数据预处理(数据清洗)</h3><p><img src="/2024/03/13/machine-learning/15.png"></p>
-<h4 id="数据清理"><a href="#数据清理" class="headerlink" title="数据清理"></a>数据清理</h4><ul>
+<li>典型的数据集样式：<br><img src="/2024/03/13/machine-learning/14.png" alt></li>
+<li>数据对于模型来说就是至关重要的，是<strong>模型能力的天花板</strong>，没有好的数据，就没有好的模型。因此<strong>数据预处理</strong>也就是重中之重。<h3 id="数据预处理-数据清洗"><a href="#数据预处理-数据清洗" class="headerlink" title="数据预处理(数据清洗)"></a>数据预处理(数据清洗)</h3><img src="/2024/03/13/machine-learning/15.png" alt><h4 id="数据清理"><a href="#数据清理" class="headerlink" title="数据清理"></a>数据清理</h4></li>
 <li><p>数据清理的工作量</p>
 <div align="center">
 <img src="/2024/03/13/machine-learning/16.png" width="70%/">
@@ -433,8 +430,7 @@
 </li>
 <li><p>大部分的机器学习模型所处理的都是特征，特征通常是输入变量所对应的可用于模型的数值表示。</p>
 </li>
-<li><p>大部分情况下，收集得到的数据需要经过预处理后才能够为算法所使用，预处理的操作主要包括以下几个部分:</p>
-<ul>
+<li>大部分情况下，收集得到的数据需要经过预处理后才能够为算法所使用，预处理的操作主要包括以下几个部分:<ul>
 <li>数据过滤</li>
 <li>处理数据缺失</li>
 <li>处理可能的异常、错误或者异常值- 合并多个数据源数据</li>
@@ -446,7 +442,7 @@
 <li>真实的数据中通常会出现一些数据质量问题:<ul>
 <li>不完整:数据中缺少属性或者包含一些确实的值。</li>
 <li>多噪音:数据包含错误的记录或者异常点。</li>
-<li>不一致:数据中存在矛盾的、有差异的记录。<br><img src="/2024/03/13/machine-learning/17.png"></li>
+<li>不一致:数据中存在矛盾的、有差异的记录。<br><img src="/2024/03/13/machine-learning/17.png" alt></li>
 </ul>
 </li>
 </ul>
@@ -478,8 +474,7 @@
 </li>
 </ul>
 <h4 id="特征选择的方法-Filter"><a href="#特征选择的方法-Filter" class="headerlink" title="特征选择的方法 - Filter"></a>特征选择的方法 - Filter</h4><ul>
-<li><p><strong>过滤法(filter)</strong> 在选择特征的时候是独立的，与模型本身无关。</p>
-</li>
+<li><strong>过滤法(filter)</strong> 在选择特征的时候是独立的，与模型本身无关。</li>
 <li><p><strong>Filter过程</strong>：</p>
 <div align="center">
 <img src="/2024/03/13/machine-learning/18.png" width="70%/">
@@ -487,22 +482,19 @@
 </li>
 <li><p>通过评估每个特征和目标属性之间的<strong>相关性</strong>，这些方法应用一个统计度量来为每个特征赋值。然后根据分数对这些特性进行排序，这可以用来帮助保留或消除特定特征</p>
 </li>
-<li><p>常见的方法</p>
-<ul>
+<li>常见的方法<ul>
 <li>皮尔逊相关系数</li>
 <li>卡方系数</li>
 <li>互信息</li>
 </ul>
 </li>
-<li><p>过滤法的局限</p>
-<ul>
+<li>过滤法的局限<ul>
 <li>过滤方法倾向于选择<strong>冗余的变量</strong>，因为它们没有考虑特征之间的关系。</li>
 </ul>
 </li>
 </ul>
 <h4 id="特征选择的方法-wapper"><a href="#特征选择的方法-wapper" class="headerlink" title="特征选择的方法 - wapper"></a>特征选择的方法 - wapper</h4><ul>
-<li><p><strong>包装器(wapper)</strong> 方法使用一个预测模型来对对特征子集进行评分。</p>
-</li>
+<li><strong>包装器(wapper)</strong> 方法使用一个预测模型来对对特征子集进行评分。</li>
 <li><p><strong>wapper过程</strong>：</p>
 <div align="center">
 <img src="/2024/03/13/machine-learning/19.png" width="70%/">
@@ -510,21 +502,18 @@
 </li>
 <li><p>包装器方法将特征选择问题视为一个搜索问题，在这个问题中，将评估和比较不同的组合。在这里，预测模型用于评估特征的组合的工具，根据模型的准确性进行评分</p>
 </li>
-<li><p>常见的方法</p>
-<ul>
+<li>常见的方法<ul>
 <li>特征递归消除法</li>
 </ul>
 </li>
-<li><p>包装法的局限</p>
-<ul>
+<li>包装法的局限<ul>
 <li>因为包装器方法为每个子集训练一个新模型时，所以它们的计算量非常大。</li>
 <li>其特征选择的方法通常为特定类型的模型提供了性能最好的特性集。</li>
 </ul>
 </li>
 </ul>
 <h4 id="特征选择的方法-Embedded"><a href="#特征选择的方法-Embedded" class="headerlink" title="特征选择的方法 - Embedded"></a>特征选择的方法 - Embedded</h4><ul>
-<li><p><strong>嵌入法(Embedded)</strong> 的方法将特征选择作为模型构建的一部分。</p>
-</li>
+<li><strong>嵌入法(Embedded)</strong> 的方法将特征选择作为模型构建的一部分。</li>
 <li><p><strong>Embedded过程</strong>：</p>
 <div align="center">
 <img src="/2024/03/13/machine-learning/20.png" width="70%/">
@@ -532,21 +521,20 @@
 </li>
 <li><p>最常见的嵌入式特征选择方法是<strong>正则化方法</strong>。正则化方法也称为惩罚方法，它在优化预测算法时引入额外的约束，使模型的复杂度降低，也就是减少了特征的数量。</p>
 </li>
-<li><p>常见的方法</p>
-<ul>
+<li>常见的方法<ul>
 <li>LASSO回归</li>
 <li>RIDGE回归</li>
 </ul>
 </li>
 </ul>
-<h3 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h3><h4 id="模型构建项目整体流程"><a href="#模型构建项目整体流程" class="headerlink" title="模型构建项目整体流程"></a>模型构建项目整体流程</h4><p><img src="/2024/03/13/machine-learning/21.png"></p>
+<h3 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h3><h4 id="模型构建项目整体流程"><a href="#模型构建项目整体流程" class="headerlink" title="模型构建项目整体流程"></a>模型构建项目整体流程</h4><p><img src="/2024/03/13/machine-learning/21.png" alt></p>
 <ul>
 <li>接下来将以有监督学习为例，讲解各阶段</li>
 </ul>
 <h4 id="有监督学习实例-学习阶段"><a href="#有监督学习实例-学习阶段" class="headerlink" title="有监督学习实例 - 学习阶段"></a>有监督学习实例 - 学习阶段</h4><ul>
-<li>使用分类模型来判断，在特定特征下这个人是否是要更换供货商。<br><img src="/2024/03/13/machine-learning/22.png"></li>
+<li>使用分类模型来判断，在特定特征下这个人是否是要更换供货商。<br><img src="/2024/03/13/machine-learning/22.png" alt></li>
 </ul>
-<h4 id="有监督学习实例-预测阶段"><a href="#有监督学习实例-预测阶段" class="headerlink" title="有监督学习实例 - 预测阶段"></a>有监督学习实例 - 预测阶段</h4><p><img src="/2024/03/13/machine-learning/23.png"></p>
+<h4 id="有监督学习实例-预测阶段"><a href="#有监督学习实例-预测阶段" class="headerlink" title="有监督学习实例 - 预测阶段"></a>有监督学习实例 - 预测阶段</h4><p><img src="/2024/03/13/machine-learning/23.png" alt></p>
 <h4 id="模型评价"><a href="#模型评价" class="headerlink" title="模型评价"></a>模型评价</h4><ul>
 <li><strong><font color="#dd0000">泛化能力</font></strong><ul>
 <li>能否在实际的业务数据也能预测准确</li>
@@ -577,12 +565,12 @@
 <li><strong>模型的容量</strong>：指其拟合各种函数的能力，也称为模型的复杂度。<ul>
 <li>容量适合于执行任务的复杂度和所提供训练数据的数量时，算法效果通常会最佳;</li>
 <li><strong>容量不足</strong>的模型不能解决复杂任务，可能出现<strong>欠拟合</strong>;</li>
-<li><strong>容量高</strong>的模型能够解决复杂的任务，但是其容量高于任务所需时，有可能会<strong>过拟合</strong>。<br><img src="/2024/03/13/machine-learning/24.png"></li>
+<li><strong>容量高</strong>的模型能够解决复杂的任务，但是其容量高于任务所需时，有可能会<strong>过拟合</strong>。<br><img src="/2024/03/13/machine-learning/24.png" alt></li>
 </ul>
 </li>
 </ul>
 <h5 id="过拟合的原因-误差"><a href="#过拟合的原因-误差" class="headerlink" title="过拟合的原因 - 误差"></a>过拟合的原因 - 误差</h5><ul>
-<li>最终预测的<strong>总误差</strong> &#x3D; 偏差$^2$＋方差＋不可消解的误差</li>
+<li>最终预测的<strong>总误差</strong> = 偏差$^2$＋方差＋不可消解的误差</li>
 <li>预测误差总的来说可以被拆解出两种主要的我们需要关注的子形式:<ul>
 <li>来源于“偏差”的误差</li>
 <li>来源于“方差”的误差</li>
@@ -596,7 +584,9 @@
 <li><strong>偏差(Bias)</strong>:<ul>
 <li>模型的预期(或平均)预测值与我们试图预测的正确值之间的差异。<div align="center">
 <img src="/2024/03/13/machine-learning/25.png" width="40%/">
-</div></li>
+</div>
+
+</li>
 </ul>
 </li>
 </ul>
@@ -608,7 +598,8 @@
 <li>高偏差&amp;低方差</li>
 <li>高偏差&amp;高方差→不良模型<div align="center">
 <img src="/2024/03/13/machine-learning/26.png" width="60%/">
-</div></li>
+</div>
+</li>
 </ul>
 </li>
 <li><p>理想状态下，我们想要选择一个模型，它既能准确地捕获训练数据中的规律，又能很好地概括不可见数据(即新数据)。但是，通常我们不可能同时完成这两件事.</p>
@@ -616,12 +607,12 @@
 </ul>
 <h5 id="模型的复杂度与误差"><a href="#模型的复杂度与误差" class="headerlink" title="模型的复杂度与误差"></a>模型的复杂度与误差</h5><ul>
 <li>随着模型复杂度上升的增加，训练误差逐渐减小。</li>
-<li>同时，测试误差会随着复杂的增大而减小到某一点，继而反向增大，形成一条凸曲线。<br><img src="/2024/03/13/machine-learning/27.png"></li>
+<li>同时，测试误差会随着复杂的增大而减小到某一点，继而反向增大，形成一条凸曲线。<br><img src="/2024/03/13/machine-learning/27.png" alt></li>
 </ul>
 <h4 id="机器学习其他性能评估指标-回归"><a href="#机器学习其他性能评估指标-回归" class="headerlink" title="机器学习其他性能评估指标 - 回归"></a>机器学习其他性能评估指标 - 回归</h4><ul>
-<li><strong>MAE(Mean Absolute Error)平均绝对误差</strong>，越趋近于0表示模型越拟合训练数据。$$MAE&#x3D;\frac{1}{m} \sum^m_{i&#x3D;1} |y_i-\hat{y_i}|$$</li>
-<li><strong>MSE(Mean Square Error)</strong> $$MSE&#x3D;\frac{1}{m} \sum^m_{i&#x3D;1} (y_i-\hat{y_i})^2$$</li>
-<li>$R^2$取值范围$($负无穷,$1]$，值越大表示模型越拟合训练数据其中TSS表示样本之间的差异情况，RSS表示预测值与样本值之间的差异情况<br>$$R^2&#x3D;1-\frac{RSS}{TSS}&#x3D;1-\frac{\sum^m_{i&#x3D;1}(y_i-\hat{y_i})^2}{\sum^m_{i&#x3D;1}(y_i-\bar{y_i})^2}$$</li>
+<li><strong>MAE(Mean Absolute Error)平均绝对误差</strong>，越趋近于0表示模型越拟合训练数据。<script type="math/tex">MAE=\frac{1}{m} \sum^m_{i=1} |y_i-\hat{y_i}|</script></li>
+<li><strong>MSE(Mean Square Error)</strong> <script type="math/tex">MSE=\frac{1}{m} \sum^m_{i=1} (y_i-\hat{y_i})^2</script></li>
+<li>$R^2$取值范围$($负无穷,$1]$，值越大表示模型越拟合训练数据其中TSS表示样本之间的差异情况，RSS表示预测值与样本值之间的差异情况<script type="math/tex; mode=display">R^2=1-\frac{RSS}{TSS}=1-\frac{\sum^m_{i=1}(y_i-\hat{y_i})^2}{\sum^m_{i=1}(y_i-\bar{y_i})^2}</script></li>
 </ul>
 <h4 id="机器学习其他性能评估指标-分类"><a href="#机器学习其他性能评估指标-分类" class="headerlink" title="机器学习其他性能评估指标 - 分类"></a>机器学习其他性能评估指标 - 分类</h4><ul>
 <li>术语:<ul>
@@ -633,8 +624,10 @@
 <li>$FN$：假负例，被错误的标记为负元组的正元组。</li>
 </ul>
 </li>
-<li>混淆矩阵:是一个至少为$m ×m$的表。前$m$行和$m$列的表目$CM_{i,j}$指出类 $i$ 的元组被分类器标记为 $j$ 的个数。</li>
-<li>理想的，对于高准确率的分类器，大部分元组应该被混淆矩阵从$CM_{1,1}$到$CM_{m,m}$的对角线上的表目表示，而其他表目为0或者接近于0。即$FP$和$FN$接近0。</li>
+<li>混淆矩阵:是一个至少为$m ×m$的表。前$m$行和$m$列的表目$CM_{i,j}$指出类 $i$ 的元组被分类器标记为 $j$ 的个数。<ul>
+<li>理想的，对于高准确率的分类器，大部分元组应该被混淆矩阵从$CM<em>{1,1}$到$CM</em>{m,m}$的对角线上的表目表示，而其他表目为0或者接近于0。即$FP$和$FN$接近0。</li>
+</ul>
+</li>
 </ul>
 <div align="center">
 <img src="/2024/03/13/machine-learning/28.png" width="60%/">
@@ -647,11 +640,14 @@
 <ul>
 <li><strong>实例</strong><ul>
 <li>训练了一个机器学习的模型用来识别图片中是不是一只猫,现在用200张图片来验证下模型的性能指标。这200张图片中，170张是猫，30张不是猫。模型的识别结果为160张是猫，40张不是猫。<ul>
-<li>精度：$P&#x3D;\frac{TP}{TP+FP}&#x3D;\frac{140}{140+20}&#x3D;87.5% $</li>
-<li>召回率：$R&#x3D;\frac{TP}{P}&#x3D;\frac{140}{170}&#x3D;82.4%$</li>
-<li>准确率：$ACC&#x3D;\frac{TP+TN}{P+N}&#x3D;\frac{140+10}{170+30}&#x3D;75%$<div align="center">
+<li>精度：$P=\frac{TP}{TP+FP}=\frac{140}{140+20}=87.5\% $</li>
+<li>召回率：$R=\frac{TP}{P}=\frac{140}{170}=82.4\%$</li>
+<li>准确率：$ACC=\frac{TP+TN}{P+N}=\frac{140+10}{170+30}=75\%$<div align="center">
 <img src="/2024/03/13/machine-learning/30.png" width="50%/">
-</div></li>
+</div>
+
+
+</li>
 </ul>
 </li>
 </ul>
@@ -659,10 +655,8 @@
 </ul>
 <hr>
 <h2 id="其他机器学习重要方法"><a href="#其他机器学习重要方法" class="headerlink" title="其他机器学习重要方法"></a>其他机器学习重要方法</h2><h3 id="机器学习训练方法-梯度下降"><a href="#机器学习训练方法-梯度下降" class="headerlink" title="机器学习训练方法 - 梯度下降"></a>机器学习训练方法 - 梯度下降</h3><h4 id="梯度下降介绍"><a href="#梯度下降介绍" class="headerlink" title="梯度下降介绍"></a>梯度下降介绍</h4><ul>
-<li><p>梯度下降法的优化思想是用当前位置<strong>负梯度</strong>方向作为搜索方向，该方向为当前位置最快下降方向，梯度下降中越接近目标值，变化量越小，公式如下:$$w_{k+1}&#x3D;w_k-\eta\nabla f_{w_k}(x^i)$$</p>
-</li>
-<li><p>其中$\eta$成为学习率，$i$表示第$i$条数据。权重参数$w$每次迭代变化的大小。</p>
-</li>
+<li>梯度下降法的优化思想是用当前位置<strong>负梯度</strong>方向作为搜索方向，该方向为当前位置最快下降方向，梯度下降中越接近目标值，变化量越小，公式如下:<script type="math/tex">w_{k+1}=w_k-\eta\nabla f_{w_k}(x^i)</script></li>
+<li>其中$\eta$成为学习率，$i$表示第$i$条数据。权重参数$w$每次迭代变化的大小。</li>
 <li><p><strong>收敛</strong>：目标函数的值变化非常小或达到最大迭代次数。</p>
 <div align="center">
 <img src="/2024/03/13/machine-learning/31.png" width="70%/">
@@ -670,19 +664,15 @@
 </li>
 <li><p>存在的问题：梯度下降法容易陷入一个局部最低点，而不是全局最低点</p>
 </li>
-<li></li>
-</ul>
-<h4 id="常见梯度下降法"><a href="#常见梯度下降法" class="headerlink" title="常见梯度下降法"></a>常见梯度下降法</h4><ul>
-<li><p><strong>批量梯度下降(BGD)</strong> ：使用<strong>所有</strong>数据集中的样本（共m个样本）在当前点的度之和来对权重参数进行更新操作。$$w_{k+1}&#x3D;w_k-\eta \frac{1}{m}\sum^m_{i&#x3D;1} \nabla f_{w_k}x^i$$</p>
-</li>
-<li><p><strong>随机梯度下降(SGD)</strong> ：随机选取<strong>一个</strong>数据集中的样本在当前的梯度来对权重参数进行更新操作。$$w_{k+1}&#x3D;w_k-\eta\nabla f_{w_k}x^i$$</p>
-</li>
-<li><p><strong>小批量梯度下降(MBGD)</strong> ：结合BGD与SGD的特性，每次选择数据集中 <strong>n个</strong>样本的梯度来对权重参数进行更新操作。$Batch$为其重要的超参数，规定选择样本的数量。 $$w_{k+1}&#x3D;w_k-\eta \frac{1}{n}\sum_{i&#x3D;t} ^{t+n-1} \nabla f_{w_k}x^i$$</p>
+<li><h4 id="常见梯度下降法"><a href="#常见梯度下降法" class="headerlink" title="常见梯度下降法"></a>常见梯度下降法</h4></li>
+<li><strong>批量梯度下降(BGD)</strong> ：使用<strong>所有</strong>数据集中的样本（共m个样本）在当前点的度之和来对权重参数进行更新操作。<script type="math/tex">w_{k+1}=w_k-\eta \frac{1}{m}\sum^m_{i=1} \nabla f_{w_k}x^i</script></li>
+<li><strong>随机梯度下降(SGD)</strong> ：随机选取<strong>一个</strong>数据集中的样本在当前的梯度来对权重参数进行更新操作。<script type="math/tex">w_{k+1}=w_k-\eta\nabla f_{w_k}x^i</script></li>
+<li><p><strong>小批量梯度下降(MBGD)</strong> ：结合BGD与SGD的特性，每次选择数据集中 <strong>n个</strong>样本的梯度来对权重参数进行更新操作。$Batch$为其重要的超参数，规定选择样本的数量。 <script type="math/tex">w_{k+1}=w_k-\eta \frac{1}{n}\sum_{i=t} ^{t+n-1} \nabla f_{w_k}x^i</script></p>
 </li>
 <li><p>三种梯度下降法的比较</p>
 <ul>
 <li>SGD中，因为每次训练选取的样本是随机的，这本身就带来了<strong>不稳定性</strong>，会导致损失函数在下降到最低点的过程中，产生动荡甚至反向的位移。</li>
-<li>BGD最稳定，但是<strong>过于消耗运算资源</strong>，MBGD是SGD与BGD平衡之后的方法。<br><img src="/2024/03/13/machine-learning/32.png"></li>
+<li>BGD最稳定，但是<strong>过于消耗运算资源</strong>，MBGD是SGD与BGD平衡之后的方法。<br><img src="/2024/03/13/machine-learning/32.png" alt></li>
 </ul>
 </li>
 </ul>
@@ -691,7 +681,9 @@
 <li><strong>参数</strong>有模型<strong>自动学习</strong></li>
 <li><strong>超参数</strong>由<strong>人工手动设定</strong><div align="left">
 <img src="/2024/03/13/machine-learning/33.png" width="60%/">
-</div></li>
+</div>
+
+</li>
 </ul>
 </li>
 </ul>
@@ -701,18 +693,17 @@
 <li>模型超参数通常根据给定的预测建模问题而调整。</li>
 </ul>
 <h4 id="常见的模型超参数"><a href="#常见的模型超参数" class="headerlink" title="常见的模型超参数"></a>常见的模型超参数</h4><ul>
-<li>Lasso&#x2F;Ridge回归当中的 $\lambda$</li>
+<li>Lasso/Ridge回归当中的 $\lambda$</li>
 <li>训练神经网络的学习速率，迭代次数，批次大小，激活函数，神经元的数量。</li>
 <li>支持向量机的 $C$ 和 $\sigma$ 超参数。</li>
 <li>KNN中的 $K$。</li>
 <li>随机森林当中的树的棵数</li>
 </ul>
-<h4 id="超参数的搜索过程及方法"><a href="#超参数的搜索过程及方法" class="headerlink" title="超参数的搜索过程及方法"></a>超参数的搜索过程及方法</h4><p><img src="/2024/03/13/machine-learning/34.png"></p>
+<h4 id="超参数的搜索过程及方法"><a href="#超参数的搜索过程及方法" class="headerlink" title="超参数的搜索过程及方法"></a>超参数的搜索过程及方法</h4><p><img src="/2024/03/13/machine-learning/34.png" alt></p>
 <h4 id="超参数的调节方法-网格搜索"><a href="#超参数的调节方法-网格搜索" class="headerlink" title="超参数的调节方法 - 网格搜索"></a>超参数的调节方法 - 网格搜索</h4><ul>
-<li><p>网格搜索尝试穷举搜索所有可能的超参数组合形成超参数值网格。</p>
-</li>
+<li>网格搜索尝试穷举搜索所有可能的超参数组合形成超参数值网格。</li>
 <li><p>在实践中，人工指定的范围和步骤之间的值。</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/35.png" width="50%/">
 </div> 
 </li>
@@ -727,9 +718,11 @@
 <li>随机搜索实现了对超参数的随机搜索，其中每个设置都是从可能的参数值的分布中进行取样，试图找出最佳的超参数子集</li>
 <li>注意:<ul>
 <li>首先在一个粗范围内搜索，然后根据最佳结果出现的位置，缩小范围。</li>
-<li>某些超参数比其他的更加重要，随机搜索过程中会影响搜索的偏向。 <div align="center">
+<li>某些超参数比其他的更加重要，随机搜索过程中会影响搜索的偏向。<div align="center">
 <img src="/2024/03/13/machine-learning/36.png" width="50%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 </li>
 </ul>
@@ -738,9 +731,11 @@
 <li>$k$-折交叉验证 ( $K -  CV$ ) :<ul>
 <li>将原始数据分成k组(一般是均分)。</li>
 <li>将每个子集数据分别做一次验证集，其余的$k –1$组子集数据作为训练集，这样会得到$k$个模型。</li>
-<li>用这$k$个模型最终的验证集的分类准确率的平均数作为此 $K -CV$ 下分类器的性能指标。 <div align="center">
+<li>用这$k$个模型最终的验证集的分类准确率的平均数作为此 $K -CV$ 下分类器的性能指标。<div align="center">
 <img src="/2024/03/13/machine-learning/37.png" width="90%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 </li>
 </ul>
@@ -750,79 +745,73 @@
 </div> 
 
 <h3 id="有监督学习-线性回归"><a href="#有监督学习-线性回归" class="headerlink" title="有监督学习 - 线性回归"></a>有监督学习 - 线性回归</h3><h4 id="基础线性回归"><a href="#基础线性回归" class="headerlink" title="基础线性回归"></a>基础线性回归</h4><ul>
-<li><p>**线性回归( Linear regression )**：线性回归是利用数理统计中回归分析，来确定两种或两种以上变量间相互依赖的定量关系的一种统计分析方法。</p>
-</li>
+<li><strong>线性回归( Linear regression )</strong>：线性回归是利用数理统计中回归分析，来确定两种或两种以上变量间相互依赖的定量关系的一种统计分析方法。</li>
 <li><p>线性回归是一种<strong>有监督学习</strong>。</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/39.png">
 </div> 
 </li>
-<li><p>线性回归的<strong>模型函数</strong>如下。其中$w$为权重参数，$b$为偏置，$x$表示样本。<br>$$h_w(x)&#x3D;w^tx+b$$</p>
-</li>
-<li><p><strong>模型预测与真实值的关系</strong>如下。其中$y$表示真实值，$\varepsilon$表示误差。<br>$$y&#x3D;w^tx+\varepsilon$$</p>
-</li>
-<li><p>误差$\varepsilon$受到众多因素独立影响，根据中心极限定律，误差$\varepsilon$服从正态分布。根据正态分布函数与最大似然估计，可以求出线性回归的<strong>损失函数</strong>为:<br>$$J(w)&#x3D;\frac{1}{2m}\sum (h_w(x)-y)^2$$</p>
-</li>
-<li><p>我们想要预测值与真实值最接近，就是求损失值最小。可以使用梯度下降的方法求出当损失函数达到最小的时候的权重参数$w$，继而完成模型构建。</p>
-</li>
-</ul>
-<h4 id="线性回归扩展-多项式回归"><a href="#线性回归扩展-多项式回归" class="headerlink" title="线性回归扩展 - 多项式回归"></a>线性回归扩展 - 多项式回归</h4><ul>
-<li>多项式回归，是线性回归的拓展，通常数据集的复杂度会超过用一条直线来拟合的可能性，也就是使用原始的线性回归模型会明显欠拟合。解决的办法就是使用多项式回归。$$h_w(x)&#x3D;w_1x+w_2x^2+L+w_nx^n+b，L表示中间多个式子$$</li>
+<li><p>线性回归的<strong>模型函数</strong>如下。其中$w$为权重参数，$b$为偏置，$x$表示样本。</p>
+<script type="math/tex; mode=display">h_w(x)=w^tx+b</script></li>
+<li><strong>模型预测与真实值的关系</strong>如下。其中$y$表示真实值，$\varepsilon$表示误差。<script type="math/tex; mode=display">y=w^tx+\varepsilon</script></li>
+<li>误差$\varepsilon$受到众多因素独立影响，根据中心极限定律，误差$\varepsilon$服从正态分布。根据正态分布函数与最大似然估计，可以求出线性回归的<strong>损失函数</strong>为:<script type="math/tex; mode=display">J(w)=\frac{1}{2m}\sum (h_w(x)-y)^2</script></li>
+<li>我们想要预测值与真实值最接近，就是求损失值最小。可以使用梯度下降的方法求出当损失函数达到最小的时候的权重参数$w$，继而完成模型构建。<h4 id="线性回归扩展-多项式回归"><a href="#线性回归扩展-多项式回归" class="headerlink" title="线性回归扩展 - 多项式回归"></a>线性回归扩展 - 多项式回归</h4></li>
+<li>多项式回归，是线性回归的拓展，通常数据集的复杂度会超过用一条直线来拟合的可能性，也就是使用原始的线性回归模型会明显欠拟合。解决的办法就是使用多项式回归。<script type="math/tex">h_w(x)=w_1x+w_2x^2+L+w_nx^n+b，L表示中间多个式子</script></li>
 <li>这里的n次方就是多项式回归维度(degree)</li>
-<li>多项式回归仍然是线性回归的一种，是因为其<strong>非线性</strong>体现在<strong>特征的维度</strong>上，而其权重参数w之间的关系仍然是<strong>线性的</strong>。 <div align="center">
+<li>多项式回归仍然是线性回归的一种，是因为其<strong>非线性</strong>体现在<strong>特征的维度</strong>上，而其权重参数w之间的关系仍然是<strong>线性的</strong>。<div align="center">
 <img src="/2024/03/13/machine-learning/40.png" width="60%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h4 id="线性回归与防止过拟合"><a href="#线性回归与防止过拟合" class="headerlink" title="线性回归与防止过拟合"></a>线性回归与防止过拟合</h4><ul>
-<li>正则项有助于减少过拟合，$w$值在样本空间中不能过大&#x2F;过小，可以在目标函数之上增加一个<strong>平方和损失</strong></li>
-<li><strong>正则项(norm)<strong>︰这里这个正则项叫做</strong>L2-norm</strong>，这个使用这个损失函数的，线性回归也叫<strong>Ridge回归</strong>。<br> $$J(w)&#x3D;\frac{1}{2}\sum (h_w(x)-y)^2+\lambda\sum w^2$$</li>
-<li>追加了绝对值损失的线性回归叫做<strong>Lasso回归</strong>。<br>$$J(w)&#x3D;\frac{1}{2}\sum (h_w(x)-y)^2+\lambda\sum |w|$$</li>
+<li>正则项有助于减少过拟合，$w$值在样本空间中不能过大/过小，可以在目标函数之上增加一个<strong>平方和损失</strong></li>
+<li><strong>正则项(norm)</strong>︰这里这个正则项叫做<strong>L2-norm</strong>，这个使用这个损失函数的，线性回归也叫<strong>Ridge回归</strong>。<script type="math/tex; mode=display">J(w)=\frac{1}{2}\sum (h_w(x)-y)^2+\lambda\sum w^2</script></li>
+<li>追加了绝对值损失的线性回归叫做<strong>Lasso回归</strong>。<script type="math/tex; mode=display">J(w)=\frac{1}{2}\sum (h_w(x)-y)^2+\lambda\sum |w|</script></li>
 </ul>
 <h3 id="有监督学习-逻辑回归"><a href="#有监督学习-逻辑回归" class="headerlink" title="有监督学习 - 逻辑回归"></a>有监督学习 - 逻辑回归</h3><h4 id="基础逻辑回归"><a href="#基础逻辑回归" class="headerlink" title="基础逻辑回归"></a>基础逻辑回归</h4><ul>
-<li><p><strong>逻辑回归</strong>：逻辑回归模型是一种<strong>分类模型</strong>，用来解决分类问题。模型的定义:$$P(Y&#x3D;1|X)&#x3D;\frac{e^{wx}+b}{1+e^{wx}+b}$$ $$P(Y&#x3D;0|X)&#x3D;\frac{1}{1+e^{wx}+b}$$<br> 其中 $w$ 称为权重，$b$ 称为偏置，其中的 $wx+ b$ 看成对 $x$ 的线性函数。然后对比上面两个概率值，概率值大的就是 $x$ 对应的类。</p>
- <div align="center">
+<li><p><strong>逻辑回归</strong>：逻辑回归模型是一种<strong>分类模型</strong>，用来解决分类问题。模型的定义:<script type="math/tex">P(Y=1|X)=\frac{e^{wx}+b}{1+e^{wx}+b}</script> <script type="math/tex">P(Y=0|X)=\frac{1}{1+e^{wx}+b}</script><br> 其中 $w$ 称为权重，$b$ 称为偏置，其中的 $wx+ b$ 看成对 $x$ 的线性函数。然后对比上面两个概率值，概率值大的就是 $x$ 对应的类。</p>
+<div align="center">
 <img src="/2024/03/13/machine-learning/41.png" width="60%/">
 </div> 
 </li>
 <li><p>逻辑回归与线性回归都是广义线性模型。逻辑回归在线性回归的基础上引入了非线性因素(<strong>Sigmoid函数</strong>)，并设定了阈值，因此可以处理二分类问题。</p>
 </li>
-<li><p>根据逻辑回归的模型函数，可以通过<strong>最大似然估计</strong>计算出逻辑回归的<strong>损失函数</strong>为:<br>$$J(w)&#x3D;\frac{1}{m}\sum \big(y\log h_w(x)+(1-y)\log (1-h_w(x))\big)$$<br>其中 $w$ 为权重参数， $m$ 为样本个数，$x$ 表示样本，$y$ 表示真实值。同样可以通过梯度下降算法求得所有权重参数w的值。</p>
-</li>
-</ul>
-<h4 id="逻辑回归扩展-Softmax函数"><a href="#逻辑回归扩展-Softmax函数" class="headerlink" title="逻辑回归扩展 - Softmax函数"></a>逻辑回归扩展 - Softmax函数</h4><ul>
+<li>根据逻辑回归的模型函数，可以通过<strong>最大似然估计</strong>计算出逻辑回归的<strong>损失函数</strong>为:<script type="math/tex; mode=display">J(w)=\frac{1}{m}\sum \big(y\log h_w(x)+(1-y)\log (1-h_w(x))\big)</script>其中 $w$ 为权重参数， $m$ 为样本个数，$x$ 表示样本，$y$ 表示真实值。同样可以通过梯度下降算法求得所有权重参数w的值。<h4 id="逻辑回归扩展-Softmax函数"><a href="#逻辑回归扩展-Softmax函数" class="headerlink" title="逻辑回归扩展 - Softmax函数"></a>逻辑回归扩展 - Softmax函数</h4></li>
 <li><p>逻辑回归只能用于二分类问题，如果是多分类问题，我们通常使用<strong>Softmax函数</strong>。</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/42.png" width="90%/">
 </div> 
 </li>
 <li><p>Softmax回归是逻辑回归的一般化，适用于<strong>K分类</strong>的问题。</p>
 </li>
-<li><p>Softmax函数的本质就是将一个K维的任意实数向量压缩（映射）成另一个K维的实数向量，其中向量中的每个元素取值都介于$(0，1)$之间。</p>
-</li>
-<li><p><strong>Softmax回归概率函数</strong>为:$$p(y&#x3D;k|x,w)&#x3D;\frac{e^{w_k^Tx}}{\sum^K_{l&#x3D;1} e^{w^T_lx}}，k&#x3D;1,2…K$$</p>
-</li>
-<li><p>Softmax为多类问题中的每个分类分配了概率值。这些概率加起来等于1。  </p>
-<ul>
-<li>Softmax可能产生一个属于特定类别的形式可能以如下方式展示: <div align="center">
+<li>Softmax函数的本质就是将一个K维的任意实数向量压缩（映射）成另一个K维的实数向量，其中向量中的每个元素取值都介于$(0，1)$之间。</li>
+<li><strong>Softmax回归概率函数</strong>为:<script type="math/tex">p(y=k|x,w)=\frac{e^{w_k^Tx}}{\sum^K_{l=1} e^{w^T_lx}}，k=1,2...K</script></li>
+<li>Softmax为多类问题中的每个分类分配了概率值。这些概率加起来等于1。  <ul>
+<li>Softmax可能产生一个属于特定类别的形式可能以如下方式展示:<div align="center">
 <img src="/2024/03/13/machine-learning/43.png" width="90%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 </li>
 </ul>
 <h3 id="有监督学习-决策树"><a href="#有监督学习-决策树" class="headerlink" title="有监督学习 - 决策树"></a>有监督学习 - 决策树</h3><h4 id="决策树介绍"><a href="#决策树介绍" class="headerlink" title="决策树介绍"></a>决策树介绍</h4><ul>
 <li><p><strong>决策树</strong>：决策树( decision tree )是一个树结构（可以是二叉树或非二叉树)。其每个非叶节点表示一个特征属性上的测试，每个分支代表这个特征属性在某个值域上的输出，而每个叶节点存放一个类别。使用决策树进行决策的过程就是从根节点开始，测试待分类项中相应的特征属性，开按照其值选择输出分支，直到到达叶子节点，将叶子节点存放的类别作为决策结果。</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/44.png" width="90%/">
 </div> 
 </li>
 <li><p><strong>决策树结构</strong>：</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/45.png" width="90%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h4 id="决策树的构建关键点"><a href="#决策树的构建关键点" class="headerlink" title="决策树的构建关键点"></a>决策树的构建关键点</h4><ul>
 <li>决策树的构造就是进行属性的选择，确定各个特征属性之间的树结构。构建决策树的关键步骤就是按照所有的特征属性进行划分操作，对所有的划分操作的结果集的“纯度”进行比较，选择“纯度”最高的属性作为分割数据集的数据点。</li>
-<li>纯度的量化指标主要通过<strong>信息嫡</strong>与<strong>GINI系数</strong>，公式如下：<br>$$H(X)&#x3D;-\sum^K_{k&#x3D;1}p_k\log (p_k)$$<br>$$Gini&#x3D;1-\sum^K_{k&#x3D;1}p_k^2$$</li>
+<li>纯度的量化指标主要通过<strong>信息嫡</strong>与<strong>GINI系数</strong>，公式如下：<script type="math/tex; mode=display">H(X)=-\sum^K_{k=1}p_k\log (p_k)</script><script type="math/tex; mode=display">Gini=1-\sum^K_{k=1}p_k^2</script></li>
 <li>其中 $p_k$ 表示样本属于类别 $k$ 的概率(共有$K$个类别)，<font color="red">分割前与分割后的纯度差异越大，决策树越好</font>。</li>
 <li>常见的决策树算法有ID3，C4.5，CART等。</li>
 </ul>
@@ -836,38 +825,43 @@
 </li>
 </ul>
 <h4 id="决策树案例"><a href="#决策树案例" class="headerlink" title="决策树案例"></a>决策树案例</h4><ul>
-<li>下图案例向我们展示了一个决策树进行的分类问题，分类结果受到三个属性的影响分别是Refund, Marital status,Taxable Income。 <div align="center">
+<li>下图案例向我们展示了一个决策树进行的分类问题，分类结果受到三个属性的影响分别是Refund, Marital status,Taxable Income。<div align="center">
 <img src="/2024/03/13/machine-learning/46.png" width="100%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h3 id="有监督学习-支持向量机"><a href="#有监督学习-支持向量机" class="headerlink" title="有监督学习 - 支持向量机"></a>有监督学习 - 支持向量机</h3><h4 id="支持向量机基础"><a href="#支持向量机基础" class="headerlink" title="支持向量机基础"></a>支持向量机基础</h4><ul>
-<li><strong>支持向量机</strong>( support vector machine，<strong>SVM</strong> )是一种<strong>二分类模型</strong>，它的基本模型是定义在特征空间上的<strong>间隔最大</strong>的线性分类器。SVM还包括核技巧，这使它成为实质上的非线性分类器。支持向量机的学习算法是求解凸二次规划的最优化算法。 <div align="center">
+<li><strong>支持向量机</strong>( support vector machine，<strong>SVM</strong> )是一种<strong>二分类模型</strong>，它的基本模型是定义在特征空间上的<strong>间隔最大</strong>的线性分类器。SVM还包括核技巧，这使它成为实质上的非线性分类器。支持向量机的学习算法是求解凸二次规划的最优化算法。<div align="center">
 <img src="/2024/03/13/machine-learning/49.png" width="100%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h4 id="线性支持向量机"><a href="#线性支持向量机" class="headerlink" title="线性支持向量机"></a>线性支持向量机</h4><ul>
 <li><p>如何使用一条线直接分割下面的红蓝数据集？</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/50.png" width="100%/">
 </div> 
 </li>
 <li><p>直线被用来将数据分割到不同类别中，而实际上我们可以多条直线将数据分来。SVM的核心思路是找到一个直线，使离直线比较近的点，尽可能远离这条直线，这可以使模型具有很强的泛化能力。而这些点就被称为<strong>支持向量(Support Vector)</strong></p>
 </li>
-<li><p>在二维空间中，我们用<strong>直线</strong>来分割，如果是高维空间，我们使用<strong>超平面</strong>来分割。</p>
- <div align="center">
+<li>在二维空间中，我们用<strong>直线</strong>来分割，如果是高维空间，我们使用<strong>超平面</strong>来分割。<div align="center">
 <img src="/2024/03/13/machine-learning/51.png" width="900%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h4 id="非线性支持向量机"><a href="#非线性支持向量机" class="headerlink" title="非线性支持向量机"></a>非线性支持向量机</h4><ul>
 <li><p>如何分类一种非线性可分的数据集？</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/52.png" width="80%/">
 </div> 
 </li>
 <li><p>使用<strong>核函数</strong>来构建<strong>非线性支持向量机</strong>。</p>
 </li>
 <li><p>核函数允许算法在变换后的高维特征空间中拟合最大的超平面。</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/53.png" width="90%/">
 </div> 
 </li>
@@ -876,14 +870,13 @@
 </ul>
 <h3 id="有监督学习-K最邻近算法"><a href="#有监督学习-K最邻近算法" class="headerlink" title="有监督学习 - K最邻近算法"></a>有监督学习 - K最邻近算法</h3><ul>
 <li><p><strong>K最近邻</strong>(k-Nearest Neighbor，<strong>KNN</strong>)<strong>分类算法</strong>，是一个理论上比较成熟的方法，也是最简单的机器学习算法之一。该方法的思路是：如果一个样本在特征空间中的k个最相似(即特征空间中最邻近)的样本中的大多数属于某一个类别，则该样本也属于这个类别。</p>
- <div align="center">
+<div align="center">
 <img src="/2024/03/13/machine-learning/54.png" width="50%/">
 </div> 
 </li>
 <li><p>KNN的核心思想是“近朱者赤，近墨者黑”，其在逻辑上十分的简洁。</p>
 </li>
-<li><p>KNN是非参数方法，常用在决策边界非常不规则的数据集中使用。</p>
-<ul>
+<li>KNN是非参数方法，常用在决策边界非常不规则的数据集中使用。<ul>
 <li>KNN在<strong>分类预测</strong>时，一般采用<strong>多数表决法</strong>；KNN在做<strong>回归预测</strong>时，一般采用<strong>平均值法</strong>。</li>
 </ul>
 </li>
@@ -896,16 +889,16 @@
 <ul>
 <li><strong>K值越大</strong>越容易<strong>欠拟合</strong>，因为分割过于粗糙，<strong>越小</strong>越容易<strong>过拟合</strong>，因为分割过于细腻。<div align="center">
 <img src="/2024/03/13/machine-learning/56.png" width="60%/">
-</div></li>
+</div> 
+</li>
 </ul>
 </li>
 <li><p>可以发现你会发现随着K值的增加，边界会变得更平滑。</p>
 </li>
-<li><p>随着k值的增加到无穷大，最终会变成全蓝或全红</p>
-</li>
+<li>随着k值的增加到无穷大，最终会变成全蓝或全红</li>
 </ul>
 <h3 id="有监督学习-朴素贝叶斯"><a href="#有监督学习-朴素贝叶斯" class="headerlink" title="有监督学习 - 朴素贝叶斯"></a>有监督学习 - 朴素贝叶斯</h3><ul>
-<li><strong>朴素贝叶斯算法</strong>(Naive Bayes )︰朴素贝叶斯是一种简单的<strong>多类分类算法</strong>，基于贝叶斯定理，并假设特征之间是独立的。给定样本特征 $X$，样本属于类别$H$的概率是:$$P(C_k|X_1,…,X_n)&#x3D;\frac{P(X_1,…,X_n|C_k)P(C_k)}{P(X_1,…,X_n)}$$<ul>
+<li><strong>朴素贝叶斯算法</strong>(Naive Bayes )︰朴素贝叶斯是一种简单的<strong>多类分类算法</strong>，基于贝叶斯定理，并假设特征之间是独立的。给定样本特征 $X$，样本属于类别$H$的概率是:<script type="math/tex">P(C_k|X_1,...,X_n)=\frac{P(X_1,...,X_n|C_k)P(C_k)}{P(X_1,...,X_n)}</script><ul>
 <li>$X_1,…,X_n$ 是数据的特征，通常用 $m$ 个属性集的测量值描述，<ul>
 <li>比如说颜色特征可能有红，黄和蓝三个属性。</li>
 </ul>
@@ -926,18 +919,22 @@
 <li><strong>集成学习</strong>是一种机器学习范式，在这种范式中，多个学习者被训练和组合以解决同一个问题。通过使用多个学习者，集成的泛化能力可以比单个学习者强得多。</li>
 <li>如果随机向数千人提出一个复杂的问题，然后汇总他们的答案。在许多情况下，会发现这个汇总的答案比专家的答案更好。这就是群众智慧。<div align="center">
 <img src="/2024/03/13/machine-learning/57.png" width="60%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h4 id="集成算法分类"><a href="#集成算法分类" class="headerlink" title="集成算法分类"></a>集成算法分类</h4><div align="center">
 <img src="/2024/03/13/machine-learning/58.png">
 </div> 
 
 <h4 id="集成算法-随机森林"><a href="#集成算法-随机森林" class="headerlink" title="集成算法 - 随机森林"></a>集成算法 - 随机森林</h4><ul>
-<li><strong>随机森林(Random Forest)</strong> &#x3D; Bagging + CART决策树。</li>
+<li><strong>随机森林(Random Forest)</strong> = Bagging + CART决策树。</li>
 <li>随机森林建立多个决策树，并将它们合并在一起，以获得更准确和稳定的预测。<ul>
 <li>随机森林可以用于分类和回归问题。<div align="center">
 <img src="/2024/03/13/machine-learning/59.png">
-</div></li>
+</div> 
+
+</li>
 </ul>
 </li>
 </ul>
@@ -946,22 +943,28 @@
 <li>综合模型的结果是所有基础学习器的结果相加等于预测值，其本质是下一个基础学习器去<strong>拟合误差函数对预测值的残差</strong>(这个残差就是预测值与真实值之间的误差)。</li>
 <li>GBDT在模型训练的时候，是要求模型预测的样本损失尽可能的小。<div align="center">
 <img src="/2024/03/13/machine-learning/60.png" width="70%/">
-</div></li>
+</div> 
+
+</li>
 </ul>
 <h3 id="无监督学习-K-means"><a href="#无监督学习-K-means" class="headerlink" title="无监督学习 - K-means"></a>无监督学习 - K-means</h3><ul>
 <li>K-means算法是输入聚类个数k，以及包含n个数据对象的数据集，输出满足方差最小的标准的k个聚类的一种算法。</li>
 <li>K-means算法需要输入聚类的最终个数k ，然后将n个数据对象划分为k个聚类，而最终所获得的聚类满足:<ol>
 <li>同一聚类中的对象相似度较高;</li>
-<li>而不同聚类中的对象相似度较小。 <div align="center">
+<li>而不同聚类中的对象相似度较小。<div align="center">
 <img src="/2024/03/13/machine-learning/47.png" width="100%/">
-</div></li>
+</div> 
+
+
+
+</li>
 </ol>
 </li>
 </ul>
 <h3 id="无监督学习-层次聚类"><a href="#无监督学习-层次聚类" class="headerlink" title="无监督学习 - 层次聚类"></a>无监督学习 - 层次聚类</h3><ul>
-<li>层次聚类法试图在不同层次对数据集进行划分，从而形成树形的聚类结构，数据集的划分可采用“自下向上”的聚合策略，也可以采用“自顶向下”的分拆策略。聚类的层次被表示成树形图。树根拥有所有样本的唯一聚类，叶子是仅有一个样本的聚类。 <div align="center">
+<li>层次聚类法试图在不同层次对数据集进行划分，从而形成树形的聚类结构，数据集的划分可采用“自下向上”的聚合策略，也可以采用“自顶向下”的分拆策略。聚类的层次被表示成树形图。树根拥有所有样本的唯一聚类，叶子是仅有一个样本的聚类。<div align="center">
 <img src="/2024/03/13/machine-learning/48.png" width="100%/">
-</div></li>
+</div> </li>
 </ul>
 
                 
@@ -1446,7 +1449,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022-2024</span>
+                <span id="year">2022-2025</span>
             
             <a href="/about" target="_blank">Jourser</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
