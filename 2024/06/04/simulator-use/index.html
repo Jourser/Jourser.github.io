@@ -395,7 +395,7 @@
 </ol>
 <ul>
 <li>上述五大仿真又可以分为两大类：<strong>RTL(功能)仿真</strong>和<strong>时序仿真</strong></li>
-<li>FPGA设计流程如下图所示：<br><img src="/2024/06/04/simulator-use/1.png" alt></li>
+<li>FPGA设计流程如下图所示：<br><img src="/2024/06/04/simulator-use/1.png"></li>
 <li><strong>RTL仿真</strong>：也叫功能仿真或行为仿真，它跟硬件没有关系，只是检查设计的输入有没有逻辑错误或是代码有没有错误。主旨在于验证电路的功能是否符合设计要求，其特点是不考虑电路门延迟与线延迟(硬件延迟)，主要是验证电路与理想情况是否一致。</li>
 <li><strong>时序仿真</strong>：也称为布局布线后仿真，是指电路已经映射到特定的工艺环境以后，综合考虑电路的路径延迟与门延迟的影响，验证电路能否在一定时序条件下满足设计构想的过程，能较好地反映芯片的实际工作情况。时序仿真会考虑走线的延迟，真实情况下<u>一般进行RTL仿真，时序仿真很少使用</u>。时序满足与否一般在时序分析中进行。</li>
 <li><strong>功能仿真</strong>与<strong>时序仿真</strong>的<strong>主要区别</strong>在于<u>是否考虑硬件延迟</u>。</li>
@@ -405,15 +405,15 @@
 <li>仿真文件创建步骤同前文《Vivado的使用》中源文件创建步骤几近相同</li>
 </ul>
 <ol>
-<li><p>添加或创建一个仿真文件(<code>testbench</code>文件)<br><img src="/2024/06/04/simulator-use/2.png" alt></p>
+<li><p>添加或创建一个仿真文件(<code>testbench</code>文件)<br><img src="/2024/06/04/simulator-use/2.png"></p>
 </li>
-<li><p>选择创建仿真文件，当然也可同源文件步骤一样，现在直接添加仿真文件<br><img src="/2024/06/04/simulator-use/3.png" alt></p>
+<li><p>选择创建仿真文件，当然也可同源文件步骤一样，现在直接添加仿真文件<br><img src="/2024/06/04/simulator-use/3.png"></p>
 </li>
-<li><p>输入仿真文件名<code>tb_led_twinkle</code>。一般命名为<code>tb_</code>+<code>模块名</code>。点击<code>OK</code>后，会自动生成<code>tb_led_twinkle.v</code>文件。最后点击<code>Finish</code>。<br><img src="/2024/06/04/simulator-use/5.png" alt></p>
+<li><p>输入仿真文件名<code>tb_led_twinkle</code>。一般命名为<code>tb_</code>+<code>模块名</code>。点击<code>OK</code>后，会自动生成<code>tb_led_twinkle.v</code>文件。最后点击<code>Finish</code>。<br><img src="/2024/06/04/simulator-use/5.png"></p>
 </li>
-<li><p>完成仿真文件创建。在弹出的自动定义模块窗口中我们直接点击<code>OK</code> 即可。而后弹出的下图窗口提醒用户在定义模块和指定 I/O 端口时，没有进行任何更改并确认是否要继续使用当前值。<br><img src="/2024/06/04/simulator-use/4.png" alt></p>
+<li><p>完成仿真文件创建。在弹出的自动定义模块窗口中我们直接点击<code>OK</code> 即可。而后弹出的下图窗口提醒用户在定义模块和指定 I&#x2F;O 端口时，没有进行任何更改并确认是否要继续使用当前值。<br><img src="/2024/06/04/simulator-use/4.png"></p>
 </li>
-<li><p>此时，在工程目录下会生成<code>tb_led_twinkle.v</code>文件。点击该文件打开<br><img src="/2024/06/04/simulator-use/6.png" alt></p>
+<li><p>此时，在工程目录下会生成<code>tb_led_twinkle.v</code>文件。点击该文件打开<br><img src="/2024/06/04/simulator-use/6.png"></p>
 </li>
 </ol>
 <h3 id="TB文件简介"><a href="#TB文件简介" class="headerlink" title="TB文件简介"></a>TB文件简介</h3><ul>
@@ -425,7 +425,7 @@
 <span class="token comment">//例化设计模块</span>
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
-<li><p>若仿真单位/仿真精度分别为：1ns/1ps，则：</p>
+<li><p>若仿真单位&#x2F;仿真精度分别为：1ns&#x2F;1ps，则：</p>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token number">#200</span> <span class="token comment">//取决于仿真单位，这里就是延迟200ns</span>
 <span class="token number">#200</span><span class="token punctuation">.</span><span class="token number">123</span> <span class="token comment">//表示延迟200.123ns，因为其精度为ps，若精度改为1ns，这里就是延迟200ns</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
@@ -453,27 +453,25 @@ led_twinkle <span class="token function">u_led_twinkle</span><span class="token 
 	<span class="token punctuation">.</span>led <span class="token punctuation">(</span>led<span class="token punctuation">)</span>                 <span class="token comment">//LED灯</span>
 	<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">endmodule</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h2 id="仿真具体步骤"><a href="#仿真具体步骤" class="headerlink" title="仿真具体步骤"></a>仿真具体步骤</h2><h3 id="仿真界面窗口介绍"><a href="#仿真界面窗口介绍" class="headerlink" title="仿真界面窗口介绍"></a>仿真界面窗口介绍</h3><p><img src="/2024/06/04/simulator-use/9.png" alt></p>
+<h2 id="仿真具体步骤"><a href="#仿真具体步骤" class="headerlink" title="仿真具体步骤"></a>仿真具体步骤</h2><h3 id="仿真界面窗口介绍"><a href="#仿真界面窗口介绍" class="headerlink" title="仿真界面窗口介绍"></a>仿真界面窗口介绍</h3><p><img src="/2024/06/04/simulator-use/9.png"></p>
 <ul>
-<li>窗口1：<strong>Scope 窗口</strong><ul>
+<li><p>窗口1：<strong>Scope 窗口</strong></p>
+<ul>
 <li><code>Scope</code>（范围）是HDL 设计的层次划分。在<code>Scope</code>窗口中，您可以看到设计层次结构。</li>
 <li>当您选择了一个Scope 层次结构中的作用域时，该作用域内的<strong>所有HDL 对象</strong>，包括reg、wire 等都会出现在<code>Objects</code>窗口中。</li>
 <li><u>比如原本的在<code>Objects</code>窗口中，是没有<code>cnt</code>计数器对象的，而我们在<code>Scope</code> 窗口中选择<code>u_led_twinkle</code>，在<code>Objects</code>窗口中就会自动显示出<code>led_twinkle</code>模块中所有的对象。</u>如下图所示：</li>
-<li><img src="/2024/06/04/simulator-use/11.png" alt></li>
+<li><img src="/2024/06/04/simulator-use/11.png"></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p>窗口2：<strong>Object窗口</strong></p>
 <ul>
 <li><code>Objects</code>窗口会显示在<code>Scopes</code>窗口中选择的范围内的所有HDL 仿真对象。</li>
 <li>若我们选择<code>tb_led_twinkle</code>，则<code>Objects</code>窗口中会显示<code>tb_led_twinkle</code>模块中的所有对象，如下图所示：</li>
-<li><img src="/2024/06/04/simulator-use/12.png" alt></li>
+<li><img src="/2024/06/04/simulator-use/12.png"></li>
 <li>可以在<code>Objects</code>窗口中选择HDL 对象，并将它们添加到波形窗口中。</li>
-<li><img src="/2024/06/04/simulator-use/10.png" alt></li>
+<li><img src="/2024/06/04/simulator-use/10.png"></li>
 </ul>
 </li>
 <li><p>窗口3：<strong>波形窗口</strong></p>
@@ -481,14 +479,14 @@ led_twinkle <span class="token function">u_led_twinkle</span><span class="token 
 <li>用于显示所要观察信号的波形。</li>
 <li>若要添加信号，可通过<code>Objects</code>窗口选择信号，然后将其添加到波形窗口中。</li>
 <li>基本功能与ILA调试窗口中类似，不再赘述。比起ILA调试窗口，波形窗口中多了如下功能：</li>
-<li><img src="/2024/06/04/simulator-use/13.png" alt></li>
+<li><img src="/2024/06/04/simulator-use/13.png"></li>
 <li>如上图所示，可通过<strong>按键1</strong>添加蓝色的<strong>时间标识2、3</strong>。而最后会显示如<strong>位置4</strong>所示的两个时间标识的时间间隔，如图所示的20ns。</li>
 </ul>
 </li>
 <li><p>界面4：仿真工具栏。</p>
 <ul>
 <li>仿真工具栏包含运行各个仿真动作的命令按钮，从左至右依次是：</li>
-<li><img src="/2024/06/04/simulator-use/14.png" alt><ul>
+<li><img src="/2024/06/04/simulator-use/14.png"><ul>
 <li><code>Restart</code>：将仿真时间重置为零，此时波形窗口中原有的波形都会被清除。下次执行仿真时，会从0时刻重新开始。</li>
 <li><code>Run all</code>：运行仿真，直到其完成所有事件或遇到HDL语句中的<code>stop</code>或<code>finish</code>命令为止。注意，如果没有在TestBench语句中加入<code>stop</code>或<code>finish</code>命令，当点击<code>Run all</code>命令时，仿真器会无休止地一直仿真下去，除非用户点击仿真工具栏中的<code>Break</code>按钮来手动地结束仿真。但是，如果此时需要仿真的设计比较复杂，则仿真器在运行仿真时会耗费电脑大量的CPU和内存资源，此时有可能会造成电脑卡顿甚至死机的情况。所以，如果设计比较复杂，且没有在TestBench 语句中加入stop或finish命令，<font color="#dd0000">最好不要轻易点击Run all命令</font>。</li>
 <li><code>Run For</code>：运行特定的一段时间。紧随在后面的两个文本框用于设定仿真时长的数值大小和时间单位。</li>
@@ -501,31 +499,31 @@ led_twinkle <span class="token function">u_led_twinkle</span><span class="token 
 </li>
 </ul>
 <h3 id="仿真前的实验准备"><a href="#仿真前的实验准备" class="headerlink" title="仿真前的实验准备"></a>仿真前的实验准备</h3><ul>
-<li>在仿真时遇到类似于<code>cnt</code>计数器这类变量，以本次<code>led_twinkle</code>为例，需要将<code>cnt</code>变量数值可达50000000，若在仿真中达到该值需要过长的时间，不利于观察，所以需要将其量级降低。如图所示：<br><img src="/2024/06/04/simulator-use/8.png" alt></li>
+<li>在仿真时遇到类似于<code>cnt</code>计数器这类变量，以本次<code>led_twinkle</code>为例，需要将<code>cnt</code>变量数值可达50000000，若在仿真中达到该值需要过长的时间，不利于观察，所以需要将其量级降低。如图所示：<br><img src="/2024/06/04/simulator-use/8.png"></li>
 <li>同时图中预留一个错误，使得<code>led</code>信号为<code>10</code>和<code>01</code>时间不相同。</li>
 </ul>
 <h3 id="仿真步骤"><a href="#仿真步骤" class="headerlink" title="仿真步骤"></a>仿真步骤</h3><ol>
-<li><p>在<code>Flow Navigator</code>窗口中点击<code>Run Simulation</code>并选择<code>Run Behavioral Simulation</code><br><img src="/2024/06/04/simulator-use/7.png" alt></p>
+<li><p>在<code>Flow Navigator</code>窗口中点击<code>Run Simulation</code>并选择<code>Run Behavioral Simulation</code><br><img src="/2024/06/04/simulator-use/7.png"></p>
 <ul>
 <li>其余几个选项：<ul>
 <li><strong>Run Behavior Simulation</strong> <font color="#dd0000">功能仿真(主要使用的)</font></li>
 <li>Run Post-Systhesis Functional Simulation 综合后的功能仿真</li>
 <li>Run Post-Systhesis Timing Simulation 综合后的时序仿真</li>
-<li>Run Post-Implementation Functional Simulation 实现后/布局布线后的功能仿真</li>
-<li>Run Post-Implementation Timing Simulation 实现后/布局布线后的时序仿真</li>
+<li>Run Post-Implementation Functional Simulation 实现后&#x2F;布局布线后的功能仿真</li>
+<li>Run Post-Implementation Timing Simulation 实现后&#x2F;布局布线后的时序仿真</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>而后我们进入仿真窗口，具体窗口作用功能在前文《仿真界面窗口介绍》这一栏中提到，这里不在赘述。在<code>Scope</code> 窗口中选择<code>u_led_twinkle</code>，而后在<code>Objects</code>窗口中选择<code>sys_clk</code>、<code>sys_rst_n</code>、<code>led</code>和<code>cnt</code>信号，而后在波形窗口中添加这4个对象。<br><img src="/2024/06/04/simulator-use/15.png" alt></p>
+<li><p>而后我们进入仿真窗口，具体窗口作用功能在前文《仿真界面窗口介绍》这一栏中提到，这里不在赘述。在<code>Scope</code> 窗口中选择<code>u_led_twinkle</code>，而后在<code>Objects</code>窗口中选择<code>sys_clk</code>、<code>sys_rst_n</code>、<code>led</code>和<code>cnt</code>信号，而后在波形窗口中添加这4个对象。<br><img src="/2024/06/04/simulator-use/15.png"></p>
 </li>
-<li><p>开始分析仿真波形，选择<code>led</code>信号为<code>10</code>的波形进行测量，添加蓝色时间标识，如下图所示：<br><img src="/2024/06/04/simulator-use/16.png" alt></p>
+<li><p>开始分析仿真波形，选择<code>led</code>信号为<code>10</code>的波形进行测量，添加蓝色时间标识，如下图所示：<br><img src="/2024/06/04/simulator-use/16.png"></p>
 <ul>
 <li>发现<code>led</code>信号为<code>10</code>的波形在仿真时，持续120ns，为6个时钟周期。</li>
 <li>同理，对<code>led</code>信号为<code>10</code>的波形进行测量，发现其持续80ns，为4个时钟周期。</li>
 <li>发现其时间不相同，查看代码中可发现<code>assign led = (cnt &lt; 26&#39;d4) ? 2&#39;b01:2&#39;b10;</code>该语句错误，应该改为<code>assign led = (cnt &lt; 26&#39;d5) ? 2&#39;b01:2&#39;b10;</code></li>
 <li>在<code>led_twinkle.v</code>文件中修改后，重新编译仿真源文件，点击<code>Relaunch</code>按钮，重新加载UUT，如图所示修改成功</li>
-<li><img src="/2024/06/04/simulator-use/17.png" alt></li>
+<li><img src="/2024/06/04/simulator-use/17.png"></li>
 </ul>
 </li>
 </ol>

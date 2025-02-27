@@ -338,7 +338,8 @@
                 <h1 id="Vivado程序固化"><a href="#Vivado程序固化" class="headerlink" title="Vivado程序固化"></a>Vivado程序固化</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于FPGA开发者，都会遇到这样的一种情况，就是下载到板子中的FPGA程序会随着板子掉电而消失再次上电，又要重新编译下载程序。在程序调试阶段还可以接受，但在程序版本固定后使用起来就会非常不方便。这就需要用到固化程序这一操作，就是将FPGA的配置文件烧写到板载Flash中，实现上电自启动。</p>
 <h3 id="bin-和-mcs文件"><a href="#bin-和-mcs文件" class="headerlink" title=".bin 和 .mcs文件"></a>.bin 和 .mcs文件</h3><p>在 Vivado 中，生成的 <code>.bin</code> 和 <code>.mcs</code> 文件都是用于 FPGA 的配置和编程的，但它们在用途和格式上有一些区别。以下是对这两个文件的详细解释：</p>
 <ul>
-<li><code>.bin</code> 文件<ol>
+<li><p><code>.bin</code> 文件</p>
+<ol>
 <li>格式：<ul>
 <li><code>.bin</code> 文件是二进制格式文件，包含 FPGA 配置所需的原始二进制数据。</li>
 </ul>
@@ -395,8 +396,10 @@
 </li>
 </ul>
 <h2 id="生成固化文件"><a href="#生成固化文件" class="headerlink" title="生成固化文件"></a>生成固化文件</h2><h3 id="属性设置"><a href="#属性设置" class="headerlink" title="属性设置"></a>属性设置</h3><ul>
-<li>在 FPGA 设计过程中，特别是在程序固化之前，确实需要在约束文件中添加一些特定的原语（属性设置）。这些原语主要用于配置比特流生成和 FPGA 配置的详细参数，确保生成的比特流文件能够正确加载并运行。</li>
-<li>依据Flash器件信号原理图：<img src="/2024/06/05/program-the-fpga/1.png" alt></li>
+<li><p>在 FPGA 设计过程中，特别是在程序固化之前，确实需要在约束文件中添加一些特定的原语（属性设置）。这些原语主要用于配置比特流生成和 FPGA 配置的详细参数，确保生成的比特流文件能够正确加载并运行。</p>
+</li>
+<li><p>依据Flash器件信号原理图：<img src="/2024/06/05/program-the-fpga/1.png"></p>
+</li>
 <li><p>需要在程序约束文件中添加如下原语：</p>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">set_property CFGBVS VCCO <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>
 set_property CONFIG_VOLTAGE <span class="token number">3.3</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>
@@ -408,7 +411,7 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <li><p>以下是对每个原语的详细解释：</p>
 <ul>
 <li><code>set_property CFGBVS VCCO [current_design]</code>：<ul>
-<li>作用：设置配置引脚的电压源（CFGBVS, Configuration Bank Voltage Source）。VCCO 表示配置引脚使用 I/O 电源电压。</li>
+<li>作用：设置配置引脚的电压源（CFGBVS, Configuration Bank Voltage Source）。VCCO 表示配置引脚使用 I&#x2F;O 电源电压。</li>
 <li>原因：确保配置引脚使用正确的电压，以便在配置 FPGA 时避免电压不匹配的问题。</li>
 </ul>
 </li>
@@ -441,9 +444,9 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 </li>
 </ul>
 <h3 id="生成-mcs文件"><a href="#生成-mcs文件" class="headerlink" title="生成.mcs文件"></a>生成.mcs文件</h3><h4 id="用-Vivado-控制台生成-mcs-文件"><a href="#用-Vivado-控制台生成-mcs-文件" class="headerlink" title="用 Vivado 控制台生成.mcs 文件"></a>用 Vivado 控制台生成.mcs 文件</h4><ol>
-<li><p>如下图所示首先在工具栏找到 <code>Tools</code>，打开扩展框然后点击 <code>Generate Memory Configuration File</code><br><img src="/2024/06/05/program-the-fpga/2.png" alt></p>
+<li><p>如下图所示首先在工具栏找到 <code>Tools</code>，打开扩展框然后点击 <code>Generate Memory Configuration File</code><br><img src="/2024/06/05/program-the-fpga/2.png"></p>
 </li>
-<li><p>之后会出现器件编辑选项框<code>Create a configuration file to program the device</code>如图所示：<img src="/2024/06/05/program-the-fpga/3.png" alt></p>
+<li><p>之后会出现器件编辑选项框<code>Create a configuration file to program the device</code>如图所示：<img src="/2024/06/05/program-the-fpga/3.png"></p>
 <ul>
 <li>从图中我们可以看到一些配置选项，在此仅对我们需要用到的一些配置做简要介绍：<ul>
 <li><code>Format</code>：指的生成文件的格式，这里我们选择生成 MCS 文件。</li>
@@ -458,14 +461,13 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 </li>
 </ul>
 </li>
-<li><p>配置选项完成后点击 <code>OK</code>，会出现下图提示信息，这就代表我们 <code>.mcs</code> 文件生成成功，点击 <code>OK</code> 就行。<img src="/2024/06/05/program-the-fpga/4.png" alt></p>
+<li><p>配置选项完成后点击 <code>OK</code>，会出现下图提示信息，这就代表我们 <code>.mcs</code> 文件生成成功，点击 <code>OK</code> 就行。<img src="/2024/06/05/program-the-fpga/4.png"></p>
 </li>
 </ol>
 <h4 id="使用-tcl-指令生成-mcs-文件"><a href="#使用-tcl-指令生成-mcs-文件" class="headerlink" title="使用 tcl 指令生成.mcs 文件"></a>使用 tcl 指令生成.mcs 文件</h4><ol>
-<li>先在信息栏窗口找到  <code>Tcl Console</code> 如下图所示：<br><img src="/2024/06/05/program-the-fpga/5.png" alt></li>
-</ol>
-<ol>
-<li><p>然后在指令栏中输入<code>write_cfgmem -format mcs -interface SPIx4 -size 128 -loadbit &#123;up 0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit&#125; -file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>然后按回车键就可以生成 <code>.mcs</code>文件了，指令运行成功可以看到如图所示信息：<br><img src="/2024/06/05/program-the-fpga/6.png" alt></p>
+<li><p>先在信息栏窗口找到  <code>Tcl Console</code> 如下图所示：<br><img src="/2024/06/05/program-the-fpga/5.png"></p>
+</li>
+<li><p>然后在指令栏中输入<code>write_cfgmem -format mcs -interface SPIx4 -size 128 -loadbit &#123;up 0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit&#125; -file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>然后按回车键就可以生成 <code>.mcs </code>文件了，指令运行成功可以看到如图所示信息：<br><img src="/2024/06/05/program-the-fpga/6.png"></p>
 <ul>
 <li>该指令的含义：<ul>
 <li><code>write_cfgmem</code>：命令头。 </li>
@@ -474,7 +476,7 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <li><code>-size 128</code>：flash 容量 128M。 </li>
 <li><code>-loadbit&#123;up0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit &#125;</code> ：加载 bit 流文件的路径和 bit 流文件。 </li>
 <li><code>-file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>：生成的 mcs 文件及保存路径。 </li>
-<li>建议读者将这条指令保存下来，下次使用只需要替换一下文件路径和源文件就可以直接使用了。 </li>
+<li>建议读者将这条指令保存下来，下次使用只需要替换一下文件路径和源文件就可以直接使用了。</li>
 </ul>
 </li>
 </ul>
@@ -489,14 +491,10 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <li><p>出现如下图所示的选项栏。这个选项栏中先在左边 <code>Project Settings</code> 栏选中 <code>Bitstream</code>，然后在右边的选项栏中选择<code>-bin_file</code>，之后点击 <code>Apply</code> 等待 <code>Apply</code> 按钮变成灰色，再点击 <code>OK</code>。然后我们重新生成 bit 流文件，bin 文件会同时生成，并且和 bit 流在同一个路径下。 </p>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/8.png" width="80%/">
-</div>
-
-
-
-</li>
+</div></li>
 </ol>
 <h3 id="添加-flash-器件及下载固化文件"><a href="#添加-flash-器件及下载固化文件" class="headerlink" title="添加 flash 器件及下载固化文件"></a>添加 flash 器件及下载固化文件</h3><ul>
-<li>光有固化文件还不够，我们还要添加一个固化 flash 器件。 </li>
+<li>光有固化文件还不够，我们还要添加一个固化 flash 器件。</li>
 </ul>
 <h4 id="没有产生-mcs-文件的情况"><a href="#没有产生-mcs-文件的情况" class="headerlink" title="没有产生 mcs 文件的情况"></a>没有产生 mcs 文件的情况</h4><ol>
 <li>将板子连接到 PC 端，连接完成后如下图所示：</li>
@@ -505,35 +503,35 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <img src="/2024/06/05/program-the-fpga/9.png" width="60%/">
 </div>
 
-<ol>
+<ol start="2">
 <li>在硬件栏中我们选中器件 <code>xc7a35t_0(1)</code>，右击后点击选择 <code>Add Configuration Memory Device</code></li>
 </ol>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/10.png" width="60%/">
 </div>
 
-<ol>
+<ol start="3">
 <li>刚进入<code>Add Configuration Memory Device</code>界面的时候整个 <code>Filter</code> 栏四个筛选框应该是四个 <code>ALL</code>，我们将筛选条件改成下图所示。之后你会发现最底下器件栏只剩下两个了，我们选择 <code>mt25ql128-spi-x1_x2_x4</code>，然后点击 OK。</li>
 </ol>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/11.png" width="80%/">
 </div>
 
-<ol>
-<li>出现下图所示的询问栏，继续点击 <code>OK</code> </li>
+<ol start="4">
+<li>出现下图所示的询问栏，继续点击 <code>OK</code></li>
 </ol>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/12.png" width="60%/">
 </div>
 
-<ol>
-<li>出现下图所示的选项栏，按照下图所示添加对应的 <code>.mcs</code> 文件和对应的<code>.prm</code>文件，点击 <code>OK</code> </li>
+<ol start="5">
+<li>出现下图所示的选项栏，按照下图所示添加对应的 <code>.mcs</code> 文件和对应的<code>.prm</code>文件，点击 <code>OK</code></li>
 </ol>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/13.png" width="80%/">
 </div>
 
-<ol>
+<ol start="6">
 <li>出现下载成功，最后点击<code>OK</code></li>
 </ol>
 <div align="center">
@@ -555,21 +553,21 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <img src="/2024/06/05/program-the-fpga/16.png" width="70%/">
 </div>
 
-<ol>
+<ol start="2">
 <li>在弹出的界面内只勾选<code>Erase</code>擦除，点击 <code>OK</code></li>
 </ol>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/17.png" width="70%/">
 </div>
 
-<ol>
+<ol start="3">
 <li>弹出如下界面，即表示成功擦除板子原先存在的固化文件。</li>
 </ol>
 <div align="center">
 <img src="/2024/06/05/program-the-fpga/18.png" width="60%/">
 </div>
 
-<ol>
+<ol start="4">
 <li>断电重启开发板，会发现原来的程序将不再执行。</li>
 </ol>
 

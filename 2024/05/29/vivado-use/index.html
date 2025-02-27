@@ -369,7 +369,7 @@
 <img src="/2024/05/29/vivado-use/6.png" width="100%/">
 </div>
 
-<ol>
+<ol start="6">
 <li><strong>点击</strong><code>Finish</code><strong>，完成项目创建。</strong></li>
 </ol>
 <div align="center">
@@ -393,28 +393,28 @@
 <img src="/2024/05/29/vivado-use/9.png" width="100%/">
 </div>
 
-<ol>
+<ol start="2">
 <li><strong>创建新的文件：</strong></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/vivado-use/10.png" width="100%/">
 </div>
 
-<ol>
+<ol start="3">
 <li><strong>输入</strong><code>led_twinkle</code><strong>为创建文件的名称：</strong></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/vivado-use/11.png" width="100%/">
 </div>
 
-<ol>
+<ol start="4">
 <li><strong>创建完文件，点击finish：</strong></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/vivado-use/12.png" width="100%/">
 </div>
 
-<ol>
+<ol start="5">
 <li><strong>输入</strong><code>led_twinkle.v</code><strong>文件内容：</strong><br>在源代码部分输入以下源代码，这是一段led灯交替闪烁的代码：</li>
 </ol>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">led_twinkle</span><span class="token punctuation">(</span>
@@ -446,6 +446,7 @@
 
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="Vivado-分析与综合"><a href="#Vivado-分析与综合" class="headerlink" title="Vivado 分析与综合"></a>Vivado 分析与综合</h2><h3 id="何为代码综合"><a href="#何为代码综合" class="headerlink" title="何为代码综合"></a>何为代码综合</h3><p>在Vivado开发流程中，代码综合（Synthesis）是一个关键步骤。综合的主要目的是将高层次的硬件描述语言（HDL）代码转换为门级网表（gate-level netlist），即由逻辑门和触发器等基本单元构成的电路描述。具体来说，代码综合要完成以下任务：</p>
 <ol>
 <li><p><strong>代码分析和优化：</strong></p>
@@ -492,10 +493,7 @@
 <li><p><strong>综合完成：</strong></p>
 <div align="center">
 <img src="/2024/05/29/vivado-use/16.png" width="100%/">
-</div>
-
-
-</li>
+</div></li>
 </ol>
 <h2 id="Vivado-约束输入"><a href="#Vivado-约束输入" class="headerlink" title="Vivado 约束输入"></a>Vivado 约束输入</h2><h3 id="何为约束"><a href="#何为约束" class="headerlink" title="何为约束"></a>何为约束</h3><p>在Vivado开发流程中，约束输入（constraints input）是指对设计施加的各种限制条件和要求，以确保设计在硬件上能够正确运行并满足特定性能指标。约束输入通常包括以下几种类型：</p>
 <ol>
@@ -511,9 +509,9 @@
 <li>例如，通过约束将某些信号分配到特定的FPGA引脚，可以满足板级布局和连接的需求。</li>
 </ul>
 </li>
-<li><strong>I/O 标准约束（I/O Standard Constraints）</strong>：<ul>
-<li>定义输入输出信号的电气特性，如电压标准（LVTTL、LVCMOS等）、驱动强度（drive strength）、上拉/下拉配置等。</li>
-<li>这些约束确保FPGA的I/O端口与其他外部设备正确兼容，并满足电气规格。</li>
+<li><strong>I&#x2F;O 标准约束（I&#x2F;O Standard Constraints）</strong>：<ul>
+<li>定义输入输出信号的电气特性，如电压标准（LVTTL、LVCMOS等）、驱动强度（drive strength）、上拉&#x2F;下拉配置等。</li>
+<li>这些约束确保FPGA的I&#x2F;O端口与其他外部设备正确兼容，并满足电气规格。</li>
 </ul>
 </li>
 <li><strong>功耗约束（Power Constraints）</strong>：<ul>
@@ -546,9 +544,7 @@
 <li><p><strong>保存后输入文件名，可在Constraints（约束文件）文件夹中，找到相关的XDC文件</strong></p>
 <div align="center">
 <img src="/2024/05/29/vivado-use/20.png" width="100%/">
-</div>
-
-</li>
+</div></li>
 </ol>
 <h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><ol>
 <li><p><strong>添加约束文件：</strong></p>
@@ -566,21 +562,21 @@
 <img src="/2024/05/29/vivado-use/32.png" width="80%/">
 </div>
 
-<ol>
+<ol start="2">
 <li><strong>点击</strong><code>OK</code></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/vivado-use/31.png" width="100%/">
 </div>
 
-<ol>
+<ol start="3">
 <li><strong>等待生成，点击</strong><code>Project Summary</code><strong>，查看生成情况</strong></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/vivado-use/33.png" width="100%/">
 </div>
 
-<ol>
+<ol start="4">
 <li><strong>生成成功</strong></li>
 </ol>
 <div align="center">
@@ -590,11 +586,11 @@
 <ul>
 <li><p>该窗口介绍：</p>
 <ol>
-<li><p><strong>Open Implemented Design</strong><br>选择这个选项会打开实现后的设计布局，包括布线和放置信息。你可以查看设计在FPGA中的具体实现情况。这对于检查布线和放置是否符合预期，以及调试设计问题非常有用。</p>
+<li><p><strong>Open Implemented Design</strong><br>  选择这个选项会打开实现后的设计布局，包括布线和放置信息。你可以查看设计在FPGA中的具体实现情况。这对于检查布线和放置是否符合预期，以及调试设计问题非常有用。</p>
 </li>
-<li><p><strong>View Reports</strong><br>选择这个选项可以查看各种报告，如利用率报告、时序报告、功耗报告等。这些报告提供了关于设计实现的详细信息，可以帮助你检查设计是否满足所有约束和性能要求。</p>
+<li><p><strong>View Reports</strong><br>  选择这个选项可以查看各种报告，如利用率报告、时序报告、功耗报告等。这些报告提供了关于设计实现的详细信息，可以帮助你检查设计是否满足所有约束和性能要求。</p>
 </li>
-<li><p><strong>Open Hardware Manager</strong><br>选择这个选项会打开硬件管理器。硬件管理器允许你将生成的比特流文件下载到FPGA设备中，并进行在线调试和验证。这一步通常在你准备好对实际硬件进行编程和调试时使用。</p>
+<li><p><strong>Open Hardware Manager</strong><br>  选择这个选项会打开硬件管理器。硬件管理器允许你将生成的比特流文件下载到FPGA设备中，并进行在线调试和验证。这一步通常在你准备好对实际硬件进行编程和调试时使用。</p>
 </li>
 </ol>
 </li>
@@ -617,10 +613,7 @@
 <img src="/2024/05/29/vivado-use/28.png" width="100%/">
 </div>
 
-
 </li>
-</ol>
-<ol>
 <li><p><strong>连接成功后，点击</strong><code>Program Device</code></p>
 <div align="center">
 <img src="/2024/05/29/vivado-use/29.png" width="100%/">

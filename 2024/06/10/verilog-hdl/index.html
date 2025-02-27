@@ -408,12 +408,15 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <li>二进制表示如下：4’<strong>b</strong>0101 表示 4 位二进制数字 0101； </li>
 <li>十进制表示如下：4’<strong>d</strong>2 表示 4 位十进制数字 2（二进制 0010）； </li>
 <li>十六进制表示如下：4’<strong>h</strong>a 表示 4 位十六进制数字 a（二进制 1010），十六进制的计数方式为 0，1，2…9，a，b，c，d，e，f，最大计数为 f（f：十进制表示为 15）。 </li>
-<li>当代码中没有指定数字的位宽与进制时，默认为 32 位的十进制，比如 100，实际上表示的值为32’d100。 </li>
+<li>当代码中没有指定数字的位宽与进制时，默认为 32 位的十进制，比如 100，实际上表示的值为32’d100。</li>
 </ul>
 <h3 id="Verilog-的标识符"><a href="#Verilog-的标识符" class="headerlink" title="Verilog 的标识符"></a>Verilog 的标识符</h3><ul>
-<li>标识符(identifier）用于定义模块名、端口名和信号名等。</li>
-<li>Verilog 的标识符可以是任意一组字母、数字、$和_(下划线)符号的组合</li>
-<li>但标识符的第一个字符必须是字母或者下划线。</li>
+<li><p>标识符(identifier）用于定义模块名、端口名和信号名等。</p>
+</li>
+<li><p>Verilog 的标识符可以是任意一组字母、数字、$和_(下划线)符号的组合</p>
+</li>
+<li><p>但标识符的第一个字符必须是字母或者下划线。</p>
+</li>
 <li><p>另外，标识符是区分大小写的。</p>
 </li>
 <li><p>注意：</p>
@@ -421,7 +424,7 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <li>不建议大小写混合使用，</li>
 <li>普通内部信号建议全部小写，</li>
 <li>参数定义建议大写，</li>
-<li>另外信号命名最好体现信号的含义。 </li>
+<li>另外信号命名最好体现信号的含义。</li>
 </ul>
 </li>
 <li><p>以下是一些书写规范的要求： </p>
@@ -432,7 +435,7 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <li>统一缩写，如全局复位信号 rst。 </li>
 <li>同一信号在不同层次保持一致性，如同一时钟信号必须在各模块保持一致。 </li>
 <li>自定义的标识符不能与保留字（关键词）同名。 </li>
-<li>参数统一采用大写，如定义参数使用 SIZE。 </li>
+<li>参数统一采用大写，如定义参数使用 SIZE。</li>
 </ol>
 </li>
 </ul>
@@ -442,11 +445,13 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <li>如果该过程语句描述的是<strong>时序逻辑</strong>，即 <code>always</code> 语句<u>带有时钟信号</u>，则该寄存器变量对应为<strong>寄存器</strong></li>
 <li>如果该过程语句描述的是<strong>组合逻辑</strong>，即 <code>always</code> 语句<u>不带有时钟信号</u>，则该寄存器变量对应为<strong>硬件连线</strong></li>
 <li>寄存器类型的缺省值是 x（未知状态）。</li>
-<li>寄存器数据类型有很多种，如 <code>reg</code>、<code>integer</code>、<code>real</code> 等，其中最常用的就是 <code>reg</code> 类型，它的使用方法如下： </li>
+<li>寄存器数据类型有很多种，如 <code>reg</code>、<code>integer</code>、<code>real</code> 等，其中最常用的就是 <code>reg</code> 类型，它的使用方法如下：</li>
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//reg define </span>
 <span class="token keyword">reg</span>  <span class="token punctuation">[</span><span class="token number">31</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  delay_cnt<span class="token punctuation">;</span>    <span class="token comment">//延时计数器 </span>
 <span class="token keyword">reg</span>          key_flag <span class="token punctuation">;</span>    <span class="token comment">//按键标志 </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
 <h4 id="2-线网类型"><a href="#2-线网类型" class="headerlink" title="2. 线网类型"></a>2. 线网类型</h4><ul>
 <li>线网表示 Verilog 结构化元件间的物理连线。</li>
 <li>它的值由驱动元件的值决定，例如连续赋值或门的输出。</li>
@@ -456,6 +461,7 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//wire define </span>
 <span class="token keyword">wire</span>         data_en<span class="token punctuation">;</span>         <span class="token comment">//数据使能信号 </span>
 <span class="token keyword">wire</span>  <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>  data   <span class="token punctuation">;</span>         <span class="token comment">//数据</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="3-参数类型"><a href="#3-参数类型" class="headerlink" title="3. 参数类型"></a>3. 参数类型</h4><ul>
 <li>参数其实就是一个常量，常被用于定义状态机的状态、数据位宽和延迟大小<br>等</li>
 <li>在定义参数时，我们可以一次定义多个参数，参数与参数之间需要用逗号隔开。</li>
@@ -465,97 +471,86 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//parameter define </span>
 <span class="token keyword">parameter</span>    DATA_WIDTH <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>  <span class="token comment">//数据位宽为8位</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
 <h3 id="Verilog-的运算符"><a href="#Verilog-的运算符" class="headerlink" title="Verilog 的运算符"></a>Verilog 的运算符</h3><ul>
-<li>大部分运算符与C相同，本文就讲述特别且常用的运算符<h4 id="1-位运算符"><a href="#1-位运算符" class="headerlink" title="1.位运算符"></a>1.位运算符</h4></li>
-<li>位运算符是一类最基本的运算符，可以认为它们直接对应数字逻辑中的与、或、非门等逻辑门。常用的位运算符如下表所示。</li>
-<li>位运算符的与、或、非与逻辑运算符逻辑与、逻辑或、逻辑非使用时候容易混淆，逻辑运算符一般用在条件判断上，位运算符一般用在信号赋值上。 </li>
+<li>大部分运算符与C相同，本文就讲述特别且常用的运算符</li>
 </ul>
-<div class="table-container">
+<h4 id="1-位运算符"><a href="#1-位运算符" class="headerlink" title="1.位运算符"></a>1.位运算符</h4><ul>
+<li>位运算符是一类最基本的运算符，可以认为它们直接对应数字逻辑中的与、或、非门等逻辑门。常用的位运算符如下表所示。</li>
+<li>位运算符的与、或、非与逻辑运算符逻辑与、逻辑或、逻辑非使用时候容易混淆，逻辑运算符一般用在条件判断上，位运算符一般用在信号赋值上。</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th style="text-align:left">符合</th>
-<th style="text-align:left">使用方法</th>
-<th style="text-align:left">说明</th>
+<th align="left">符合</th>
+<th align="left">使用方法</th>
+<th align="left">说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:left">~</td>
-<td style="text-align:left">~a</td>
-<td style="text-align:left">将 a 的每个位进行取反</td>
+<tbody><tr>
+<td align="left">~</td>
+<td align="left">~a</td>
+<td align="left">将 a 的每个位进行取反</td>
 </tr>
 <tr>
-<td style="text-align:left">&amp;</td>
-<td style="text-align:left">a&amp;b</td>
-<td style="text-align:left">将 a 的每个位与 b 相同的位进行相与</td>
+<td align="left">&amp;</td>
+<td align="left">a&amp;b</td>
+<td align="left">将 a 的每个位与 b 相同的位进行相与</td>
 </tr>
 <tr>
-<td style="text-align:left">\</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">a\</td>
-<td>b</td>
-<td>将 a 的每个位与 b 相同的位进行相或</td>
+<td align="left">|</td>
+<td align="left">a|b</td>
+<td align="left">将 a 的每个位与 b 相同的位进行相或</td>
 </tr>
 <tr>
-<td style="text-align:left">^</td>
-<td style="text-align:left">a ^ b</td>
-<td style="text-align:left">将 a 的每个位与 b 相同的位进行异或</td>
+<td align="left">^</td>
+<td align="left">a ^ b</td>
+<td align="left">将 a 的每个位与 b 相同的位进行异或</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <h4 id="2-移位运算符"><a href="#2-移位运算符" class="headerlink" title="2.移位运算符"></a>2.移位运算符</h4><ul>
 <li>移位运算符包括左移位运算符和右移位运算符，这两种移位运算符都<strong>用 0 来填补移出的空位</strong>。</li>
 <li>假设 a 有 8bit 数据位宽，那么 <code>a&lt;&lt;2</code>，表示 a 左移 2bit，a 还是 8bit 数据位宽，a 的最高 2bit 数据被移位丢弃了，最低 2bit 数据固定补 0。</li>
-<li>如果 a 是 3（二进制：00000011），那么 3 左移 2bit，<code>3&lt;&lt;2</code>，就是 12（二进制：00001100）。一般使用左移位运算代替乘法，右移位运算代替除法，但是这种也只能表示 2 的指数次幂的乘除法。 </li>
+<li>如果 a 是 3（二进制：00000011），那么 3 左移 2bit，<code>3&lt;&lt;2</code>，就是 12（二进制：00001100）。一般使用左移位运算代替乘法，右移位运算代替除法，但是这种也只能表示 2 的指数次幂的乘除法。</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:left">符合</th>
-<th style="text-align:left">使用方法</th>
-<th style="text-align:left">说明</th>
+<th align="left">符合</th>
+<th align="left">使用方法</th>
+<th align="left">说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:left">&lt;&lt;</td>
-<td style="text-align:left">a &lt;&lt; b</td>
-<td style="text-align:left">将 a 左移 b 位</td>
+<tbody><tr>
+<td align="left">&lt;&lt;</td>
+<td align="left">a &lt;&lt; b</td>
+<td align="left">将 a 左移 b 位</td>
 </tr>
 <tr>
-<td style="text-align:left">&gt;&gt;</td>
-<td style="text-align:left">a &gt;&gt; b</td>
-<td style="text-align:left">将 a 右移 b 位</td>
+<td align="left">&gt;&gt;</td>
+<td align="left">a &gt;&gt; b</td>
+<td align="left">将 a 右移 b 位</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <h4 id="3-拼接运算符"><a href="#3-拼接运算符" class="headerlink" title="3.拼接运算符"></a>3.拼接运算符</h4><ul>
 <li>Verilog 中有一个特殊的运算符是 C 语言中没有的，就是位拼接运算符。用这个运算符可以把两个或多个信号的某些位拼接起来进行运算操作。</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:left">符合</th>
-<th style="text-align:left">使用方法</th>
-<th style="text-align:left">说明</th>
+<th align="left">符合</th>
+<th align="left">使用方法</th>
+<th align="left">说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:left">{}</td>
-<td style="text-align:left">{a,b}</td>
-<td style="text-align:left">将 a 和 b 拼接起来，作为一个新信号</td>
+<tbody><tr>
+<td align="left">{}</td>
+<td align="left">{a,b}</td>
+<td align="left">将 a 和 b 拼接起来，作为一个新信号</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <h2 id="Verilog-程序框架"><a href="#Verilog-程序框架" class="headerlink" title="Verilog 程序框架"></a>Verilog 程序框架</h2><h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><ul>
-<li>Verilog 和 C 语言类似，都因编写需要定义了一系列保留字，叫做关键字（或关键词）。这些保留字是识别语法的关键。<br><img src="/2024/06/10/verilog-hdl/2.png" alt></li>
+<li>Verilog 和 C 语言类似，都因编写需要定义了一系列保留字，叫做关键字（或关键词）。这些保留字是识别语法的关键。<br><img src="/2024/06/10/verilog-hdl/2.png"></li>
 <li><strong>实际经常使用的主要如下表</strong>:</li>
 </ul>
 <div align="center">
@@ -563,7 +558,8 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 </div>
 
 <h3 id="程序框架"><a href="#程序框架" class="headerlink" title="程序框架"></a>程序框架</h3><ul>
-<li>Verilog 的基本设计单元是“<strong>模块</strong>”(block)，一个模块是由两部分组成的，一部分<strong>描述接口</strong>，另一部分<strong>描述逻辑功能</strong>。</li>
+<li><p>Verilog 的基本设计单元是“<strong>模块</strong>”(block)，一个模块是由两部分组成的，一部分<strong>描述接口</strong>，另一部分<strong>描述逻辑功能</strong>。</p>
+</li>
 <li><p>每个Verilog程序包括4个主要的部分：<strong>端口定义</strong>、<strong>IO说明</strong>、<strong>内部信号声明</strong>、<strong>功能定义</strong>。</p>
 </li>
 <li><p>以 《正点原子 达芬奇 Pro 之 FPGA 开发指南》提供的LED 流水灯程序为例来展示 Verilog 的程序框架，代码如下所示（注意：代码中前面的行号只是为了方便大家阅读代码与快速定位到行号的位置，在实际编写代码时不可以添加行号，否则编译代码时会报错）。</p>
@@ -628,25 +624,26 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
  
 <span class="token keyword">endmodule</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li>首先//开头的都是注释，这个之前我们讲解过了。下面我们来看下具体的解释。 </li>
+<li>首先&#x2F;&#x2F;开头的都是注释，这个之前我们讲解过了。下面我们来看下具体的解释。 </li>
 <li>第 1 行为模块定义，模块定义以 module 开始，endmodule 结束，如 59 行所示。 </li>
 <li>其次 2 到 5 行为端口定义，需要定义 led 模块的输入信号和输出信号，此处输入信号为系统时钟和复位信号，输出为 led 控制信号。 </li>
 <li>7 到 9 行为参数 parameter 定义，语法如 7 到 9 行所示，定义 parameter 的好处是可以灵活改变参数数字就能控制一些计数器最大计数值或者信号位宽的最大位宽。 </li>
 <li>12 到 14 行为 reg 信号定义，reg 信号一般情况下代表寄存器，比如此处控制 0.5 秒使能信号的计数器counter。 </li>
-<li>16 到 17 行为 wire 信号定义，wire 信号就是硬件连线，比如此处的 counter_en，代表计数到最大值时产生高电平使能，本质上是一个硬件连线，其实代表的是一些计数器/寄存器做逻辑判断的结果。 19 到 21 行为 moudle 开始的注释，不添加工具综合也不会报错，但是我们推荐添加，作为一个良好的编程规范。 </li>
+<li>16 到 17 行为 wire 信号定义，wire 信号就是硬件连线，比如此处的 counter_en，代表计数到最大值时产生高电平使能，本质上是一个硬件连线，其实代表的是一些计数器&#x2F;寄存器做逻辑判断的结果。 19 到 21 行为 moudle 开始的注释，不添加工具综合也不会报错，但是我们推荐添加，作为一个良好的编程规范。 </li>
 <li>23 到 24 行为 assign 语句的样式，条件成立选择 1，否则选择 0。 </li>
-<li>26 到 34 行是 always 语句的样式，27 行代表在时钟上升沿或者复位的下降沿进行信号触发。begin/end 代表语句的开始和结束。28 到 33 行为 if/else 语句，和 C 语言是比较类似的。29 行的“&lt;=”标记代表信号是非阻塞赋值，信号赋值有非阻塞赋值和阻塞赋值两个方式，这个我们后面会详细解释。 36 和 42 行也是一个 always 语句，和 26 到 34 行类似。 </li>
+<li>26 到 34 行是 always 语句的样式，27 行代表在时钟上升沿或者复位的下降沿进行信号触发。begin&#x2F;end 代表语句的开始和结束。28 到 33 行为 if&#x2F;else 语句，和 C 语言是比较类似的。29 行的“&lt;&#x3D;”标记代表信号是非阻塞赋值，信号赋值有非阻塞赋值和阻塞赋值两个方式，这个我们后面会详细解释。 36 和 42 行也是一个 always 语句，和 26 到 34 行类似。 </li>
 <li>44 和 57 行也是一个 always 语句，不过这个 always 语句中嵌入了一个 case 语句，case 语句的语法如49 到 55 行所示，需要一个 case 关键字开始，endcase 关键字结束，default 作为默认分支，和 C 语言也是类似的。当然 case 语句也可以用在不带时钟的 always 语句中，不过本例子的 always 都是带有时钟的。不带时钟的 always 和带时钟的 always 语句的差异这个我们后面也会详细解释。 </li>
 <li>59 行是 endmodule 标记，代表模块的结束。 </li>
 <li>如果只有一条赋值语句时，if 后面可以加 begin 和 end，也可以不加；如果超过一条赋值语句时，就必须加上 begin 和 end。 代码如下所示：<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token function">if</span><span class="token punctuation">(</span>en <span class="token operator">==</span> <span class="token number">1'b1</span><span class="token punctuation">)</span> <span class="token keyword">begin</span> 
     b <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
     c <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> 
-<span class="token keyword">end</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="Verilog-高级知识点"><a href="#Verilog-高级知识点" class="headerlink" title="Verilog 高级知识点"></a>Verilog 高级知识点</h2></li>
+<span class="token keyword">end</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
-<h3 id="结构语句"><a href="#结构语句" class="headerlink" title="结构语句"></a>结构语句</h3><h4 id="initial和-always"><a href="#initial和-always" class="headerlink" title="initial和 always"></a>initial和 always</h4><ul>
+<h2 id="Verilog-高级知识点"><a href="#Verilog-高级知识点" class="headerlink" title="Verilog 高级知识点"></a>Verilog 高级知识点</h2><h3 id="结构语句"><a href="#结构语句" class="headerlink" title="结构语句"></a>结构语句</h3><h4 id="initial和-always"><a href="#initial和-always" class="headerlink" title="initial和 always"></a>initial和 always</h4><ul>
 <li><code>initial</code>语句它在模块中只执行一次。<br>它常用于测试文件的编写，用来产生仿真测试信号(激励信号)，或者用于对存储器变量赋初值。</li>
-<li><code>always</code>语句一直在不断地重复活动。<br>但是只有和一定的时间控制结合在一起才有作用。<h4 id="assign-和-always-区别"><a href="#assign-和-always-区别" class="headerlink" title="assign 和 always 区别"></a>assign 和 always 区别</h4></li>
+<li><code>always</code>语句一直在不断地重复活动。<br>但是只有和一定的时间控制结合在一起才有作用。</li>
+</ul>
+<h4 id="assign-和-always-区别"><a href="#assign-和-always-区别" class="headerlink" title="assign 和 always 区别"></a>assign 和 always 区别</h4><ul>
 <li><code>assign</code> 语句使用时不能带时钟。 </li>
 <li><code>always</code> 语句可以带时钟，也可以不带时钟。在 <code>always</code> 不带时钟时，逻辑功能和 <code>assign</code> 完全一致，都是</li>
 <li>只产生组合逻辑。比较<strong>简单的组合逻辑</strong>推荐使用 <code>assign</code> 语句，比较<strong>复杂的组合逻辑</strong>推荐使用 <code>always</code> 语句。</li>
@@ -674,39 +671,38 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
     <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>counter_en<span class="token punctuation">)</span> 
         counter <span class="token operator">&lt;=</span> <span class="token number">1'b0</span><span class="token punctuation">;</span> 
     <span class="token keyword">else</span> 
-        counter <span class="token operator">&lt;=</span> counter <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> <span class="token number">34</span>  <span class="token keyword">end</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
+        counter <span class="token operator">&lt;=</span> counter <span class="token operator">+</span> <span class="token number">1'b1</span><span class="token punctuation">;</span> <span class="token number">34</span>  <span class="token keyword">end</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <h4 id="组合逻辑电路和时序逻辑电路"><a href="#组合逻辑电路和时序逻辑电路" class="headerlink" title="组合逻辑电路和时序逻辑电路"></a>组合逻辑电路和时序逻辑电路</h4><ul>
 <li>根据逻辑功能的不同特点，可以将数字电路分成两大类：<strong>组合逻辑电路</strong>和<strong>时序逻辑电路</strong>。</li>
 <li><strong>组合逻辑电路</strong>中，任意时刻的输出仅仅取决于该时刻的输入，与电路原来的状态无关。</li>
-<li><strong>时序逻辑电路</strong>中，任一时刻的输出不仅取决于当时的输入信号，而且还取决于电路原来的状态。或者说还与以前的输入有关，因此时序逻辑必须具备记忆功能。<br><img src="/2024/06/10/verilog-hdl/4.png" alt></li>
+<li><strong>时序逻辑电路</strong>中，任一时刻的输出不仅取决于当时的输入信号，而且还取决于电路原来的状态。或者说还与以前的输入有关，因此时序逻辑必须具备记忆功能。<br><img src="/2024/06/10/verilog-hdl/4.png"></li>
 </ul>
 <h3 id="赋值语句"><a href="#赋值语句" class="headerlink" title="赋值语句"></a>赋值语句</h3><h4 id="阻塞赋值（Blocking）"><a href="#阻塞赋值（Blocking）" class="headerlink" title="阻塞赋值（Blocking）"></a>阻塞赋值（Blocking）</h4><ul>
 <li>阻塞赋值，顾名思义即在一个 <code>always</code> 块中，一条阻塞赋值语句如果没有执行结束，那么该语句后面的语句就不能被执行，即被“阻塞”。</li>
 <li>RHS：赋值等号右边的表达式或变量可以写作 RHS 表达式或 RHS 变量 </li>
-<li>LHS：赋值等号左边的表达式或变量可以写作 LHS 表达式或 LHS 变量<br><img src="/2024/06/10/verilog-hdl/5.png" alt><br><img src="/2024/06/10/verilog-hdl/6.png" alt></li>
+<li>LHS：赋值等号左边的表达式或变量可以写作 LHS 表达式或 LHS 变量<br><img src="/2024/06/10/verilog-hdl/5.png"><br><img src="/2024/06/10/verilog-hdl/6.png"></li>
 <li>代码中使用的是阻塞赋值语句，从波形图中可以看到：<ul>
-<li>在复位的时候（rst_n=0），a=1，b=2，c=3；</li>
-<li>而结束复位之后（波形图中的 0 时刻），当 clk 的上升沿到来时（波形图中的 2 时刻），a=0，b=0，c=0。</li>
-<li>这是因为阻塞赋值是在当前语句执行完成之后，才会执行后面的赋值语句，因此首先执行的是 a=0，赋值完成后将 a 的值赋值给 b，由于此时 a 的值已经为 0，所以 b=a=0，最后执行的是将 b 的值赋值给 c，而 b 的值已经赋值为 0，所以 c 的值同样等于 0。 </li>
+<li>在复位的时候（rst_n&#x3D;0），a&#x3D;1，b&#x3D;2，c&#x3D;3；</li>
+<li>而结束复位之后（波形图中的 0 时刻），当 clk 的上升沿到来时（波形图中的 2 时刻），a&#x3D;0，b&#x3D;0，c&#x3D;0。</li>
+<li>这是因为阻塞赋值是在当前语句执行完成之后，才会执行后面的赋值语句，因此首先执行的是 a&#x3D;0，赋值完成后将 a 的值赋值给 b，由于此时 a 的值已经为 0，所以 b&#x3D;a&#x3D;0，最后执行的是将 b 的值赋值给 c，而 b 的值已经赋值为 0，所以 c 的值同样等于 0。</li>
 </ul>
 </li>
 </ul>
 <h4 id="非阻塞赋值（Non-blocking）"><a href="#非阻塞赋值（Non-blocking）" class="headerlink" title="非阻塞赋值（Non-blocking）"></a>非阻塞赋值（Non-blocking）</h4><ul>
-<li>符号“&lt;=”用于非阻塞赋值（如:b &lt;= a;），非阻塞赋值是由时钟节拍决定，在时钟上升到来时，执行赋值语句右边，然后将 begin-end 之间的所有赋值语句同时赋值到赋值语句的左边</li>
+<li>符号“&lt;&#x3D;”用于非阻塞赋值（如:b &lt;&#x3D; a;），非阻塞赋值是由时钟节拍决定，在时钟上升到来时，执行赋值语句右边，然后将 begin-end 之间的所有赋值语句同时赋值到赋值语句的左边</li>
 <li>非阻塞赋值的操作过程可以看作两个步骤： <ol>
 <li>赋值开始的时候，计算 RHS； </li>
-<li>赋值结束的时候，更新 LHS。 </li>
+<li>赋值结束的时候，更新 LHS。</li>
 </ol>
 </li>
 </ul>
-<p><img src="/2024/06/10/verilog-hdl/7.png" alt><br><img src="/2024/06/10/verilog-hdl/8.png" alt></p>
+<p><img src="/2024/06/10/verilog-hdl/7.png"><br><img src="/2024/06/10/verilog-hdl/8.png"></p>
 <ul>
 <li>代码中使用的是非阻塞赋值语句，从波形图中可以看到：<ul>
-<li>在复位的时候（rst_n=0），a=1，b=2，c=3；</li>
-<li>而结束复位之后（波形图中的 0 时刻），当 clk 的上升沿到来时（波形图中的 2 时刻），a=0，b=1，c=2。</li>
-<li>这是因为非阻塞赋值在计算 RHS 和更新 LHS 期间，允许其它的非阻塞赋值语句同时计算 RHS 和更新 LHS。在波形图中的 2 时刻，RHS 的表达是 0、a、b，分别等于 0、1、2，这三条语句是同时更新 LHS，所以 a、b、c 的值分别等于 0、1、2。 </li>
+<li>在复位的时候（rst_n&#x3D;0），a&#x3D;1，b&#x3D;2，c&#x3D;3；</li>
+<li>而结束复位之后（波形图中的 0 时刻），当 clk 的上升沿到来时（波形图中的 2 时刻），a&#x3D;0，b&#x3D;1，c&#x3D;2。</li>
+<li>这是因为非阻塞赋值在计算 RHS 和更新 LHS 期间，允许其它的非阻塞赋值语句同时计算 RHS 和更新 LHS。在波形图中的 2 时刻，RHS 的表达是 0、a、b，分别等于 0、1、2，这三条语句是同时更新 LHS，所以 a、b、c 的值分别等于 0、1、2。</li>
 </ul>
 </li>
 </ul>
@@ -730,27 +726,27 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
 <li>米勒状态机的模型如下图所示：<ul>
 <li>模型中第一个方框是指产生下一状态的组合逻辑 F，F 是当前状态和输入信号的函数，状态是否改变、如何改变，取决于组合逻辑 F 的输出；</li>
 <li>第二框图是指状态寄存器，其由一组触发器组成，用来记忆状态机当前所处的状态，状态的改变只发生在时钟的跳边沿；</li>
-<li>第三个框图是指产生输出的组合逻辑 G，状态机的输出是由输出组合逻辑 G 提供的，G 也是当前状态和输入信号的函数。 </li>
+<li>第三个框图是指产生输出的组合逻辑 G，状态机的输出是由输出组合逻辑 G 提供的，G 也是当前状态和输入信号的函数。</li>
 </ul>
 </li>
 </ul>
-<p><img src="/2024/06/10/verilog-hdl/10.png" alt></p>
+<p><img src="/2024/06/10/verilog-hdl/10.png"></p>
 <h3 id="2-Moore-状态机"><a href="#2-Moore-状态机" class="headerlink" title="2. Moore 状态机"></a>2. Moore 状态机</h3><ul>
 <li>摩尔状态机的模型如下图所示，对比米勒状态机的模型可以发现，其区别在于米勒状态机的输出由<strong>当前状态和输入条件决定</strong>的，而摩尔状态机的输出<strong>只取决于当前状态</strong>。</li>
 </ul>
-<p><img src="/2024/06/10/verilog-hdl/11.png" alt></p>
+<p><img src="/2024/06/10/verilog-hdl/11.png"></p>
 <h3 id="3-三段式状态机"><a href="#3-三段式状态机" class="headerlink" title="3. 三段式状态机"></a>3. 三段式状态机</h3><ul>
 <li>根据状态机的实际写法，状态机还可以分为一段式、二段式和三段式状态机。 </li>
 <li>三段式：使用三个 <code>always</code> 模块。<ul>
 <li>第一个 <code>always</code> 模块采用<u>同步时序</u><strong>描述状态转移</strong>，</li>
 <li>第二个 <code>always</code> 采用<u>组合逻辑判断状态转移条件</u>，<strong>描述状态转移规律</strong>，</li>
-<li>第三个 <code>always</code> 模块<strong>描述状态输出</strong>(可以用组合电路输出，也可以时序电路输出)。 </li>
+<li>第三个 <code>always</code> 模块<strong>描述状态输出</strong>(可以用组合电路输出，也可以时序电路输出)。</li>
 </ul>
 </li>
 <li>实际应用中三段式状态机使用最多，因为三段式状态机将组合逻辑和时序分开，有利于综合器分析优化以及程序的维护；并且三段式状态机将状态转移与状态输出分开，使代码看上去更加清晰易懂，提高了代码的可读性</li>
 </ul>
 <ol>
-<li><p>在开始编写状态机代码之前，一般先画出状态跳转图，这样在编写代码时思路会比较清晰，下面以一个 7 分频为例：<br><img src="/2024/06/10/verilog-hdl/9.png" alt></p>
+<li><p>在开始编写状态机代码之前，一般先画出状态跳转图，这样在编写代码时思路会比较清晰，下面以一个 7 分频为例：<br><img src="/2024/06/10/verilog-hdl/9.png"></p>
 </li>
 <li><p>状态跳转图画完之后，接下来通过 <code>parameter</code> 来定义各个不同状态的参数，如下代码所示:</p>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">parameter</span> S0 <span class="token operator">=</span> <span class="token number">7'b0000001</span><span class="token punctuation">;</span>     <span class="token comment">//独热码定义方式 </span>
@@ -821,15 +817,14 @@ Verilog 简介Verilog 是一种硬件描述语言（HDL），用于描述数字�
         clk_divide_7  <span class="token operator">&lt;=</span> <span class="token number">1'b1</span><span class="token punctuation">;</span>     
 <span class="token keyword">end</span> 
  
-<span class="token keyword">endmodule</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
+<span class="token keyword">endmodule</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <ul>
 <li>第一个 <code>always</code> 语句实现同步状态跳转（如代码的第 27 至第 33 行所示），在复位的时候，当前状态处在 S0 状态，否则将下一个状态赋值给当前状态</li>
 <li>第二个 <code>always</code> 采用组合逻辑判断状态转移条件（如代码的第 35 行至第 47 行代码所示），这里每一个状态只保持一个时钟周期，也就是直接跳转到下一个状态，在实际应用中，一般根据输入的条件来判断是否跳转到其它状态或者停留在当前转态，最后在 <code>case</code> 语句后面增加一个 <code>default</code> 语句，来防止状态机处在异常的状态；</li>
 <li>第三个 <code>always</code> 输出分频后的时钟（如代码的第 49 至第 59 行代码所示），状态机的第三段可以使用组合逻辑电路输出，也可以使用时序逻辑电路输出，一般推荐使用时序电路输出，因为状态机的设计和其它设计一样，最好使用同步时序方式设计，以提高设计的稳定性，消除毛刺。</li>
 </ul>
-<p><img src="/2024/06/10/verilog-hdl/12.png" alt></p>
+<p><img src="/2024/06/10/verilog-hdl/12.png"></p>
 <ul>
 <li>三段式可以在组合逻辑后再<strong>增加一级寄存器</strong>来实现时序逻辑输出:<ol>
 <li>可以有效地滤去组合逻辑输出的毛刺;</li>

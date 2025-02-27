@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="计算机网络笔记, 白米粥のBlog">
     <meta name="description" content="计算机网络计算机体系结构主要内容：每层协议、每层功能、每层设备、网络怎么分层不需要考虑如何实现和实现的细节体系结构：协议；服务；服务访问点协议：语法(格式)；语义(干什么)；同步(时序)
-TCP/IP  ISO体系结构OSI/OST参考模型">
+TCP&amp;#x2F;IP  ISO体系结构OSI&amp;#x">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -308,7 +308,7 @@ TCP/IP  ISO体系结构OSI/OST参考模型">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.6k
+                    5.5k
                 </div>
                 
 
@@ -329,329 +329,227 @@ TCP/IP  ISO体系结构OSI/OST参考模型">
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="计算机体系结构"><a href="#计算机体系结构" class="headerlink" title="计算机体系结构"></a>计算机体系结构</h2><p>主要内容：每层协议、每层功能、每层设备、网络怎么分层<br>不需要考虑如何实现和实现的细节<br>体系结构：协议；服务；服务访问点<br>协议：语法(格式)；语义(干什么)；同步(时序)</p>
-<h2 id="TCP-IP-ISO体系结构"><a href="#TCP-IP-ISO体系结构" class="headerlink" title="TCP/IP  ISO体系结构"></a>TCP/IP  ISO体系结构</h2><h3 id="OSI-OST参考模型"><a href="#OSI-OST参考模型" class="headerlink" title="OSI/OST参考模型"></a>OSI/OST参考模型</h3><p><img src="/2023/06/24/computer-network/1.png" alt><br>每层功能：</p>
+<h2 id="TCP-IP-ISO体系结构"><a href="#TCP-IP-ISO体系结构" class="headerlink" title="TCP&#x2F;IP  ISO体系结构"></a>TCP&#x2F;IP  ISO体系结构</h2><h3 id="OSI-OST参考模型"><a href="#OSI-OST参考模型" class="headerlink" title="OSI&#x2F;OST参考模型"></a>OSI&#x2F;OST参考模型</h3><p><img src="/2023/06/24/computer-network/1.png"><br>每层功能：</p>
 <h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>所用能和<strong>用户</strong>交互产生网络流量的程序。如QQ，浏览器等<br>典型的应用层服务：<br><strong>文件传输（FTP）<br>电子邮件（SMTP）<br>万维网（HTTP）</strong></p>
 <h4 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h4><p>用于处理在两个通信系统中交换信息的表示方式（语法和语义）<br>功能：<br><strong>数据格式变换（翻译官）<br>数据加密解密<br>数据压缩和恢复</strong></p>
-<h4 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h4><p>向表示层实体/用户进程提供建立连接并在连接上有序地传输数据。这是会话，也是建立同步(SYN)。<br>功能：<br>建立、管理、终止<strong>会话</strong><br>使用校验点可使会话在通信失效时<strong>从校验点/同步点继续恢复通信</strong>，实现数据同步。适用于传输大文件。</p>
-<h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>负责主机中两个进程的通信，即端到端的通信。传输单位是<strong>TCP报文段</strong>或<strong>UDP用户数据报</strong>。<strong><font color="#dd0000">只有它有可靠协议</font></strong><br>功能：<br>可靠传输，不可靠传输（一般用于小文件）<br>差错控制（用来处理传输过程中出现的错误）<br>流量控制（当两台主机处理数据的速度不匹配时，会对速度过快的主机进行控制）<strong>端到端数据传输、主机与主机之间</strong><br><strong>复用分用</strong><br>复用:多个应用层进程可同时使用下面运输层的服务。<br>分用:运输层把收到的信息分别交付给上面应用层中相应的进程。</p>
+<h4 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h4><p>向表示层实体&#x2F;用户进程提供建立连接并在连接上有序地传输数据。这是会话，也是建立同步(SYN)。<br>功能：<br>建立、管理、终止<strong>会话</strong><br>使用校验点可使会话在通信失效时<strong>从校验点&#x2F;同步点继续恢复通信</strong>，实现数据同步。适用于传输大文件。</p>
+<h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>负责主机中两个进程的通信，即端到端的通信。传输单位是<strong>TCP报文段</strong>或<strong>UDP用户数据报</strong>。**<font color="#dd0000">只有它有可靠协议</font>**<br>功能：<br>可靠传输，不可靠传输（一般用于小文件）<br>差错控制（用来处理传输过程中出现的错误）<br>流量控制（当两台主机处理数据的速度不匹配时，会对速度过快的主机进行控制）<strong>端到端数据传输、主机与主机之间</strong><br><strong>复用分用</strong><br>复用:多个应用层进程可同时使用下面运输层的服务。<br>分用:运输层把收到的信息分别交付给上面应用层中相应的进程。</p>
 <h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><p>主要任务是把分组从源端传到目的端，为分组交换网上的不同主机提供通信服务。<br>网络层传输单位是<strong>数据报</strong>。把数据报进行切割后，就是分组。<br><strong><font color="#dd0000">只有不可靠协议</font></strong><br>功能：<br><strong>路由选择</strong>（选择最合适的路由来传递数据）<br>流量控制<font color="#0000dd">（整个网络的流量控制）</font><br>差错控制<br><strong>拥塞控制</strong>（若所有结点都来不及接受分组，而要丢弃大量分组的话，网络就处于拥塞状态。因此要采取一定撒施，缓解这种拥塞。）</p>
-<h4 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h4><p>主要任务是把网络层传下来的数据报组装<strong>成帧</strong>。<br>数据链路层/链路层的传输单位是<strong>帧</strong>。<br><strong><font color="#dd0000">只有不可靠协议</font></strong><br>功能:<br>成帧（定义帧的开始和结束）<br>差错控制<br>流量控制<font color="#0000dd">（相邻结点的流量控制）</font><br><strong>访问（接入）控制</strong>（控制对信道的访问）<br><strong>传输层、网络层、数据链路层都有<font color="#dd0000">差错控制、流量控制</font></strong></p>
-<h4 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h4><p>主要任务是在物理媒体上实现比特流的透明传输。<br>物理层传输单位是<strong>比特</strong>。<br>透明传输:指不管所传数据是什么样的比特组合,都应当能够在链路上传送。<br><strong><font color="#dd0000">只有不可靠协议</font></strong><br>功能：<br>定义接口特性<br>定义传输模式<br>单工 接受方和发送方已经确定，不能更改<br>半双工 介于两者之间。同一时间段内，只能有一个接受方或发送方，但是身份可以调换。<br>双工 可以同时当做接收方和发送方，类似于打电话<br>定义传输速率<br>比特同步<br>比特编码<br>|      |  可靠  |   连接   |   确认   |<br>|  :——:  | :——:  |  :——:  | :——:  |<br>|  物理    |  $×$  |   $×$   |   $×$   |<br>|   数据   |  $×$  |   $×$   |   $×$   |<br>|   网络   |  $×$  |   $×$   |   $×$   |<br>|    传输(TCP)  |  $√$  |   $√$   |   $√$   |<br>|   传输(UDP)   |  $×$  |  $×$   |   $×$   |</p>
+<h4 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h4><p>主要任务是把网络层传下来的数据报组装<strong>成帧</strong>。<br>数据链路层&#x2F;链路层的传输单位是<strong>帧</strong>。<br><strong><font color="#dd0000">只有不可靠协议</font></strong><br>功能:<br>成帧（定义帧的开始和结束）<br>差错控制<br>流量控制<font color="#0000dd">（相邻结点的流量控制）</font><br><strong>访问（接入）控制</strong>（控制对信道的访问）<br><strong>传输层、网络层、数据链路层都有<font color="#dd0000">差错控制、流量控制</font></strong></p>
+<h4 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h4><p>主要任务是在物理媒体上实现比特流的透明传输。<br>物理层传输单位是<strong>比特</strong>。<br>透明传输:指不管所传数据是什么样的比特组合,都应当能够在链路上传送。<br><strong><font color="#dd0000">只有不可靠协议</font></strong><br>功能：<br>定义接口特性<br>定义传输模式<br>单工 接受方和发送方已经确定，不能更改<br>半双工 介于两者之间。同一时间段内，只能有一个接受方或发送方，但是身份可以调换。<br>双工 可以同时当做接收方和发送方，类似于打电话<br>定义传输速率<br>比特同步<br>比特编码</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">可靠</th>
+<th align="center">连接</th>
+<th align="center">确认</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">物理</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+</tr>
+<tr>
+<td align="center">数据</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+</tr>
+<tr>
+<td align="center">网络</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+</tr>
+<tr>
+<td align="center">传输(TCP)</td>
+<td align="center">$√$</td>
+<td align="center">$√$</td>
+<td align="center">$√$</td>
+</tr>
+<tr>
+<td align="center">传输(UDP)</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+<td align="center">$×$</td>
+</tr>
+</tbody></table>
 <p>PS:报文段$\rightarrow$报文交换；数据报$\rightarrow$分组交换<br>基于$TCP$的协议：HTTP、SMTP、POP3、FTP<br>基于$UDP$的协议：DNS、TFTP、DNCP<br>基于$IP$的协议：PING、ICMP、IGMP、OSPF</p>
 <h2 id="物理层-1"><a href="#物理层-1" class="headerlink" title="物理层"></a>物理层</h2><h3 id="物理层编码和调制"><a href="#物理层编码和调制" class="headerlink" title="物理层编码和调制"></a>物理层编码和调制</h3><p>调制(数字信号调整为模拟信号)：幅移ASK；频移FSK；相移PSK；正交振幅QAM</p>
 <p>编码(数字数据编码为数字信号)：</p>
-<p><strong>NRZ</strong>：二进制数据的简写<br><img src="/2023/06/24/computer-network/2.png" alt></p>
-<font color="#dd0000">10Base-T以太网都是曼彻斯特
-</font>
-
-<h3 id="物理层带宽计算"><a href="#物理层带宽计算" class="headerlink" title="物理层带宽计算"></a><font color="#dd0000">物理层带宽计算</font></h3><h4 id="奈氏定理"><a href="#奈氏定理" class="headerlink" title="奈氏定理"></a>奈氏定理</h4><p>V为几进制码元<br>理想数据传输速率：$\mathbf{C=Mlog_2V}(b/s)$<br>$B=2W=M$ &emsp; W是理想低通信道带宽<br>$C=2Wlog_2V$ &emsp; M是波特率$\leftarrow$调制速度<br>信道带宽是信道能通过最高频率和最低频率之差</p>
-<h4 id="香农公式"><a href="#香农公式" class="headerlink" title="香农公式"></a>香农公式</h4><p>信道传输速率：$\mathbf{Wlog_2(1+S/N)}$<br>$S/N$为信噪比 &emsp; 信噪比$=10lg\frac{S}{N}$(dB)<br>$S/N=10$，信噪比为10dB<br>$S/N=100$，信噪比为20dB</p>
+<p><strong>NRZ</strong>：二进制数据的简写<br><img src="/2023/06/24/computer-network/2.png"><br><font color="#dd0000">10Base-T以太网都是曼彻斯特<br></font></p>
+<h3 id="物理层带宽计算"><a href="#物理层带宽计算" class="headerlink" title="物理层带宽计算"></a><font color="#dd0000">物理层带宽计算</font></h3><h4 id="奈氏定理"><a href="#奈氏定理" class="headerlink" title="奈氏定理"></a>奈氏定理</h4><p>V为几进制码元<br>理想数据传输速率：$\mathbf{C&#x3D;Mlog_2V}(b&#x2F;s)$<br>$B&#x3D;2W&#x3D;M$ &emsp; W是理想低通信道带宽<br>$C&#x3D;2Wlog_2V$ &emsp; M是波特率$\leftarrow$调制速度<br>信道带宽是信道能通过最高频率和最低频率之差</p>
+<h4 id="香农公式"><a href="#香农公式" class="headerlink" title="香农公式"></a>香农公式</h4><p>信道传输速率：$\mathbf{Wlog_2(1+S&#x2F;N)}$<br>$S&#x2F;N$为信噪比 &emsp; 信噪比$&#x3D;10lg\frac{S}{N}$(dB)<br>$S&#x2F;N&#x3D;10$，信噪比为10dB<br>$S&#x2F;N&#x3D;100$，信噪比为20dB</p>
 <h3 id="物理层接口特性"><a href="#物理层接口特性" class="headerlink" title="物理层接口特性"></a>物理层接口特性</h3><p>机械特性：定义物理连接的特性，规定物理连接时所采用的<strong>规格、接口形状、引线数目、引脚数量和排列情况</strong>。<br>电气特性：规定传输二进制位时，线路上信号的<strong>电压范围、阻抗匹配、传输速率和距离限制</strong>等。<strong>通常有具体数值</strong><br>功能特性：指明某条线上出现的<strong>某一电平表示何种意义</strong>，接口部件的信号线的用途。<strong>无具体数值</strong><br>规程特性(过程特性）：定义各条物理线路的工作规程和<strong>时序关系</strong>。</p>
 <h2 id="数据链路层-1"><a href="#数据链路层-1" class="headerlink" title="数据链路层"></a>数据链路层</h2><h3 id="数据链路层成帧方法和透明传输"><a href="#数据链路层成帧方法和透明传输" class="headerlink" title="数据链路层成帧方法和透明传输"></a>数据链路层成帧方法和透明传输</h3><h4 id="封装成帧"><a href="#封装成帧" class="headerlink" title="封装成帧"></a>封装成帧</h4><p>封装成帧就是在一段数据的前后部分添加首部和尾部，这样就构成了一个帧。接收端在收到物理层上交的比特流后，就能根据首部和尾部的标记，从收到的比特流中识别帧的开始和结束。<br>首部和尾部包含许多的控制信息，他们的一个重要作用:帧定界（确定帧的界限）。帧同步:接收方应当能从接收到的二进制比特流中区分出帧的起始和终止。<br>组帧的四种方法: 1.字符计数法，2.字符(节）填充法，3.零比特填充法，4.违规编码法。<br>为了透明传输：</p>
 <ol>
 <li>同步线路：零比特填充——连续5个1后加0</li>
 <li>异步线路：用字符填充(默认情况)</li>
 </ol>
-<p><strong>字符计数填充</strong>：帧首部使用一个计数字段（第一个字节，八位）来标明帧内字符数。<br><img src="/2023/06/24/computer-network/3.png" alt></p>
+<p><strong>字符计数填充</strong>：帧首部使用一个计数字段（第一个字节，八位）来标明帧内字符数。<br><img src="/2023/06/24/computer-network/3.png"></p>
 <h4 id="透明传输"><a href="#透明传输" class="headerlink" title="透明传输"></a>透明传输</h4><p>透明传输是指不管所传数据是什么样的比特组合，都应当能够在链路上传送。因此，链路层就“看不见”有什么妨碍数据传输的东西。<br>当所传数据中的比特组合恰巧与某一个控制信息完全一样时，就必须采取适当的措施，使收方不会将这样的数据误认为是某种控制信息。这样才能保证数据链路层的传输是透明的。</p>
-<h3 id="数据链路层流量控制"><a href="#数据链路层流量控制" class="headerlink" title="数据链路层流量控制"></a><font color="#dd0000">数据链路层流量控制</font></h3><p><img src="/2023/06/24/computer-network/4.png" alt><br><strong>三者不同之处</strong></p>
-<font size="2">
-
-|      |  最大发送窗口  |   最小发送窗口   |   最大接收窗口   |  最小接收窗口   | 累计确认  |有序接收|最大利用率|最大带宽
-|  :----:  | :----:  |  :----:  | :----:  |  :----:  | :----: |  :----:  |  :----:  |  :----:  |
-|  停止等待  | $1$  |  $1$  | $1$  |  $1$  | 否 |  是  |  $\frac{t_1}{t_1+RTT+t_2}$  |  $\frac{L}{t_1+RTT+t_2}$  |
-|  GBN  | $2^n-1$  |  $2$  | $1$  |  $1$  | 是|  是  |  $\frac{Wt_1}{t_1+RTT+t_2}$  |  $\frac{WL}{t_1+RTT+t_2}$  |
-|  SR  | $2^{n-1}$  |  $2^{n-1}$  | $2^{n-1}$  |  $2$  | 否 |  否  |  $\frac{Wt_1}{t_1+RTT+t_2}$  |  $\frac{WL}{t_1+RTT+t_2}$  |
-</font>
-
-<p>以上字符代表含义：<br>$RTT$：双向传播时延(题目中出现单向，要注意<em>2)<br>$t_1=\frac{帧长}{发送速度(带宽)}$<br>$t_2$为确认帧，计算公式与$t_1$相同<br>$W$：窗口大小<br>$L$：数据帧长(bit))<br><strong>帧序列</strong>：$\lceil\log_2(W+1)\rceil$<br><em>*比特数$k$</em></em>：$W+1\leq2^k$<br>三者特点概括：<br>1.停止等待：有序发送，有序接收<br>2.GBN：累计确认；哪里出错从哪传(出错开始都要重传)<br>3.SR：选择确认，哪里出错传哪里(只传出错)<br>忽略帧开销即放弃$t_2$<br>收+发$\leq2^n$，n为分组序号为几比特编码<br>收$\leq$发</p>
-<font color="#dd0000">利用率高，帧长越小越好</font>
-利用率最大：$W=\frac{t_1+RTT+t_2}{t_1}$
-$t_1+RTT+t_2$为发送到收到确认的时间。
-
-### 数据链路层的介质访问控制
-![](Computer-Network/5.png)
-CSMA协议：
-CS:载波侦听/监听，每一个站在发送数据之前要检测一下总线上是否有其他计算机在发送数据。
-MA : 多点接入，表示许多计算机以多点接入的方式连接在一根总线上
-CSMA仍会发生冲突
-#### CSMA/CD(用于有线局域网)
-
-1. 先听后发
-2. 边听边发
-3. 冲突停发
-4. 随机重发
-
-需知必要知识点：
-争用期：最远两个端点端到端传播时延*2
-最小帧长：$争用期*发送速率=2*\frac{距离}{传播速率}*发送速率$
-例：100Base-T &emsp;发送速率100Mb/s&emsp;最小帧长64B&emsp;争用期5.12μs
-#### CSMA/CA(用于无线局域网)
-特点：
-&emsp;1. 用于无线局域网\\
-&emsp;2. 冲突避免协议；但无法完全避免\\
-&emsp;3. 无连接有确认\\
-&emsp;4. 信道预约技术(能量检测；载波检测；RTS与CTS预约)
-
-
-最大以太网数据帧：1518B &emsp;数据部分1500B
-
-### 网桥和以太网交换机及其工作原理
-交换机只可以隔离冲突域，广播域不可以
-交换机方便实现虚拟局域网VLAN&emsp;VLAN可以隔离广播域和冲突域
-1.直通式交换机：只检查目的地址&emsp;以太网帧64B；目的地址6B
-快、缺乏安全智能
-2.存储转发式交换机：检查整个帧，也就是64B(最小)
-可靠性高，延迟大
-自学习功能：
-![](Computer-Network/6.png)
-PS：只记录发出的那一个，本例发出A和B分别发出一个帧
-具体流程
-![](Computer-Network/8.png)
-设备相关总结
-![](Computer-Network/7.png)
-
-### IEEE 802.11 无线局域网 
-**例图**
-![](Computer-Network/42.png)
-#### MAC帧头格式
-![](Computer-Network/43.png)
-地址1：接收端
-地址2：发送端
-地址3：目的地址(传统802.3的MAC中的地址)  AP连接路由器
-#### 3个地址具体情况总览
-DA:目的地址  帧的最终接收方
-BSSID:AP的MAC地址
-SA:源地址  产生帧的地址
-RA:接收地址 帧的下一跳接收方地址
-TA:传送地址 帧的上一跳发送方地址
-![](Computer-Network/44.png) 
-
-例：如例图所示，假设H1$\rightarrow$H2
-MAC三地址应为：
-H1发送：H2&emsp;AP&emsp;H1
-H2接收：AP&emsp;H1&emsp;H2
-## 网络层
-### 网络层协议
-#### ICMP
-主要功能：1.差错控制；2.询问与回答
-**差错控制**(差错报告报文)
-类型：1.终点不可达（无法交付）；2.源点抑制（拥塞对数据）；3.超时（TTL=0）；4.参数问题（首部字段有问题）；5.改变路由/重定向（出现更好的路由）
-
-**不发送ICMP报文的情况**：
-1.对ICMP差错报告报文不再发送ICMP差错报告报文。
-2.对第一个分片的数据报片的所有后续数据报片都不发送ICMP差错报告报文。
-3.对具有组播地址的数据报都不发送ICMP差错报告报文。
-4.对具有特殊地址（如127.0.0.0或0.0.0.0）的数据报不发送ICMP差错报告报文。
-**询问与回答**(询问报文)
-主要类型：1.**回送请求和回答报文**(测试目的站是否可达以及了解其相关状态)；2.**时间戳请求和回答报文**(用来进行时钟同步和测量时间)；(以下不常用)3.掩码地址请求和回答；4.路由器询问和通告
-ICMP和IGMP都是网路层协议，二者都是对网路层提供服务，网路层也对它们提供服务
-#### ARP(地址解析协议)
-根据目的主机的IP，
-第1种情况：查出对应的物理地址，写入MAC帧
-第2种情况：查不出，则MAC帧为FF-FF-FF-FF-FF-FF，广播**ARP请求分组**。目的主机收到后发出**ARP响应分组(单播)**，ARP响应分组中有IP和MAC的映射。源主机收到后，将映射写入ARP缓存，重新根据MAC发数据。
-而若是不在一个局域网内，则要通过一个**路由器**，则**目的地址的MAC**应该为**路由器的物理地址**，其余IP和源地址MAC不变。但从路由器转发出去的源MAC要变为路由器的端口地址
-简单例子：
-ARP请求分组(广播)&emsp;$IP_A$&emsp;$IP_B$&emsp;$MAC_A$(源)&emsp;$FF-FF(FF*6)$(目的)
-ARP响应分组(单播)&emsp;$IP_B$&emsp;$IP_A$&emsp;$MAC_B$&emsp;$MAC_A$
-
-#### DHCP协议
-![](Computer-Network/32.png)
-### <font color="#dd0000">IP地址和路由转发</font>
-子网划分：1.主机优先$\rightarrow$不等大网络；2.网络优先$\rightarrow$等大网络
-不等大网络用哈夫曼编码实现，前缀不等长且不相同。
-例：![](Computer-Network/10.png)
-路由转发：1.最长前缀；2.路由表项
-**常见题型**：
-IP地址/24 &emsp;根据掩码是从24位到32位。如掩码：255.255.255.248。其中248即1111 1000。**“1”的个数即划分子网的个数**，**“0”的个数为每个子网可分配的主机数**。比如该例主机数应为$2^3-2$，之所以要**减2**，因为有两个地址已经被分配出去了，一个是全0网络号，一个是全1广播号
-**无分类变址CIDR**：将多个子网聚合成一个较大子网，叫做构成超网，或路由聚合
-例：198.168.2.0和198.168.2.130聚合为192.168.2.0/24
-**路由协议**
-#### RIP协议（距离向量算法）
-RIP协议要求网络中每一个路由器都维护从它自己到其他每一个目的网络的唯一最佳距离记录(即一组距离）。距离:通常为“跳数”，即从源端口到目的端口所经过的路由器个数，经过一个路由器跳数+1。特别的，从一路由器到直接连接的网络距离为1。RIP允许一条路由最多只能包含15个路由器，因此距离为16表示网络不可达。
-**应用层**协议，使用**UDP**发送
-要点：**按照既定的时间间隔向相邻路由器告知它已知的全部路由表**
-<font color="#dd0000">“坏消息传的慢”</font>
-总结问题：
-***问题：和谁交换？多久交换一次？交换什么？***
-答：相邻路由器；每30秒(通常)；路由表
-
-#### OSPF协议（链路状态算法）
-开放最短路径优先OSPF协议
-传递协议**IP**，**网络层**协议，在链路状态发生改变时向所有路由器发送，发送相邻路由器的链路状态。
-<font color="#dd0000">没有“坏消息传的慢”</font>
-总结问题：
-***问题：<u>和谁交换？多久交换一次？交换什么？</u>***
-答：所有路由器发送；链路状态发生改变时；相邻所有路由器的链路状态
-
-#### BGP协议
-**自治**系统之间的使用的协议就是BGP协议。
-**应用层**协议，使用**TCP**发送
-总结问题：
-***问题：<u>和谁交换？多久交换一次？交换什么？</u>***
-答：与其他AS自治系统的BGP发言人；发生变化时更新有变化的部分；交换网络可到达信息，即要到达某个网络所要经过的一系列AS
-#### 三者区别总结
-![](Computer-Network/24.png)
-#### 重要题型：根据路由表转发IP分组的步骤
-1.目的IP地址 AND(相与) 子网掩码 = 网络地址
-2.判断该网络地址是否与表项中的网络地址相等
-3.找到最长前缀地址
-PS：点对点链路一定是<font color="#dd0000">/30</font>
-
-<font color="#dd0000">主机是否在同一网段根据子网掩码与本机IP相与得到网络号，网络号是否一致</font>
-##### 注意事项
-a)
-在主机向目的主机发送消息时，不在同一个网络，且会发生NAT转换(经过一个路由器且网络地址变换大，如A$\rightarrow$B,B$\rightarrow$C)这里的ABC为网络类别
-![](Computer-Network/26.png)
-即：
-&emsp;1.主机到路由器
-&emsp;源地址：主机IP
-&emsp;目的地址：目的主机IP(可能是外网IP地址)
-&emsp;2.路由器到目的主机 **(内网到外网)**
-&emsp;源地址：路由器出发端口地址
-&emsp;目的地址：目的主机IP
-&emsp;3.路由器到目的主机 **(外网到内网)**
-&emsp;源地址：不变
-&emsp;目的地址：内网目的IP地址
-b)
-默认网关一般是主机通向路由器，路由器那端的IP地址
-若网关不一致，则无法通过路由器传递消息
-比如：1.通过路由器访问Internet
-&emsp;&emsp;&emsp;2.通过路由器访问不同子网(掩码相同的为同一子网)
-c)
-
-![](Computer-Network/11.png)
-简单总结常见情况：
-0.0.0.0：①本网络；②本主机；③OSPF的根区域 **<font color="#dd0000">不能作为目的IP、能作为源IP</font>**
-255.255.255.255：①广播；②广播请求地址 **<font color="#dd0000">能作为目的IP、不能作为源IP</font>**
-### <font color="#dd0000">子网划分</font>
-DNS、FTP、HTTP、DHCP为特定主机路由，其子网掩码为255.255.255.255
-默认路由是连接互联网的蓝牙。在路由表的最后
-|  0.0.0.0  | 0.0.0.0  |
-|  :----:  | :----:  |
-|  目的主机IP  | 子网掩码  |
-若要子网还可以分配主机地址：总数-全0-全1-路由器端口
-#### <font color="#dd0000">路由转发</font>
-注意聚合，尤其是题目中特别提到“路由项尽可能少”
-按照最长匹配原则转发
-
-TTL是经过一个路由器就-1
-
-网络地址变化大的（比如从A$\rightarrow$B,B$\rightarrow$C,C$\rightarrow$D）特别是连接Internet，路由器要进行NAT转换
-默认端口为80
-### <font color="#dd0000">IP数据报分片</font>
-IP分组**首部20B**
-**MTU**为链路层能承载的最大传递单元
-若IP数据报大于MTU，就要进行**分片**
-例：4000B大小的IP数据报 &emsp; MTU为：1500B
-则IP数据报信息为：首部20B+有效数据分为1480.1480.1020(必须要求是8的倍数，除了最后一片)
-![](Computer-Network/25.png)
-### 互联设备
-![](Computer-Network/12.png)
-在VLAN中，交换机、路由器、集线器都可以一直广播域。
-一个路由器，一根一个广播域
-一个交换机，一根线一个冲突域(与路由器相连的不算)
-## 传输层
-### 传输层功能与协议
-#### TCP
-简单注意事项：
-<font color="#dd0000">首部有20B</font>
-序号应该就是收到的确认号ack
-确认号应该是收到的序号+有效载荷
-
-#### UDP
-简单注意事项：
-<font color="#dd0000">首部有8B</font>
-复用：源端口
-分用：目的端口
-差错检验不通过直接丢弃
-
-### 传输层拥塞控制(TCP)
-#### 慢开始和拥塞避免 超时情况
-- 刚开始进行指数增长($*2$)，拥塞窗口$cwnd=1$到达ssthresh慢开始门限(阈值) 之后，进行加法增长($+1$)。
-- 遇到网络拥塞之后，降到初始值，重复之前的步骤。新的 ssthresh设为拥塞时窗口大小的一半，即$ssthresh=当前cwnd/2$
-- 而当$2cwnd>ssthresh$，下一个RTT的cwnd等于ssthresh,而不是2cwnd。如当前cwnd=8，ssthresh=12，下一个应该是cwnd应该是12而不是你16
-- 以上为老方案，遇到拥塞会从1开始，与以下的新方案不同
-![](Computer-Network/13.png)
-![](Computer-Network/33.png)
-
-
-#### 快重传和快恢复
-快重传：发送方收到3个重复的ACK报文，直接重传不等待超时
-快恢复：遇到拥塞不从1开始，而是从新的ssthresh开始
-PS：发送窗口cwnd不能超出接收方设定的接受窗口大小
-![](Computer-Network/14.png)
-
-### TCP连接管理
-#### 三次握手
-![](Computer-Network/15.png)
-
-第1和2次握手，不发送数据
-第3次可以选择携带数据发送，也可以不用，且之后的ACK均为1
-
-#### 四次挥手
-![](Computer-Network/16.png)
-题目中会出现考点：
-ACK，SYN，FIN一定有一个为1
-正确情况：等于0即不会出现
-- SYN=1，ACK=0
-- SYN=1，ACK=1
-- SYN=0，ACK=1
-- FIN=1，ACK=0
-- FIN=0，ACK=1
-- FIN=1，ACK=1
-
-**SYN**：SYN为1，表明这是一个<font color="#0099ff">连接请求/连接接受</font>报文
-**FIN**：FIN为1，表明此报文段<font color="#0099ff">发送方</font>数据已发送完，要求释放连接
-**ACK**：除了第一次，之后均为1
-注意事项：
-1.发送方收到确认，拥塞窗口+1
-如收到第8个确认，cwnd=8+1=9
-2.发送窗口=min{接收窗口，拥塞窗口}
-3.最短释放连接就是将中间两次挥手合并，一共是1.5RTT
-
-## 应用层
-![](Computer-Network/34.png)
-
-### 网络应用模型
-#### 客户/服务器模型
-![](Computer-Network/35.png)
-#### P2P模型
-![](Computer-Network/36.png)
-### DNS协议
-域名系统DNS 
-#### 域名
-com有一个点，就是 根
-![](Computer-Network/17.png)
-#### DNS服务器
-一般采用**UDP**
-![](Computer-Network/18.png)
-#### 域名解析过程
-域名解析主要有两种方法： ①递归（考别人）②迭代（靠自己）
-![](Computer-Network/19.png)
-注意事项：
-以www.abc.com为例，需要3次查询+本地域名1次
-若有缓存，则无需查询  
-<font color="#dd0000">注意：查询不等同于访问所需时间。一般最多查询4次，最少0次。
-但访问某内容再接收这一部分所需时间，还需要先建立TCP连接，再接收信息，且本地域名查询时间一般是忽略的。最长时间5RTT，最短2RTT</font>
-
+<h3 id="数据链路层流量控制"><a href="#数据链路层流量控制" class="headerlink" title="数据链路层流量控制"></a><font color="#dd0000">数据链路层流量控制</font></h3><p><img src="/2023/06/24/computer-network/4.png"><br><strong>三者不同之处</strong><br><font size="2"></font></p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">最大发送窗口</th>
+<th align="center">最小发送窗口</th>
+<th align="center">最大接收窗口</th>
+<th align="center">最小接收窗口</th>
+<th align="center">累计确认</th>
+<th align="center">有序接收</th>
+<th align="center">最大利用率</th>
+<th align="center">最大带宽</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">停止等待</td>
+<td align="center">$1$</td>
+<td align="center">$1$</td>
+<td align="center">$1$</td>
+<td align="center">$1$</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="center">$\frac{t_1}{t_1+RTT+t_2}$</td>
+<td align="center">$\frac{L}{t_1+RTT+t_2}$</td>
+</tr>
+<tr>
+<td align="center">GBN</td>
+<td align="center">$2^n-1$</td>
+<td align="center">$2$</td>
+<td align="center">$1$</td>
+<td align="center">$1$</td>
+<td align="center">是</td>
+<td align="center">是</td>
+<td align="center">$\frac{Wt_1}{t_1+RTT+t_2}$</td>
+<td align="center">$\frac{WL}{t_1+RTT+t_2}$</td>
+</tr>
+<tr>
+<td align="center">SR</td>
+<td align="center">$2^{n-1}$</td>
+<td align="center">$2^{n-1}$</td>
+<td align="center">$2^{n-1}$</td>
+<td align="center">$2$</td>
+<td align="center">否</td>
+<td align="center">否</td>
+<td align="center">$\frac{Wt_1}{t_1+RTT+t_2}$</td>
+<td align="center">$\frac{WL}{t_1+RTT+t_2}$</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>以上字符代表含义：<br>$RTT$：双向传播时延(题目中出现单向，要注意*2)<br>$t_1&#x3D;\frac{帧长}{发送速度(带宽)}$<br>$t_2$为确认帧，计算公式与$t_1$相同<br>$W$：窗口大小<br>$L$：数据帧长(bit))<br><strong>帧序列</strong>：$\lceil\log_2(W+1)\rceil$<br>**比特数$k$**：$W+1\leq2^k$<br>三者特点概括：<br>1.停止等待：有序发送，有序接收<br>2.GBN：累计确认；哪里出错从哪传(出错开始都要重传)<br>3.SR：选择确认，哪里出错传哪里(只传出错)<br>忽略帧开销即放弃$t_2$<br>收+发$\leq2^n$，n为分组序号为几比特编码<br>收$\leq$发<br><font color="#dd0000">利用率高，帧长越小越好</font><br>利用率最大：$W&#x3D;\frac{t_1+RTT+t_2}{t_1}$<br>$t_1+RTT+t_2$为发送到收到确认的时间。</p>
+<h3 id="数据链路层的介质访问控制"><a href="#数据链路层的介质访问控制" class="headerlink" title="数据链路层的介质访问控制"></a>数据链路层的介质访问控制</h3><p><img src="/2023/06/24/computer-network/5.png"><br>CSMA协议：<br>CS:载波侦听&#x2F;监听，每一个站在发送数据之前要检测一下总线上是否有其他计算机在发送数据。<br>MA : 多点接入，表示许多计算机以多点接入的方式连接在一根总线上<br>CSMA仍会发生冲突</p>
+<h4 id="CSMA-CD-用于有线局域网"><a href="#CSMA-CD-用于有线局域网" class="headerlink" title="CSMA&#x2F;CD(用于有线局域网)"></a>CSMA&#x2F;CD(用于有线局域网)</h4><ol>
+<li>先听后发</li>
+<li>边听边发</li>
+<li>冲突停发</li>
+<li>随机重发</li>
+</ol>
+<p>需知必要知识点：<br>争用期：最远两个端点端到端传播时延<em>2<br>最小帧长：$争用期</em>发送速率&#x3D;2*\frac{距离}{传播速率}*发送速率$<br>例：100Base-T &emsp;发送速率100Mb&#x2F;s&emsp;最小帧长64B&emsp;争用期5.12μs</p>
+<h4 id="CSMA-CA-用于无线局域网"><a href="#CSMA-CA-用于无线局域网" class="headerlink" title="CSMA&#x2F;CA(用于无线局域网)"></a>CSMA&#x2F;CA(用于无线局域网)</h4><p>特点：<br>&emsp;1. 用于无线局域网\<br>&emsp;2. 冲突避免协议；但无法完全避免\<br>&emsp;3. 无连接有确认\<br>&emsp;4. 信道预约技术(能量检测；载波检测；RTS与CTS预约)</p>
+<p>最大以太网数据帧：1518B &emsp;数据部分1500B</p>
+<h3 id="网桥和以太网交换机及其工作原理"><a href="#网桥和以太网交换机及其工作原理" class="headerlink" title="网桥和以太网交换机及其工作原理"></a>网桥和以太网交换机及其工作原理</h3><p>交换机只可以隔离冲突域，广播域不可以<br>交换机方便实现虚拟局域网VLAN&emsp;VLAN可以隔离广播域和冲突域<br>1.直通式交换机：只检查目的地址&emsp;以太网帧64B；目的地址6B<br>快、缺乏安全智能<br>2.存储转发式交换机：检查整个帧，也就是64B(最小)<br>可靠性高，延迟大<br>自学习功能：<br><img src="/2023/06/24/computer-network/6.png"><br>PS：只记录发出的那一个，本例发出A和B分别发出一个帧<br>具体流程<br><img src="/2023/06/24/computer-network/8.png"><br>设备相关总结<br><img src="/2023/06/24/computer-network/7.png"></p>
+<h3 id="IEEE-802-11-无线局域网"><a href="#IEEE-802-11-无线局域网" class="headerlink" title="IEEE 802.11 无线局域网"></a>IEEE 802.11 无线局域网</h3><p><strong>例图</strong><br><img src="/2023/06/24/computer-network/42.png"></p>
+<h4 id="MAC帧头格式"><a href="#MAC帧头格式" class="headerlink" title="MAC帧头格式"></a>MAC帧头格式</h4><p><img src="/2023/06/24/computer-network/43.png"><br>地址1：接收端<br>地址2：发送端<br>地址3：目的地址(传统802.3的MAC中的地址)  AP连接路由器</p>
+<h4 id="3个地址具体情况总览"><a href="#3个地址具体情况总览" class="headerlink" title="3个地址具体情况总览"></a>3个地址具体情况总览</h4><p>DA:目的地址  帧的最终接收方<br>BSSID:AP的MAC地址<br>SA:源地址  产生帧的地址<br>RA:接收地址 帧的下一跳接收方地址<br>TA:传送地址 帧的上一跳发送方地址<br><img src="/2023/06/24/computer-network/44.png"> </p>
+<p>例：如例图所示，假设H1$\rightarrow$H2<br>MAC三地址应为：<br>H1发送：H2&emsp;AP&emsp;H1<br>H2接收：AP&emsp;H1&emsp;H2</p>
+<h2 id="网络层-1"><a href="#网络层-1" class="headerlink" title="网络层"></a>网络层</h2><h3 id="网络层协议"><a href="#网络层协议" class="headerlink" title="网络层协议"></a>网络层协议</h3><h4 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h4><p>主要功能：1.差错控制；2.询问与回答<br><strong>差错控制</strong>(差错报告报文)<br>类型：1.终点不可达（无法交付）；2.源点抑制（拥塞对数据）；3.超时（TTL&#x3D;0）；4.参数问题（首部字段有问题）；5.改变路由&#x2F;重定向（出现更好的路由）</p>
+<p><strong>不发送ICMP报文的情况</strong>：<br>1.对ICMP差错报告报文不再发送ICMP差错报告报文。<br>2.对第一个分片的数据报片的所有后续数据报片都不发送ICMP差错报告报文。<br>3.对具有组播地址的数据报都不发送ICMP差错报告报文。<br>4.对具有特殊地址（如127.0.0.0或0.0.0.0）的数据报不发送ICMP差错报告报文。<br><strong>询问与回答</strong>(询问报文)<br>主要类型：1.<strong>回送请求和回答报文</strong>(测试目的站是否可达以及了解其相关状态)；2.<strong>时间戳请求和回答报文</strong>(用来进行时钟同步和测量时间)；(以下不常用)3.掩码地址请求和回答；4.路由器询问和通告<br>ICMP和IGMP都是网路层协议，二者都是对网路层提供服务，网路层也对它们提供服务</p>
+<h4 id="ARP-地址解析协议"><a href="#ARP-地址解析协议" class="headerlink" title="ARP(地址解析协议)"></a>ARP(地址解析协议)</h4><p>根据目的主机的IP，<br>第1种情况：查出对应的物理地址，写入MAC帧<br>第2种情况：查不出，则MAC帧为FF-FF-FF-FF-FF-FF，广播<strong>ARP请求分组</strong>。目的主机收到后发出<strong>ARP响应分组(单播)<strong>，ARP响应分组中有IP和MAC的映射。源主机收到后，将映射写入ARP缓存，重新根据MAC发数据。<br>而若是不在一个局域网内，则要通过一个</strong>路由器</strong>，则<strong>目的地址的MAC</strong>应该为<strong>路由器的物理地址</strong>，其余IP和源地址MAC不变。但从路由器转发出去的源MAC要变为路由器的端口地址<br>简单例子：<br>ARP请求分组(广播)&emsp;$IP_A$&emsp;$IP_B$&emsp;$MAC_A$(源)&emsp;$FF-FF(FF*6)$(目的)<br>ARP响应分组(单播)&emsp;$IP_B$&emsp;$IP_A$&emsp;$MAC_B$&emsp;$MAC_A$</p>
+<h4 id="DHCP协议"><a href="#DHCP协议" class="headerlink" title="DHCP协议"></a>DHCP协议</h4><p><img src="/2023/06/24/computer-network/32.png"></p>
+<h3 id="IP地址和路由转发"><a href="#IP地址和路由转发" class="headerlink" title="IP地址和路由转发"></a><font color="#dd0000">IP地址和路由转发</font></h3><p>子网划分：1.主机优先$\rightarrow$不等大网络；2.网络优先$\rightarrow$等大网络<br>不等大网络用哈夫曼编码实现，前缀不等长且不相同。<br>例：<img src="/2023/06/24/computer-network/10.png"><br>路由转发：1.最长前缀；2.路由表项<br><strong>常见题型</strong>：<br>IP地址&#x2F;24 &emsp;根据掩码是从24位到32位。如掩码：255.255.255.248。其中248即1111 1000。<strong>“1”的个数即划分子网的个数</strong>，<strong>“0”的个数为每个子网可分配的主机数</strong>。比如该例主机数应为$2^3-2$，之所以要<strong>减2</strong>，因为有两个地址已经被分配出去了，一个是全0网络号，一个是全1广播号<br><strong>无分类变址CIDR</strong>：将多个子网聚合成一个较大子网，叫做构成超网，或路由聚合<br>例：198.168.2.0和198.168.2.130聚合为192.168.2.0&#x2F;24<br><strong>路由协议</strong></p>
+<h4 id="RIP协议（距离向量算法）"><a href="#RIP协议（距离向量算法）" class="headerlink" title="RIP协议（距离向量算法）"></a>RIP协议（距离向量算法）</h4><p>RIP协议要求网络中每一个路由器都维护从它自己到其他每一个目的网络的唯一最佳距离记录(即一组距离）。距离:通常为“跳数”，即从源端口到目的端口所经过的路由器个数，经过一个路由器跳数+1。特别的，从一路由器到直接连接的网络距离为1。RIP允许一条路由最多只能包含15个路由器，因此距离为16表示网络不可达。<br><strong>应用层</strong>协议，使用<strong>UDP</strong>发送<br>要点：<strong>按照既定的时间间隔向相邻路由器告知它已知的全部路由表</strong><br><font color="#dd0000">“坏消息传的慢”</font><br>总结问题：<br><em><strong>问题：和谁交换？多久交换一次？交换什么？</strong></em><br>答：相邻路由器；每30秒(通常)；路由表</p>
+<h4 id="OSPF协议（链路状态算法）"><a href="#OSPF协议（链路状态算法）" class="headerlink" title="OSPF协议（链路状态算法）"></a>OSPF协议（链路状态算法）</h4><p>开放最短路径优先OSPF协议<br>传递协议<strong>IP</strong>，<strong>网络层</strong>协议，在链路状态发生改变时向所有路由器发送，发送相邻路由器的链路状态。<br><font color="#dd0000">没有“坏消息传的慢”</font><br>总结问题：<br><em><strong>问题：<u>和谁交换？多久交换一次？交换什么？</u></strong></em><br>答：所有路由器发送；链路状态发生改变时；相邻所有路由器的链路状态</p>
+<h4 id="BGP协议"><a href="#BGP协议" class="headerlink" title="BGP协议"></a>BGP协议</h4><p><strong>自治</strong>系统之间的使用的协议就是BGP协议。<br><strong>应用层</strong>协议，使用<strong>TCP</strong>发送<br>总结问题：<br><em><strong>问题：<u>和谁交换？多久交换一次？交换什么？</u></strong></em><br>答：与其他AS自治系统的BGP发言人；发生变化时更新有变化的部分；交换网络可到达信息，即要到达某个网络所要经过的一系列AS</p>
+<h4 id="三者区别总结"><a href="#三者区别总结" class="headerlink" title="三者区别总结"></a>三者区别总结</h4><p><img src="/2023/06/24/computer-network/24.png"></p>
+<h4 id="重要题型：根据路由表转发IP分组的步骤"><a href="#重要题型：根据路由表转发IP分组的步骤" class="headerlink" title="重要题型：根据路由表转发IP分组的步骤"></a>重要题型：根据路由表转发IP分组的步骤</h4><p>1.目的IP地址 AND(相与) 子网掩码 &#x3D; 网络地址<br>2.判断该网络地址是否与表项中的网络地址相等<br>3.找到最长前缀地址<br>PS：点对点链路一定是<font color="#dd0000">&#x2F;30</font></p>
+<p><font color="#dd0000">主机是否在同一网段根据子网掩码与本机IP相与得到网络号，网络号是否一致</font></p>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><p>a)<br>在主机向目的主机发送消息时，不在同一个网络，且会发生NAT转换(经过一个路由器且网络地址变换大，如A$\rightarrow$B,B$\rightarrow$C)这里的ABC为网络类别<br><img src="/2023/06/24/computer-network/26.png"><br>即：<br>&emsp;1.主机到路由器<br>&emsp;源地址：主机IP<br>&emsp;目的地址：目的主机IP(可能是外网IP地址)<br>&emsp;2.路由器到目的主机 <strong>(内网到外网)</strong><br>&emsp;源地址：路由器出发端口地址<br>&emsp;目的地址：目的主机IP<br>&emsp;3.路由器到目的主机 <strong>(外网到内网)</strong><br>&emsp;源地址：不变<br>&emsp;目的地址：内网目的IP地址<br>b)<br>默认网关一般是主机通向路由器，路由器那端的IP地址<br>若网关不一致，则无法通过路由器传递消息<br>比如：1.通过路由器访问Internet<br>&emsp;&emsp;&emsp;2.通过路由器访问不同子网(掩码相同的为同一子网)<br>c)</p>
+<p><img src="/2023/06/24/computer-network/11.png"><br>简单总结常见情况：<br>0.0.0.0：①本网络；②本主机；③OSPF的根区域 <strong><font color="#dd0000">不能作为目的IP、能作为源IP</font></strong><br>255.255.255.255：①广播；②广播请求地址 <strong><font color="#dd0000">能作为目的IP、不能作为源IP</font></strong></p>
+<h3 id="子网划分"><a href="#子网划分" class="headerlink" title="子网划分"></a><font color="#dd0000">子网划分</font></h3><p>DNS、FTP、HTTP、DHCP为特定主机路由，其子网掩码为255.255.255.255<br>默认路由是连接互联网的蓝牙。在路由表的最后</p>
+<table>
+<thead>
+<tr>
+<th align="center">0.0.0.0</th>
+<th align="center">0.0.0.0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">目的主机IP</td>
+<td align="center">子网掩码</td>
+</tr>
+<tr>
+<td align="center">若要子网还可以分配主机地址：总数-全0-全1-路由器端口</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h4 id="路由转发"><a href="#路由转发" class="headerlink" title="路由转发"></a><font color="#dd0000">路由转发</font></h4><p>注意聚合，尤其是题目中特别提到“路由项尽可能少”<br>按照最长匹配原则转发</p>
+<p>TTL是经过一个路由器就-1</p>
+<p>网络地址变化大的（比如从A$\rightarrow$B,B$\rightarrow$C,C$\rightarrow$D）特别是连接Internet，路由器要进行NAT转换<br>默认端口为80</p>
+<h3 id="IP数据报分片"><a href="#IP数据报分片" class="headerlink" title="IP数据报分片"></a><font color="#dd0000">IP数据报分片</font></h3><p>IP分组<strong>首部20B</strong><br><strong>MTU</strong>为链路层能承载的最大传递单元<br>若IP数据报大于MTU，就要进行<strong>分片</strong><br>例：4000B大小的IP数据报 &emsp; MTU为：1500B<br>则IP数据报信息为：首部20B+有效数据分为1480.1480.1020(必须要求是8的倍数，除了最后一片)<br><img src="/2023/06/24/computer-network/25.png"></p>
+<h3 id="互联设备"><a href="#互联设备" class="headerlink" title="互联设备"></a>互联设备</h3><p><img src="/2023/06/24/computer-network/12.png"><br>在VLAN中，交换机、路由器、集线器都可以一直广播域。<br>一个路由器，一根一个广播域<br>一个交换机，一根线一个冲突域(与路由器相连的不算)</p>
+<h2 id="传输层-1"><a href="#传输层-1" class="headerlink" title="传输层"></a>传输层</h2><h3 id="传输层功能与协议"><a href="#传输层功能与协议" class="headerlink" title="传输层功能与协议"></a>传输层功能与协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>简单注意事项：<br><font color="#dd0000">首部有20B</font><br>序号应该就是收到的确认号ack<br>确认号应该是收到的序号+有效载荷</p>
+<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>简单注意事项：<br><font color="#dd0000">首部有8B</font><br>复用：源端口<br>分用：目的端口<br>差错检验不通过直接丢弃</p>
+<h3 id="传输层拥塞控制-TCP"><a href="#传输层拥塞控制-TCP" class="headerlink" title="传输层拥塞控制(TCP)"></a>传输层拥塞控制(TCP)</h3><h4 id="慢开始和拥塞避免-超时情况"><a href="#慢开始和拥塞避免-超时情况" class="headerlink" title="慢开始和拥塞避免 超时情况"></a>慢开始和拥塞避免 超时情况</h4><ul>
+<li>刚开始进行指数增长($*2$)，拥塞窗口$cwnd&#x3D;1$到达ssthresh慢开始门限(阈值) 之后，进行加法增长($+1$)。</li>
+<li>遇到网络拥塞之后，降到初始值，重复之前的步骤。新的 ssthresh设为拥塞时窗口大小的一半，即$ssthresh&#x3D;当前cwnd&#x2F;2$</li>
+<li>而当$2cwnd&gt;ssthresh$，下一个RTT的cwnd等于ssthresh,而不是2cwnd。如当前cwnd&#x3D;8，ssthresh&#x3D;12，下一个应该是cwnd应该是12而不是你16</li>
+<li>以上为老方案，遇到拥塞会从1开始，与以下的新方案不同<br><img src="/2023/06/24/computer-network/13.png"><br><img src="/2023/06/24/computer-network/33.png"></li>
+</ul>
+<h4 id="快重传和快恢复"><a href="#快重传和快恢复" class="headerlink" title="快重传和快恢复"></a>快重传和快恢复</h4><p>快重传：发送方收到3个重复的ACK报文，直接重传不等待超时<br>快恢复：遇到拥塞不从1开始，而是从新的ssthresh开始<br>PS：发送窗口cwnd不能超出接收方设定的接受窗口大小<br><img src="/2023/06/24/computer-network/14.png"></p>
+<h3 id="TCP连接管理"><a href="#TCP连接管理" class="headerlink" title="TCP连接管理"></a>TCP连接管理</h3><h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><p><img src="/2023/06/24/computer-network/15.png"></p>
+<p>第1和2次握手，不发送数据<br>第3次可以选择携带数据发送，也可以不用，且之后的ACK均为1</p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><p><img src="/2023/06/24/computer-network/16.png"><br>题目中会出现考点：<br>ACK，SYN，FIN一定有一个为1<br>正确情况：等于0即不会出现</p>
+<ul>
+<li>SYN&#x3D;1，ACK&#x3D;0</li>
+<li>SYN&#x3D;1，ACK&#x3D;1</li>
+<li>SYN&#x3D;0，ACK&#x3D;1</li>
+<li>FIN&#x3D;1，ACK&#x3D;0</li>
+<li>FIN&#x3D;0，ACK&#x3D;1</li>
+<li>FIN&#x3D;1，ACK&#x3D;1</li>
+</ul>
+<p><strong>SYN</strong>：SYN为1，表明这是一个<font color="#0099ff">连接请求&#x2F;连接接受</font>报文<br><strong>FIN</strong>：FIN为1，表明此报文段<font color="#0099ff">发送方</font>数据已发送完，要求释放连接<br><strong>ACK</strong>：除了第一次，之后均为1<br>注意事项：<br>1.发送方收到确认，拥塞窗口+1<br>如收到第8个确认，cwnd&#x3D;8+1&#x3D;9<br>2.发送窗口&#x3D;min{接收窗口，拥塞窗口}<br>3.最短释放连接就是将中间两次挥手合并，一共是1.5RTT</p>
+<h2 id="应用层-1"><a href="#应用层-1" class="headerlink" title="应用层"></a>应用层</h2><p><img src="/2023/06/24/computer-network/34.png"></p>
+<h3 id="网络应用模型"><a href="#网络应用模型" class="headerlink" title="网络应用模型"></a>网络应用模型</h3><h4 id="客户-服务器模型"><a href="#客户-服务器模型" class="headerlink" title="客户&#x2F;服务器模型"></a>客户&#x2F;服务器模型</h4><p><img src="/2023/06/24/computer-network/35.png"></p>
+<h4 id="P2P模型"><a href="#P2P模型" class="headerlink" title="P2P模型"></a>P2P模型</h4><p><img src="/2023/06/24/computer-network/36.png"></p>
+<h3 id="DNS协议"><a href="#DNS协议" class="headerlink" title="DNS协议"></a>DNS协议</h3><p>域名系统DNS </p>
+<h4 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h4><p>com有一个点，就是 根<br><img src="/2023/06/24/computer-network/17.png"></p>
+<h4 id="DNS服务器"><a href="#DNS服务器" class="headerlink" title="DNS服务器"></a>DNS服务器</h4><p>一般采用<strong>UDP</strong><br><img src="/2023/06/24/computer-network/18.png"></p>
+<h4 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h4><p>域名解析主要有两种方法： ①递归（考别人）②迭代（靠自己）<br><img src="/2023/06/24/computer-network/19.png"><br>注意事项：<br>以<a target="_blank" rel="noopener" href="http://www.abc.com为例,需要3次查询+本地域名1次/">www.abc.com为例，需要3次查询+本地域名1次</a><br>若有缓存，则无需查询<br><font color="#dd0000">注意：查询不等同于访问所需时间。一般最多查询4次，最少0次。<br>但访问某内容再接收这一部分所需时间，还需要先建立TCP连接，再接收信息，且本地域名查询时间一般是忽略的。最长时间5RTT，最短2RTT</font></p>
 <h3 id="www和HTTP"><a href="#www和HTTP" class="headerlink" title="www和HTTP"></a>www和HTTP</h3><h4 id="WWWW万维网"><a href="#WWWW万维网" class="headerlink" title="WWWW万维网"></a>WWWW万维网</h4><p>三个部分：</p>
 <ul>
-<li><p>URL<br><img src="/2023/06/24/computer-network/20.png" alt></p>
+<li><p>URL<br><img src="/2023/06/24/computer-network/20.png"></p>
 </li>
 <li><p>HTTP 超文本传输协议</p>
 </li>
-<li>HTML 超文本标记语言<h4 id="HTTP-TCP"><a href="#HTTP-TCP" class="headerlink" title="HTTP(TCP)"></a>HTTP(TCP)</h4>特点：<br>无状态、本身无连接<br>可持久连接也可非持久<br>用Cookie加数据库的方式来跟踪用户活动<h3 id="FTP协议-文件传输协议-TCP"><a href="#FTP协议-文件传输协议-TCP" class="headerlink" title="FTP协议(文件传输协议)(TCP)"></a>FTP协议(文件传输协议)(TCP)</h3>FTP用两个并行的TCP连接，一个控制连接(传控制信息)，一个数据连接(传文件/选择权在客户机)<br><img src="/2023/06/24/computer-network/21.png" alt></li>
+<li><p>HTML 超文本标记语言</p>
+</li>
 </ul>
-<h3 id="SWTP和POP3协议-TCP"><a href="#SWTP和POP3协议-TCP" class="headerlink" title="SWTP和POP3协议(TCP)"></a>SWTP和POP3协议(TCP)</h3><h4 id="SWTP协议"><a href="#SWTP协议" class="headerlink" title="SWTP协议"></a>SWTP协议</h4><p>SMAP协议：简单邮件传输 端口：25<br>SMAP只支持7位ASCII，不支持视频、声音、超文本、图像(需要通过MIME)，拒绝太长的文件。<br><img src="/2023/06/24/computer-network/22.png" alt></p>
-<h4 id="POP3-邮局协议"><a href="#POP3-邮局协议" class="headerlink" title="POP3 邮局协议"></a>POP3 邮局协议</h4><p><img src="/2023/06/24/computer-network/23.png" alt></p>
-<h2 id="数据封装格式"><a href="#数据封装格式" class="headerlink" title="数据封装格式"></a>数据封装格式</h2><h3 id="TCP报文段、IP分组、MAC帧结构对比"><a href="#TCP报文段、IP分组、MAC帧结构对比" class="headerlink" title="TCP报文段、IP分组、MAC帧结构对比"></a>TCP报文段、IP分组、MAC帧结构对比</h3><p><img src="/2023/06/24/computer-network/37.png" alt><br><img src="/2023/06/24/computer-network/38.png" alt></p>
-<h3 id="TCP报文段"><a href="#TCP报文段" class="headerlink" title="TCP报文段"></a>TCP报文段</h3><p><img src="/2023/06/24/computer-network/39.png" alt></p>
-<h3 id="IP分组"><a href="#IP分组" class="headerlink" title="IP分组"></a>IP分组</h3><h4 id="IP分组头结构"><a href="#IP分组头结构" class="headerlink" title="IP分组头结构"></a>IP分组头结构</h4><p><img src="/2023/06/24/computer-network/28.png" alt><br><img src="/2023/06/24/computer-network/31.png" alt></p>
-<p><img src="/2023/06/24/computer-network/30.png" alt></p>
-<h4 id="IP数据报的数据部分"><a href="#IP数据报的数据部分" class="headerlink" title="IP数据报的数据部分"></a>IP数据报的数据部分</h4><p><img src="/2023/06/24/computer-network/29.png" alt></p>
-<h3 id="MAC帧"><a href="#MAC帧" class="headerlink" title="MAC帧"></a>MAC帧</h3><p><img src="/2023/06/24/computer-network/27.png" alt></p>
-<h2 id="综合——访问www-cskaoyan-com服务器的完整过程"><a href="#综合——访问www-cskaoyan-com服务器的完整过程" class="headerlink" title="综合——访问www.cskaoyan.com服务器的完整过程"></a>综合——访问www.cskaoyan.com服务器的完整过程</h2><p><img src="/2023/06/24/computer-network/40.png" alt><br><img src="/2023/06/24/computer-network/41.png" alt></p>
+<h4 id="HTTP-TCP"><a href="#HTTP-TCP" class="headerlink" title="HTTP(TCP)"></a>HTTP(TCP)</h4><p>特点：<br>无状态、本身无连接<br>可持久连接也可非持久<br>用Cookie加数据库的方式来跟踪用户活动</p>
+<h3 id="FTP协议-文件传输协议-TCP"><a href="#FTP协议-文件传输协议-TCP" class="headerlink" title="FTP协议(文件传输协议)(TCP)"></a>FTP协议(文件传输协议)(TCP)</h3><p>FTP用两个并行的TCP连接，一个控制连接(传控制信息)，一个数据连接(传文件&#x2F;选择权在客户机)<br><img src="/2023/06/24/computer-network/21.png"></p>
+<h3 id="SWTP和POP3协议-TCP"><a href="#SWTP和POP3协议-TCP" class="headerlink" title="SWTP和POP3协议(TCP)"></a>SWTP和POP3协议(TCP)</h3><h4 id="SWTP协议"><a href="#SWTP协议" class="headerlink" title="SWTP协议"></a>SWTP协议</h4><p>SMAP协议：简单邮件传输 端口：25<br>SMAP只支持7位ASCII，不支持视频、声音、超文本、图像(需要通过MIME)，拒绝太长的文件。<br><img src="/2023/06/24/computer-network/22.png"></p>
+<h4 id="POP3-邮局协议"><a href="#POP3-邮局协议" class="headerlink" title="POP3 邮局协议"></a>POP3 邮局协议</h4><p><img src="/2023/06/24/computer-network/23.png"></p>
+<h2 id="数据封装格式"><a href="#数据封装格式" class="headerlink" title="数据封装格式"></a>数据封装格式</h2><h3 id="TCP报文段、IP分组、MAC帧结构对比"><a href="#TCP报文段、IP分组、MAC帧结构对比" class="headerlink" title="TCP报文段、IP分组、MAC帧结构对比"></a>TCP报文段、IP分组、MAC帧结构对比</h3><p><img src="/2023/06/24/computer-network/37.png"><br><img src="/2023/06/24/computer-network/38.png"></p>
+<h3 id="TCP报文段"><a href="#TCP报文段" class="headerlink" title="TCP报文段"></a>TCP报文段</h3><p><img src="/2023/06/24/computer-network/39.png"></p>
+<h3 id="IP分组"><a href="#IP分组" class="headerlink" title="IP分组"></a>IP分组</h3><h4 id="IP分组头结构"><a href="#IP分组头结构" class="headerlink" title="IP分组头结构"></a>IP分组头结构</h4><p><img src="/2023/06/24/computer-network/28.png"><br><img src="/2023/06/24/computer-network/31.png"></p>
+<p><img src="/2023/06/24/computer-network/30.png"></p>
+<h4 id="IP数据报的数据部分"><a href="#IP数据报的数据部分" class="headerlink" title="IP数据报的数据部分"></a>IP数据报的数据部分</h4><p><img src="/2023/06/24/computer-network/29.png"></p>
+<h3 id="MAC帧"><a href="#MAC帧" class="headerlink" title="MAC帧"></a>MAC帧</h3><p><img src="/2023/06/24/computer-network/27.png"></p>
+<h2 id="综合——访问www-cskaoyan-com服务器的完整过程"><a href="#综合——访问www-cskaoyan-com服务器的完整过程" class="headerlink" title="综合——访问www.cskaoyan.com服务器的完整过程"></a>综合——访问<a target="_blank" rel="noopener" href="http://www.cskaoyan.com服务器的完整过程/">www.cskaoyan.com服务器的完整过程</a></h2><p><img src="/2023/06/24/computer-network/40.png"><br><img src="/2023/06/24/computer-network/41.png"></p>
 
                 
             </div>
@@ -838,12 +736,12 @@ com有一个点，就是 根
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">
-                        <span class="chip bg-color">计算机组成原理</span>
-                    </a>
-                    
                     <a href="/tags/%E7%AC%94%E8%AE%B0/">
                         <span class="chip bg-color">笔记</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">
+                        <span class="chip bg-color">计算机组成原理</span>
                     </a>
                     
                 </div>
@@ -890,12 +788,12 @@ com有一个点，就是 根
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
-                        <span class="chip bg-color">笔记</span>
-                    </a>
-                    
                     <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
                         <span class="chip bg-color">数据结构</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">笔记</span>
                     </a>
                     
                 </div>

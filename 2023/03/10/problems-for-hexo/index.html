@@ -9,7 +9,7 @@
 用Markdown编辑器编.md文件，可以显示文件，但当上传后生成博客时，却无法显示。
 
 解决方法：1.检测路径
-首先检查在.md文件中的图片路径，尽量选择相对路径例如（./hexo-blog-create/img">
+首先检查在.md文件中的图片路径，尽量选择相对路径例如（.&amp;#x2F;hexo-blog-creat">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -343,21 +343,28 @@
 <li>用Markdown编辑器编.md文件，可以显示文件，但当上传后生成博客时，却无法显示。</li>
 </ul>
 <h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><h4 id="1-检测路径"><a href="#1-检测路径" class="headerlink" title="1.检测路径"></a>1.检测路径</h4><ul>
-<li>首先检查在.md文件中的图片路径，尽量选择相对路径例如（./hexo-blog-create/img1.png）这样的格式。<h4 id="2-修改站点配置文件"><a href="#2-修改站点配置文件" class="headerlink" title="2.修改站点配置文件"></a>2.修改站点配置文件</h4></li>
-<li>打开blog根目录下的<strong>站点</strong>配置文件，找到<strong>post_asset_folder</strong>将其值改为<strong>true</strong><br>如下图所示：<br><img src="/2023/03/10/problems-for-hexo/1.png" alt><h4 id="3-安装插件"><a href="#3-安装插件" class="headerlink" title="3.安装插件"></a>3.安装插件</h4></li>
-<li>在blog目录下，用cmd打开dos窗口（或者用git bash），下载一个用于上传图片的插件。<br>输入命令：<code>npm install https://github.com/CodeFalling/hexo-asset-image</code><br><font color="#dd0000">注意：此处与网上的其他教程不同，网上教程普遍是使用命令<code>npm install hexo-asset-image --save</code>，该插件可以上传图片，但在hexo读取时，路径会出错，所以建议使用本文提供的路径，尤其是windows用户。</font><br> </li>
+<li>首先检查在.md文件中的图片路径，尽量选择相对路径例如（.&#x2F;hexo-blog-create&#x2F;img1.png）这样的格式。</li>
+</ul>
+<h4 id="2-修改站点配置文件"><a href="#2-修改站点配置文件" class="headerlink" title="2.修改站点配置文件"></a>2.修改站点配置文件</h4><ul>
+<li>打开blog根目录下的<strong>站点</strong>配置文件，找到<strong>post_asset_folder</strong>将其值改为<strong>true</strong><br>如下图所示：<br><img src="/2023/03/10/problems-for-hexo/1.png"></li>
+</ul>
+<h4 id="3-安装插件"><a href="#3-安装插件" class="headerlink" title="3.安装插件"></a>3.安装插件</h4><ul>
+<li>在blog目录下，用cmd打开dos窗口（或者用git bash），下载一个用于上传图片的插件。<br>输入命令：<code>npm install https://github.com/CodeFalling/hexo-asset-image</code><br><font color="#dd0000">注意：此处与网上的其他教程不同，网上教程普遍是使用命令<code>npm install hexo-asset-image --save</code>，该插件可以上传图片，但在hexo读取时，路径会出错，所以建议使用本文提供的路径，尤其是windows用户。</font><br></li>
 </ul>
 <h4 id="4-创建文章"><a href="#4-创建文章" class="headerlink" title="4.创建文章"></a>4.创建文章</h4><ul>
-<li>此时用命令<code>hexo n &quot;hello world&quot;</code>创建title为hello world文章，会发现会在同级目录下产生一个与文章名相同的hello world文件夹。可以将图片放入其中。<br><font color="#dd0000">建议创建英文标题的文章，这样生成的图片文件夹也是中文的。在上传图片的过程中，中文会被转为URL编码。若是坚持使用中文，则建议在.md文件中，将图片路径中的所有中文和特殊字符转为URL编码。过于复杂，所以还是建议全英文处理。</font><br> </li>
+<li>此时用命令<code>hexo n &quot;hello world&quot;</code>创建title为hello world文章，会发现会在同级目录下产生一个与文章名相同的hello world文件夹。可以将图片放入其中。<br><font color="#dd0000">建议创建英文标题的文章，这样生成的图片文件夹也是中文的。在上传图片的过程中，中文会被转为URL编码。若是坚持使用中文，则建议在.md文件中，将图片路径中的所有中文和特殊字符转为URL编码。过于复杂，所以还是建议全英文处理。</font><br></li>
 </ul>
 <h4 id="5-上传检验"><a href="#5-上传检验" class="headerlink" title="5.上传检验"></a>5.上传检验</h4><ul>
 <li>最后再提交上传即可。</li>
 </ul>
 <pre class="line-numbers language-none"><code class="language-none">hexo g
 hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
 <hr>
 <h2 id="2-博客文章无法显示数学公式"><a href="#2-博客文章无法显示数学公式" class="headerlink" title="2.博客文章无法显示数学公式"></a>2.博客文章无法显示数学公式</h2><ul>
-<li>用Markdown编辑器编.md文件，文章内可以显示数学公式，但当上传后生成博客时，却无法正常显示。<h3 id="解决方法：-1"><a href="#解决方法：-1" class="headerlink" title="解决方法："></a>解决方法：</h3></li>
+<li>用Markdown编辑器编.md文件，文章内可以显示数学公式，但当上传后生成博客时，却无法正常显示。</li>
+</ul>
+<h3 id="解决方法：-1"><a href="#解决方法：-1" class="headerlink" title="解决方法："></a>解决方法：</h3><ul>
 <li>方法根据具体情况而定，网上大部分教程大部分都是基于安装 hexo-math 插件实现的。</li>
 <li>但是具体实施又有着各种大相径庭的操作。</li>
 <li>比如：把渲染引擎从 hexo-renderer-marked 更换到 hexo-renderer-kramed；要求不使用 hexo-math，而是使用 hexo-renderer-mathjax；最后添加或是修改 <code>_config.yml</code> 中的配置，而所需的配置内容的格式层级却又相差甚远。</li>
@@ -371,6 +378,7 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
 <pre class="line-numbers language-none"><code class="language-none"># MathJax Support
 mathjax:
   enable: true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <hr>
 <h2 id="3-文章基本信息修改"><a href="#3-文章基本信息修改" class="headerlink" title="3.文章基本信息修改"></a>3.文章基本信息修改</h2><ul>
 <li>修改文章封面，修改文章轮播图，文章启用数学公式等基本功能。采用<strong>hexo-theme-matery</strong>主题，如何熟练使用。</li>
@@ -392,84 +400,81 @@ tags:
   - Typora
   - Markdown
 ---<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="文章-Front-matter-选项详解"><a href="#文章-Front-matter-选项详解" class="headerlink" title="文章 Front-matter 选项详解"></a>文章 Front-matter 选项详解</h3><div class="table-container">
-<table>
+
+<h3 id="文章-Front-matter-选项详解"><a href="#文章-Front-matter-选项详解" class="headerlink" title="文章 Front-matter 选项详解"></a>文章 Front-matter 选项详解</h3><table>
 <thead>
 <tr>
-<th style="text-align:center">配置选项</th>
-<th style="text-align:left">默认值</th>
-<th style="text-align:left">描述</th>
+<th align="center">配置选项</th>
+<th align="left">默认值</th>
+<th align="left">描述</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:center">title</td>
-<td style="text-align:left">Markdown 的文件标题</td>
-<td style="text-align:left">文章标题，强烈建议填写此选项</td>
+<tbody><tr>
+<td align="center">title</td>
+<td align="left">Markdown 的文件标题</td>
+<td align="left">文章标题，强烈建议填写此选项</td>
 </tr>
 <tr>
-<td style="text-align:center">date</td>
-<td style="text-align:left">文件创建时的日期时间</td>
-<td style="text-align:left">发布时间，强烈建议填写此选项，且最好保证全局唯一</td>
+<td align="center">date</td>
+<td align="left">文件创建时的日期时间</td>
+<td align="left">发布时间，强烈建议填写此选项，且最好保证全局唯一</td>
 </tr>
 <tr>
-<td style="text-align:center">author</td>
-<td style="text-align:left">根 <code>_config.yml</code> 中的 author</td>
-<td style="text-align:left">文章作者</td>
+<td align="center">author</td>
+<td align="left">根 <code>_config.yml</code> 中的 author</td>
+<td align="left">文章作者</td>
 </tr>
 <tr>
-<td style="text-align:center">img</td>
-<td style="text-align:left">featureImages 中的某个值</td>
-<td style="text-align:left">文章特征图，推荐使用图床(腾讯云、七牛云、又拍云等)来做图片的路径.如: <code>http://xxx.com/xxx.jpg</code></td>
+<td align="center">img</td>
+<td align="left">featureImages 中的某个值</td>
+<td align="left">文章特征图，推荐使用图床(腾讯云、七牛云、又拍云等)来做图片的路径.如: <code>http://xxx.com/xxx.jpg</code></td>
 </tr>
 <tr>
-<td style="text-align:center">top</td>
-<td style="text-align:left">true</td>
-<td style="text-align:left">推荐文章（文章是否置顶），如果 top 值为 true，则会作为首页推荐文章</td>
+<td align="center">top</td>
+<td align="left">true</td>
+<td align="left">推荐文章（文章是否置顶），如果 top 值为 true，则会作为首页推荐文章</td>
 </tr>
 <tr>
-<td style="text-align:center">cover</td>
-<td style="text-align:left">false</td>
-<td style="text-align:left">v1.0.2版本新增，表示该文章是否需要加入到首页轮播封面中</td>
+<td align="center">cover</td>
+<td align="left">false</td>
+<td align="left">v1.0.2版本新增，表示该文章是否需要加入到首页轮播封面中</td>
 </tr>
 <tr>
-<td style="text-align:center">coverImg</td>
-<td style="text-align:left">无</td>
-<td style="text-align:left">v1.0.2版本新增，表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片</td>
+<td align="center">coverImg</td>
+<td align="left">无</td>
+<td align="left">v1.0.2版本新增，表示该文章在首页轮播封面需要显示的图片路径，如果没有，则默认使用文章的特色图片</td>
 </tr>
 <tr>
-<td style="text-align:center">password</td>
-<td style="text-align:left">无</td>
-<td style="text-align:left">文章阅读密码，如果要对文章设置阅读验证密码的话，就可以设置 password 的值，该值必须是用 SHA256 加密后的密码，防止被他人识破。前提是在主题的 config.yml 中激活了 verifyPassword 选项</td>
+<td align="center">password</td>
+<td align="left">无</td>
+<td align="left">文章阅读密码，如果要对文章设置阅读验证密码的话，就可以设置 password 的值，该值必须是用 SHA256 加密后的密码，防止被他人识破。前提是在主题的 config.yml 中激活了 verifyPassword 选项</td>
 </tr>
 <tr>
-<td style="text-align:center">toc</td>
-<td style="text-align:left">true</td>
-<td style="text-align:left">是否开启 TOC，可以针对某篇文章单独关闭 TOC 的功能。前提是在主题的 config.yml 中激活了 toc 选项</td>
+<td align="center">toc</td>
+<td align="left">true</td>
+<td align="left">是否开启 TOC，可以针对某篇文章单独关闭 TOC 的功能。前提是在主题的 config.yml 中激活了 toc 选项</td>
 </tr>
 <tr>
-<td style="text-align:center">mathjax</td>
-<td style="text-align:left">false</td>
-<td style="text-align:left">是否开启数学公式支持 ，本文章是否开启 mathjax，且需要在主题的 _config.yml 文件中也需要开启才行</td>
+<td align="center">mathjax</td>
+<td align="left">false</td>
+<td align="left">是否开启数学公式支持 ，本文章是否开启 mathjax，且需要在主题的 _config.yml 文件中也需要开启才行</td>
 </tr>
 <tr>
-<td style="text-align:center">summary</td>
-<td style="text-align:left">无</td>
-<td style="text-align:left">文章摘要，自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要</td>
+<td align="center">summary</td>
+<td align="left">无</td>
+<td align="left">文章摘要，自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要</td>
 </tr>
 <tr>
-<td style="text-align:center">categories</td>
-<td style="text-align:left">无</td>
-<td style="text-align:left">文章分类，本主题的分类表示宏观上大的分类，只建议一篇文章一个分类</td>
+<td align="center">categories</td>
+<td align="left">无</td>
+<td align="left">文章分类，本主题的分类表示宏观上大的分类，只建议一篇文章一个分类</td>
 </tr>
 <tr>
-<td style="text-align:center">tags</td>
-<td style="text-align:left">无</td>
-<td style="text-align:left">文章标签，一篇文章可以多个标签</td>
+<td align="center">tags</td>
+<td align="left">无</td>
+<td align="left">文章标签，一篇文章可以多个标签</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <h2 id="4-hexo在多台电脑提交和更新"><a href="#4-hexo在多台电脑提交和更新" class="headerlink" title="4. hexo在多台电脑提交和更新"></a>4. hexo在多台电脑提交和更新</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
 <li>通过<code>git</code>分支来实现hexo的同步。</li>
 <li>如果通过前文的方式创建博客，那么会与网上的教程不同。本文在GitHub仓库中创建两个分支<code>master</code>和<code>main</code>，这两个分支共同组成了静态页面文件。</li>
@@ -482,26 +487,25 @@ tags:
 <ol>
 <li>在Github的username.github.io仓库上新建一个xxx分支<div align="center">
 <img src="/2023/03/10/problems-for-hexo/3.png" width="70%/">
-</div>
-
-</li>
+</div></li>
 </ol>
 <div align="center">
 <img src="/2023/03/10/problems-for-hexo/4.png" width="100%/">
 </div>
 
-<ol>
-<li>将默认分支设为xxx，update保存。<ul>
+<ol start="2">
+<li>将默认分支设为xxx，update保存。</li>
+</ol>
+<ul>
 <li>由于执行<code>hexo d</code> 对应的分支和默认分支是没有关系的，因为这是由配置文件决定的，配置文件写的哪个分支就是哪个分支。为了分别日后的提交和更新，需要将默认分支设为xxx。</li>
 </ul>
-</li>
-</ol>
 <div align="center">
 <img src="/2023/03/10/problems-for-hexo/5.png" width="100%/">
 </div>
 
 <h5 id="2-克隆新分支"><a href="#2-克隆新分支" class="headerlink" title="2. 克隆新分支"></a>2. 克隆新分支</h5><ol>
-<li>Git Bash执行<code>git clone git@github.com:username/username.github.io.git</code></li>
+<li><p>Git Bash执行<code>git clone git@github.com:username/username.github.io.git</code></p>
+</li>
 <li><p>进入username.github.io文件夹，执行<code>git branch</code>命令查看当前所在分支，应为新建的分支xxx</p>
 <div align="center">
 <img src="/2023/03/10/problems-for-hexo/6.png" width="70%/">
@@ -509,13 +513,14 @@ tags:
 </li>
 <li><p>该步骤可做可不做，但建议做，删除username.github.io文件夹内除了<code>.git</code>文件外的所有文件</p>
 </li>
-<li>先将本地博客的部署文件（Hexo目录下的全部文件，除<code>node_modules</code>,<code>public</code>,<code>.deploy_git</code>等文件可不用）全部拷贝进username.github.io文件目录中去</li>
+<li><p>先将本地博客的部署文件（Hexo目录下的全部文件，除<code>node_modules</code>,<code>public</code>,<code>.deploy_git</code>等文件可不用）全部拷贝进username.github.io文件目录中去</p>
+</li>
 </ol>
 <div align="center">
 <img src="/2023/03/10/problems-for-hexo/7.png" width="100%/">
 </div>
 
-<ol>
+<ol start="5">
 <li>Git Bash执行依次执行<pre class="line-numbers language-none"><code class="language-none">git add .
 git commit -m &#39;hexo&#39; （引号内容可随意更改，只是类似注释的作用）
 git push<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
@@ -530,7 +535,8 @@ git push<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 </li>
 <li><p>注意，将themes目录以内中的主题的.git目录删除（如果有），因为一个git仓库中不能包含另一个git仓库，提交主题文件夹会失败。</p>
 </li>
-<li>最后，可在仓库中看到提交的文件。</li>
+<li><p>最后，可在仓库中看到提交的文件。</p>
+</li>
 </ul>
 <div align="center">
 <img src="/2023/03/10/problems-for-hexo/8.png" width="100%/">
@@ -559,7 +565,7 @@ npm install hexo-deployer-git --save<span aria-hidden="true" class="line-numbers
 </ul>
 </li>
 </ul>
-<ol>
+<ol start="4">
 <li>至此，新电脑的hexo迁移已经完成了。以下是创建新博客同步的步骤。<ol>
 <li><code>git pull</code>合并更新，尤其是换新电脑更新的时候。若只在同一台电脑上操作，则不需要这一步。</li>
 <li>创建新文章</li>
@@ -569,19 +575,18 @@ git commit –m &#39;日期&#39;
 git push<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <pre class="line-numbers language-none"><code class="language-none">hexo clean 
 hexo g 
-hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-</li>
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 </li>
 </ol>
 <h2 id="5-hexo-g-出现-错误信息-SyntaxError-Invalid-or-unexpected-token"><a href="#5-hexo-g-出现-错误信息-SyntaxError-Invalid-or-unexpected-token" class="headerlink" title="5. hexo g 出现 错误信息 SyntaxError: Invalid or unexpected token"></a>5. hexo g 出现 错误信息 SyntaxError: Invalid or unexpected token</h2><ul>
-<li>该错误是我使用hexo在多台电脑提交和更新，也就是上一步发现的。<br><img src="/2023/03/10/problems-for-hexo/9.png" alt></li>
+<li>该错误是我使用hexo在多台电脑提交和更新，也就是上一步发现的。<br><img src="/2023/03/10/problems-for-hexo/9.png"></li>
 <li>原因：该错误产生的原因可能是hexo的版本不一致，导致生成的静态文件不兼容与主题不兼容导致的。</li>
 <li>这个错误信息 <code>SyntaxError: Invalid or unexpected token</code> 通常表示 JavaScript 解析器在尝试执行代码时遇到了一个它无法理解的符号或标记。在这种情况下，错误发生在处理 EJS 模板文件 <code>D:\Jourser.github.io\themes\hexo-theme-matery\layout\archive.ejs</code> 时。</li>
 </ul>
 <h3 id="解决方法：-2"><a href="#解决方法：-2" class="headerlink" title="解决方法："></a>解决方法：</h3><ul>
 <li>该问题可采取直接删除<code>archive.ejs</code>文件的内的注释解决。</li>
-<li>打开<code>archive.ejs</code>文件，删除以下内容：<br><img src="/2023/03/10/problems-for-hexo/10.png" alt></li>
+<li>打开<code>archive.ejs</code>文件，删除以下内容：<br><img src="/2023/03/10/problems-for-hexo/10.png"></li>
 </ul>
 
                 

@@ -365,15 +365,16 @@
 </li>
 <li>若是抓取<strong>上升沿</strong>，正常情况，<code>touch_key</code>的电平始终为0，所以 $d_0$ 和 $d_1$ 的值始终相同为0，当出现一个脉冲时，$d_0$正好在脉冲的上升沿，值为1，而 $d_1$ 却在脉冲前一个时钟，还是0。</li>
 <li>所以抓取上升沿，可以采取操作判断：<blockquote>
-<p>~d1&amp;d0 = 1</p>
+<p>~d1&amp;d0 &#x3D; 1</p>
 </blockquote>
 </li>
 <li>同理，抓取下降沿，操作判断为：<blockquote>
-<p>d1&amp;~d0 = 1</p>
+<p>d1&amp;~d0 &#x3D; 1</p>
 </blockquote>
 </li>
 </ul>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="#dd0000">代码</font></h4><p>此代码可作为抓取上升或下降沿的参考代码架构：<br><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//reg define</span>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a><font color="#dd0000">代码</font></h4><p>此代码可作为抓取上升或下降沿的参考代码架构：</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token comment">//reg define</span>
 <span class="token keyword">reg</span>    d0<span class="token punctuation">;</span>    <span class="token comment">//端口的数据延迟一个时钟周期</span>
 <span class="token keyword">reg</span>    d1<span class="token punctuation">;</span>    <span class="token comment">//端口的数据延迟两个时钟周期</span>
 
@@ -394,7 +395,8 @@
         d0 <span class="token operator">&lt;=</span> T<span class="token punctuation">;</span>
         d1 <span class="token operator">&lt;=</span> d0<span class="token punctuation">;</span>
     <span class="token keyword">end</span> 
-<span class="token keyword">end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<span class="token keyword">end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="实例代码实现"><a href="#实例代码实现" class="headerlink" title="实例代码实现"></a>实例代码实现</h3><h4 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">touch_led</span><span class="token punctuation">(</span>
     <span class="token comment">//input</span>
     <span class="token keyword">input</span>        sys_clk<span class="token punctuation">,</span>      <span class="token comment">//时钟信号50Mhz</span>
@@ -481,11 +483,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <ul>
 <li>仿真得到的波形图如图所示。从图中可以看出，当 <code>touch_key</code> 信号由低电平变为高电平时，<code>touch_key_d0</code> 和 <code>touch_key_d1</code> 信号分别延迟 <code>touch_key</code> 一个时钟周期和两个时钟周期，将 <code>touch_key_d0</code> 信号的和取反后的 <code>touch_key_d1</code> 信号相与，就得到一个时钟周期的脉冲信号（<code>touch_en</code>）。当检测到 <code>touch_en</code> 信号为高电平时，对 led 信号进行取反，从而实现触摸按键控制 led 灯的功能。    <div align="center">
   <img src="/2024/06/14/verilog-special-skills/3.png" width="90%/">
-  </div>
-
-
-
-</li>
+  </div></li>
 </ul>
 <h2 id="2-除法器实现"><a href="#2-除法器实现" class="headerlink" title="2. 除法器实现"></a>2. 除法器实现</h2><h3 id="除法器实现原理"><a href="#除法器实现原理" class="headerlink" title="除法器实现原理"></a>除法器实现原理</h3><ul>
 <li><p><strong>为何要设计除法器？</strong>：</p>
@@ -495,7 +493,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </li>
 <li><p><strong>基于减法实现的除法器</strong>：</p>
 <ul>
-<li><strong>基本流程</strong>：以十进制中的 $a/b$ 为例，可先比较 $a$ 与 $b$ 的大小，如果 $a&gt;b$，则商加 1，$a&lt;=a-b$，再进行比较大小，直到 $a&lt;b$，商不变，余数为 $a$。</li>
+<li><strong>基本流程</strong>：以十进制中的 $a&#x2F;b$ 为例，可先比较 $a$ 与 $b$ 的大小，如果 $a&gt;b$，则商加 1，$a&lt;&#x3D;a-b$，再进行比较大小，直到 $a&lt;b$，商不变，余数为 $a$。</li>
 <li><strong>缺陷</strong>：这种方式通常速度比较慢，效率低下。</li>
 <li><strong>改进</strong>：实际上更快速的方法是模拟手算除法的过程，因此可采用该方法改进基于减法实现的除法器</li>
 </ul>
@@ -506,7 +504,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <li>首先，是 4 位除以 4 位，被除数 $a$ 高位补 4 个零，除数低位补 4 个零。</li>
 <li>然后比较 $a$ 和 $b$ 值，若 $a&lt;b$，将 $a$ 的值左移一位赋给a，然后继续比较 $a$ 和 $b$ 的大小。如下图的前两次移位。</li>
 <li>当第三次移位后 $a&gt;b$，此时用 $a-b+1$，并将得到的值赋给 $a$，然后移位，此时 $a$ 的值大于 $b$，再用 $a-b+1$，并将得到的值赋给 $a$。</li>
-<li>。此时已经移位了四次，此时 $a$ 的值，高四位是余数，低四位数是商。 </li>
+<li>。此时已经移位了四次，此时 $a$ 的值，高四位是余数，低四位数是商。</li>
 </ul>
 </li>
 </ul>
@@ -515,7 +513,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </div>
 
 <ul>
-<li><strong>状态机表示</strong>，如下图所示： </li>
+<li><strong>状态机表示</strong>，如下图所示：</li>
 </ul>
 <div align="center">
 <img src="/2024/06/14/verilog-special-skills/5.png" width="80%/">
@@ -536,7 +534,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 
 
 <ul>
-<li>除法器模块端口与功能描述如下表所示： </li>
+<li>除法器模块端口与功能描述如下表所示：</li>
 </ul>
 <div align="center">
 <img src="/2024/06/14/verilog-special-skills/8.png" width="90%/">
@@ -557,7 +555,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <li>首先产生一个计算使能信号<code>en</code>，在该信号为高时进入计算过程，并通过状态机来实现移位和比较大小。</li>
 <li>在检测到 <code>en</code> 信号拉高后由初始状态<code>IDLE</code>进入值的比较状态 <code>SUB</code>，比较 <strong>a</strong> 和 <strong>b</strong> 的值，并进行运算与移位</li>
 <li>然后进入移位计数器判断状态<code>SHIFT</code>，判断移位计数器 <code>count</code> 是否计数到位宽数，如果未达到跳到状态<code>SUB</code>，直到以为计数器计数到位宽数，跳入状态 <code>DONE</code>，将商和余数输出。在计算过程中将数据有效信号<code>ready</code>拉低，此时不再从外部进行取值。</li>
-<li>在进入状态<code>DONE</code>时，同时将商值有效信号<code>vld_out</code>拉高一个周期的高电平。 </li>
+<li>在进入状态<code>DONE</code>时，同时将商值有效信号<code>vld_out</code>拉高一个周期的高电平。</li>
 </ol>
 </li>
 <li><p>除法器模块代码：</p>
@@ -671,8 +669,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
     <span class="token keyword">end</span>
 <span class="token keyword">end</span>
 
-<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
+<span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <h2 id="3-二进制转BCD码"><a href="#3-二进制转BCD码" class="headerlink" title="3. 二进制转BCD码"></a>3. 二进制转BCD码</h2><h3 id="二进制转BCD码实现原理"><a href="#二进制转BCD码实现原理" class="headerlink" title="二进制转BCD码实现原理"></a>二进制转BCD码实现原理</h3><ul>
 <li><p><strong>为何要将二进制转BCD码？</strong>：在进行 lcd 或数码管显示数字时，要显示数字的个位、十位、百位等，常用的办法是取余。但这种方法需要浪费大量的资源，且时序不容易优化。所以这里介绍一种通过 BCD 码来方便获取各个位上的数字。</p>
@@ -681,7 +678,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <ul>
 <li><strong>BCD 码</strong>（Binary-Coded Decimal），又称二-十进制码，使用 4 位二进制数来表示 1 位十进制数中的 0~9 这 10 个数码，是一种二进制的数字编码形式，用二进制编码的十进制数码。</li>
 <li>BCD 码根据权值的有无可分为“<strong>有权码</strong>”和“<strong>无权码</strong>”。其中的权字表示的是权值，有权码的四位二进制数中的每一位都有一个固定的权值，而无权码是没有权值的。 </li>
-<li>常见的有权码有 <strong>8421 码</strong>、<strong>5421 码</strong>和<strong>2421 码</strong>，8421 码它的权值从左到右是 8421，5421 码的权值从左到右是 5421，2421 码的权值是 2421，其中 8421 码是最为常用的 BCD 编码，本实验中使用的也是这种编码。常用的无权码有余 3 码、余 3 循环码，还有格雷码。 </li>
+<li>常见的有权码有 <strong>8421 码</strong>、<strong>5421 码</strong>和<strong>2421 码</strong>，8421 码它的权值从左到右是 8421，5421 码的权值从左到右是 5421，2421 码的权值是 2421，其中 8421 码是最为常用的 BCD 编码，本实验中使用的也是这种编码。常用的无权码有余 3 码、余 3 循环码，还有格雷码。</li>
 </ul>
 </li>
 </ul>
@@ -690,12 +687,11 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </div>
 
 <ul>
-<li>BCD码进行十进制显示：<ul>
+<li><p>BCD码进行十进制显示：</p>
+<ul>
 <li>以十进制数据 325为例， 325 的十进制数的二进制表示为：1_0100_0101，325 的 8421 BCD 码为：0011_0010_0101。每 4 位 8421 BCD 码代表一个十进制数，可以进行完美显示。</li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p><strong><font color="#dd0000">二进制转BCD码具体流程</font></strong>:依旧以十进制数据 325为例</p>
 <ul>
 <li>首先第一步，在十进制数 325 其对应的二进制数为 1_0100_0101前方补零。补0的数量由其位数决定。该十进制数是 3 位，而一位十进制数的 BCD 码是四位，所以这里我们就需要 <strong>12 位</strong> BCD 码，故我们就在前面补 12 个 0。其余位数的十进制补 0 数量也是这样进行计算。</li>
@@ -715,7 +711,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </li>
 </ul>
 <h3 id="二进制转BCD码模块设计"><a href="#二进制转BCD码模块设计" class="headerlink" title="二进制转BCD码模块设计"></a>二进制转BCD码模块设计</h3><ul>
-<li><p><strong>二进制转 BCD 码模块</strong>:该模块是将二进制数转成 BCD 码，方便 lcd 显示模块显示。该模块的输入信号有<strong>系统时钟信号</strong><code>clk</code>、<strong>复位信号</strong><code>sys_rst_n</code>、<strong>要显示的数值</strong><code>data</code>，输出信号为<strong>BCD数据</strong><code>bcd_data</code>.</p>
+<li><p><strong>二进制转 BCD 码模块</strong>:该模块是将二进制数转成 BCD 码，方便 lcd 显示模块显示。该模块的输入信号有<strong>系统时钟信号</strong><code>clk</code>、<strong>复位信号</strong><code>sys_rst_n</code>、<strong>要显示的数值</strong><code>data</code>，输出信号为<strong>BCD数据</strong><code>bcd_data </code>.</p>
 </li>
 <li><p>该模块的框图如下图所示：</p>
 </li>
@@ -728,7 +724,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 
 
 <ul>
-<li>二进制转 BCD 码模块端口与功能描述如下表所示： </li>
+<li>二进制转 BCD 码模块端口与功能描述如下表所示：</li>
 </ul>
 <div align="center">
 <img src="/2024/06/14/verilog-special-skills/11.png" width="90%/">
@@ -759,9 +755,8 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <li>需要注意的是无论是移位操作和判断操作都是在单个系统时钟下完成的，故判断 30 次和移位 30 次一共在 60 个系统时钟内就能完成。</li>
 </ul>
 </li>
-</ul>
-<ul>
-<li>二进制转 BCD 码模块代码：</li>
+<li><p>二进制转 BCD 码模块代码：</p>
+</li>
 </ul>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> <span class="token function">binary2bcd</span><span class="token punctuation">(</span>
     <span class="token keyword">input</span>   <span class="token keyword">wire</span>             sys_clk<span class="token punctuation">,</span>
@@ -835,6 +830,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="4-乒乓-pingpong-操作"><a href="#4-乒乓-pingpong-操作" class="headerlink" title="4. 乒乓(pingpong)操作"></a>4. 乒乓(pingpong)操作</h2><h3 id="理论学习"><a href="#理论学习" class="headerlink" title="理论学习"></a>理论学习</h3><h4 id="乒乓操作简介"><a href="#乒乓操作简介" class="headerlink" title="乒乓操作简介"></a>乒乓操作简介</h4><div align="center">
 <img src="/2024/06/14/verilog-special-skills/13.png" width="100%/">
 </div>
@@ -849,7 +845,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 </ol>
 </li>
 <li>乒乓操作原理：就是打乒乓球一样，一个球（数据流），两个拍子（缓存），两个拍子相互击球（轮流读写数据，写1读2，写2读1）这样就可以做到球不停一直移动（数据流不会停，数据无丢失）。 </li>
-<li><strong>PS：<font color="#dd0000">注意这里的数据流始终是要从输入端移动到输出端</font></strong>，只是不同时间选取的路径不同，而不要理解成“乒乓操作”是数据在两端来回传输。换句话说，我们这里的“拍子”是两个缓存器，而不是两端的数据选择器。</li>
+<li>**PS：<font color="#dd0000">注意这里的数据流始终是要从输入端移动到输出端</font>**，只是不同时间选取的路径不同，而不要理解成“乒乓操作”是数据在两端来回传输。换句话说，我们这里的“拍子”是两个缓存器，而不是两端的数据选择器。</li>
 </ul>
 <h4 id="乒乓操作特点"><a href="#乒乓操作特点" class="headerlink" title="乒乓操作特点"></a>乒乓操作特点</h4><ul>
 <li>乒乓操作的最大特点是<strong>通过“输入数据流选择单元”和“输出数据选择单元”按节拍、相互配合的切换，将经过缓冲的数据流没有停顿地送到“数据流运算处理模块”进行运算与处理</strong>。把乒乓操作模块当做一个整体，站在这个模块的两端看数据，输入数据流和输出数据流都是连续不断的，没有任何停顿的，因此非常适合对数据流进行流水线 式处理。所以乒乓操作常常应用于流水线式算法，完成数据的<strong>无缝缓冲与处理</strong>。</li>
@@ -905,6 +901,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="ram-ctrl模块设计"><a href="#ram-ctrl模块设计" class="headerlink" title="ram_ctrl模块设计"></a>ram_ctrl模块设计</h4><ul>
 <li>该模块我们需要产生控制两个双口RAM的读写相关信号，同时将两个RAM中读出的数据作为输入，通过简单的处理后对读出的数据进行输出。</li>
 </ul>
@@ -1048,6 +1045,7 @@ touch_led  <span class="token function">u_touch_led</span><span class="token pun
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="顶层模块设计"><a href="#顶层模块设计" class="headerlink" title="顶层模块设计"></a>顶层模块设计</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
 
 <span class="token keyword">module</span> <span class="token function">pingpong</span><span class="token punctuation">(</span>
@@ -1139,6 +1137,7 @@ ram_ctrl <span class="token function">ram_ctrl_u1</span><span class="token punct
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="测试文件"><a href="#测试文件" class="headerlink" title="测试文件"></a>测试文件</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token constant">`timescale</span> <span class="token number">1</span>ns <span class="token operator">/</span> <span class="token number">1</span>ps
 
 <span class="token keyword">module</span> <span class="token function">tb_pingpang</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -1164,6 +1163,7 @@ pingpong <span class="token function">pingpong_u1</span><span class="token punct
     <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="仿真波形"><a href="#仿真波形" class="headerlink" title="仿真波形"></a>仿真波形</h4><div align="center">
 <img src="/2024/06/14/verilog-special-skills/16.png" width="100%/">
 </div>

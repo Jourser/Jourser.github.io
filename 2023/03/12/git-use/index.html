@@ -312,7 +312,7 @@ git add xx：把xx文件">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    827
+                    820
                 </div>
                 
 
@@ -338,12 +338,12 @@ git add xx：把xx文件">
 <li>cat xx：查看xx文件内容</li>
 <li><font color="#dd0000"> git init：把当前的目录变成可以管理的git仓库，生成隐藏的.git文件夹</font></li>
 <li>git add xx：把xx文件添加到暂存区</li>
-<li>git commit -m “xx”：提交文件 -m后面的是注释，必须写！&lt;/font&gt;</li>
+<li>git commit -m “xx”：提交文件 -m后面的是注释，必须写！</li>
 <li>git status：查看仓库状态</li>
 <li>git log：查看历史记录</li>
-<li>git reset —hard HEAD^：往上回退一个版本</li>
+<li>git reset –hard HEAD^：往上回退一个版本</li>
 <li>git reflog：查看历史记录的版本号id</li>
-<li>git checkout — xx：把xx文件在工作区的修改全部撤销</li>
+<li>git checkout – xx：把xx文件在工作区的修改全部撤销</li>
 <li>git rm xx：删除xx文件</li>
 <li><font color="#dd0000">git remote add origin <a target="_blank" rel="noopener" href="https://github.com/xxxxx/a.git">https://github.com/xxxxx/a.git</a> 关联一个远程库</font></li>
 <li>git push -u（第一次尽量加上-u，以后不用）origin master：把当前master分支推送到远程库</li>
@@ -351,18 +351,22 @@ git add xx：把xx文件">
 <li>git checkout -b dev：创建dev分支 并切换到dev分支上</li>
 <li>git branch：查看当前所有的分支</li>
 <li>git checkout master：切换回master分支</li>
-<li>git merge dev：在当前分支合并dev分支&lt;/font&gt;</li>
+<li>git merge dev：在当前分支合并dev分支</li>
 <li>git branch -d dev：删除dev分支</li>
 <li><font color="#dd0000">git branch xxx：创建分支xxx</font></li>
 <li>git remote：查看远程库信息</li>
 <li>git remote -v查看远程库的详细信息</li>
 <li><font color="#dd0000">git pull origin master 将远程库的更新拉取到本地并自动合并</font></li>
-<li>git push origin master：git会把master分支推送到远程库对应的分支上&lt;/font&gt;</li>
+<li>git push origin master：git会把master分支推送到远程库对应的分支上</li>
 </ul>
 <hr>
-<h2 id="二、GitHub远程仓库的使用"><a href="#二、GitHub远程仓库的使用" class="headerlink" title="二、GitHub远程仓库的使用"></a>二、GitHub远程仓库的使用</h2><h3 id="场景一（关联）：本地有仓库，要和远程仓库做关联"><a href="#场景一（关联）：本地有仓库，要和远程仓库做关联" class="headerlink" title="场景一（关联）：本地有仓库，要和远程仓库做关联"></a>场景一（关联）：本地有仓库，要和远程仓库做关联</h3><p>右键git bash here，输入命令<br><pre class="line-numbers language-none"><code class="language-none">git init
+<h2 id="二、GitHub远程仓库的使用"><a href="#二、GitHub远程仓库的使用" class="headerlink" title="二、GitHub远程仓库的使用"></a>二、GitHub远程仓库的使用</h2><h3 id="场景一（关联）：本地有仓库，要和远程仓库做关联"><a href="#场景一（关联）：本地有仓库，要和远程仓库做关联" class="headerlink" title="场景一（关联）：本地有仓库，要和远程仓库做关联"></a>场景一（关联）：本地有仓库，要和远程仓库做关联</h3><p>右键git bash here，输入命令</p>
+<pre class="line-numbers language-none"><code class="language-none">git init
 git add .
-git commit -m “first commit”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><br>在GitHub上创建一个远程仓库<br><pre class="line-numbers language-none"><code class="language-none">git remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;xxx.git (HTTPS) #仓库地址根据实际选择<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>备注：如果此步关联错了，解决办法如下。</p>
+git commit -m “first commit”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>在GitHub上创建一个远程仓库</p>
+<pre class="line-numbers language-none"><code class="language-none">git remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;xxx.git (HTTPS) #仓库地址根据实际选择<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>备注：如果此步关联错了，解决办法如下。</p>
 <ul>
 <li>暴力解决：删除.git文件夹，重新建立本地仓库。</li>
 <li>优雅解决：git remote remove origin，再在重新关联仓库</li>
@@ -370,11 +374,11 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
 <h3 id="场景二（推送）：本地有仓库有内容，要推送给远程库"><a href="#场景二（推送）：本地有仓库有内容，要推送给远程库" class="headerlink" title="场景二（推送）：本地有仓库有内容，要推送给远程库"></a>场景二（推送）：本地有仓库有内容，要推送给远程库</h3><pre class="line-numbers language-none"><code class="language-none">git push -u origin master （首次加-u）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>根据提示输入用户名密码<br>我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送到远程新的master分支，还会把本地master分支和远程的master分支关联起来，在以后的推送时可以简化命令<code>git push origin master</code>。<br>备注：正常情况下，成功推送一次后，电脑会记住和账号与密码，下次推送时不会再提示输入。若在电脑不能够自动记住github的账户和密码，需执行以下命令解决：<code>git config --global credential.helper store</code>。</p>
 <h3 id="场景三（拉取）：本地有仓库有内容，获取远程库新内容"><a href="#场景三（拉取）：本地有仓库有内容，获取远程库新内容" class="headerlink" title="场景三（拉取）：本地有仓库有内容，获取远程库新内容"></a>场景三（拉取）：本地有仓库有内容，获取远程库新内容</h3><ul>
-<li><strong>第一种拉取方式：</strong> <code>git pull origin master</code>，<br>将远程仓库的master分支上代码版本复制/合并到本地master分支上</li>
+<li><strong>第一种拉取方式：</strong> <code>git pull origin master</code>，<br>将远程仓库的master分支上代码版本复制&#x2F;合并到本地master分支上</li>
 <li><strong>第二种拉取方式：</strong><code>git fetch origin master:tmp</code><br>新建一个tmp分支，将远程仓库的master分支上代码版本复制到tmp分支上，不会自动合并。</li>
 </ul>
-<h3 id="场景四（克隆）：本地无仓库，要获取一个完整的远程库"><a href="#场景四（克隆）：本地无仓库，要获取一个完整的远程库" class="headerlink" title="场景四（克隆）：本地无仓库，要获取一个完整的远程库"></a>场景四（克隆）：本地无仓库，要获取一个完整的远程库</h3><p>备注：只在第一次获取远程库时才需要克隆<br><pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;xxx.git (HTTPS)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></p>
-
+<h3 id="场景四（克隆）：本地无仓库，要获取一个完整的远程库"><a href="#场景四（克隆）：本地无仓库，要获取一个完整的远程库" class="headerlink" title="场景四（克隆）：本地无仓库，要获取一个完整的远程库"></a>场景四（克隆）：本地无仓库，要获取一个完整的远程库</h3><p>备注：只在第一次获取远程库时才需要克隆</p>
+<pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;xxx.git (HTTPS)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <hr/>

@@ -436,9 +436,10 @@
 <span class="token keyword">end</span>
 
 <span class="token keyword">endmodule</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>具体错误为：</p>
 <ul>
-<li>计数器<code>cnt</code>的定义由<code>reg [26:0] cnt;</code>改为<code>reg [8:0] cnt;</code></li>
+<li>计数器<code>cnt</code>的定义由<code>reg [26:0] cnt;</code>改为<code>reg [8:0] cnt; </code></li>
 <li>逻辑判断中，时钟复位信号<code>sys_rst_n</code>，由<code>if(!sys_rst_n) cnt &lt;= 26&#39;d0;</code>改为<code>if(sys_rst_n) cnt &lt;= 26&#39;d0;</code></li>
 </ul>
 <h3 id="方法一：使用IP核创建ILA调试环境"><a href="#方法一：使用IP核创建ILA调试环境" class="headerlink" title="方法一：使用IP核创建ILA调试环境"></a>方法一：使用IP核创建ILA调试环境</h3><ol>
@@ -448,7 +449,7 @@
 <img src="/2024/05/29/ila-use/11.png" width="100%/">
 </div>
 
-<ol>
+<ol start="2">
 <li><p>ILA IP参数设置</p>
 <div align="center">
 <img src="/2024/05/29/ila-use/12.png" width="70%/">
@@ -456,15 +457,18 @@
 </li>
 <li><p><strong>Documentation</strong>：IP 相关文档入口，其中的<code>Product Guide</code> 是 IP 手册查看入口，<code>Change Log</code> 是 IP 版本更新记录，<code>Product Webpage</code>是 IP 相关介绍的网页版</p>
 </li>
-<li><strong>IP Location</strong>：设置 IP 的存放路径入口，<strong>点击出现如下图所示窗口</strong>，在窗口里可以通过点击<code>…</code>设置更换存放路径，默认是存放在工程路径下的<code>…&lt;工程名&gt;.srcs\ sources_1\ip</code>，这里我们就保持默认。</li>
-<li><strong>Switch to Default</strong>：点击后所有的设置恢复到默认值。</li>
+<li><p><strong>IP Location</strong>：设置 IP 的存放路径入口，<strong>点击出现如下图所示窗口</strong>，在窗口里可以通过点击<code>…</code>设置更换存放路径，默认是存放在工程路径下的<code>…&lt;工程名&gt;.srcs\ sources_1\ip</code>，这里我们就保持默认。</p>
+</li>
+<li><p><strong>Switch to Default</strong>：点击后所有的设置恢复到默认值。</p>
+</li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/ila-use/13.png" width="90%/">
 </div>
 
-<ol>
-<li><strong>Component Name</strong>：设置生成 IP Core 的名称，这里保持默认设置。</li>
+<ol start="4">
+<li><p><strong>Component Name</strong>：设置生成 IP Core 的名称，这里保持默认设置。</p>
+</li>
 <li><p>这里是一个提示，提示通过该界面设置最多可设置 64 个探针，如果想设置更多的探针需要使用 Tcl 脚本命令去设置，具体用法可以查询 IP 手册。</p>
 </li>
 <li><p><strong>ILA 探针接口类型设置</strong>  </p>
@@ -475,7 +479,8 @@
 </li>
 <li><p><font color="#dd0000">Number of Probes</font>：探针数量设置，要观察3个信号，所以这里设置探针数量为3。</p>
 </li>
-<li><font color="#dd0000">Sample Data Depth</font>：采样数据深度，设置的数值越大，采样的数据越多，看到的波形数据越多，但是最终占用的资源也会越多，并不是设置的越大越好。从下拉框也能看出最大也只能设置为 131072，这个根据实际需求进行合适的设置即可，我们这里选择设置 4096。</li>
+<li><p><font color="#dd0000">Sample Data Depth</font>：采样数据深度，设置的数值越大，采样的数据越多，看到的波形数据越多，但是最终占用的资源也会越多，并不是设置的越大越好。从下拉框也能看出最大也只能设置为 131072，这个根据实际需求进行合适的设置即可，我们这里选择设置 4096。</p>
+</li>
 </ol>
 <ul>
 <li>PS：<strong>Number of Probes</strong>和<strong>Sample Data Depth</strong>是最重要的两个设置</li>
@@ -484,7 +489,7 @@
 <img src="/2024/05/29/ila-use/15.png" width="80%/">
 </div>
 
-<ol>
+<ol start="9">
 <li><strong>Same Number of Comparators for All Probe Ports</strong>：这里是设置相同探针接口的 Comparators 的个数，不勾选，下面的 Number of Comparators 就会消失。如果默认勾选，后面的参数也保持默认，我们不勾选。</li>
 <li><strong>Trigger Out Port</strong>：触发输出端口，可用于 ILA 模块的级联或一些高级功能，具体使用参考 IP 手册，这里保持默认不勾选。</li>
 <li><strong>Trigger In Port</strong>：触发输入端口，可用于手工设置添加触发信号或进行 ILA模块的级联或一些高级功能，具体使用参考 IP 手册，这里保持默认不勾选。</li>
@@ -497,21 +502,18 @@
 </div>
 
 
-<ol>
+<ol start="15">
 <li><strong>Probe_Ports</strong>：这个选项卡用于配置ILA的探针端口。探针端口是用来连接和监控设计中内部信号的。</li>
 <li><strong>Probe Width</strong>：探针数据信号的位宽设置，我们需要对一个 1bit，一个 2bit 和一个9bit信号进行在线观察，这里将<code>Probe0</code>位宽设置为 1，<code>Probe1</code>位宽设置为2和<code>Probe2</code>位宽设置为9。</li>
 </ol>
 <pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">input</span>   sys_rst_n；   <span class="token comment">//复位信号，1位</span>
 <span class="token keyword">output</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> led；    <span class="token comment">//led输出信号，2位</span>
 <span class="token keyword">reg</span> <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span> cnt<span class="token punctuation">;</span>        <span class="token comment">//计数器，9位</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ol>
+
+
+<ol start="17">
 <li><strong>Number of Comparators</strong>：如果已经勾选（9）处，这里就不可设置，如果没有勾选，这里就可以设置。保持默认即可</li>
-<li><strong>Probe Trigger or Data</strong>：对探针设置触发器或数据，有3种选项：<ul>
-<li>DATA AND TRIGGER：既是数据又可作为触发条件；</li>
-<li>DATA：仅作为数据，不可作为触发条件；</li>
-<li>TRIGGER：仅可作为触发条件。</li>
-</ul>
-</li>
+<li><strong>Probe Trigger or Data</strong>：对探针设置触发器或数据，有3种选项：<br>-  DATA AND TRIGGER：既是数据又可作为触发条件；<br>-  DATA：仅作为数据，不可作为触发条件；<br>-  TRIGGER：仅可作为触发条件。</li>
 </ol>
 <p>设置完成后点击下方<code>OK</code> → <code>Generate</code>生成IP核</p>
 <h3 id="方法二：使用-Debug-标记创建-ILA"><a href="#方法二：使用-Debug-标记创建-ILA" class="headerlink" title="方法二：使用 Debug 标记创建 ILA"></a>方法二：使用 Debug 标记创建 ILA</h3><ol>
@@ -521,14 +523,14 @@
 <img src="/2024/05/29/ila-use/16.png" width="70%/">
 </div>
 
-<ol>
+<ol start="2">
 <li>调整窗口为Debug模式，点击右上角栏下的<code>Debug</code>：</li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/ila-use/17.png" width="100%/">
 </div>
 
-<ol>
+<ol start="3">
 <li>标记所需的调试信号，以<code>led_OBUF</code>为例，右键点击<code>led_OBUF</code>，在弹出的窗口中点击<code>Makr Debug</code>，如下图所示：</li>
 </ol>
 <div align="center">
@@ -542,28 +544,28 @@
 <li><font color="#dd0000">上面那一步最好在综合前完成</font></li>
 <li>最后可在下方窗口查看到所添加的信号：</li>
 </ul>
-<ol>
+<ol start="4">
 <li>配置调试环境，可点击<code>Open Synthesized Design</code>栏下的<code>Set up Debug</code>，或者点击下方的<strong>小甲虫</strong>，如下图所示：</li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/ila-use/18.png" width="100%/">
 </div>
 
-<ol>
+<ol start="5">
 <li>出现向导框，点击<code>Next</code></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/ila-use/19.png" width="100%/">
 </div>
 
-<ol>
+<ol start="6">
 <li>显示添加的信号，继续点击<code>Next</code></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/ila-use/21.png" width="100%/">
 </div>
 
-<ol>
+<ol start="7">
 <li>同IP核创建ILA，继续点击<code>Next</code><ul>
 <li>Sample Data Depth：采样数据深度，设置的数值越大，采样的数据越多，看到的波形数据越多，但是最终占用的资源也会</li>
 <li>Input Pipe Stages：在FPGA设计中通常指输入管道级的数量。这是在信号进入一个模块或系统之前通过的寄存器级数。一般设置为2以上，本次实验简单，因此可设置为0.</li>
@@ -574,7 +576,7 @@
 <img src="/2024/05/29/ila-use/23.png" width="100%/">
 </div>
 
-<ol>
+<ol start="8">
 <li>点击<code>Finish</code>，完成添加ILA</li>
 </ol>
 <h2 id="ILA的调试"><a href="#ILA的调试" class="headerlink" title="ILA的调试"></a>ILA的调试</h2><h3 id="调试界面基本介绍"><a href="#调试界面基本介绍" class="headerlink" title="调试界面基本介绍"></a>调试界面基本介绍</h3><div align="center">
@@ -582,8 +584,9 @@
 </div>
 
 <ul>
-<li>窗口1：波形显示窗口，可以通过点击➕添加想查看的波形的信号。在这里可查看的信号有 <code>cnt</code>、<code>led_OBUF</code>和<code>sys_rst_n_IBUF</code>。<br>当然，通常在下载完程序后，ILA 能够非常智能的识别出设计师期望观察的信号，同时，在右键菜单也可以找到删除观察信号的指令。这样，有限的窗口面积就可以被充分利用，自由调配和增减所需观察信号的条目。</li>
-<li><p>窗口2：ILA Croe 的状态控制和显示窗口。<br><img src="/2024/05/29/ila-use/24.png" alt></p>
+<li><p>窗口1：波形显示窗口，可以通过点击➕添加想查看的波形的信号。在这里可查看的信号有 <code>cnt</code>、<code>led_OBUF</code>和<code>sys_rst_n_IBUF</code>。<br>当然，通常在下载完程序后，ILA 能够非常智能的识别出设计师期望观察的信号，同时，在右键菜单也可以找到删除观察信号的指令。这样，有限的窗口面积就可以被充分利用，自由调配和增减所需观察信号的条目。</p>
+</li>
+<li><p>窗口2：ILA Croe 的状态控制和显示窗口。<br><img src="/2024/05/29/ila-use/24.png"></p>
 <ul>
 <li>按钮①：设置采样执行过程为循环采样</li>
 <li>按钮②：启动采样按钮。按下后将启动 ILA 采样。根据是单次采样还是循环采样，根据是有条件触发还是无条件触发，启动后会呈现 ILA 状态的周期性变化或等待触发条件的到来。</li>
@@ -594,10 +597,11 @@
 <li>状态栏⑦：以进度条的方式结合状态名称，标明当前所处的状态以及采样过程中执行状态的百分比。</li>
 </ul>
 </li>
-<li><p>窗口3：添加触发信号窗口，如下图所示，点击窗口内➕ 添加产生触发条件的信号（两个地方的➕ 都可以进行信号的添加）。<br><img src="/2024/05/29/ila-use/25.png" alt></p>
+<li><p>窗口3：添加触发信号窗口，如下图所示，点击窗口内➕ 添加产生触发条件的信号（两个地方的➕ 都可以进行信号的添加）。<br><img src="/2024/05/29/ila-use/25.png"></p>
 <ul>
-<li>点击按该钮在这里插入图片描述设置多个信号产生触发信号时的条件，与、或、同或、异或，还可以设置触发条件，如下图所示：<br><img src="/2024/05/29/ila-use/26.png" alt></li>
-<li><p>基数（Radix），即选择数值表示的进制。<br><img src="/2024/05/29/ila-use/27.png" alt></p>
+<li><p>点击按该钮在这里插入图片描述设置多个信号产生触发信号时的条件，与、或、同或、异或，还可以设置触发条件，如下图所示：<br>  <img src="/2024/05/29/ila-use/26.png"></p>
+</li>
+<li><p>基数（Radix），即选择数值表示的进制。<br>  <img src="/2024/05/29/ila-use/27.png"></p>
 <ul>
 <li>[B] (Binary)：二进制格式</li>
 <li>[H] (Hexadecimal)：十六进制格式</li>
@@ -606,7 +610,7 @@
 <li>[S] (Signed Decimal)：有符号十进制格式</li>
 </ul>
 </li>
-<li><p>触发值（Value），选择用于触发条件的具体值或条件<br><img src="/2024/05/29/ila-use/28.png" alt></p>
+<li><p>触发值（Value），选择用于触发条件的具体值或条件<br>  <img src="/2024/05/29/ila-use/28.png"></p>
 <ul>
 <li><code>X (don&#39;t care)</code>：无所谓的值，表示忽略这个条件。</li>
 <li><code>0 (logical zero)</code>：逻辑零。</li>
@@ -631,14 +635,14 @@
 <img src="/2024/05/29/ila-use/1.png" width="70%/">
 </div>
 
-<ol>
+<ol start="2">
 <li><strong>添加产生触发条件的信号</strong></li>
 </ol>
 <div align="center">
 <img src="/2024/05/29/ila-use/2.png" width="100%/">
 </div>
 
-<ol>
+<ol start="3">
 <li><strong>点击运行</strong><code>Run</code><strong>，观察波形。</strong></li>
 </ol>
 <div align="center">
@@ -655,7 +659,7 @@
 <ul>
 <li>可见，采样一次，计数器<code>cnt</code>为<code>0</code>没有计数，<code>led_OBUF</code>为<code>1</code>即<code>led0</code>灯亮。</li>
 </ul>
-<ol>
+<ol start="4">
 <li><strong>点击循环采样，运行</strong><code>Run</code><strong>，观察波形。</strong></li>
 </ol>
 <div align="center">
@@ -667,7 +671,7 @@
 <li>可见，计数器<code>cnt</code>始终为<code>0</code>，<code>led_OBUF</code>始终为<code>1</code>，<code>sys_rst_n_IBUF</code>始终为高电平</li>
 <li><strong>注意</strong>，在一般正常工作中，不能单单通过一次采样没有得到预想的数据就认为代码或者是硬件有问题。由于一些元器件初始化需要时间或是其他原因，可能正好采样到错误数据，需要多次采样才能确认。</li>
 </ul>
-<ol>
+<ol start="5">
 <li><strong>添加触发条件</strong></li>
 </ol>
 <ul>
@@ -697,9 +701,10 @@
 </li>
 <li><p>可见，<code>led_OBUF</code>不存在为<code>10</code>时刻。</p>
 </li>
-<li>由此反推至<code>cnt</code>计数器，观察其值。其数值始终为0，说明<code>cnt</code>没有计数，而<code>cut</code>又与<code>sys_rst_n_IBUF</code>有关。观察到<code>sys_rst_n_IBUF</code>始终为高电平，由此可尝试观察其为低电平时，<code>cnt</code>计数器情况</li>
+<li><p>由此反推至<code>cnt</code>计数器，观察其值。其数值始终为0，说明<code>cnt</code>没有计数，而<code>cut</code>又与<code>sys_rst_n_IBUF</code>有关。观察到<code>sys_rst_n_IBUF</code>始终为高电平，由此可尝试观察其为低电平时，<code>cnt</code>计数器情况</p>
+</li>
 </ul>
-<ol>
+<ol start="6">
 <li><strong>根据情况调试</strong></li>
 </ol>
 <ul>
@@ -719,7 +724,7 @@
 <li>可见，<code>sys_rst_n_IBUF</code>为低电平时，<code>cnt</code>计数器值出现变化，且经过多次采样，<code>cnt</code>计数器值开始逐渐增加。</li>
 <li>由此发现 <strong><font color="#dd0000">第一个错误</font></strong> ，需要将时钟复位信号<code>sys_rst_n</code>，由<code>if(sys_rst_n) cnt &lt;= 26&#39;d0;</code>改为<code>if(!sys_rst_n) cnt &lt;= 26&#39;d0;</code></li>
 </ul>
-<ol>
+<ol start="7">
 <li><strong>继续添加触发条件</strong></li>
 </ol>
 <ul>
@@ -732,7 +737,7 @@
 
 <ul>
 <li>发现直接报错，发现0至8的位宽，<code>cnt</code>无法达到<code>25000000</code>。</li>
-<li>由此发现 <strong><font color="#dd0000">第二个错误</font></strong> ，需要将计数器<code>cnt</code>的定义由<code>reg [26:0] cnt;</code>改为<code>reg [8:0] cnt;</code></li>
+<li>由此发现 <strong><font color="#dd0000">第二个错误</font></strong> ，需要将计数器<code>cnt</code>的定义由<code>reg [26:0] cnt;</code>改为<code>reg [8:0] cnt; </code></li>
 </ul>
 
                 

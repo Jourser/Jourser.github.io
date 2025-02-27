@@ -308,7 +308,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    13k
+                    13.2k
                 </div>
                 
 
@@ -338,206 +338,245 @@
 </ol>
 <h3 id="图像取样和量化"><a href="#图像取样和量化" class="headerlink" title="图像取样和量化"></a>图像取样和量化</h3><h4 id="采样"><a href="#采样" class="headerlink" title="采样"></a>采样</h4><p>将在空间上连续的图像转换成离散的采样点（即像素）集的操作。<br>由于图像是二维分布的信息，所以采样是在 x轴和y轴两个方向上进行一般情况下， x轴方向与y轴方向的采样间隔相同。</p>
 <h4 id="量化"><a href="#量化" class="headerlink" title="量化"></a>量化</h4><p>量化是将各个像素所含的明暗信息离散化后，用数字来表示。一般的量化值为整数。充分考虑到人眼的识别能力之后，目前非特殊用途的图像均为8bit量化，即用[0,255]描述“从黑到白”。<br>① 均匀量化：是简单地在灰度范围内等间隔量化。<br>② 非均匀量化：是对像素出现频度少的部分量化间隔取大，而对频度大的量化间隔取小。</p>
-<h4 id="分辨率（空间、幅度）"><a href="#分辨率（空间、幅度）" class="headerlink" title="分辨率（空间、幅度）"></a>分辨率（空间、幅度）</h4><p>映射到图像平面上的单个像素的景物元素的尺寸。单位：像素/厘米；或者是指要精确测量和再现一定尺寸的图像所必需的像素个数。单位：像素*像素</p>
+<h4 id="分辨率（空间、幅度）"><a href="#分辨率（空间、幅度）" class="headerlink" title="分辨率（空间、幅度）"></a>分辨率（空间、幅度）</h4><p>映射到图像平面上的单个像素的景物元素的尺寸。单位：像素&#x2F;厘米；或者是指要精确测量和再现一定尺寸的图像所必需的像素个数。单位：像素*像素</p>
 <h4 id="采样、量化和分辨率之间的联系"><a href="#采样、量化和分辨率之间的联系" class="headerlink" title="采样、量化和分辨率之间的联系"></a>采样、量化和分辨率之间的联系</h4><p>① 采样频率决定分辨率<br>② 量化强度决定了每个象素可以取的值集合</p>
-<h3 id="像素间的基本关系"><a href="#像素间的基本关系" class="headerlink" title="像素间的基本关系"></a>像素间的基本关系</h3><h4 id="相邻像素"><a href="#相邻像素" class="headerlink" title="相邻像素"></a>相邻像素</h4><h5 id="4邻域"><a href="#4邻域" class="headerlink" title="4邻域"></a>4邻域</h5><p>用 $N_4(p)$ 表示像素 $p$ 的4邻域<br><img src="/2024/03/10/digital-image-processing/1.png" alt></p>
-<h5 id="D邻域"><a href="#D邻域" class="headerlink" title="D邻域"></a>D邻域</h5><p>用 $N_D(p)$ 表示像素 $p$ 的对角邻域，像素 $p(x,y)$ 的Dd邻域为其对角上像素<br><img src="/2024/03/10/digital-image-processing/2.png" alt></p>
-<h5 id="8邻域"><a href="#8邻域" class="headerlink" title="8邻域"></a>8邻域</h5><p>用 $N_8(p)$ 表示像素 $p$ 的8邻域： $N_8(p) = N_4(p)∪N_D(p)$<br><img src="/2024/03/10/digital-image-processing/3.png" alt></p>
+<h3 id="像素间的基本关系"><a href="#像素间的基本关系" class="headerlink" title="像素间的基本关系"></a>像素间的基本关系</h3><h4 id="相邻像素"><a href="#相邻像素" class="headerlink" title="相邻像素"></a>相邻像素</h4><h5 id="4邻域"><a href="#4邻域" class="headerlink" title="4邻域"></a>4邻域</h5><p>用 $N_4(p)$ 表示像素 $p$ 的4邻域<br><img src="/2024/03/10/digital-image-processing/1.png"></p>
+<h5 id="D邻域"><a href="#D邻域" class="headerlink" title="D邻域"></a>D邻域</h5><p>用 $N_D(p)$ 表示像素 $p$ 的对角邻域，像素 $p(x,y)$ 的Dd邻域为其对角上像素<br><img src="/2024/03/10/digital-image-processing/2.png"></p>
+<h5 id="8邻域"><a href="#8邻域" class="headerlink" title="8邻域"></a>8邻域</h5><p>用 $N_8(p)$ 表示像素 $p$ 的8邻域： $N_8(p) &#x3D; N_4(p)∪N_D(p)$<br><img src="/2024/03/10/digital-image-processing/3.png"></p>
 <h4 id="邻接性"><a href="#邻接性" class="headerlink" title="邻接性"></a>邻接性</h4><p>令V是具有特定<strong>相似性准则</strong>的灰度值集合</p>
-<h5 id="4邻接"><a href="#4邻接" class="headerlink" title="4邻接"></a>4邻接</h5><p>对于具有值 $V$ 的像素 $p$ 和 $q$ ，如果 $q$ 在集合 $N_4(p)$ 中，则称这两个像素是4邻接的<br><img src="/2024/03/10/digital-image-processing/4.png" alt></p>
-<h5 id="8邻接"><a href="#8邻接" class="headerlink" title="8邻接"></a>8邻接</h5><p>对于具有值 $V$ 的像素 $p$ 和 $q$ ，如果 $q$ 在集合 $N_8(p)$ 中，则称这两个像素是8邻接的<br><img src="/2024/03/10/digital-image-processing/5.png" alt></p>
-<h5 id="m邻接"><a href="#m邻接" class="headerlink" title="m邻接"></a>m邻接</h5><p>对于具有值 $V$ 的像素 $p$ 和 $q$ ，如果:<br>I.  $q$ 在集合 $N_4(p)$ 中，或<br>II.  $q$ 在集合 $N_D(p)$ 中，并且 $N_4(p)$ 与 $N_D(p)$ 的交集没有值V的像素<br>则称这两个像素是m邻接的，即4邻接和D邻接的混合邻接。<br><img src="/2024/03/10/digital-image-processing/6.png" alt></p>
-<h4 id="连通性"><a href="#连通性" class="headerlink" title="连通性"></a>连通性</h4><h5 id="通路的定义"><a href="#通路的定义" class="headerlink" title="通路的定义"></a>通路的定义</h5><p>从具有坐标 $(x,y)$的像素 $p$,到具有坐标 $(s,t)$ 的像素 $q$ 的一条通路由一系列具有坐标 $(x_0,y_0)$，$(x_1,y_1)$，…，$(x_n,y_n)$的独立像素组成。其中，$(x_0,y_0) = (x,y)$，$(x_n,y_n) = (s,t)$，且$(x_i,_i)$  和 $(xi-1,yi-1)$ 是邻接的，$1≤i≤n$，$n$ 是路径的长度。如果 $(x0,y0) = (x_n,y_n)$ ,则该通路是闭合通路。</p>
+<h5 id="4邻接"><a href="#4邻接" class="headerlink" title="4邻接"></a>4邻接</h5><p>对于具有值 $V$ 的像素 $p$ 和 $q$ ，如果 $q$ 在集合 $N_4(p)$ 中，则称这两个像素是4邻接的<br><img src="/2024/03/10/digital-image-processing/4.png"></p>
+<h5 id="8邻接"><a href="#8邻接" class="headerlink" title="8邻接"></a>8邻接</h5><p>对于具有值 $V$ 的像素 $p$ 和 $q$ ，如果 $q$ 在集合 $N_8(p)$ 中，则称这两个像素是8邻接的<br><img src="/2024/03/10/digital-image-processing/5.png"></p>
+<h5 id="m邻接"><a href="#m邻接" class="headerlink" title="m邻接"></a>m邻接</h5><p>对于具有值 $V$ 的像素 $p$ 和 $q$ ，如果:<br>I.  $q$ 在集合 $N_4(p)$ 中，或<br>II.  $q$ 在集合 $N_D(p)$ 中，并且 $N_4(p)$ 与 $N_D(p)$ 的交集没有值V的像素<br>则称这两个像素是m邻接的，即4邻接和D邻接的混合邻接。<br><img src="/2024/03/10/digital-image-processing/6.png"></p>
+<h4 id="连通性"><a href="#连通性" class="headerlink" title="连通性"></a>连通性</h4><h5 id="通路的定义"><a href="#通路的定义" class="headerlink" title="通路的定义"></a>通路的定义</h5><p>从具有坐标 $(x,y)$的像素 $p$,到具有坐标 $(s,t)$ 的像素 $q$ 的一条通路由一系列具有坐标 $(x_0,y_0)$，$(x_1,y_1)$，…，$(x_n,y_n)$的独立像素组成。其中，$(x_0,y_0) &#x3D; (x,y)$，$(x_n,y_n) &#x3D; (s,t)$，且$(x_i,_i)$  和 $(xi-1,yi-1)$ 是邻接的，$1≤i≤n$，$n$ 是路径的长度。如果 $(x0,y0) &#x3D; (x_n,y_n)$ ,则该通路是闭合通路。</p>
 <h5 id="连通分量"><a href="#连通分量" class="headerlink" title="连通分量"></a>连通分量</h5><p>$S$ 是图像中的一个子集,对 $S$ 中任何一个像素 $p$，连通到该像素的像素集称为 $S$ 的连通分量。如果 $S$ 仅有一个连通分量，则称为<strong>连通集</strong>，也称作一个<strong>区域</strong>。</p>
 <h5 id="邻接区域"><a href="#邻接区域" class="headerlink" title="邻接区域"></a>邻接区域</h5><p>两个区域联合起来形成一个连通集。<br>不连接区域：非邻接区域。</p>
 <h5 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h5><p>一幅图像的K个不连接区域的并集的补集。</p>
 <h5 id="边界"><a href="#边界" class="headerlink" title="边界"></a>边界</h5><p>一个区域的边界，是该区域中至少有一个背景邻接点的像素的集合。</p>
 <h4 id="距离"><a href="#距离" class="headerlink" title="距离"></a>距离</h4><h5 id="欧式-Euclidean-距离定义：模为2的距离"><a href="#欧式-Euclidean-距离定义：模为2的距离" class="headerlink" title="欧式(Euclidean)距离定义：模为2的距离"></a>欧式(Euclidean)距离定义：模为2的距离</h5><ul>
-<li>像素$p(x,y)$和$(s,t)$间的欧式距离定义如下：<br>$D_e(p,q) = \sqrt{(x-s)^2+(y-t)^2}$</li>
-<li>对于这个距离计算法，具有与$(x,y)$距离小于等于某个值$r$的像素是：包含在以$(x,y)$为圆心，以$r$为半径的圆平面<h5 id="城区-city-block-距离：模为1的距离或-𝐷-4-距离"><a href="#城区-city-block-距离：模为1的距离或-𝐷-4-距离" class="headerlink" title="城区(city-block)距离：模为1的距离或$𝐷_4$距离"></a>城区(city-block)距离：模为1的距离或$𝐷_4$距离</h5></li>
-<li>像素$p(x,y)$和$q(s,t)$之间的$D_4$距离定义为：<br>$D_4(x,y) = \lvert x-s\rvert + \lvert y-t\rvert$</li>
+<li>像素$p(x,y)$和$(s,t)$间的欧式距离定义如下：<br>$D_e(p,q) &#x3D; \sqrt{(x-s)^2+(y-t)^2}$</li>
+<li>对于这个距离计算法，具有与$(x,y)$距离小于等于某个值$r$的像素是：包含在以$(x,y)$为圆心，以$r$为半径的圆平面</li>
+</ul>
+<h5 id="城区-city-block-距离：模为1的距离或-𝐷-4-距离"><a href="#城区-city-block-距离：模为1的距离或-𝐷-4-距离" class="headerlink" title="城区(city-block)距离：模为1的距离或$𝐷_4$距离"></a>城区(city-block)距离：模为1的距离或$𝐷_4$距离</h5><ul>
+<li>像素$p(x,y)$和$q(s,t)$之间的$D_4$距离定义为：<br>$D_4(x,y) &#x3D; \lvert x-s\rvert + \lvert y-t\rvert$</li>
 </ul>
 <p><strong>例</strong>：</p>
 <ul>
 <li>具有与$(x,y)$距离小于等于某个值r的那些像素形成一个菱形</li>
 <li>例如，与点$(x,y)$（中心点）$D_4$距离小于等于2的像素，形成右边固定距离的轮廓</li>
-<li><p>具有$D_4 = 1$的像素是$(x,y)$的4邻域<br><img src="/2024/03/10/digital-image-processing/7.png" alt></p>
-<h5 id="棋盘-chessboard-距离：模为-infty-的距离或-𝐷-8-距离"><a href="#棋盘-chessboard-距离：模为-infty-的距离或-𝐷-8-距离" class="headerlink" title="棋盘(chessboard)距离：模为$\infty$的距离或$𝐷_8$距离"></a>棋盘(chessboard)距离：模为$\infty$的距离或$𝐷_8$距离</h5></li>
-<li><p>像素$p(x,y)$和$q(s,t)$之间的$D_8$距离定义为：<br>$D_8(x,y) = max(\lvert x-s\rvert + \lvert y-t\rvert)$</p>
-</li>
+<li>具有$D_4 &#x3D; 1$的像素是$(x,y)$的4邻域<br><img src="/2024/03/10/digital-image-processing/7.png"></li>
+</ul>
+<h5 id="棋盘-chessboard-距离：模为-infty-的距离或-𝐷-8-距离"><a href="#棋盘-chessboard-距离：模为-infty-的距离或-𝐷-8-距离" class="headerlink" title="棋盘(chessboard)距离：模为$\infty$的距离或$𝐷_8$距离"></a>棋盘(chessboard)距离：模为$\infty$的距离或$𝐷_8$距离</h5><ul>
+<li>像素$p(x,y)$和$q(s,t)$之间的$D_8$距离定义为：<br>$D_8(x,y) &#x3D; max(\lvert x-s\rvert + \lvert y-t\rvert)$</li>
 </ul>
 <p><strong>例</strong>：</p>
 <ul>
 <li>具有与$(x,y)$距离小于等于某个值r的那些像素形成一个正方形</li>
 <li>例如，与点$(x,y)$（中心点）$D_8$距离小于等于2的像素，形成右边固定距离的轮廓</li>
-<li>具有$D_8 = 1$的像素是$(x,y)$的4邻域<br><img src="/2024/03/10/digital-image-processing/8.png" alt></li>
+<li>具有$D_8 &#x3D; 1$的像素是$(x,y)$的4邻域<br><img src="/2024/03/10/digital-image-processing/8.png"></li>
 </ul>
 <hr>
 <h2 id="灰度变化与空间滤波"><a href="#灰度变化与空间滤波" class="headerlink" title="灰度变化与空间滤波"></a>灰度变化与空间滤波</h2><h3 id="基本灰度变换"><a href="#基本灰度变换" class="headerlink" title="基本灰度变换"></a>基本灰度变换</h3><h4 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h4><ul>
-<li>空间域指包含图像像素的平面，灰度变换与空间滤波均在空间域进行，即直接在图像像素上操作，表示为 $g(x,y)=T[f(x,y)]$ ，其中 $T$ 是在点 $(x, y)$ 的邻域上定义的关于 $f$ 的一种算子<ul>
+<li>空间域指包含图像像素的平面，灰度变换与空间滤波均在空间域进行，即直接在图像像素上操作，表示为 $g(x,y)&#x3D;T[f(x,y)]$ ，其中 $T$ 是在点 $(x, y)$ 的邻域上定义的关于 $f$ 的一种算子<ul>
 <li>如空间滤波：邻域与预定义的操作共称为空间滤波器（也称为空间掩膜、核、模版或窗口）  </li>
-<li>空间滤波的最小邻域为 $1\times1$ ，此时 $T$ 成为灰度变换函数：$s=T(r)$ ，可以起到对比度拉伸或阈值处理的作用</li>
+<li>空间滤波的最小邻域为 $1\times1$ ，此时 $T$ 成为灰度变换函数：$s&#x3D;T(r)$ ，可以起到对比度拉伸或阈值处理的作用</li>
 </ul>
 </li>
 <li>图像增强应用<ul>
-<li>增强是指对图像进行加工，使其结果对于<strong>特定</strong>的应用比原始图像更适合的一种处理<h4 id="灰度变换"><a href="#灰度变换" class="headerlink" title="灰度变换"></a>灰度变换</h4></li>
+<li>增强是指对图像进行加工，使其结果对于<strong>特定</strong>的应用比原始图像更适合的一种处理</li>
 </ul>
 </li>
 </ul>
-<ul>
-<li>灰度变换函数：$s=T(r)$ <ul>
-<li>$r$ 为数字量且取值有限，该映射可通过查找表实现<br><img src="/2024/03/10/digital-image-processing/9.png" alt></li>
+<h4 id="灰度变换"><a href="#灰度变换" class="headerlink" title="灰度变换"></a>灰度变换</h4><ul>
+<li>灰度变换函数：$s&#x3D;T(r)$ <ul>
+<li>$r$ 为数字量且取值有限，该映射可通过查找表实现<br><img src="/2024/03/10/digital-image-processing/9.png"></li>
 </ul>
 </li>
 </ul>
 <h4 id="图像反转"><a href="#图像反转" class="headerlink" title="图像反转"></a>图像反转</h4><ul>
-<li>灰度变换函数：$s=L-1-r$<ul>
-<li>适用于增强嵌入在一幅图像的暗区域中的白色或灰色细节，特别当黑色面积在尺寸上站主导地位时<br><img src="/2024/03/10/digital-image-processing/10.png" alt><h4 id="对数变换"><a href="#对数变换" class="headerlink" title="对数变换"></a>对数变换</h4></li>
+<li>灰度变换函数：$s&#x3D;L-1-r$<ul>
+<li>适用于增强嵌入在一幅图像的暗区域中的白色或灰色细节，特别当黑色面积在尺寸上站主导地位时<br><img src="/2024/03/10/digital-image-processing/10.png"></li>
 </ul>
 </li>
 </ul>
-<ul>
-<li>灰度变换函数：$s=clog(1+r)$</li>
+<h4 id="对数变换"><a href="#对数变换" class="headerlink" title="对数变换"></a>对数变换</h4><ul>
+<li>灰度变换函数：$s&#x3D;clog(1+r)$</li>
 <li>该变换将输入中范围较窄的低灰度值映射为输出中较宽范围的灰度值；对高的输入灰度值起相反作用</li>
 <li>使用对数变换来扩展图像中暗像素的值，同时压缩更高灰度级的值</li>
 <li>反对数变换与对数变换相反</li>
-<li>对数变换可以压缩像素值变化较大的图像的动态范围，比如傅立叶频谱。傅立叶频谱的范围一般在 $0\sim10^6$ ，通过对数变换后可以显示图像中丰富的细节<br><img src="/2024/03/10/digital-image-processing/11.png" alt></li>
+<li>对数变换可以压缩像素值变化较大的图像的动态范围，比如傅立叶频谱。傅立叶频谱的范围一般在 $0\sim10^6$ ，通过对数变换后可以显示图像中丰富的细节<br><img src="/2024/03/10/digital-image-processing/11.png"></li>
 </ul>
 <h4 id="幂律（伽马）变换"><a href="#幂律（伽马）变换" class="headerlink" title="幂律（伽马）变换"></a>幂律（伽马）变换</h4><ul>
-<li>灰度变换函数：$s=cr^\gamma$<br><img src="/2024/03/10/digital-image-processing/12.png" alt></li>
-<li>随着 $\gamma$ 的变化，得到一族可能的变换曲线（分界点为 $\gamma = 1$ ，此时简化成了恒等变换）</li>
+<li>灰度变换函数：$s&#x3D;cr^\gamma$<br><img src="/2024/03/10/digital-image-processing/12.png"></li>
+<li>随着 $\gamma$ 的变化，得到一族可能的变换曲线（分界点为 $\gamma &#x3D; 1$ ，此时简化成了恒等变换）</li>
 <li>用于图像获取、显示、打印的各种设备常根据幂律来产生相应，因此应用<strong>伽马矫正</strong>来矫正这些幂律响应现象</li>
-<li><p>幂律变换同样可用于调整图像的对比度：当 $\gamma\lt1$ 时，减小对比度；当 $\gamma\gt1$ 时，增加对比度<br><img src="/2024/03/10/digital-image-processing/13.png" alt></p>
-<h4 id="分段线性变换函数"><a href="#分段线性变换函数" class="headerlink" title="分段线性变换函数"></a>分段线性变换函数</h4></li>
-<li><p>对比度拉伸：一般函数是单值且单调递增的，保持了灰度级的次序（包括了阈值处理函数）<br><img src="/2024/03/10/digital-image-processing/14.png" alt></p>
+<li>幂律变换同样可用于调整图像的对比度：当 $\gamma\lt1$ 时，减小对比度；当 $\gamma\gt1$ 时，增加对比度<br><img src="/2024/03/10/digital-image-processing/13.png"></li>
+</ul>
+<h4 id="分段线性变换函数"><a href="#分段线性变换函数" class="headerlink" title="分段线性变换函数"></a>分段线性变换函数</h4><ul>
+<li><p>对比度拉伸：一般函数是单值且单调递增的，保持了灰度级的次序（包括了阈值处理函数）<br><img src="/2024/03/10/digital-image-processing/14.png"></p>
 </li>
-<li><p>灰度级分层：用于突出图像特定灰度范围的亮度<br><img src="/2024/03/10/digital-image-processing/15.png" alt></p>
+<li><p>灰度级分层：用于突出图像特定灰度范围的亮度<br><img src="/2024/03/10/digital-image-processing/15.png"></p>
 <ul>
 <li>一种方法将感兴趣范围内所有灰度显示为一个值，将其他灰度值显示为另一个值</li>
 <li>另一种方法使感兴趣范围的灰度变亮（或变暗），而保持图像中的其他灰度级不变</li>
 </ul>
 </li>
-<li><strong>比特平面分层</strong>：将 256 级灰度图像分成 8 个 1 比特平面来表示，通过阈值灰度变换函数处理来得到对应平面的二值图像<br><img src="/2024/03/10/digital-image-processing/16.png" alt><br><img src="/2024/03/10/digital-image-processing/17.png" alt></li>
-<li>可用于图像压缩：通过特定几个平面来恢复图像<h3 id="直方图处理"><a href="#直方图处理" class="headerlink" title="直方图处理"></a>直方图处理</h3><h4 id="直方图定义"><a href="#直方图定义" class="headerlink" title="直方图定义"></a>直方图定义</h4>$p(r_k)=\frac{n_k}{MN}$ （类比概率）<h4 id="直方图均衡"><a href="#直方图均衡" class="headerlink" title="直方图均衡"></a>直方图均衡</h4><ul>
-<li>灰度映射：$s=T(r)$<ul>
+<li><p><strong>比特平面分层</strong>：将 256 级灰度图像分成 8 个 1 比特平面来表示，通过阈值灰度变换函数处理来得到对应平面的二值图像<br><img src="/2024/03/10/digital-image-processing/16.png"><br><img src="/2024/03/10/digital-image-processing/17.png"></p>
+</li>
+<li><p>可用于图像压缩：通过特定几个平面来恢复图像</p>
+</li>
+</ul>
+<h3 id="直方图处理"><a href="#直方图处理" class="headerlink" title="直方图处理"></a>直方图处理</h3><h4 id="直方图定义"><a href="#直方图定义" class="headerlink" title="直方图定义"></a>直方图定义</h4><p>  $p(r_k)&#x3D;\frac{n_k}{MN}$ （类比概率）</p>
+<h4 id="直方图均衡"><a href="#直方图均衡" class="headerlink" title="直方图均衡"></a>直方图均衡</h4><ul>
+<li>灰度映射：$s&#x3D;T(r)$<ul>
 <li>$T(r)$ 在区间 $0\leq r\leq L-1$ 上为（严格）单调递增函数</li>
 <li>当 $0\leq r\leq L-1$ 时，$0\leq T(r)\leq L-1$</li>
 </ul>
 </li>
-<li>重要变换函数：$s=T(r)=(L-1)\int^r_0p_r(w)dw$</li>
-<li>离散形式：$s<em>k=T(r_k)=(L-1)\sum^k</em>{j=0}p<em>r(r_j)=\frac{(L-1)}{MN}\sum^k</em>{j=0}n_j,\ k=0, 1, 2, …,L-1$</li>
-<li>对于该变换函数，恒有 $p_s(s)=p_r(r)|\frac{dr}{ds}|=p_r(r)|\frac{1}{(L-a)p_r(r)}|=\frac{1}{L-1}$ ，即 $p_s(s)$ 始终是均匀的，与 $p_r(r)$ 的形式无关</li>
-<li>只要图像直方图中没有为 0 的分量，就满足严格单调递增，可以进行反变换 $r_k=T^{-1}(s_k)$</li>
+<li>重要变换函数：$s&#x3D;T(r)&#x3D;(L-1)\int^r_0p_r(w)dw$</li>
+<li>离散形式：$s_k&#x3D;T(r_k)&#x3D;(L-1)\sum^k_{j&#x3D;0}p_r(r_j)&#x3D;\frac{(L-1)}{MN}\sum^k_{j&#x3D;0}n_j,\ k&#x3D;0, 1, 2, …,L-1$</li>
+<li>对于该变换函数，恒有 $p_s(s)&#x3D;p_r(r)|\frac{dr}{ds}|&#x3D;p_r(r)|\frac{1}{(L-a)p_r(r)}|&#x3D;\frac{1}{L-1}$ ，即 $p_s(s)$ 始终是均匀的，与 $p_r(r)$ 的形式无关</li>
+<li>只要图像直方图中没有为 0 的分量，就满足严格单调递增，可以进行反变换 $r_k&#x3D;T^{-1}(s_k)$</li>
 <li>局部直方图均衡，自适应直方图均衡</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44918476">参考资料</a><h4 id="直方图匹配"><a href="#直方图匹配" class="headerlink" title="直方图匹配"></a>直方图匹配</h4></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44918476">参考资料</a></li>
+</ul>
+<h4 id="直方图匹配"><a href="#直方图匹配" class="headerlink" title="直方图匹配"></a>直方图匹配</h4><ul>
 <li>直方图匹配（规范化）用于在处理后产生特殊直方图</li>
 <li>步骤<ol>
 <li>由输入图像得到 $p_r(r)$ ，并通过直方图均衡得到 $s$ 的值</li>
-<li>通过 $G(z)=(L-1)\int^z<em>0p_z(t)dt=s$ 中指定的 $p_z(z)$ 求得变换函数 $G(z)$ ；对于离散函数，用 $G(z_q)=(L-a)\sum^q</em>{i=0}p_z(z_i)$ 对 $q=0,1,…,L-1$ 计算变换函数 $G$ 的所有值，将其四舍五入为范围 $[0,L-1]$ 内的整数，存入一个表中</li>
-<li>求得反变换函数 $=G^{-1}(z)$ ；对于离散函数，对每一个值 $s_k$ 找到对应的 $z_q$ 值，以使 $G(z_q)$ 最接近 $s_k$ ，并储存这些从 $s$ 到 $k$ 的映射，当映射不唯一时，按惯例选择最小的值</li>
-<li>对经过直方图均衡的图像中每个像素执行反变换函数，最后输出图像的 PDF 将等于指定的 PDF；对于离散函数，使用上一步找到的映射把该图像每个均衡后的像素值 $s_k$ 映射为直方图规定化后的图像中相应的 $z_q$ 值，形成直方图规范化后的图像<h4 id="在图像增强中使用直方图统计"><a href="#在图像增强中使用直方图统计" class="headerlink" title="在图像增强中使用直方图统计"></a>在图像增强中使用直方图统计</h4></li>
+<li>通过 $G(z)&#x3D;(L-1)\int^z_0p_z(t)dt&#x3D;s$ 中指定的 $p_z(z)$ 求得变换函数 $G(z)$ ；对于离散函数，用 $G(z_q)&#x3D;(L-a)\sum^q_{i&#x3D;0}p_z(z_i)$ 对 $q&#x3D;0,1,…,L-1$ 计算变换函数 $G$ 的所有值，将其四舍五入为范围 $[0,L-1]$ 内的整数，存入一个表中</li>
+<li>求得反变换函数 $&#x3D;G^{-1}(z)$ ；对于离散函数，对每一个值 $s_k$ 找到对应的 $z_q$ 值，以使 $G(z_q)$ 最接近 $s_k$ ，并储存这些从 $s$ 到 $k$ 的映射，当映射不唯一时，按惯例选择最小的值</li>
+<li>对经过直方图均衡的图像中每个像素执行反变换函数，最后输出图像的 PDF 将等于指定的 PDF；对于离散函数，使用上一步找到的映射把该图像每个均衡后的像素值 $s_k$ 映射为直方图规定化后的图像中相应的 $z_q$ 值，形成直方图规范化后的图像</li>
 </ol>
 </li>
+</ul>
+<h4 id="在图像增强中使用直方图统计"><a href="#在图像增强中使用直方图统计" class="headerlink" title="在图像增强中使用直方图统计"></a>在图像增强中使用直方图统计</h4><ul>
 <li>平均灰度、灰度方差</li>
 <li>局部均值、局部方差：与全局均值、方差做比较来判断当前区域的亮度和对比度特征</li>
-</ul>
-</li>
 </ul>
 <h3 id="空间滤波基础"><a href="#空间滤波基础" class="headerlink" title="空间滤波基础"></a>空间滤波基础</h3><p>滤波一词一般用于频域处理中，指接受或拒绝一定的频率分量；而空间滤波器也可以直接作用于图像本身</p>
 <h4 id="空间滤波机理"><a href="#空间滤波机理" class="headerlink" title="空间滤波机理"></a>空间滤波机理</h4><p>空间滤波器由一个邻域（一般为较小矩形）和对该邻域包围的像像素执行的预定义操作组成。根据操作的不同，可以分为线性滤波器和非线性滤波器</p>
 <h4 id="空间相关与卷积"><a href="#空间相关与卷积" class="headerlink" title="空间相关与卷积"></a>空间相关与卷积</h4><ul>
 <li>相关<ul>
-<li>$w(x,y) * f(x,y)=\sum^a<em>{s=-a}\sum^b</em>{t=-b}w(s,t)f(x+s,y+t)$</li>
+<li>$w(x,y) * f(x,y)&#x3D;\sum^a_{s&#x3D;-a}\sum^b_{t&#x3D;-b}w(s,t)f(x+s,y+t)$</li>
 <li>相关是滤波器模版移过图像并计算每个位置乘积之和的处理，是滤波器位移的函数</li>
 <li>一个函数与离散单位冲激相关，在该冲激位置产生这个函数一个翻转的版本</li>
 </ul>
 </li>
 <li>卷积<ul>
-<li>$w(x,y)* f(x,y)=\sum^a<em>{s=-a}\sum^b</em>{t=-b}w(s,t)f(x-s,y-t)$</li>
+<li>$w(x,y)* f(x,y)&#x3D;\sum^a_{s&#x3D;-a}\sum^b_{t&#x3D;-b}w(s,t)f(x-s,y-t)$</li>
 <li>卷积的机理与相关类似，只不过滤波器要先旋转 $180^{\circ}$</li>
 <li>卷积的特性是某个函数与某个单位冲激卷积，得到一个在该冲激处的这个函数的拷贝</li>
-<li>如果滤波器模版是对称的，相关和卷积将得到同样的结果<h4 id="线性滤波的向量表示"><a href="#线性滤波的向量表示" class="headerlink" title="线性滤波的向量表示"></a>线性滤波的向量表示</h4>$R=w<em>1z_1+w_2z_2+…+w</em>{mn}z<em>{mn}=\sum^{mn}</em>{k=1}=\mathbf{w^Tz}$<h4 id="空间滤波器模版的产生"><a href="#空间滤波器模版的产生" class="headerlink" title="空间滤波器模版的产生"></a>空间滤波器模版的产生</h4>滤波器模版的系数由进行的操作来决定，需注意线性滤波仅能实现乘积求和操作；而非线性滤波要求确定邻域的大小，以及对包含在邻域内图像像素执行的操作<h3 id="空域平滑"><a href="#空域平滑" class="headerlink" title="空域平滑"></a>空域平滑</h3>平滑滤波器常用于模糊处理与降低噪声（预处理任务中），主要作用是：<br>&emsp;&emsp;1.模糊处理:去除图像中一些不重要的细节<br>&emsp;&emsp;2.减小噪声<h4 id="线性滤波器"><a href="#线性滤波器" class="headerlink" title="线性滤波器"></a>线性滤波器</h4>主要类别：<strong>均值滤波器</strong>、<strong>高斯滤波器</strong><h5 id="均值滤波器"><a href="#均值滤波器" class="headerlink" title="均值滤波器"></a>均值滤波器</h5></li>
-<li>平滑线性空间滤波器的输出是包含在滤波器模版邻域内的像素的简单平均值  $w_i=\frac{1}{mn}$ ，也称为<strong>均值滤波器</strong></li>
+<li>如果滤波器模版是对称的，相关和卷积将得到同样的结果</li>
+</ul>
+</li>
+</ul>
+<h4 id="线性滤波的向量表示"><a href="#线性滤波的向量表示" class="headerlink" title="线性滤波的向量表示"></a>线性滤波的向量表示</h4><p> $R&#x3D;w_1z_1+w_2z_2+…+w_{mn}z_{mn}&#x3D;\sum^{mn}_{k&#x3D;1}&#x3D;\mathbf{w^Tz}$</p>
+<h4 id="空间滤波器模版的产生"><a href="#空间滤波器模版的产生" class="headerlink" title="空间滤波器模版的产生"></a>空间滤波器模版的产生</h4><p>滤波器模版的系数由进行的操作来决定，需注意线性滤波仅能实现乘积求和操作；而非线性滤波要求确定邻域的大小，以及对包含在邻域内图像像素执行的操作</p>
+<h3 id="空域平滑"><a href="#空域平滑" class="headerlink" title="空域平滑"></a>空域平滑</h3><p>平滑滤波器常用于模糊处理与降低噪声（预处理任务中），主要作用是：<br>&emsp;&emsp;1.模糊处理:去除图像中一些不重要的细节<br>&emsp;&emsp;2.减小噪声</p>
+<h4 id="线性滤波器"><a href="#线性滤波器" class="headerlink" title="线性滤波器"></a>线性滤波器</h4><p>主要类别：<strong>均值滤波器</strong>、<strong>高斯滤波器</strong></p>
+<h5 id="均值滤波器"><a href="#均值滤波器" class="headerlink" title="均值滤波器"></a>均值滤波器</h5><ul>
+<li>平滑线性空间滤波器的输出是包含在滤波器模版邻域内的像素的简单平均值  $w_i&#x3D;\frac{1}{mn}$ ，也称为<strong>均值滤波器</strong></li>
 <li>作用：减小图像灰度的“尖锐”变化，减小噪声。由于图像边缘是由图像灰度尖锐变化引起的，所以也存在边缘模糊的问题 （局限性）</li>
-<li>常用均值滤波器<br><img src="/2024/03/10/digital-image-processing/18.png" alt><h5 id="高斯滤波器-正态分布"><a href="#高斯滤波器-正态分布" class="headerlink" title="高斯滤波器(正态分布)"></a>高斯滤波器(正态分布)</h5></li>
+<li>常用均值滤波器<br><img src="/2024/03/10/digital-image-processing/18.png"></li>
+</ul>
+<h5 id="高斯滤波器-正态分布"><a href="#高斯滤波器-正态分布" class="headerlink" title="高斯滤波器(正态分布)"></a>高斯滤波器(正态分布)</h5><ul>
 <li>一种特殊的线性滤波，其使用高斯函数作为权函数。</li>
-<li>一维高斯函数: $p(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2}{2\sigma^2}}$</li>
+<li>一维高斯函数: $p(x) &#x3D; \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2}{2\sigma^2}}$<ul>
 <li>$\sigma$值的意义及选取</li>
 </ul>
 <ol>
 <li>高斯滤波器模板的生成最重要的参数就是高斯分布的标准差$\sigma$。标准差代表着数据的离散程度，如果$\sigma$较小，那么生成的模板的中心系数较大，而周围的系数较小，这样对图像的平滑效果就不是很明显；反之，$\sigma$较大，则生成的模板的各个系数相差就不是很大，比较类似均值模板，对图像的平滑效果比较明显。</li>
 <li>$\sigma$越大，分布越分散，各部分比重差别不大，于是生成的模板各元素值差别不大，类似于平均模板；$\sigma$越小，分布越集中，中间部分所占比重远远高于其他部分，反映到高斯模板上就是中心元素值远远大于其他元素值。</li>
 </ol>
-<ul>
-<li>二维高斯函数: $p(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2+y^2}{2\sigma^2}}$<br>$x$ 的平方和 $y$ 的平方分别表示的是邻域内其他像素与邻域内中心像素的距离，$\sigma$代表的是标准差<br><img src="/2024/03/10/digital-image-processing/19.png" alt></li>
-</ul>
 </li>
+<li>二维高斯函数: $p(x) &#x3D; \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2+y^2}{2\sigma^2}}$<br>$x$ 的平方和 $y$ 的平方分别表示的是邻域内其他像素与邻域内中心像素的距离，$\sigma$代表的是标准差<br><img src="/2024/03/10/digital-image-processing/19.png"></li>
 </ul>
 <h4 id="统计排序（非线性）滤波器"><a href="#统计排序（非线性）滤波器" class="headerlink" title="统计排序（非线性）滤波器"></a>统计排序（非线性）滤波器</h4><ul>
 <li>主要类别：<strong>中值滤波器</strong>、<strong>最大值滤波器</strong>、<strong>最小值滤波器</strong></li>
-<li>统计排序滤波器的响应以滤波器包围的图像区域中所包含的像素的排序为基础，然后使用统计排序的结果所决定的值替代中心像素的值<h5 id="中值滤波器"><a href="#中值滤波器" class="headerlink" title="中值滤波器"></a>中值滤波器</h5></li>
+<li>统计排序滤波器的响应以滤波器包围的图像区域中所包含的像素的排序为基础，然后使用统计排序的结果所决定的值替代中心像素的值</li>
+</ul>
+<h5 id="中值滤波器"><a href="#中值滤波器" class="headerlink" title="中值滤波器"></a>中值滤波器</h5><ul>
 <li><strong>中值滤波器</strong>：将像素邻域内灰度的<strong>中值</strong>代替该像素的值<ul>
 <li>对于脉冲噪声（椒盐噪声）非常有效，且比现行平滑滤波器的模糊程度要低</li>
-<li>主要功能是使拥有不同灰度的点看起来更接近于他的相邻点<h5 id="最大值-最小值滤波器"><a href="#最大值-最小值滤波器" class="headerlink" title="最大值/最小值滤波器"></a>最大值/最小值滤波器</h5></li>
+<li>主要功能是使拥有不同灰度的点看起来更接近于他的相邻点</li>
 </ul>
 </li>
-<li><strong>最大值滤波器</strong>、<strong>最小值滤波器</strong>:将像素邻域内灰度的<strong>最大值/最小值</strong>值代替该像素的值<h3 id="空域锐化"><a href="#空域锐化" class="headerlink" title="空域锐化"></a>空域锐化</h3></li>
+</ul>
+<h5 id="最大值-最小值滤波器"><a href="#最大值-最小值滤波器" class="headerlink" title="最大值&#x2F;最小值滤波器"></a>最大值&#x2F;最小值滤波器</h5><ul>
+<li><strong>最大值滤波器</strong>、<strong>最小值滤波器</strong>:将像素邻域内灰度的<strong>最大值&#x2F;最小值</strong>值代替该像素的值</li>
+</ul>
+<h3 id="空域锐化"><a href="#空域锐化" class="headerlink" title="空域锐化"></a>空域锐化</h3><ul>
 <li>锐化处理的主要目的是突使模糊图像变清晰，增强图像的边缘等细节。<br>一般先去除噪声，再进行锐化处理。</li>
-<li><p>图像模糊可通过在空间域用像素邻域平均法实现，因为均值处理与积分类似；而锐化处理可由空间微分来实现，因为微分算子的相应强度与图像在用算子操作的这一点的突变程度成正比</p>
+<li>图像模糊可通过在空间域用像素邻域平均法实现，因为均值处理与积分类似；而锐化处理可由空间微分来实现，因为微分算子的相应强度与图像在用算子操作的这一点的突变程度成正比<ul>
+<li>一阶微分：$\frac{\partial f}{\partial x}&#x3D;f(x+1)-f(x)$</li>
+<li>二阶微分：$\frac{\partial^2f}{\partial x^2}&#x3D;f(x+1)+f(x-1)-2f(x)$</li>
+<li>图像的一阶微分常常在灰度变化处产生较粗的边缘，而二阶微分由零产生分开的双边缘；同时，在图像灰度陡变处，二阶微分将产生零交叉，对于边缘定位十分有用。因此，二阶微分在增强细节方面要比一阶微分好得多，是一个适合锐化图像的理想特性</li>
+</ul>
+</li>
+</ul>
+<h4 id="一阶微分：梯度"><a href="#一阶微分：梯度" class="headerlink" title="一阶微分：梯度"></a>一阶微分：梯度</h4><ul>
+<li><p>梯度的幅值（梯度图像）：$M(x,y)&#x3D;mag(\nabla f)&#x3D;\sqrt {g^2_x+g^2_y}$</p>
 <ul>
-<li>一阶微分：$\frac{\partial f}{\partial x}=f(x+1)-f(x)$</li>
-<li>二阶微分：$\frac{\partial^2f}{\partial x^2}=f(x+1)+f(x-1)-2f(x)$</li>
-<li>图像的一阶微分常常在灰度变化处产生较粗的边缘，而二阶微分由零产生分开的双边缘；同时，在图像灰度陡变处，二阶微分将产生零交叉，对于边缘定位十分有用。因此，二阶微分在增强细节方面要比一阶微分好得多，是一个适合锐化图像的理想特性<h4 id="一阶微分：梯度"><a href="#一阶微分：梯度" class="headerlink" title="一阶微分：梯度"></a>一阶微分：梯度</h4></li>
-<li>梯度的幅值（梯度图像）：$M(x,y)=mag(\nabla f)=\sqrt {g^2_x+g^2_y}$<ul>
 <li>非线性算子、非各向同性</li>
 </ul>
 </li>
-<li>用绝对值来近似平方根更适合计算：$M(x,y)\approx |g_x|+|g_y|$</li>
-<li><p>Sobel 算子，Robert 算子，Prewitt 算子，Kirsch 算子<br><img src="/2024/03/10/digital-image-processing/20.png" alt></p>
+<li><p>用绝对值来近似平方根更适合计算：$M(x,y)\approx |g_x|+|g_y|$</p>
+</li>
+<li><p>Sobel 算子，Robert 算子，Prewitt 算子，Kirsch 算子<br><img src="/2024/03/10/digital-image-processing/20.png"></p>
 </li>
 <li><p>所有模版中系数总和为 0，正如微分算子的期望值，表明灰度恒定区域的相应为 0</p>
-<h4 id="二阶微分：拉普拉斯算子"><a href="#二阶微分：拉普拉斯算子" class="headerlink" title="二阶微分：拉普拉斯算子"></a>二阶微分：拉普拉斯算子</h4></li>
-<li>拉普拉斯算子是最简单的各向同性微分算子（线性）</li>
-<li>$\nabla^2f=\frac{\partial^2f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}=f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)$</li>
-<li>以上算子仅对 $90^\circ$ 为增量旋转的各向同性，若加入沿对角线方向的两项，便可对 $45^\circ$ 增幅的结果也为各向同性</li>
-<li>使用拉普拉斯算子对图像增强：$g(x,y)=f(x,y)+c[\nabla^2f(x,y)]$</li>
-<li>几种常用的拉普拉斯算子：<br><img src="/2024/03/10/digital-image-processing/21.png" alt></li>
-</ul>
 </li>
+</ul>
+<h4 id="二阶微分：拉普拉斯算子"><a href="#二阶微分：拉普拉斯算子" class="headerlink" title="二阶微分：拉普拉斯算子"></a>二阶微分：拉普拉斯算子</h4><ul>
+<li>拉普拉斯算子是最简单的各向同性微分算子（线性）</li>
+<li>$\nabla^2f&#x3D;\frac{\partial^2f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}&#x3D;f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)$</li>
+<li>以上算子仅对 $90^\circ$ 为增量旋转的各向同性，若加入沿对角线方向的两项，便可对 $45^\circ$ 增幅的结果也为各向同性</li>
+<li>使用拉普拉斯算子对图像增强：$g(x,y)&#x3D;f(x,y)+c[\nabla^2f(x,y)]$</li>
+<li>几种常用的拉普拉斯算子：<br><img src="/2024/03/10/digital-image-processing/21.png"></li>
 </ul>
 <hr>
 <h2 id="频率域滤波"><a href="#频率域滤波" class="headerlink" title="频率域滤波"></a>频率域滤波</h2><h3 id="傅里叶变换-DFT"><a href="#傅里叶变换-DFT" class="headerlink" title="傅里叶变换(DFT)"></a>傅里叶变换(DFT)</h3><h4 id="一维傅立叶变换"><a href="#一维傅立叶变换" class="headerlink" title="一维傅立叶变换"></a>一维傅立叶变换</h4><h5 id="一维傅立叶变换及其反变换"><a href="#一维傅立叶变换及其反变换" class="headerlink" title="一维傅立叶变换及其反变换"></a>一维傅立叶变换及其反变换</h5><ul>
-<li>一维傅立叶变换：<script type="math/tex">F(u)=\int_{-\infty}^\infty f(x){e^{-j2\pi ux}dx}</script> </li>
-<li>一维傅里叶逆变换：<script type="math/tex">f(x)=\int_{-\infty}^\infty F(u){e^{j2\pi ux}du}</script><h5 id="离散形式"><a href="#离散形式" class="headerlink" title="离散形式"></a>离散形式</h5></li>
-<li>一维傅立叶变换：<script type="math/tex">F(u)=\sum_{x=0} ^{M-1} {f(x){e^{-j2\pi ux/M}}}</script> </li>
-<li>一维傅里叶逆变换：<script type="math/tex">f(x)=\frac{1}{M}\sum_{u=0} ^{M-1} F(u){e^{j2\pi ux/M}}</script></li>
-<li>根据欧拉公式 $e^{j\theta} = \cos{\theta} + j\sin{\theta}$ 可得一维傅里叶变换：<script type="math/tex; mode=display">F(u)=\sum_{x=0} ^{M-1} {f(x)(\cos{2\pi ux/M}-j\sin{2\pi ux/M})}</script><h5 id="极坐标形式"><a href="#极坐标形式" class="headerlink" title="极坐标形式"></a>极坐标形式</h5></li>
-<li>傅里叶变换的极坐标表示: <script type="math/tex">F(u) = |F(u)|e^{-j\phi(u)}</script></li>
-<li>幅度或频率谱为:<script type="math/tex">|F(u)| = \sqrt{R^2(u)+I^2(u)}</script> 其中 $R$ 和 $I$ 分别为F的实部和虚部</li>
-<li>相角或相位谱为:<script type="math/tex">\phi(u) = \arctan{\frac{I(u)}{R(u)}}</script><h4 id="二维傅立叶变换"><a href="#二维傅立叶变换" class="headerlink" title="二维傅立叶变换"></a>二维傅立叶变换</h4><h5 id="二维傅立叶变换及其反变换"><a href="#二维傅立叶变换及其反变换" class="headerlink" title="二维傅立叶变换及其反变换"></a>二维傅立叶变换及其反变换</h5></li>
-<li>二维傅立叶变换：<script type="math/tex">F(u,v)=\int_{-\infty}^\infty f(x,y){e^{-j2\pi (ux+vy)}dxdy}</script> </li>
-<li>二维傅里叶逆变换：<script type="math/tex">f(x,y)=\int_{-\infty}^\infty F(u,v){e^{j2\pi (ux+vy)}dudv}</script><h5 id="离散形式-1"><a href="#离散形式-1" class="headerlink" title="离散形式"></a>离散形式</h5></li>
-<li>图像尺寸为$M×N$的函数$f(x,y)$的DFT定义为：<script type="math/tex">F(u,v)=\sum_{x=0} ^{M-1}\sum_{y=0}^{N-1} {f(x,y){e^{-j2\pi (ux/M+vy/N)}}}</script> </li>
-<li>二维傅里叶逆变换：<script type="math/tex">f(x,y)=\frac{1}{MN}\sum_{u=0} ^{M-1} \sum_{y=0} ^{N-1}F(u,v){e^{j2\pi (ux/M+vy/N)}}</script><h5 id="极坐标形式-1"><a href="#极坐标形式-1" class="headerlink" title="极坐标形式"></a>极坐标形式</h5></li>
-<li>二傅里叶变换的极坐标表示: <script type="math/tex">F(u,v) = |F(u,v)|e^{-j\phi(u,v)}</script></li>
-<li>幅度或频率谱为:<script type="math/tex">|F(u,v)| = \sqrt{R^2(u,v)+I^2(u,v)}</script> 其中 $R$ 和 $I$ 分别为F的实部和虚部</li>
-<li>相角或相位谱为:<script type="math/tex">\phi(u,v) = \arctan{\frac{I(u,v)}{R(u,v)}}</script></li>
+<li>一维傅立叶变换：$$F(u)&#x3D;\int_{-\infty}^\infty f(x){e^{-j2\pi ux}dx}$$ </li>
+<li>一维傅里叶逆变换：$$f(x)&#x3D;\int_{-\infty}^\infty F(u){e^{j2\pi ux}du}$$</li>
 </ul>
-<h4 id="DEF的性质-主要是二维"><a href="#DEF的性质-主要是二维" class="headerlink" title="DEF的性质(主要是二维)"></a>DEF的性质(主要是二维)</h4><p><img src="/2024/03/10/digital-image-processing/22.png" alt></p>
+<h5 id="离散形式"><a href="#离散形式" class="headerlink" title="离散形式"></a>离散形式</h5><ul>
+<li>一维傅立叶变换：$$F(u)&#x3D;\sum_{x&#x3D;0} ^{M-1} {f(x){e^{-j2\pi ux&#x2F;M}}}$$ </li>
+<li>一维傅里叶逆变换：$$f(x)&#x3D;\frac{1}{M}\sum_{u&#x3D;0} ^{M-1} F(u){e^{j2\pi ux&#x2F;M}}$$</li>
+<li>根据欧拉公式 $e^{j\theta} &#x3D; \cos{\theta} + j\sin{\theta}$ 可得一维傅里叶变换：<br>$$F(u)&#x3D;\sum_{x&#x3D;0} ^{M-1} {f(x)(\cos{2\pi ux&#x2F;M}-j\sin{2\pi ux&#x2F;M})}$$</li>
+</ul>
+<h5 id="极坐标形式"><a href="#极坐标形式" class="headerlink" title="极坐标形式"></a>极坐标形式</h5><ul>
+<li>傅里叶变换的极坐标表示: $$F(u) &#x3D; |F(u)|e^{-j\phi(u)}$$</li>
+<li>幅度或频率谱为:$$|F(u)| &#x3D; \sqrt{R^2(u)+I^2(u)}$$ 其中 $R$ 和 $I$ 分别为F的实部和虚部</li>
+<li>相角或相位谱为:$$\phi(u) &#x3D; \arctan{\frac{I(u)}{R(u)}}$$</li>
+</ul>
+<h4 id="二维傅立叶变换"><a href="#二维傅立叶变换" class="headerlink" title="二维傅立叶变换"></a>二维傅立叶变换</h4><h5 id="二维傅立叶变换及其反变换"><a href="#二维傅立叶变换及其反变换" class="headerlink" title="二维傅立叶变换及其反变换"></a>二维傅立叶变换及其反变换</h5><ul>
+<li>二维傅立叶变换：$$F(u,v)&#x3D;\int_{-\infty}^\infty f(x,y){e^{-j2\pi (ux+vy)}dxdy}$$ </li>
+<li>二维傅里叶逆变换：$$f(x,y)&#x3D;\int_{-\infty}^\infty F(u,v){e^{j2\pi (ux+vy)}dudv}$$</li>
+</ul>
+<h5 id="离散形式-1"><a href="#离散形式-1" class="headerlink" title="离散形式"></a>离散形式</h5><ul>
+<li>图像尺寸为$M×N$的函数$f(x,y)$的DFT定义为：$$F(u,v)&#x3D;\sum_{x&#x3D;0} ^{M-1}\sum_{y&#x3D;0}^{N-1} {f(x,y){e^{-j2\pi (ux&#x2F;M+vy&#x2F;N)}}}$$ </li>
+<li>二维傅里叶逆变换：$$f(x,y)&#x3D;\frac{1}{MN}\sum_{u&#x3D;0} ^{M-1} \sum_{y&#x3D;0} ^{N-1}F(u,v){e^{j2\pi (ux&#x2F;M+vy&#x2F;N)}}$$</li>
+</ul>
+<h5 id="极坐标形式-1"><a href="#极坐标形式-1" class="headerlink" title="极坐标形式"></a>极坐标形式</h5><ul>
+<li>二傅里叶变换的极坐标表示: $$F(u,v) &#x3D; |F(u,v)|e^{-j\phi(u,v)}$$</li>
+<li>幅度或频率谱为:$$|F(u,v)| &#x3D; \sqrt{R^2(u,v)+I^2(u,v)}$$ 其中 $R$ 和 $I$ 分别为F的实部和虚部</li>
+<li>相角或相位谱为:$$\phi(u,v) &#x3D; \arctan{\frac{I(u,v)}{R(u,v)}}$$</li>
+</ul>
+<h4 id="DEF的性质-主要是二维"><a href="#DEF的性质-主要是二维" class="headerlink" title="DEF的性质(主要是二维)"></a>DEF的性质(主要是二维)</h4><p><img src="/2024/03/10/digital-image-processing/22.png"></p>
 <h3 id="频率域滤波基础"><a href="#频率域滤波基础" class="headerlink" title="频率域滤波基础"></a>频率域滤波基础</h3><h4 id="傅里叶变换的频率分量和图像空间特征之间的联系"><a href="#傅里叶变换的频率分量和图像空间特征之间的联系" class="headerlink" title="傅里叶变换的频率分量和图像空间特征之间的联系"></a>傅里叶变换的频率分量和图像空间特征之间的联系</h4><ul>
-<li>变化最慢的频率成分 $(u=v=0)$ 对应一幅图像的平均灰度级:<script type="math/tex">F(0,0)=\sum_{x=0} ^{M-1}\sum_{y=0} ^{N-1}f(x,y)=MN\overline{f(x,y)}</script></li>
+<li>变化最慢的频率成分 $(u&#x3D;v&#x3D;0)$ 对应一幅图像的平均灰度级:$$F(0,0)&#x3D;\sum_{x&#x3D;0} ^{M-1}\sum_{y&#x3D;0} ^{N-1}f(x,y)&#x3D;MN\overline{f(x,y)}$$</li>
 <li>当从变换的原点移开时，<font color="#dd0000">低频对应着图像的慢变化分量</font>，如图像的平滑部分</li>
-<li>进一步离开原点时，<font color="#dd0000">较高的频率对应图像中变化越来越快的灰度级</font>，如边缘或噪声等尖锐部分<h4 id="频率域的滤波步骤"><a href="#频率域的滤波步骤" class="headerlink" title="频率域的滤波步骤"></a>频率域的滤波步骤</h4></li>
+<li>进一步离开原点时，<font color="#dd0000">较高的频率对应图像中变化越来越快的灰度级</font>，如边缘或噪声等尖锐部分</li>
 </ul>
-<ol>
-<li>用 $(-1)x+y$ 乘以输入图像进行中心变换 <script type="math/tex">f (x, y)(−1)^{x+y} \Leftrightarrow F(u − M / 2,v − N / 2)</script></li>
+<h4 id="频率域的滤波步骤"><a href="#频率域的滤波步骤" class="headerlink" title="频率域的滤波步骤"></a>频率域的滤波步骤</h4><ol>
+<li>用 $(-1)x+y$ 乘以输入图像进行中心变换 $$f (x, y)(−1)^{x+y} \Leftrightarrow F(u − M &#x2F; 2,v − N &#x2F; 2)$$</li>
 <li>计算1中的DFT $F(u,v)$</li>
 <li>用滤波器函数 $H(u,v)$ 乘以 $F(u,v)$</li>
 <li>计算3中结果的IDFT(逆傅里叶变换)</li>
 <li>得到4中结果的实部</li>
-<li>用 $(-1)^{x+y}$ 乘以5中的结果<br><img src="/2024/03/10/digital-image-processing/23.png" alt><h4 id="主要类别"><a href="#主要类别" class="headerlink" title="主要类别"></a>主要类别</h4></li>
+<li>用 $(-1)^{x+y}$ 乘以5中的结果<br><img src="/2024/03/10/digital-image-processing/23.png"></li>
 </ol>
-<ul>
+<h4 id="主要类别"><a href="#主要类别" class="headerlink" title="主要类别"></a>主要类别</h4><ul>
 <li><strong>低通滤波器</strong>：使低频通过而使高频衰减的滤波器<ul>
 <li>被低通滤波的图像比原始图像少尖锐的细节部分而突出平滑过渡部分</li>
 <li>对比空间域滤波的平滑处理，如均值滤波器</li>
@@ -545,42 +584,46 @@
 </li>
 <li><strong>高通滤波器</strong>：使高频通过而使低频衰减的滤波器<ul>
 <li>被高通滤波的图像比原始图像少灰度级的平滑过渡而突出边缘等细节部分</li>
-<li>对比空间域的梯度算子、拉普拉斯算子<h4 id="空间域滤波和频率域滤波之间的对应关系"><a href="#空间域滤波和频率域滤波之间的对应关系" class="headerlink" title="空间域滤波和频率域滤波之间的对应关系"></a>空间域滤波和频率域滤波之间的对应关系</h4></li>
+<li>对比空间域的梯度算子、拉普拉斯算子</li>
 </ul>
 </li>
-<li>大小为$M×N$的两个函数$f(x,y)$和$h(x,y)$的离散卷积表示为$f(x,y)<em>h(x,y)$，定义为$$f(x,y)</em>h(x,y)=\frac{1}{MN}\sum<em>{u=0} ^{M-1} \sum</em>{y=0} ^{N-1}f(x,y)h(x-m,y-n)$$</li>
-<li>对比空间域滤波：在$M×N$的图像$f$上，用$m×n$的滤波器进行线性滤波<script type="math/tex">g(x,y)=\sum_{s=-a} ^{a}\sum_{t=-b} ^{b}w(s,t)f(x+s,y+t)</script></li>
-<li>卷积定理:$f(x,y)<em>h(x,y)\Leftrightarrow F(u,v)</em>H(u,v)$</li>
-<li>上式说明空间域卷积可以通过$F(u,v)H(u,v) $的乘积进行反傅里叶变换得到</li>
-<li>上述两个公式主要为两个函数逐元素相乘的乘法<br><img src="/2024/03/10/digital-image-processing/25.png" alt><br><img src="/2024/03/10/digital-image-processing/24.png" alt><h3 id="频率域滤波器平滑图像"><a href="#频率域滤波器平滑图像" class="headerlink" title="频率域滤波器平滑图像"></a>频率域滤波器平滑图像</h3></li>
 </ul>
-<h4 id="理想低通滤波器-Ideal"><a href="#理想低通滤波器-Ideal" class="headerlink" title="理想低通滤波器(Ideal)"></a>理想低通滤波器(Ideal)</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>截断傅里叶变换中的所有<strong>高频</strong>成分，这些高频成分处于指定距离$D_0$之外<br><img src="/2024/03/10/digital-image-processing/26.png" alt><br><strong>说明</strong>：在半径为$D_0$的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉</p>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p>截止频率即为$D_0$<br><img src="/2024/03/10/digital-image-processing/27.png" alt><br><strong>结论</strong>：半径$D_0$越小，模糊越大；半径$D_0$越大，模糊越小</p>
-<h4 id="巴特沃思低通滤波器-Butterworth"><a href="#巴特沃思低通滤波器-Butterworth" class="headerlink" title="巴特沃思低通滤波器(Butterworth)"></a>巴特沃思低通滤波器(Butterworth)</h4><h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/28.png" alt><br><strong>应用</strong>：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。</p>
-<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/29.png" alt></p>
-<h4 id="高斯低通滤波器"><a href="#高斯低通滤波器" class="headerlink" title="高斯低通滤波器"></a>高斯低通滤波器</h4><h5 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/30.png" alt></p>
-<h5 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/31.png" alt><br>高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。</p>
+<h4 id="空间域滤波和频率域滤波之间的对应关系"><a href="#空间域滤波和频率域滤波之间的对应关系" class="headerlink" title="空间域滤波和频率域滤波之间的对应关系"></a>空间域滤波和频率域滤波之间的对应关系</h4><ul>
+<li>大小为$M×N$的两个函数$f(x,y)$和$h(x,y)$的离散卷积表示为$f(x,y)*h(x,y)$，定义为$$f(x,y)*h(x,y)&#x3D;\frac{1}{MN}\sum_{u&#x3D;0} ^{M-1} \sum_{y&#x3D;0} ^{N-1}f(x,y)h(x-m,y-n)$$</li>
+<li>对比空间域滤波：在$M×N$的图像$f$上，用$m×n$的滤波器进行线性滤波$$<br>g(x,y)&#x3D;\sum_{s&#x3D;-a} ^{a}\sum_{t&#x3D;-b} ^{b}w(s,t)f(x+s,y+t)$$</li>
+<li>卷积定理:$f(x,y)*h(x,y)\Leftrightarrow F(u,v)*H(u,v)$</li>
+<li>上式说明空间域卷积可以通过$F(u,v)H(u,v) $的乘积进行反傅里叶变换得到</li>
+<li>上述两个公式主要为两个函数逐元素相乘的乘法<br><img src="/2024/03/10/digital-image-processing/25.png"><br><img src="/2024/03/10/digital-image-processing/24.png"></li>
+</ul>
+<h3 id="频率域滤波器平滑图像"><a href="#频率域滤波器平滑图像" class="headerlink" title="频率域滤波器平滑图像"></a>频率域滤波器平滑图像</h3><h4 id="理想低通滤波器-Ideal"><a href="#理想低通滤波器-Ideal" class="headerlink" title="理想低通滤波器(Ideal)"></a>理想低通滤波器(Ideal)</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>截断傅里叶变换中的所有<strong>高频</strong>成分，这些高频成分处于指定距离$D_0$之外<br><img src="/2024/03/10/digital-image-processing/26.png"><br><strong>说明</strong>：在半径为$D_0$的圆内，所有频率没有衰减地通过滤波器，而在此半径的圆之外的所有频率完全被衰减掉</p>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p>截止频率即为$D_0$<br><img src="/2024/03/10/digital-image-processing/27.png"><br><strong>结论</strong>：半径$D_0$越小，模糊越大；半径$D_0$越大，模糊越小</p>
+<h4 id="巴特沃思低通滤波器-Butterworth"><a href="#巴特沃思低通滤波器-Butterworth" class="headerlink" title="巴特沃思低通滤波器(Butterworth)"></a>巴特沃思低通滤波器(Butterworth)</h4><h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/28.png"><br><strong>应用</strong>：可用于平滑处理，如图像由于量化不足产生虚假轮廓时，常可用低通滤波进行平滑以改进图像质量。通常，BLPF的平滑效果好于ILPF。</p>
+<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/29.png"></p>
+<h4 id="高斯低通滤波器"><a href="#高斯低通滤波器" class="headerlink" title="高斯低通滤波器"></a>高斯低通滤波器</h4><h5 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/30.png"></p>
+<h5 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/31.png"><br>高斯低通滤波器（GLPF）的傅里叶反变换也是高斯的，因此通过上式的IDFT得到的空间高斯滤波器没有振铃。</p>
 <h4 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h4><p>低通滤波器的应用实例：<strong>模糊</strong>，<strong>平滑</strong>等</p>
 <ul>
 <li><strong>字符识别</strong>：通过模糊图像，桥接断裂字符的裂缝</li>
 <li><strong>印刷和出版业</strong>：从一幅尖锐的原始图像产生平滑、柔和的外观，如人脸，减少皮肤细纹的锐化程度和小斑点</li>
-<li><strong>处理卫星和航空图像</strong>：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析<h3 id="频率域滤波器锐化图像"><a href="#频率域滤波器锐化图像" class="headerlink" title="频率域滤波器锐化图像"></a>频率域滤波器锐化图像</h3></li>
+<li><strong>处理卫星和航空图像</strong>：尽可能模糊细节，而保留大的可识别特征。低通滤波通过消除不重要的特征来简化感兴趣特征的分析</li>
 </ul>
-<h4 id="理想高通滤波器"><a href="#理想高通滤波器" class="headerlink" title="理想高通滤波器"></a>理想高通滤波器</h4><h5 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h5><p>截断傅里叶变换中的所有<strong>低频</strong>成分，这些低频成分处于指定距离$D_0$之内<br><img src="/2024/03/10/digital-image-processing/32.png" alt></p>
-<h5 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/33.png" alt></p>
+<h3 id="频率域滤波器锐化图像"><a href="#频率域滤波器锐化图像" class="headerlink" title="频率域滤波器锐化图像"></a>频率域滤波器锐化图像</h3><h4 id="理想高通滤波器"><a href="#理想高通滤波器" class="headerlink" title="理想高通滤波器"></a>理想高通滤波器</h4><h5 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h5><p>截断傅里叶变换中的所有<strong>低频</strong>成分，这些低频成分处于指定距离$D_0$之内<br><img src="/2024/03/10/digital-image-processing/32.png"></p>
+<h5 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/33.png"></p>
 <p><strong>结论</strong>：图a和b的振铃问题十分明显</p>
-<h4 id="巴特沃思高通滤波器"><a href="#巴特沃思高通滤波器" class="headerlink" title="巴特沃思高通滤波器"></a>巴特沃思高通滤波器</h4><h5 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/34.png" alt></p>
-<h5 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/35.png" alt><br><strong>结论</strong>：BHPF的结果比IHPF的结果平滑得多</p>
-<h4 id="高斯高通滤波器"><a href="#高斯高通滤波器" class="headerlink" title="高斯高通滤波器"></a>高斯高通滤波器</h4><h5 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/36.png" alt></p>
-<h5 id="实例-5"><a href="#实例-5" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/37.png" alt><br><strong>结论</strong>：GHPF的结果比BHBF和IHPF的结果更平滑</p>
+<h4 id="巴特沃思高通滤波器"><a href="#巴特沃思高通滤波器" class="headerlink" title="巴特沃思高通滤波器"></a>巴特沃思高通滤波器</h4><h5 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/34.png"></p>
+<h5 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/35.png"><br><strong>结论</strong>：BHPF的结果比IHPF的结果平滑得多</p>
+<h4 id="高斯高通滤波器"><a href="#高斯高通滤波器" class="headerlink" title="高斯高通滤波器"></a>高斯高通滤波器</h4><h5 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a>原理</h5><p><img src="/2024/03/10/digital-image-processing/36.png"></p>
+<h5 id="实例-5"><a href="#实例-5" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/37.png"><br><strong>结论</strong>：GHPF的结果比BHBF和IHPF的结果更平滑</p>
 <hr>
 <h2 id="形态学处理"><a href="#形态学处理" class="headerlink" title="形态学处理"></a>形态学处理</h2><h3 id="腐蚀和膨胀"><a href="#腐蚀和膨胀" class="headerlink" title="腐蚀和膨胀"></a>腐蚀和膨胀</h3><h4 id="腐蚀"><a href="#腐蚀" class="headerlink" title="腐蚀"></a>腐蚀</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><ul>
-<li>$A$被$B$腐蚀的定义为：$A\ominus B= {z|(B)_z\subseteq A} $</li>
+<li>$A$被$B$腐蚀的定义为：$A\ominus B&#x3D; {z|(B)_z\subseteq A} $</li>
 <li>该式表明腐蚀的结果为所有使$B$中包含于$A$中的点$z$的集合用$z$平移。集合$B$在被称为<strong>结构元素</strong>。</li>
 <li><strong>腐蚀运算的含义是</strong>：每当在目标图像$A$中找到一个与结构元素$B$相同的子图像时，就把该子图像中与$B$的原点位置对应的那个像素位置标注为1，图像$A$上标注出的所有这样的像素组成的集合，即为腐蚀运算的结果。</li>
 <li>简而言之，腐蚀运算的实质就是在目标图像中标出那些与结构元素相同的子图像的原点位置的像素。</li>
-<li><strong>注意</strong>，<font color="#dd0000">结构元素中的原点位置可以不为1</font>。<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5></li>
-<li>对$Z$中的集合$A和B$，$B$对$A$进行腐蚀的整个过程如下： </li>
+<li><strong>注意</strong>，<font color="#dd0000">结构元素中的原点位置可以不为1</font>。</li>
+</ul>
+<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><ul>
+<li>对$Z$中的集合$A和B$，$B$对$A$进行腐蚀的整个过程如下：</li>
 </ul>
 <ol>
 <li>用结构元素$B$，扫描图像$A$的每一个像素</li>
@@ -588,9 +631,14 @@
 <li>如果都为1，结果图像的该像素为1。否则为0</li>
 </ol>
 <ul>
-<li>腐蚀处理的结果是使原来的二值图像减小一圈<h5 id="实例-6"><a href="#实例-6" class="headerlink" title="实例"></a>实例</h5><img src="/2024/03/10/digital-image-processing/38.png" alt><br><img src="/2024/03/10/digital-image-processing/39.png" alt></li>
-<li>事实上，我们可以将腐蚀视为形态学滤波操作，这种操作把<strong>比结构元小的图像细节</strong>从图像中滤除<br><img src="/2024/03/10/digital-image-processing/40.png" alt><h4 id="膨胀"><a href="#膨胀" class="headerlink" title="膨胀"></a>膨胀</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5></li>
-<li>$A$被$B$膨胀的定义为：$A\oplus B={z|(\hat{B})_z\cap A \neq\varnothing}$</li>
+<li>腐蚀处理的结果是使原来的二值图像减小一圈</li>
+</ul>
+<h5 id="实例-6"><a href="#实例-6" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/38.png"><br><img src="/2024/03/10/digital-image-processing/39.png"></p>
+<ul>
+<li>事实上，我们可以将腐蚀视为形态学滤波操作，这种操作把<strong>比结构元小的图像细节</strong>从图像中滤除<br><img src="/2024/03/10/digital-image-processing/40.png"></li>
+</ul>
+<h4 id="膨胀"><a href="#膨胀" class="headerlink" title="膨胀"></a>膨胀</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5><ul>
+<li>$A$被$B$膨胀的定义为：$A\oplus B&#x3D;{z|(\hat{B})_z\cap A \neq\varnothing}$</li>
 <li>该式表明膨胀过程是$B$首先做关于原点的映像$\hat{B}$，然后平移$z$。$A$被$B$膨胀是所有位移$z$的集合，这样 $\hat{B}$和$A$至少有一个元素是重叠的</li>
 <li>腐蚀是一种收缩或细化操作，而膨胀则会“增长”或“粗化”二值图像中的物体</li>
 </ul>
@@ -601,74 +649,106 @@
 <li>首先$B$做关于原点的映像$\hat{B}$</li>
 <li>用结构元素$\hat{B}$，扫描图像$A$的每一个像素</li>
 <li>用结构元素与其覆盖的二值图像做“与”操作</li>
-<li>如果都为0，结果图像的该像素为0。否则为1<h5 id="实例-7"><a href="#实例-7" class="headerlink" title="实例"></a>实例</h5><img src="/2024/03/10/digital-image-processing/41.png" alt><br><img src="/2024/03/10/digital-image-processing/42.png" alt></li>
+<li>如果都为0，结果图像的该像素为0。否则为1</li>
 </ol>
+<h5 id="实例-7"><a href="#实例-7" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/41.png"><br><img src="/2024/03/10/digital-image-processing/42.png"></p>
 <ul>
 <li>最简单的膨胀应用之一是连接裂缝<ul>
 <li>形态学方法较之用于连接断裂的低通滤波方法的一个直接优点是，形态学方法<br>可在一幅二值图像中直接得到结果。</li>
-<li>另一方面，低通滤波方法则从一幅二值图像开始，生成一幅灰度图像，它需要<br>用一个阈值函数将灰度图像转换为二值图像<br><img src="/2024/03/10/digital-image-processing/43.png" alt><h4 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-6"><a href="#原理-6" class="headerlink" title="原理"></a>原理</h5></li>
+<li>另一方面，低通滤波方法则从一幅二值图像开始，生成一幅灰度图像，它需要<br>用一个阈值函数将灰度图像转换为二值图像<br><img src="/2024/03/10/digital-image-processing/43.png"></li>
 </ul>
 </li>
 </ul>
-<ul>
+<h4 id="对偶性"><a href="#对偶性" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-6"><a href="#原理-6" class="headerlink" title="原理"></a>原理</h5><ul>
 <li>$B$ 对 $A$ 的腐蚀是 $\hat{B}$ 对 $A^c$ 的膨胀的补集，反之亦然</li>
-<li>当结构元关于其原点对称时有 $\hat{B}=B$，此时可以用相同的结构元简单地使用 $B$ 膨胀图像的背景，对该结果求补即可得到 $B$ 对该幅图像的腐蚀<h5 id="实例-8"><a href="#实例-8" class="headerlink" title="实例"></a>实例</h5><img src="/2024/03/10/digital-image-processing/44.png" alt><h3 id="开操作与闭操作"><a href="#开操作与闭操作" class="headerlink" title="开操作与闭操作"></a>开操作与闭操作</h3><h4 id="开操作"><a href="#开操作" class="headerlink" title="开操作"></a>开操作</h4><h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5></li>
+<li>当结构元关于其原点对称时有 $\hat{B}&#x3D;B$，此时可以用相同的结构元简单地使用 $B$ 膨胀图像的背景，对该结果求补即可得到 $B$ 对该幅图像的腐蚀</li>
 </ul>
-<ul>
+<h5 id="实例-8"><a href="#实例-8" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/44.png"></p>
+<h3 id="开操作与闭操作"><a href="#开操作与闭操作" class="headerlink" title="开操作与闭操作"></a>开操作与闭操作</h3><h4 id="开操作"><a href="#开操作" class="headerlink" title="开操作"></a>开操作</h4><h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5><ul>
 <li>使用同一个结构元素对目标图像<strong>先</strong>进行<strong>腐蚀</strong>运算，然后<strong>再</strong>进行<strong>膨胀</strong>运算称为<strong>开操作</strong>。开操作一般使对象的轮廓变得光滑，断开狭窄的间断和消除细的突出物。</li>
-<li>结构元素$B$对目标图像$A$的开操作定义为：$A\circ B=(A\ominus B)\oplus B$<h6 id="实例-9"><a href="#实例-9" class="headerlink" title="实例"></a>实例</h6><img src="/2024/03/10/digital-image-processing/45.png" alt></li>
+<li>结构元素$B$对目标图像$A$的开操作定义为：$A\circ B&#x3D;(A\ominus B)\oplus B$</li>
+</ul>
+<h6 id="实例-9"><a href="#实例-9" class="headerlink" title="实例"></a>实例</h6><p><img src="/2024/03/10/digital-image-processing/45.png"></p>
+<ul>
 <li>假设我们把结构元 $B$ 视为一个“转球”</li>
-<li>$B$ 对 $A$ 的开操作的边界由 $B$ 中的点建立：当 $B$ 在 $A$ 的边界内侧滚动时，$B$ 所能到达的 $A$ 的边界的最远点<br><img src="/2024/03/10/digital-image-processing/46.png" alt><h4 id="闭操作"><a href="#闭操作" class="headerlink" title="闭操作"></a>闭操作</h4><h5 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h5></li>
+<li>$B$ 对 $A$ 的开操作的边界由 $B$ 中的点建立：当 $B$ 在 $A$ 的边界内侧滚动时，$B$ 所能到达的 $A$ 的边界的最远点<br><img src="/2024/03/10/digital-image-processing/46.png"></li>
+</ul>
+<h4 id="闭操作"><a href="#闭操作" class="headerlink" title="闭操作"></a>闭操作</h4><h5 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h5><ul>
 <li>使用同一个结构元素对目标图像<strong>先</strong>进行<strong>膨胀</strong>运算，然后<strong>再</strong>进行<strong>腐蚀</strong>运算称为<strong>闭操作</strong>。闭操作同样使轮廓线更光滑，但它通常消弭狭窄的间断和长细的鸿沟，消除小的孔洞，并填补轮廓线中的断裂。</li>
-<li>结构元素$B$对目标图像$A$的闭运算定义为：$A\bullet B=(A\oplus B)\ominus B$<h5 id="实例-10"><a href="#实例-10" class="headerlink" title="实例"></a>实例</h5><img src="/2024/03/10/digital-image-processing/47.png" alt></li>
-<li>开操作与闭操作彼此对偶，所以闭操作在边界外侧滚动球体是意料之中的事情，$B$ 在 $A$ 的边界外侧外切滚动一圈， 所有 $(B)_z$ 的并集构成的内包络为边界<br><img src="/2024/03/10/digital-image-processing/48.png" alt><h4 id="对偶性-1"><a href="#对偶性-1" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-7"><a href="#原理-7" class="headerlink" title="原理"></a>原理</h5></li>
-<li>开操作与闭操作互为对偶，并可表示为：<script type="math/tex">(A\bullet B)^c=(A^c \circ \hat B)</script>和<script type="math/tex">(A \circ B)^c=(A^c \bullet \hat B)</script></li>
+<li>结构元素$B$对目标图像$A$的闭运算定义为：$A\bullet B&#x3D;(A\oplus B)\ominus B$</li>
+</ul>
+<h5 id="实例-10"><a href="#实例-10" class="headerlink" title="实例"></a>实例</h5><p><img src="/2024/03/10/digital-image-processing/47.png"></p>
+<ul>
+<li>开操作与闭操作彼此对偶，所以闭操作在边界外侧滚动球体是意料之中的事情，$B$ 在 $A$ 的边界外侧外切滚动一圈， 所有 $(B)_z$ 的并集构成的内包络为边界<br><img src="/2024/03/10/digital-image-processing/48.png"></li>
+</ul>
+<h4 id="对偶性-1"><a href="#对偶性-1" class="headerlink" title="对偶性"></a>对偶性</h4><h5 id="原理-7"><a href="#原理-7" class="headerlink" title="原理"></a>原理</h5><ul>
+<li>开操作与闭操作互为对偶，并可表示为：$$(A\bullet B)^c&#x3D;(A^c \circ \hat B)$$和$$(A \circ B)^c&#x3D;(A^c \bullet \hat B)$$</li>
 </ul>
 <ul>
 <li>开操作满足下列性质：<ul>
 <li>$A \circ B$是$A$的一个子集（子图像）</li>
 <li>如果$C$是$D$的一个子集，则$C \circ B$是$𝐷 \circ B$的一个子集</li>
-<li>$(A \circ B) \circ B = A \circ B$</li>
+<li>$(A \circ B) \circ B &#x3D; A \circ B$</li>
 </ul>
 </li>
 <li>类似地，闭操作满足下列性质：<ul>
 <li>$A$是$A \bullet B$的一个子集（子图像）</li>
 <li>如果$C$是$D$的一个子集，则$C \bullet B$是$𝐷 \bullet B$的一个子集</li>
-<li>$(A \bullet B) \bullet B = A \bullet B$<h3 id="击中或不击中变换"><a href="#击中或不击中变换" class="headerlink" title="击中或不击中变换"></a>击中或不击中变换</h3></li>
+<li>$(A \bullet B) \bullet B &#x3D; A \bullet B$</li>
 </ul>
 </li>
 </ul>
-<ul>
-<li>击中或击不中变换是形状检测的基本工具。</li>
-<li><p>如果$B$表示由$D$及其背景组成的集合，则$B$在$A$中的匹配，表示为$A ⊛ B$，是<script type="math/tex">A ⊛ B=(A\ominus D)\cap[A^c\ominus(W-D)]</script></p>
+<h3 id="击中或不击中变换"><a href="#击中或不击中变换" class="headerlink" title="击中或不击中变换"></a>击中或不击中变换</h3><ul>
+<li><p>击中或击不中变换是形状检测的基本工具。</p>
+</li>
+<li><p>如果$B$表示由$D$及其背景组成的集合，则$B$在$A$中的匹配，表示为$A ⊛ B$，是$$A ⊛ B&#x3D;(A\ominus D)\cap[A^c\ominus(W-D)]$$</p>
 <div align="center">
 <img src="/2024/03/10/digital-image-processing/49.png" width="60%">
 </div>
 </li>
-<li><p>我们可以通过令$B = (B_1,B_2)$ 对这种表示法稍微做些推广，其中$B_1$是由与一个目标相联系的$B$的元素构成的集合，$B_2$是由与相应背景相联系的$B$的元素构成的集合。根据前面的讨论， $B_1 = D，B_2 =W − D）$。用这种表示方法，击中或击不中变换变为<script type="math/tex">A ⊛ B=(A\ominus B_1)\cap(A^c\ominus B_2)</script></p>
+<li><p>我们可以通过令$B &#x3D; (B_1,B_2)$ 对这种表示法稍微做些推广，其中$B_1$是由与一个目标相联系的$B$的元素构成的集合，$B_2$是由与相应背景相联系的$B$的元素构成的集合。根据前面的讨论， $B_1 &#x3D; D，B_2 &#x3D;W − D）$。用这种表示方法，击中或击不中变换变为$$A ⊛ B&#x3D;(A\ominus B_1)\cap(A^c\ominus B_2)$$</p>
 </li>
-<li>因此，集合$A ⊛ B$包含了所有的原点，同时，在这些原点处，$B_1$在$A$中找到了一个匹配（击中），$B_2$在$𝐴^c$中也找到了一个匹配。使用腐蚀与膨胀的对偶关系，可将上式写为<script type="math/tex">A ⊛ B=(A\ominus B_1)\cap(A^c\oplus \hat B_2)^c</script></li>
-<li>使用与物体有关的结构元$B_1$和与背景有关的结构元$B_2$的原因，基于一个假设的定义——仅当两个或多个物体形成相脱离的集合时，这些物体才是可分的。</li>
-<li>在某些应用中，我们可能对检测某个集合内由$1$和$0$组成的某些模式感兴趣，在这种情况下不需要背景。因此，击中或击不中就简化为简单的腐蚀。<h3 id="一些基本的形态学算法"><a href="#一些基本的形态学算法" class="headerlink" title="一些基本的形态学算法"></a>一些基本的形态学算法</h3><h4 id="边界提取"><a href="#边界提取" class="headerlink" title="边界提取"></a>边界提取</h4></li>
+<li><p>因此，集合$A ⊛ B$包含了所有的原点，同时，在这些原点处，$B_1$在$A$中找到了一个匹配（击中），$B_2$在$𝐴^c$中也找到了一个匹配。使用腐蚀与膨胀的对偶关系，可将上式写为$$A ⊛ B&#x3D;(A\ominus B_1)\cap(A^c\oplus \hat B_2)^c$$</p>
+</li>
+<li><p>使用与物体有关的结构元$B_1$和与背景有关的结构元$B_2$的原因，基于一个假设的定义——仅当两个或多个物体形成相脱离的集合时，这些物体才是可分的。</p>
+</li>
+<li><p>在某些应用中，我们可能对检测某个集合内由$1$和$0$组成的某些模式感兴趣，在这种情况下不需要背景。因此，击中或击不中就简化为简单的腐蚀。</p>
+</li>
 </ul>
-<ul>
-<li>表示为 $\beta (A)$ 的集合 A 的边界可以通过先用 B 对 A 腐蚀，而后执行 A 和腐蚀的结果之间的差集得到<h4 id="孔洞填充"><a href="#孔洞填充" class="headerlink" title="孔洞填充"></a>孔洞填充</h4></li>
+<h3 id="一些基本的形态学算法"><a href="#一些基本的形态学算法" class="headerlink" title="一些基本的形态学算法"></a>一些基本的形态学算法</h3><h4 id="边界提取"><a href="#边界提取" class="headerlink" title="边界提取"></a>边界提取</h4><ul>
+<li>表示为 $\beta (A)$ 的集合 A 的边界可以通过先用 B 对 A 腐蚀，而后执行 A 和腐蚀的结果之间的差集得到</li>
+</ul>
+<h4 id="孔洞填充"><a href="#孔洞填充" class="headerlink" title="孔洞填充"></a>孔洞填充</h4><ul>
 <li>孔洞定义:由前景像素相连接的边界所包围的背景区域</li>
 <li>令 A 表示一个集合，其元素是 8 连通的边界，每个边界包围一个背景区域。当给定每个孔洞中的一个点后，目的就是用 1 填充所有的 孔洞</li>
-<li>给定每个孔洞中对应于 $X<em>0$ 中的位置点(这一点已经置为 1 )，我们从形成一个由 0 组成的阵列 $X_0$ 开始。然后，如下过程将用 1 填充所有孔洞L ：$X_k=(X</em>{k-1}\oplus B)\cap A^c$</li>
-<li>如果 $X<em>k = X</em>{k-1}$ ，则算法在迭代的第 k 步结束。然后，集合 $X_k$ 包含所有被填充的孔洞。$X_k$ 和 A 的并集包含所有填充的孔洞及这些孔洞的边界</li>
-<li>如果左边不加限制，那么膨胀将填充整个区域。然而，每一步中 与 $A^c$ 的交集操作将把结果限制到感兴趣区域内，称为条件膨胀<h4 id="连通分量的提取"><a href="#连通分量的提取" class="headerlink" title="连通分量的提取"></a>连通分量的提取</h4></li>
-<li>令 A 是包含一个或多个连通分量的集合，并形成一个阵列 $X<em>0$ 除了在对应于 A 中每个连通分量的一个点的每个已知位置处我们已置为 1 外，该阵列的所有其他元素均为 0 。如下迭代过程可完成这一目 的：$X_k=(X</em>{k-1}\oplus B)\cap A$<h4 id="凸壳"><a href="#凸壳" class="headerlink" title="凸壳"></a>凸壳</h4></li>
+<li>给定每个孔洞中对应于 $X_0$ 中的位置点(这一点已经置为 1 )，我们从形成一个由 0 组成的阵列 $X_0$ 开始。然后，如下过程将用 1 填充所有孔洞L ：$X_k&#x3D;(X_{k-1}\oplus B)\cap A^c$</li>
+<li>如果 $X_k &#x3D; X_{k-1}$ ，则算法在迭代的第 k 步结束。然后，集合 $X_k$ 包含所有被填充的孔洞。$X_k$ 和 A 的并集包含所有填充的孔洞及这些孔洞的边界</li>
+<li>如果左边不加限制，那么膨胀将填充整个区域。然而，每一步中 与 $A^c$ 的交集操作将把结果限制到感兴趣区域内，称为条件膨胀</li>
+</ul>
+<h4 id="连通分量的提取"><a href="#连通分量的提取" class="headerlink" title="连通分量的提取"></a>连通分量的提取</h4><ul>
+<li>令 A 是包含一个或多个连通分量的集合，并形成一个阵列 $X_0$ 除了在对应于 A 中每个连通分量的一个点的每个已知位置处我们已置为 1 外，该阵列的所有其他元素均为 0 。如下迭代过程可完成这一目 的：$X_k&#x3D;(X_{k-1}\oplus B)\cap A$</li>
+</ul>
+<h4 id="凸壳"><a href="#凸壳" class="headerlink" title="凸壳"></a>凸壳</h4><ul>
 <li>如果在集合 A 内连接任意两个点的直线段都在 A 的内部，则称集合 A 是凸形的。任意集合 S 的凸壳 H 是包含 S 的最小凸集。差集 H-S 称为 S 的凸缺</li>
-<li>$X^i<em>k=(X</em>{k-1}\circledast B^i)\cup A$，当该过程收敛时，我们令 $D^i=X^i<em>k$，则 A 的凸壳为：$C(A)=\bigcup^4</em>{i=1}D^i$ <h4 id="细化"><a href="#细化" class="headerlink" title="细化"></a>细化</h4></li>
-<li>$A\otimes B=A-(A\circledast B)$</li>
-<li>我们仅对与结构元的模式匹配感兴趣，所以在击中或击不中变换中没有背景运算<h4 id="粗化"><a href="#粗化" class="headerlink" title="粗化"></a>粗化</h4></li>
-<li>粗化是细化的形态学对偶：$A\cdot B=A\cup (A\circledast B)$</li>
-<li>然而，针对粗化的分离算法在实际中很少用到，取而代之的过程 是先对问题中集合的背景进行细化，而后对结果求补集。由于依赖于 A 的性质，这个过程可能会产生某些断点。因此，通过这种方法的粗化处理通常会跟随一个消除断点的后处理<h4 id="骨架"><a href="#骨架" class="headerlink" title="骨架"></a>骨架</h4></li>
-<li>A 的骨架可以用腐蚀和开操作来表达，即骨架可以表示为 $S(A)=\bigcup^K_{k=0}S_k(A)$ 其中，$S(A)=(A\ominus kB)-(A\ominus kB)\circ B$， $K$ 是 A 被腐蚀成空集前的最后一次迭代步骤</li>
-<li>使用下式可由这些子集来重建 A ：$A=\bigcup^K_{k=0}(S_k(A)\oplus kB)$ <h4 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h4></li>
+<li>$X^i_k&#x3D;(X_{k-1}\circledast B^i)\cup A$，当该过程收敛时，我们令 $D^i&#x3D;X^i_k$，则 A 的凸壳为：$C(A)&#x3D;\bigcup^4_{i&#x3D;1}D^i$</li>
+</ul>
+<h4 id="细化"><a href="#细化" class="headerlink" title="细化"></a>细化</h4><ul>
+<li>$A\otimes B&#x3D;A-(A\circledast B)$</li>
+<li>我们仅对与结构元的模式匹配感兴趣，所以在击中或击不中变换中没有背景运算</li>
+</ul>
+<h4 id="粗化"><a href="#粗化" class="headerlink" title="粗化"></a>粗化</h4><ul>
+<li>粗化是细化的形态学对偶：$A\cdot B&#x3D;A\cup (A\circledast B)$</li>
+<li>然而，针对粗化的分离算法在实际中很少用到，取而代之的过程 是先对问题中集合的背景进行细化，而后对结果求补集。由于依赖于 A 的性质，这个过程可能会产生某些断点。因此，通过这种方法的粗化处理通常会跟随一个消除断点的后处理</li>
+</ul>
+<h4 id="骨架"><a href="#骨架" class="headerlink" title="骨架"></a>骨架</h4><ul>
+<li>A 的骨架可以用腐蚀和开操作来表达，即骨架可以表示为 $S(A)&#x3D;\bigcup^K_{k&#x3D;0}S_k(A)$ 其中，$S(A)&#x3D;(A\ominus kB)-(A\ominus kB)\circ B$， $K$ 是 A 被腐蚀成空集前的最后一次迭代步骤</li>
+<li>使用下式可由这些子集来重建 A ：$A&#x3D;\bigcup^K_{k&#x3D;0}(S_k(A)\oplus kB)$</li>
+</ul>
+<h4 id="裁剪"><a href="#裁剪" class="headerlink" title="裁剪"></a>裁剪</h4><ul>
 <li>裁剪方法本质上是对细化和骨架算法的补充，因</li>
-<li>为这些过程会保留某些寄生成分，因而需要用后处理来清除这些寄生成分<h4 id="形态学重建"><a href="#形态学重建" class="headerlink" title="形态学重建"></a>形态学重建</h4></li>
+<li>为这些过程会保留某些寄生成分，因而需要用后处理来清除这些寄生成分</li>
+</ul>
+<h4 id="形态学重建"><a href="#形态学重建" class="headerlink" title="形态学重建"></a>形态学重建</h4><ul>
 <li>形态学重建涉及两幅图像和一个结构元，一幅图像是标记，它包含变换的起始点，另一幅图像是模板，它用来约束该变换。结构元用来定义连续性</li>
 <li>形态学重建的核心是测地膨胀和测地腐蚀<ul>
 <li>测地膨胀和测地腐蚀关于集合的补集对偶</li>
@@ -692,30 +772,30 @@
 <li>一阶导数通常在图像中产生较粗的边缘</li>
 <li>二阶导数对精细细节，如细线、孤立点和噪声有较强的响应</li>
 <li>二阶导数在灰度斜坡和灰度台阶过渡处会产生双边缘响应</li>
-<li>二阶导数的符号可用于确定边缘的过渡是从亮到暗还是从暗到亮<h4 id="孤立点的检测"><a href="#孤立点的检测" class="headerlink" title="孤立点的检测"></a>孤立点的检测</h4></li>
+<li>二阶导数的符号可用于确定边缘的过渡是从亮到暗还是从暗到亮</li>
 </ul>
 </li>
-<li>点的检测应以二阶导数为基础，即使用拉普拉斯算子<script type="math/tex">𝛻^2𝑓 (𝑥, 𝑦) = 𝑓 (𝑥 + 1, 𝑦) + 𝑓 (𝑥 − 1, 𝑦) + 𝑓 (𝑥, 𝑦 + 1) + 𝑓 (𝑥, 𝑦 − 1) − 4𝑓(𝑥, 𝑦)</script></li>
+</ul>
+<h4 id="孤立点的检测"><a href="#孤立点的检测" class="headerlink" title="孤立点的检测"></a>孤立点的检测</h4><ul>
+<li>点的检测应以二阶导数为基础，即使用拉普拉斯算子$$𝛻^2𝑓 (𝑥, 𝑦) &#x3D; 𝑓 (𝑥 + 1, 𝑦) + 𝑓 (𝑥 − 1, 𝑦) + 𝑓 (𝑥, 𝑦 + 1) + 𝑓 (𝑥, 𝑦 − 1) − 4𝑓(𝑥, 𝑦)$$</li>
 <li>如果在某个点处，该模板的<strong>响应的绝对值超过了指定的阈值</strong>，则在 (x,y) 处的点已被检测到。在输出图像中，该点标为1，否则为0<div align="center">
 <img src="/2024/03/10/digital-image-processing/50.png" width="70%">
-</div>
-
-</li>
+</div></li>
 </ul>
 <h4 id="线检测"><a href="#线检测" class="headerlink" title="线检测"></a>线检测</h4><ul>
 <li>对于线检测，二阶导数将导致更强的响应，产生比一阶导数更细的线。我们可以使用拉普拉斯模板，但要处理双线效应</li>
-<li>例：<br><img src="/2024/03/10/digital-image-processing/51.png" alt> </li>
+<li>例：<br><img src="/2024/03/10/digital-image-processing/51.png"> </li>
 <li>当把3×3滤波器居中放在一条宽为5个像素的恒定灰度线上时，其响应将为零，这样就产生了双线效应</li>
 <li>点检测的拉普拉斯算子是<strong>各向同性</strong>的，因此<strong>其响应与方向无关</strong> (相对于该3×3拉普拉斯目标的4个方向:垂直方向、水平方向和两个对角方向)</li>
-<li>通常，我们的兴趣在于检测特定方向的线。<br><img src="/2024/03/10/digital-image-processing/52.png" alt> </li>
+<li>通常，我们的兴趣在于检测特定方向的线。<br><img src="/2024/03/10/digital-image-processing/52.png"> </li>
 <li>第一个模板对于水平线有最佳响应；第二个模板对于45度方向的线有最佳响应；第三个模板对于垂直线有最佳响应；第四个模板对于-45度方向的线有最佳响应</li>
 <li>每个模板的首选方向用一个比其他方向更大的系数（如2）加权。所有模板的系数之和为0，这表明<strong>恒定灰度区域中的响应为0</strong></li>
-<li>特定方向线的检测<br><img src="/2024/03/10/digital-image-processing/53.png" alt> </li>
+<li>特定方向线的检测<br><img src="/2024/03/10/digital-image-processing/53.png"></li>
 </ul>
 <h4 id="边缘模型"><a href="#边缘模型" class="headerlink" title="边缘模型"></a>边缘模型</h4><ul>
 <li>边缘检测是基于灰度突变来分割图像的常用方法</li>
 <li>边缘模型根据它们的灰度剖面来分类。有台阶边缘、斜坡边缘和 “屋顶”边缘等</li>
-<li>下图显示了这些边缘模型和相应的灰度剖面<br><img src="/2024/03/10/digital-image-processing/54.png" alt> </li>
+<li>下图显示了这些边缘模型和相应的灰度剖面<br><img src="/2024/03/10/digital-image-processing/54.png"> </li>
 <li>一阶导数的<strong>幅度</strong>可用于检测图像中的某个点处是否存在一个边缘</li>
 <li>二阶导数的<strong>符号</strong>用于确定一个边缘像素是位于该边缘的暗侧还是位于该边缘的亮侧<ul>
 <li>对图像中的每条边缘，二阶导数生成两个值(一个不希望的特点)</li>
@@ -731,23 +811,23 @@
 </li>
 </ul>
 <h4 id="基本边缘检测"><a href="#基本边缘检测" class="headerlink" title="基本边缘检测"></a>基本边缘检测</h4><ul>
-<li>梯度向量、幅度和方向角<br><img src="/2024/03/10/digital-image-processing/57.png" alt> </li>
-<li>图像边缘方向与边缘上点的梯度向量正交<br><img src="/2024/03/10/digital-image-processing/58.png" alt> </li>
-<li>梯度算子：Roberts, Prewitt, Sobel（抑制噪声）<br><img src="/2024/03/10/digital-image-processing/55.png" alt><br><img src="/2024/03/10/digital-image-processing/56.png" alt> <ul>
+<li>梯度向量、幅度和方向角<br><img src="/2024/03/10/digital-image-processing/57.png"> </li>
+<li>图像边缘方向与边缘上点的梯度向量正交<br><img src="/2024/03/10/digital-image-processing/58.png"> </li>
+<li>梯度算子：Roberts, Prewitt, Sobel（抑制噪声）<br><img src="/2024/03/10/digital-image-processing/55.png"><br><img src="/2024/03/10/digital-image-processing/56.png"> <ul>
 <li>精细的细节在边缘检测中通常是不符合需要的，因为它往往表现为噪声，导致<br>计算会增强这种噪声，使主要边缘的检测变得复杂。</li>
-<li>减少精细细节的一个方法是对图像进行平滑处理，如下图<br><img src="/2024/03/10/digital-image-processing/59.png" alt> </li>
+<li>减少精细细节的一个方法是对图像进行平滑处理，如下图<br><img src="/2024/03/10/digital-image-processing/59.png"></li>
 </ul>
 </li>
 <li>与阈值处理相结合的梯度<ul>
 <li>在计算梯度前对图像进行平滑处理，边缘检测可做更多的选择。实现相同基本目标的另一种方法是，对梯度图像进行阈值处理。</li>
 <li>阈值处理后的图像边缘更少，并且图像中的边缘要清晰得多。另一方面，许多边缘被断开了</li>
-<li>当目的是突出主要边缘并尽可能保持连接时，实践中通常既做平滑处理也做阈值处理<br><img src="/2024/03/10/digital-image-processing/60.png" alt> </li>
+<li>当目的是突出主要边缘并尽可能保持连接时，实践中通常既做平滑处理也做阈值处理<br><img src="/2024/03/10/digital-image-processing/60.png"></li>
 </ul>
 </li>
 </ul>
 <h4 id="Marr-Hildreth边缘检测器（马尔算子）"><a href="#Marr-Hildreth边缘检测器（马尔算子）" class="headerlink" title="Marr-Hildreth边缘检测器（马尔算子）"></a>Marr-Hildreth边缘检测器（马尔算子）</h4><ul>
 <li>高斯拉普拉斯（LoG）</li>
-<li>下图显示了一个LoG的负函数的三维图、图像和剖面<br><img src="/2024/03/10/digital-image-processing/61.png" alt> </li>
+<li>下图显示了一个LoG的负函数的三维图、图像和剖面<br><img src="/2024/03/10/digital-image-processing/61.png"> </li>
 <li>特点<ul>
 <li>算子的高斯部分会模糊图像</li>
 <li>尽管一阶导数可用于检测灰度突变，但它们是有方向的算子。另一方面，拉普拉斯有各向同性的优点，符合人的视觉系统特性</li>
@@ -763,10 +843,10 @@
 </li>
 </ul>
 </li>
-<li>使用高斯差分(DoG)来近似LoG滤波器<br><img src="/2024/03/10/digital-image-processing/62.png" alt> </li>
+<li>使用高斯差分(DoG)来近似LoG滤波器<br><img src="/2024/03/10/digital-image-processing/62.png"></li>
 </ul>
 <h4 id="坎尼边缘检测器-Canny"><a href="#坎尼边缘检测器-Canny" class="headerlink" title="坎尼边缘检测器(Canny)"></a>坎尼边缘检测器(Canny)</h4><ul>
-<li><strong>一般标准</strong>:<br>① 低错误率。既要少将真正的边缘丢失也要少将非边缘判为边<br>缘。<br>② 边缘点应被很好地定位。检测出的边缘应在真正的边界上。<br>③ 单一的边缘响应。得到的边界为单象素宽。</li>
+<li><strong>一般标准</strong>:<br> ① 低错误率。既要少将真正的边缘丢失也要少将非边缘判为边<br>缘。<br>② 边缘点应被很好地定位。检测出的边缘应在真正的边界上。<br>③ 单一的边缘响应。得到的边界为单象素宽。</li>
 <li>基本步骤总结:<ol>
 <li>灰度化</li>
 <li>使用<strong>高斯滤波器</strong>平滑图像、滤除噪声</li>
@@ -779,18 +859,18 @@
 <li>以下是重点步骤详解：</li>
 <li><strong>使用高斯滤波器平滑图像、滤除噪声</strong><ul>
 <li>这一步很简单，类似于LOG算子（Laplacian of Gaussian）进行高斯平滑，主要作用就是去除噪声。因为噪声也集中于高频信号，很容易被识别为伪边缘。应用高斯模糊去除噪声，降低伪边缘的识别。但是由于图像边缘信息也是高频信号，高斯模糊的半径选择很重要，过大的半径很容易让一些弱边缘检测不到。</li>
-<li>大小为$(2k+1)×(2k+1)$的高斯滤波器核的生成方程式由下式给出: <script type="math/tex">w_{ij}=\frac{1}{2\pi \sigma^2}e^{-\frac{(i-k-1)^2+(j-k-1)^2}{2\sigma^2}},1\leq i,j\leq(2k+1)</script></li>
-<li>高斯卷积核大小的选择将影响Canny检测器的性能。尺寸越大，检测器对噪声的敏感度越低，但是边缘检测的定位误差也将略有增加。一般5×5是一个比较不错的trade-off。 </li>
+<li>大小为$(2k+1)×(2k+1)$的高斯滤波器核的生成方程式由下式给出: $$w_{ij}&#x3D;\frac{1}{2\pi \sigma^2}e^{-\frac{(i-k-1)^2+(j-k-1)^2}{2\sigma^2}},1\leq i,j\leq(2k+1)$$</li>
+<li>高斯卷积核大小的选择将影响Canny检测器的性能。尺寸越大，检测器对噪声的敏感度越低，但是边缘检测的定位误差也将略有增加。一般5×5是一个比较不错的trade-off。</li>
 </ul>
 </li>
 <li><strong>计算图像中每个像素点的梯度强度和方向</strong><ul>
-<li>注：在opencv中，选取3×3的Sobel算子 </li>
+<li>注：在opencv中，选取3×3的Sobel算子</li>
 </ul>
 </li>
 <li><strong>非极大值抑制</strong>(NMS,Non-Maximum Suppression)<ul>
 <li>NMS是一种边缘稀疏技术，非极大值抑制的作用在于“瘦”边。对图像进行梯度计算后，仅仅基于梯度值提取的边缘仍然很模糊。对边缘而言，有且应当只有一个准确的响应。而NMS则可以帮助将局部最大值之外的所有梯度值抑制为0，对梯度图像中每个像素进行非极大值抑制的算法是： <ul>
 <li>将当前像素的梯度强度与沿正负梯度方向上的两个像素进行比较。</li>
-<li>如果当前像素的梯度强度与另外两个像素相比最大，则该像素点保留为边缘点，否则该像素点将被抑制。<br><img src="/2024/03/10/digital-image-processing/63.png" alt> </li>
+<li>如果当前像素的梯度强度与另外两个像素相比最大，则该像素点保留为边缘点，否则该像素点将被抑制。<br><img src="/2024/03/10/digital-image-processing/63.png"></li>
 </ul>
 </li>
 </ul>
@@ -809,7 +889,7 @@
 <li>通常，由真实边缘引起的弱边缘像素将连接到强边缘像素，而噪声响应未连接。为了跟踪边缘连接，通过查看弱边缘像素及其8个邻域像素，只要其中一个为强边缘像素，则该弱边缘点就可以保留为真实的边缘。</li>
 </ul>
 </li>
-<li>实例：<br><img src="/2024/03/10/digital-image-processing/64.png" alt> </li>
+<li>实例：<br><img src="/2024/03/10/digital-image-processing/64.png"></li>
 </ul>
 <h4 id="边缘连接和边界检测"><a href="#边缘连接和边界检测" class="headerlink" title="边缘连接和边界检测"></a>边缘连接和边界检测</h4><ul>
 <li>理想情况下，边缘检测应该仅产生位于边缘上的像素集合。实际上，由于噪声、不均匀照明引起的<strong>边缘间断</strong>，以及其他引入灰度值虚假的不连续的影响，这些像素并不能完全描述边缘特性。</li>
@@ -829,28 +909,39 @@
 <li>然后对该图像进行霍夫变换</li>
 <li>先使用峰值检测函数，找到大于阈值的霍夫变换单元（局部最大值应该最可能是线，步长和量化会影响效果）</li>
 <li>将上述识别出的一组候选峰，需要确定与其相关的线段及其起始点和终止点（这需要一定的算法，很多论文对此都做了改进，诸如蝴蝶形状宽度，峰值走廊）</li>
-<li>然后描绘于原图（或结果图）上<h3 id="阈值分割法"><a href="#阈值分割法" class="headerlink" title="阈值分割法"></a>阈值分割法</h3><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4></li>
+<li>然后描绘于原图（或结果图）上</li>
 </ol>
 </li>
-<li>阈值处理操作<script type="math/tex; mode=display">T =T[x, y, p(x, y), f (x, y)]</script></li>
+</ul>
+<h3 id="阈值分割法"><a href="#阈值分割法" class="headerlink" title="阈值分割法"></a>阈值分割法</h3><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><ul>
+<li>阈值处理操作<br>$$T &#x3D;T[x, y, p(x, y), f (x, y)]$$</li>
 <li>$f(x,y)$是点$(x,y)$的灰度级，$p(x,y)$表示该点的局部性质，如以$(x,y)$为中心的邻域的平均灰度级</li>
-<li>阈值处理后的图像$g(x,y)$定义为<br><img src="/2024/03/10/digital-image-processing/68.png" alt></li>
+<li>阈值处理后的图像$g(x,y)$定义为<br><img src="/2024/03/10/digital-image-processing/68.png"></li>
 <li>标记为$1$的像素对应于对象，标记为$0$的像素对应于背景</li>
 <li>当$T$仅取决于$f(x,y)$，阈值称为全局的</li>
 <li>当$T$取决于$f(x,y)$和$p(x,y)$，阈值是局部的</li>
-<li>当$T$取决于空间坐标$x$和$y$，阈值就是动态的或自适应的<h4 id="全局阈值"><a href="#全局阈值" class="headerlink" title="全局阈值"></a>全局阈值</h4></li>
+<li>当$T$取决于空间坐标$x$和$y$，阈值就是动态的或自适应的</li>
+</ul>
+<h4 id="全局阈值"><a href="#全局阈值" class="headerlink" title="全局阈值"></a>全局阈值</h4><ul>
 <li>全局阈值算法步骤:<ol>
 <li>选择一个$T$的初始估计值</li>
 <li>用$T$分割图像，生成两组像素：$G_1$由所有灰度值大于$T$的像素组成，而$G_2$由所有灰度值小于或等于$T$的像素组成</li>
 <li>对区域$G_1$和$G_2$中的所有像素计算平均灰度值$µ_1$和$µ_2$</li>
-<li>计算新的阈值 $T=\frac{1}{2}(µ_1+µ_2)$</li>
-<li>重复步骤2到4，直到逐次迭代所得的$T$值之差小于事先定义的参数$T_0$<br><img src="/2024/03/10/digital-image-processing/69.png" alt><h4 id="Otsu方法：最佳全局阈值"><a href="#Otsu方法：最佳全局阈值" class="headerlink" title="Otsu方法：最佳全局阈值"></a>Otsu方法：最佳全局阈值</h4></li>
+<li>计算新的阈值 $T&#x3D;\frac{1}{2}(µ_1+µ_2)$</li>
+<li>重复步骤2到4，直到逐次迭代所得的$T$值之差小于事先定义的参数$T_0$<br><img src="/2024/03/10/digital-image-processing/69.png"></li>
 </ol>
 </li>
+</ul>
+<h4 id="Otsu方法：最佳全局阈值"><a href="#Otsu方法：最佳全局阈值" class="headerlink" title="Otsu方法：最佳全局阈值"></a>Otsu方法：最佳全局阈值</h4><ul>
 <li>该方法在类间方差最大的情况下是最佳的；完全以在一幅图像的直方图上执行计算为基础。</li>
-<li>算法具体步骤如下：<br><img src="/2024/03/10/digital-image-processing/70.png" alt></li>
-<li>实例：<br><img src="/2024/03/10/digital-image-processing/71.png" alt><h4 id="图像平滑改善全局阈值"><a href="#图像平滑改善全局阈值" class="headerlink" title="图像平滑改善全局阈值"></a>图像平滑改善全局阈值</h4><img src="/2024/03/10/digital-image-processing/72.png" alt></li>
-<li>Otsu失败的原因可归于这样一个事实，即区域太小，以至于该区域对直方图的贡献与由噪声引起的灰度扩散相比无足轻重<br><img src="/2024/03/10/digital-image-processing/73.png" alt><h4 id="通过边界特性选择阈值"><a href="#通过边界特性选择阈值" class="headerlink" title="通过边界特性选择阈值"></a>通过边界特性选择阈值</h4></li>
+<li>算法具体步骤如下：<br><img src="/2024/03/10/digital-image-processing/70.png"></li>
+<li>实例：<br><img src="/2024/03/10/digital-image-processing/71.png"></li>
+</ul>
+<h4 id="图像平滑改善全局阈值"><a href="#图像平滑改善全局阈值" class="headerlink" title="图像平滑改善全局阈值"></a>图像平滑改善全局阈值</h4><p><img src="/2024/03/10/digital-image-processing/72.png"></p>
+<ul>
+<li>Otsu失败的原因可归于这样一个事实，即区域太小，以至于该区域对直方图的贡献与由噪声引起的灰度扩散相比无足轻重<br><img src="/2024/03/10/digital-image-processing/73.png"></li>
+</ul>
+<h4 id="通过边界特性选择阈值"><a href="#通过边界特性选择阈值" class="headerlink" title="通过边界特性选择阈值"></a>通过边界特性选择阈值</h4><ul>
 <li>通过边界特性选择阈值<ul>
 <li>如果直方图的各个波峰很高、很窄、对称，且被很深的波谷分开时，有利于选择阈值。</li>
 <li>为了改善直方图的波峰形状，我们只把区域边缘的像素绘入直方图，而不考虑区域中间的像素。</li>
@@ -863,7 +954,9 @@
 <li>基于梯度和拉普拉斯算子选择的像素，可以增加波峰的高度。</li>
 </ul>
 </li>
-<li><strong>算法实现：</strong><br><img src="/2024/03/10/digital-image-processing/74.png" alt><br><img src="/2024/03/10/digital-image-processing/75.png" alt><h4 id="基本自适应阈值"><a href="#基本自适应阈值" class="headerlink" title="基本自适应阈值"></a>基本自适应阈值</h4></li>
+<li><strong>算法实现：</strong><br><img src="/2024/03/10/digital-image-processing/74.png"><br><img src="/2024/03/10/digital-image-processing/75.png"></li>
+</ul>
+<h4 id="基本自适应阈值"><a href="#基本自适应阈值" class="headerlink" title="基本自适应阈值"></a>基本自适应阈值</h4><ul>
 <li>单一全局阈值存在的问题<ul>
 <li>不均匀亮度图像无法有效分割</li>
 </ul>
@@ -871,9 +964,11 @@
 <li>方法<ul>
 <li>将图像进一步细分为子图像，并对不同的子图像使用不同的阈值处理</li>
 <li>解决的关键问题：如何将图像进行细分和如何为得到的子图像估计阈值</li>
-<li>自适应阈值：取决于像素在子图像中的位置<br><img src="/2024/03/10/digital-image-processing/76.png" alt><h3 id="区域分割法"><a href="#区域分割法" class="headerlink" title="区域分割法"></a>区域分割法</h3><h4 id="区域生长"><a href="#区域生长" class="headerlink" title="区域生长"></a>区域生长</h4></li>
+<li>自适应阈值：取决于像素在子图像中的位置<br><img src="/2024/03/10/digital-image-processing/76.png"></li>
 </ul>
 </li>
+</ul>
+<h3 id="区域分割法"><a href="#区域分割法" class="headerlink" title="区域分割法"></a>区域分割法</h3><h4 id="区域生长"><a href="#区域生长" class="headerlink" title="区域生长"></a>区域生长</h4><ul>
 <li>区域生长是根据预先定义的生长准则，将像素或子区域组合为更大区域的过程。</li>
 <li>基本方法是从一组“种子”点开始，将与种子预先定义的性质相似的那些领域像素添加到每个种子上，来形成这些生长区域。<ul>
 <li><strong>连通属性，终止规则</strong></li>
@@ -881,22 +976,26 @@
 </li>
 <li>令$𝑓(𝑥, 𝑦)$ 表示一个输入图像；$𝑆(𝑥, 𝑦)$  表示一个种子阵列，阵列中种子点位置处为$1$，其他为$0$；$Q$表示在每个位置$(𝑥, 𝑦 ) $处的属性。<ol>
 <li>在$𝑆(𝑥, 𝑦)$中寻找所有连通分量，并把每个连通分量腐蚀为一个像素；把找到的所有这种像素标记为$1$，把$S$中的所有其他像素标记为$0$</li>
-<li>在坐标对$(𝑥, 𝑦 ) $处形成图像$𝑓<em>𝑄$：若输入图像在该坐标处满足给定的属性$Q$，则令$𝑓</em>𝑄(𝑥, 𝑦) = 1$，否则令$𝑓_𝑄(𝑥, 𝑦) =  0$</li>
+<li>在坐标对$(𝑥, 𝑦 ) $处形成图像$𝑓_𝑄$：若输入图像在该坐标处满足给定的属性$Q$，则令$𝑓_𝑄(𝑥, 𝑦) &#x3D; 1$，否则令$𝑓_𝑄(𝑥, 𝑦) &#x3D;  0$</li>
 <li>令$g$是这样形成的图像：即把$𝑓_𝑄$中为8连通种子点的所有1值点，添加到$S$中的每个种子点</li>
-<li>用不同的区域标记（如1,2,3, ⋯ ）标记g中的每个连通分量。这就是由区域生长得到的分割图像<h4 id="区域分裂与聚合"><a href="#区域分裂与聚合" class="headerlink" title="区域分裂与聚合"></a>区域分裂与聚合</h4></li>
+<li>用不同的区域标记（如1,2,3, ⋯ ）标记g中的每个连通分量。这就是由区域生长得到的分割图像</li>
 </ol>
 </li>
-<li>上一节是从一组种子点来生长区域。另一种方法是首先将一幅图像细分为一组任意的不想交的区域，然后聚合和/或分裂这些区域</li>
+</ul>
+<h4 id="区域分裂与聚合"><a href="#区域分裂与聚合" class="headerlink" title="区域分裂与聚合"></a>区域分裂与聚合</h4><ul>
+<li>上一节是从一组种子点来生长区域。另一种方法是首先将一幅图像细分为一组任意的不想交的区域，然后聚合和&#x2F;或分裂这些区域</li>
 <li>令R表示整幅图像区域，并选择一个属性Q。则区域分裂与聚合的算法过程如下：<ol>
-<li>把满足$𝑄 (𝑅_𝑖) = 𝐹𝐴𝐿𝑆𝐸$的任何区域𝑅𝑖分裂为4个不相交的象限区域</li>
-<li>不可能进一步分裂时，对满足条件$𝑄( 𝑅<em>𝑗 ∪ 𝑅</em>𝑘) = 𝑇𝑅𝑈𝐸$的任意两个邻接区域$𝑅<em>𝑗$和$𝑅</em>𝑘$进行聚合</li>
+<li>把满足$𝑄 (𝑅_𝑖) &#x3D; 𝐹𝐴𝐿𝑆𝐸$的任何区域𝑅𝑖分裂为4个不相交的象限区域</li>
+<li>不可能进一步分裂时，对满足条件$𝑄( 𝑅_𝑗 ∪ 𝑅_𝑘) &#x3D; 𝑇𝑅𝑈𝐸$的任意两个邻接区域$𝑅_𝑗$和$𝑅_𝑘$进行聚合</li>
 <li>无法进一步聚合时，停止操作</li>
 </ol>
 </li>
-<li>习惯上要规定一个不能再进一步执行分裂的最小四象限区的尺寸<br><img src="/2024/03/10/digital-image-processing/67.png" alt><h3 id="基于形态学分割"><a href="#基于形态学分割" class="headerlink" title="基于形态学分割"></a>基于形态学分割</h3><h4 id="分水岭分割法"><a href="#分水岭分割法" class="headerlink" title="分水岭分割法"></a>分水岭分割法</h4></li>
-<li>分水岭也称分水线/水线，将图像看成三维地形表示</li>
+<li>习惯上要规定一个不能再进一步执行分裂的最小四象限区的尺寸<br><img src="/2024/03/10/digital-image-processing/67.png"></li>
+</ul>
+<h3 id="基于形态学分割"><a href="#基于形态学分割" class="headerlink" title="基于形态学分割"></a>基于形态学分割</h3><h4 id="分水岭分割法"><a href="#分水岭分割法" class="headerlink" title="分水岭分割法"></a>分水岭分割法</h4><ul>
+<li>分水岭也称分水线&#x2F;水线，将图像看成三维地形表示</li>
 <li>基本思想：<ul>
-<li>假设在每个区域的最小值上打一个洞，并且让水通过洞以均匀的速率上升，从低到高淹没整个地形。当不同汇水盆地中上升的水聚集时，修建一个水坝来阻止这种聚合。水将达到在水线上只能见到各个水坝的顶部的程度。这些大坝的边界对应于分水岭的分割线<br><img src="/2024/03/10/digital-image-processing/65.png" alt><br><img src="/2024/03/10/digital-image-processing/66.png" alt></li>
+<li>假设在每个区域的最小值上打一个洞，并且让水通过洞以均匀的速率上升，从低到高淹没整个地形。当不同汇水盆地中上升的水聚集时，修建一个水坝来阻止这种聚合。水将达到在水线上只能见到各个水坝的顶部的程度。这些大坝的边界对应于分水岭的分割线<br><img src="/2024/03/10/digital-image-processing/65.png"><br><img src="/2024/03/10/digital-image-processing/66.png"></li>
 </ul>
 </li>
 </ul>
@@ -1052,12 +1151,12 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/03/13/machine-learning/">
+                <a href="/2024/03/13/deep-learning/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="机器学习基础笔记">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="深度学习基础笔记">
                         
-                        <span class="card-title">机器学习基础笔记</span>
+                        <span class="card-title">深度学习基础笔记</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1091,6 +1190,14 @@
                     
                     <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
                         <span class="chip bg-color">机器学习</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">深度学习</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+                        <span class="chip bg-color">神经网络</span>
                     </a>
                     
                 </div>
