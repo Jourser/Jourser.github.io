@@ -315,7 +315,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    2.7k
                 </div>
                 
 
@@ -393,6 +393,28 @@
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+<h3 id="svf-文件"><a href="#svf-文件" class="headerlink" title=".svf 文件"></a>.svf 文件</h3><ul>
+<li><p>为了实现通过Zynq对Artix-7 FPGA（A7）的远程更新（即通过网线传输固件并重新配置FPGA），需借助 <strong>SVF（Serial Vector Format）文件</strong> 和 <strong>JTAG协议</strong>。</p>
+</li>
+<li><p><code>.svf</code> 文件</p>
+<ol>
+<li>定义：<ul>
+<li>SVF（Serial Vector Format）是一种标准化的 <strong>JTAG编程指令序列文件</strong>，记录了通过JTAG接口配置FPGA所需的完整操作流程（如复位、擦除、编程、校验等）。</li>
+</ul>
+</li>
+<li>特点：<ul>
+<li>与具体硬件无关，支持跨平台JTAG控制器。</li>
+<li>包含二进制比特流（.bit）转换后的串行操作指令。</li>
+<li>可通过Xilinx Vivado工具生成。</li>
+</ul>
+</li>
+<li>应用：<ul>
+<li>远程更新FPGA固件时，将SVF文件传输至支持JTAG主控的设备（如Zynq），由该设备通过JTAG接口对目标FPGA（A7）进行编程。</li>
+</ul>
+</li>
+</ol>
 </li>
 </ul>
 <h2 id="生成固化文件"><a href="#生成固化文件" class="headerlink" title="生成固化文件"></a>生成固化文件</h2><h3 id="属性设置"><a href="#属性设置" class="headerlink" title="属性设置"></a>属性设置</h3><ul>
@@ -493,6 +515,69 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <img src="/2024/06/05/program-the-fpga/8.png" width="80%/">
 </div></li>
 </ol>
+<h3 id="生成-svf文件"><a href="#生成-svf文件" class="headerlink" title="生成.svf文件"></a>生成.svf文件</h3><h4 id="使用-Vivado-IDE"><a href="#使用-Vivado-IDE" class="headerlink" title="使用 Vivado IDE"></a>使用 Vivado IDE</h4><ol>
+<li><p>(与连接开发板的步骤相同)，点击<code>Open Hardware Manager</code>，点击自动连接<code>Auto Connect</code>。</p>
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/19.png" width="90%/">
+</div>
+</li>
+<li><p>右键<code>localhost</code>，选择 <code>Create SVF Target</code>。出现<code>Create SVF Target</code>窗口，点击<code>OK</code></p>
+</li>
+</ol>
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/20.png" width="70%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/21.png" width="60%/">
+</div>
+
+<ol start="3">
+<li>如下图所示，添加 Xilinx 器件。器件信息根据项目实际选择。然后创建该器件的 SVF 链。</li>
+</ol>
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/22.png" width="60%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/23.png" width="60%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/24.png" width="60%/">
+</div>
+
+<ol start="4">
+<li>右键单击 SVF 链中的 Xilinx 器件可以选择创建配置存储器器件，并将配置存储器器件与该器件关联。打开“添加配置存储器器件 <code>Add Configuration Memory Device</code>”对话框 ，根据项目实际情况选择器件，然后点击 <code>OK</code>。这样会将此器件与赛灵思器件关联 ， 并显示在 SVF 器件链中 。</li>
+</ol>
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/25.png" width="70%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/26.png" width="70%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/27.png" width="60%/">
+</div>
+
+<ol start="5">
+<li>在下方的<code>SVF Operations</code>栏中，点击<code>+</code>选择<code>Add Program Configuration Memory Operations</code>，然后再弹出的窗口中，选择相应的<code>.msc</code>文件，然后注意三个选项的选择，然后点击<code>OK</code>。最后点击<code>Export SVF </code>，选择保存路径和文件名。这样就生成了 <code>.svf</code> 文件。</li>
+</ol>
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/28.png" width="60%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/29.png" width="60%/">
+</div>
+
+<div align="center">
+<img src="/2024/06/05/program-the-fpga/30.png" width="60%/">
+</div>
+
+
 <h3 id="添加-flash-器件及下载固化文件"><a href="#添加-flash-器件及下载固化文件" class="headerlink" title="添加 flash 器件及下载固化文件"></a>添加 flash 器件及下载固化文件</h3><ul>
 <li>光有固化文件还不够，我们还要添加一个固化 flash 器件。</li>
 </ul>
