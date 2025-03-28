@@ -50,6 +50,20 @@ tags:
         - 如果你需要在生产环境中部署，且 FPGA 每次上电后都需要自动加载配置，使用 .mcs 文件更合适。
 
 
+### .svf 文件
+- 为了实现通过Zynq对Artix-7 FPGA（A7）的远程更新（即通过网线传输固件并重新配置FPGA），需借助 **SVF（Serial Vector Format）文件** 和 **JTAG协议**。
+
+- `.svf` 文件
+    1. 定义：
+        - SVF（Serial Vector Format）是一种标准化的 **JTAG编程指令序列文件**，记录了通过JTAG接口配置FPGA所需的完整操作流程（如复位、擦除、编程、校验等）。
+    2. 特点：
+        - 与具体硬件无关，支持跨平台JTAG控制器。
+        - 包含二进制比特流（.bit）转换后的串行操作指令。
+        - 可通过Xilinx Vivado工具生成。
+    3. 应用：
+        - 远程更新FPGA固件时，将SVF文件传输至支持JTAG主控的设备（如Zynq），由该设备通过JTAG接口对目标FPGA（A7）进行编程。
+
+
 ## 生成固化文件
 
 ### 属性设置
@@ -141,6 +155,67 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE Yes [current_design]
 <img src=./Program-the-FPGA/8.png width=80%/>
 </div>
 
+
+### 生成.svf文件
+
+#### 使用 Vivado IDE
+
+1. (与连接开发板的步骤相同)，点击`Open Hardware Manager`，点击自动连接`Auto Connect`。
+<div align="center">
+<img src=./Program-the-FPGA/19.png width=90%/>
+</div>
+
+2. 右键`localhost`，选择 `Create SVF Target`。出现`Create SVF Target`窗口，点击`OK`
+
+<div align="center">
+<img src=./Program-the-FPGA/20.png width=70%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/21.png width=60%/>
+</div>
+
+3. 如下图所示，添加 Xilinx 器件。器件信息根据项目实际选择。然后创建该器件的 SVF 链。
+
+<div align="center">
+<img src=./Program-the-FPGA/22.png width=60%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/23.png width=60%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/24.png width=60%/>
+</div>
+
+4. 右键单击 SVF 链中的 Xilinx 器件可以选择创建配置存储器器件，并将配置存储器器件与该器件关联。打开“添加配置存储器器件 `Add Configuration Memory Device`”对话框 ，根据项目实际情况选择器件，然后点击 `OK`。这样会将此器件与赛灵思器件关联 ， 并显示在 SVF 器件链中 。
+
+<div align="center">
+<img src=./Program-the-FPGA/25.png width=70%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/26.png width=70%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/27.png width=60%/>
+</div>
+
+5. 在下方的`SVF Operations`栏中，点击`+`选择`Add Program Configuration Memory Operations`，然后再弹出的窗口中，选择相应的`.msc`文件，然后注意三个选项的选择，然后点击`OK`。最后点击`Export SVF `，选择保存路径和文件名。这样就生成了 `.svf` 文件。
+
+<div align="center">
+<img src=./Program-the-FPGA/28.png width=60%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/29.png width=60%/>
+</div>
+
+<div align="center">
+<img src=./Program-the-FPGA/30.png width=60%/>
+</div>
 
 
 ### 添加 flash 器件及下载固化文件
