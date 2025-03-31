@@ -4,13 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Git使用教程, 白米粥のBlog">
-    <meta name="description" content="一、常用命令：
-mkdir XX：创建一个空目录 XX指目录名
-pwd：显示当前目录的路径
-cat xx：查看xx文件内容
- git init：把当前的目录变成可以管理的git仓库，生成隐藏的.git文件夹
-git add xx：把xx文件">
+    <meta name="keywords" content="FPAG学习笔记之问题集合（更新中）, 白米粥のBlog">
+    <meta name="description" content="FPAG问题集合1. Vivado生成存储器配置文件时没有所需型号的Flash芯片
+具体问题描述：在程序固化时，尤其是在生成.svf文件时(具体参考Vivado程序固化之生成.svf文件)。vivado2017版本，没有找到w25q128型">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -22,7 +18,7 @@ git add xx：把xx文件">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Git使用教程 | 白米粥のBlog</title>
+    <title>FPAG学习笔记之问题集合（更新中） | 白米粥のBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
     <style>
@@ -245,12 +241,12 @@ git add xx：把xx文件">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Git使用教程</h1>
+                    <h1 class="description center-align post-title">FPAG学习笔记之问题集合（更新中）</h1>
                 </div>
             </div>
         </div>
@@ -274,12 +270,16 @@ git add xx：把xx文件">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                <span class="chip bg-color">教程</span>
+                            <a href="/tags/FPGA/">
+                                <span class="chip bg-color">FPGA</span>
                             </a>
                         
-                            <a href="/tags/Git/">
-                                <span class="chip bg-color">Git</span>
+                            <a href="/tags/vivado/">
+                                <span class="chip bg-color">vivado</span>
+                            </a>
+                        
+                            <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+                                <span class="chip bg-color">问题解决</span>
                             </a>
                         
                     </div>
@@ -290,8 +290,8 @@ git add xx：把xx文件">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                硬件
                             </a>
                         
                     </div>
@@ -303,7 +303,7 @@ git add xx：把xx文件">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-12
+                    2025-03-31
                 </div>
                 
 
@@ -312,7 +312,7 @@ git add xx：把xx文件">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    820
+                    335
                 </div>
                 
 
@@ -332,53 +332,42 @@ git add xx：把xx文件">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、常用命令："><a href="#一、常用命令：" class="headerlink" title="一、常用命令："></a>一、常用命令：</h2><ul>
-<li>mkdir XX：创建一个空目录 XX指目录名</li>
-<li>pwd：显示当前目录的路径</li>
-<li>cat xx：查看xx文件内容</li>
-<li><font color="#dd0000"> git init：把当前的目录变成可以管理的git仓库，生成隐藏的.git文件夹</font></li>
-<li>git add xx：把xx文件添加到暂存区</li>
-<li>git commit -m “xx”：提交文件 -m后面的是注释，必须写！</li>
-<li>git status：查看仓库状态</li>
-<li>git log：查看历史记录</li>
-<li>git reset –hard HEAD^：往上回退一个版本</li>
-<li>git reflog：查看历史记录的版本号id</li>
-<li>git checkout – xx：把xx文件在工作区的修改全部撤销</li>
-<li>git rm xx：删除xx文件</li>
-<li><font color="#dd0000">git remote add origin <a target="_blank" rel="noopener" href="https://github.com/xxxxx/a.git">https://github.com/xxxxx/a.git</a> 关联一个远程库</font></li>
-<li>git push -u（第一次尽量加上-u，以后不用）origin master：把当前master分支推送到远程库</li>
-<li>git clone <a target="_blank" rel="noopener" href="https://github.com/xxxxx">https://github.com/xxxxx</a> 从远程库中克隆</li>
-<li>git checkout -b dev：创建dev分支 并切换到dev分支上</li>
-<li>git branch：查看当前所有的分支</li>
-<li>git checkout master：切换回master分支</li>
-<li>git merge dev：在当前分支合并dev分支</li>
-<li>git branch -d dev：删除dev分支</li>
-<li><font color="#dd0000">git branch xxx：创建分支xxx</font></li>
-<li>git remote：查看远程库信息</li>
-<li>git remote -v查看远程库的详细信息</li>
-<li><font color="#dd0000">git pull origin master 将远程库的更新拉取到本地并自动合并</font></li>
-<li>git push origin master：git会把master分支推送到远程库对应的分支上</li>
+                <h1 id="FPAG问题集合"><a href="#FPAG问题集合" class="headerlink" title="FPAG问题集合"></a>FPAG问题集合</h1><h2 id="1-Vivado生成存储器配置文件时没有所需型号的Flash芯片"><a href="#1-Vivado生成存储器配置文件时没有所需型号的Flash芯片" class="headerlink" title="1. Vivado生成存储器配置文件时没有所需型号的Flash芯片"></a>1. Vivado生成存储器配置文件时没有所需型号的Flash芯片</h2><ul>
+<li>具体问题描述：在程序固化时，尤其是在生成<code>.svf</code>文件时(具体参考<a href="https://jourser.github.io/2024/06/05/program-the-fpga/#%E7%94%9F%E6%88%90-svf%E6%96%87%E4%BB%B6">Vivado程序固化之生成.svf文件</a>)。vivado2017版本，没有找到w25q128型号flash。</li>
 </ul>
-<hr>
-<h2 id="二、GitHub远程仓库的使用"><a href="#二、GitHub远程仓库的使用" class="headerlink" title="二、GitHub远程仓库的使用"></a>二、GitHub远程仓库的使用</h2><h3 id="场景一（关联）：本地有仓库，要和远程仓库做关联"><a href="#场景一（关联）：本地有仓库，要和远程仓库做关联" class="headerlink" title="场景一（关联）：本地有仓库，要和远程仓库做关联"></a>场景一（关联）：本地有仓库，要和远程仓库做关联</h3><p>右键git bash here，输入命令</p>
-<pre class="line-numbers language-none"><code class="language-none">git init
-git add .
-git commit -m “first commit”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>在GitHub上创建一个远程仓库</p>
-<pre class="line-numbers language-none"><code class="language-none">git remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;xxx.git (HTTPS) #仓库地址根据实际选择<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>备注：如果此步关联错了，解决办法如下。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><ul>
+<li>尝试上网搜索“vivado w25q128”，基本上可以找到添加方法。下面以w25q128型号为例，介绍如何添加。</li>
+</ul>
+<ol>
+<li><p>找到[安装目录]\2017.4\data\xicom下的<code>xicom_cfgmem_part_table.csv</code>文件。</p>
+ <div align="center">
+ <img src="/2025/03/31/fpga-problem/1.png" width="70%/">
+ </div>
+</li>
+<li><p>打开该文件，在最下方添加一行数据。用vs code为例。</p>
+ <div align="center">
+ <img src="/2025/03/31/fpga-problem/2.png" width="70%/">
+ </div>
+</li>
+<li><p>在文件最后，复制下面的配置信息，保存即可。</p>
+</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">475,0,w25q128bv-spi-x1_x2_x4,- xa7a100t xa7a15t xa7a35t xa7a50t xa7a75t xc7a100t xc7a100ti xc7a100tl xc7a12t xc7a12ti xc7a12tl xc7a15t xc7a15ti xc7a15tl xc7a200t xc7a200ti xc7a200tl xc7a25t xc7a25ti xc7a25tl xc7a35t xc7a35ti xc7a35tl xc7a50t xc7a50ti xc7a50tl xc7a75t xc7a75ti xc7a75tl xq7a100t xq7a200t xq7a50t xc7k160t xc7k160ti xc7k160tl xc7k325t xc7k325ti xc7k325tl xc7k355t xc7k355ti xc7k355tl xc7k410t xc7k410ti xc7k410tl xc7k420t xc7k420ti xc7k420tl xc7k480t xc7k480ti xc7k480tl xc7k70t xc7k70tl xq7k325t xq7k325tl xq7k410t xq7k410tl xcku025 xcku035 xcku040 xcku060 xcku085 xcku095 xcku115 xqku040 xqku060 xqku095 xqku115 xc7s100 xc7s15 xc7s25 xc7s50 xc7s6 xc7s75 xcvu065 xcvu080 xcvu095 xcvu125 xcvu160 xcvu190 xcvu440,w25q128bv,spi,128,x1_x2_x4,,Winbond,,1,w25q128bv,w25q<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<div align="center">
+<img src="/2025/03/31/fpga-problem/3.png" width="70%/">
+</div>
+
 <ul>
-<li>暴力解决：删除.git文件夹，重新建立本地仓库。</li>
-<li>优雅解决：git remote remove origin，再在重新关联仓库</li>
+<li>注意：配置信息的最前方的数字要根据自己的<code>xicom_cfgmem_part_table.csv</code>文件情况而定，比如本文所提供的例子中，最前方的数字是475，而你的文件中可能是其他的。</li>
 </ul>
-<h3 id="场景二（推送）：本地有仓库有内容，要推送给远程库"><a href="#场景二（推送）：本地有仓库有内容，要推送给远程库" class="headerlink" title="场景二（推送）：本地有仓库有内容，要推送给远程库"></a>场景二（推送）：本地有仓库有内容，要推送给远程库</h3><pre class="line-numbers language-none"><code class="language-none">git push -u origin master （首次加-u）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>根据提示输入用户名密码<br>我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送到远程新的master分支，还会把本地master分支和远程的master分支关联起来，在以后的推送时可以简化命令<code>git push origin master</code>。<br>备注：正常情况下，成功推送一次后，电脑会记住和账号与密码，下次推送时不会再提示输入。若在电脑不能够自动记住github的账户和密码，需执行以下命令解决：<code>git config --global credential.helper store</code>。</p>
-<h3 id="场景三（拉取）：本地有仓库有内容，获取远程库新内容"><a href="#场景三（拉取）：本地有仓库有内容，获取远程库新内容" class="headerlink" title="场景三（拉取）：本地有仓库有内容，获取远程库新内容"></a>场景三（拉取）：本地有仓库有内容，获取远程库新内容</h3><ul>
-<li><strong>第一种拉取方式：</strong> <code>git pull origin master</code>，<br>将远程仓库的master分支上代码版本复制&#x2F;合并到本地master分支上</li>
-<li><strong>第二种拉取方式：</strong><code>git fetch origin master:tmp</code><br>新建一个tmp分支，将远程仓库的master分支上代码版本复制到tmp分支上，不会自动合并。</li>
-</ul>
-<h3 id="场景四（克隆）：本地无仓库，要获取一个完整的远程库"><a href="#场景四（克隆）：本地无仓库，要获取一个完整的远程库" class="headerlink" title="场景四（克隆）：本地无仓库，要获取一个完整的远程库"></a>场景四（克隆）：本地无仓库，要获取一个完整的远程库</h3><p>备注：只在第一次获取远程库时才需要克隆</p>
-<pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;xxx.git (HTTPS)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ol start="4">
+<li><p>重新打开vivado，在生成配置文件时就可以看到w25q128型号了。</p>
+ <div align="center">
+ <img src="/2025/03/31/fpga-problem/4.png" width="70%/">
+ </div></li>
+</ol>
+
                 
             </div>
             <hr/>
@@ -404,7 +393,7 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jourser.github.io/2023/03/12/git-use/">https://Jourser.github.io/2023/03/12/git-use/</a>
+                    <a href="https://Jourser.github.io/2025/03/31/fpga-problem/">https://Jourser.github.io/2025/03/31/fpga-problem/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -442,12 +431,16 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                    <span class="chip bg-color">教程</span>
+                                <a href="/tags/FPGA/">
+                                    <span class="chip bg-color">FPGA</span>
                                 </a>
                             
-                                <a href="/tags/Git/">
-                                    <span class="chip bg-color">Git</span>
+                                <a href="/tags/vivado/">
+                                    <span class="chip bg-color">vivado</span>
+                                </a>
+                            
+                                <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+                                    <span class="chip bg-color">问题解决</span>
                                 </a>
                             
                         </div>
@@ -526,17 +519,18 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/03/12/markdown-use/">
+                <a href="/2025/03/31/fpga-problem/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Markdown实用教程">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="FPAG学习笔记之问题集合（更新中）">
                         
-                        <span class="card-title">Markdown实用教程</span>
+                        <span class="card-title">FPAG学习笔记之问题集合（更新中）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -546,34 +540,35 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                    工具
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
                     <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
                         <span class="chip bg-color">问题解决</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
-                    </a>
-                    
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
                     </a>
                     
                 </div>
@@ -587,13 +582,12 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/11/resource-website/">
+                <a href="/2024/09/29/xilinx-primitives/">
                     <div class="card-image">
                         
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="FPGA学习笔记之Xilinx 原语">
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="资源网站">
-                        
-                        <span class="card-title">资源网站</span>
+                        <span class="card-title">FPGA学习笔记之Xilinx 原语</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -604,14 +598,14 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-29
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                    工具
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
                                 </a>
                             
                             
@@ -621,16 +615,20 @@ git commit -m “first commit”<span aria-hidden="true" class="line-numbers-row
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%BD%91%E7%AB%99/">
-                        <span class="chip bg-color">网站</span>
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
                     </a>
                     
-                    <a href="/tags/%E8%84%9A%E6%9C%AC/">
-                        <span class="chip bg-color">脚本</span>
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
                     </a>
                     
-                    <a href="/tags/%E6%8F%92%E4%BB%B6/">
-                        <span class="chip bg-color">插件</span>
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
                     </a>
                     
                 </div>
