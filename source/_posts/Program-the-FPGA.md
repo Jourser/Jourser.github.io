@@ -182,7 +182,7 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE Yes [current_design]
 </div>
 
 <div align="center">
-<img src=./Program-the-FPGA/23.png width=60%/>
+<img src=./Program-the-FPGA/23.png width=70%/>
 </div>
 
 <div align="center">
