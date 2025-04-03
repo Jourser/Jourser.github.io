@@ -241,7 +241,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/25.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -312,7 +312,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    335
+                    988
                 </div>
                 
 
@@ -367,6 +367,83 @@
  <img src="/2025/03/31/fpga-problem/4.png" width="70%/">
  </div></li>
 </ol>
+<hr>
+<h2 id="2-svf文件无法写入Flash"><a href="#2-svf文件无法写入Flash" class="headerlink" title="2. .svf文件无法写入Flash"></a>2. .svf文件无法写入Flash</h2><ul>
+<li><p>具体问题描述： flash 型号是 W25Q128JVSIQ，FPGA 型号是 xc7a100t。当使用 Vivado 生成 <code>.svf</code> 文件，但是当我使用 execute_hw_svf 将文件写入flash时，出现一条错误消息：<code>Output value 00 does not match the tdo option value</code>。但是，当使用 vivado 将 <code>.mcs</code> 文件直接写入 flash 时，没有给出错误消息，程序运行正常。</p>
+  <div align="center">
+  <img src="/2025/03/31/fpga-problem/5.png" width="70%/">
+  <img src="/2025/03/31/fpga-problem/6.png" width="70%/">
+  </div></li>
+</ul>
+<h3 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h3><ul>
+<li><p>原因可能是：时延不足导致 TDO 校验错误。需要增加时延。下面介绍需要修改哪些时延。</p>
+</li>
+<li><p>Vivado&#x2F;iMPACT 根据以下条件自动选择擦除模式：</p>
+<ul>
+<li>如果 Flash 支持扇区擦除且设计文件仅更新部分扇区，优先生成 <code>sector erase</code> 指令（减少烧录时间）。</li>
+<li>如果 Flash 不支持扇区擦除（如某些老款 SPI Flash），则强制使用 <code>fullchip erase</code>。</li>
+</ul>
+</li>
+<li><p>关键影响：时延要求不同</p>
+<table>
+<thead>
+<tr>
+<th><strong>擦除类型</strong></th>
+<th>典型时延要求</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fullchip erase</code></td>
+<td>长（秒级）</td>
+<td>时延不足会导致 TDO 校验失败</td>
+</tr>
+<tr>
+<td><code>sector erase</code></td>
+<td>短（毫秒级）</td>
+<td>时延过长会降低效率，过短则可能失败</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>Full-Chip Erase</strong>：  </p>
+<ul>
+<li>擦除整个 Flash 芯片（所有扇区一次性清除），通常需要 <strong>更长时延</strong>（例如 100ms~3s），适合首次烧录或彻底重写。  </li>
+<li><strong>典型指令</strong>：   <pre class="line-numbers language-svf" data-language="svf"><code class="language-svf">&#x2F;&#x2F; Modify the below delay for fullchip erase operation (0.000000 sec typical, 0.000000 sec maximum)
+RUNTEST 30.000000 SEC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>Sector Erase</strong>：  </p>
+<ul>
+<li>仅擦除指定扇区（按地址分块），时延较短（如 50~500ms），适合局部更新。  </li>
+<li><strong>典型指令</strong>：   <pre class="line-numbers language-svf" data-language="svf"><code class="language-svf">&#x2F;&#x2F; Modify the below delay for sector erase operation (0.000000 sec typical, 0.000000 sec maximum)
+RUNTEST 0.100000 SEC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>program operation</strong></p>
+<ul>
+<li>除此之外，还有<code>program operation</code> 时延也需要调整。</li>
+<li>在 <code>.svf</code> 文件中，<code>program operation</code> 的时延（即 <code>RUNTEST</code> 指令后的时间值）用于 <strong>控制 Flash 编程（写入）操作后的等待时间</strong>。</li>
+<li><strong>典型指令</strong>：   <pre class="line-numbers language-svf" data-language="svf"><code class="language-svf">&#x2F;&#x2F; Modify the below delay for program operation (0.000000 sec typical, 0.000000 sec maximum)
+RUNTEST 0.005000 SEC;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li>不同型号的 Flash 对编程操作的最小耗时（<code>tPROG</code>）有严格规定。若 <code>.svf</code> 中时延设为 <code>0.000000</code>，可能低于 Flash 实际需求，导致写入不完整。</li>
+<li>将 <code>RUNTEST 0.000000 SEC;</code> 改为 <code>RUNTEST 0.005000 SEC;</code>（即 <strong>5ms</strong>）可：<ol>
+<li><strong>覆盖大多数 Flash 的 <code>tPROG</code> 要求</strong>：<br> 即使最慢的 Flash 页编程（如 3ms）也能完成。</li>
+<li><strong>平衡效率与可靠性</strong>：<br> 远低于全片擦除的秒级等待，但足够避免写入失败。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><strong>如何确定最佳时延值？</strong></p>
+<ul>
+<li><strong>方法 1：查阅 Flash 数据手册</strong><br>找到 <strong><code>tPROG</code>（Page Program Time）</strong> 参数，例如：<ul>
+<li>若 <code>tPROG(max) = 2ms</code>，则设置 <code>RUNTEST 0.003000 SEC;</code>（留 50% 余量）。</li>
+</ul>
+</li>
+<li><strong>方法 2：实验调整</strong><br>从较小值（如 <code>0.001000 SEC</code>）逐步增加，直到写入成功。</li>
+</ul>
+</li>
+</ul>
+<hr>
 
                 
             </div>
@@ -527,8 +604,7 @@
                 <a href="/2025/03/31/fpga-problem/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="FPAG学习笔记之问题集合（更新中）">
+                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="FPAG学习笔记之问题集合（更新中）">
                         
                         <span class="card-title">FPAG学习笔记之问题集合（更新中）</span>
                     </div>
