@@ -1,6 +1,8 @@
 ---
 title: FPAG学习笔记之问题集合（更新中）
 date: 2025-03-31 10:04:51
+img:
+- /medias/featureimages/25.jpg
 categories: 硬件
 tags: 
  - FPGA
@@ -47,3 +49,72 @@ tags:
     <div align="center">
     <img src=./FPGA-problem/4.png width=70%/>
     </div>
+
+-----
+
+## 2. .svf文件无法写入Flash
+
+- 具体问题描述： flash 型号是 W25Q128JVSIQ，FPGA 型号是 xc7a100t。当使用 Vivado 生成 `.svf` 文件，但是当我使用 execute_hw_svf 将文件写入flash时，出现一条错误消息：`Output value 00 does not match the tdo option value`。但是，当使用 vivado 将 `.mcs` 文件直接写入 flash 时，没有给出错误消息，程序运行正常。
+
+    <div align="center">
+    <img src=./FPGA-problem/5.png width=70%/>
+    <img src=./FPGA-problem/6.png width=70%/>
+    </div>
+
+### 解决办法
+- 原因可能是：时延不足导致 TDO 校验错误。需要增加时延。下面介绍需要修改哪些时延。
+- Vivado/iMPACT 根据以下条件自动选择擦除模式：
+    - 如果 Flash 支持扇区擦除且设计文件仅更新部分扇区，优先生成 `sector erase` 指令（减少烧录时间）。
+    - 如果 Flash 不支持扇区擦除（如某些老款 SPI Flash），则强制使用 `fullchip erase`。
+
+
+
+- 关键影响：时延要求不同
+   | **擦除类型**       | 典型时延要求       | 风险                                  |
+   |--------------------|--------------------|---------------------------------------|
+   | `fullchip erase`   | 长（秒级）         | 时延不足会导致 TDO 校验失败           |
+   | `sector erase`     | 短（毫秒级）       | 时延过长会降低效率，过短则可能失败    |
+
+
+
+
+- **Full-Chip Erase**：  
+  - 擦除整个 Flash 芯片（所有扇区一次性清除），通常需要 **更长时延**（例如 100ms~3s），适合首次烧录或彻底重写。  
+  - **典型指令**：  
+   ```svf
+   // Modify the below delay for fullchip erase operation (0.000000 sec typical, 0.000000 sec maximum)
+   RUNTEST 30.000000 SEC;
+   ```
+- **Sector Erase**：  
+  - 仅擦除指定扇区（按地址分块），时延较短（如 50~500ms），适合局部更新。  
+  - **典型指令**：  
+   ```svf
+   // Modify the below delay for sector erase operation (0.000000 sec typical, 0.000000 sec maximum)
+   RUNTEST 0.100000 SEC;
+   ```
+
+- **program operation**
+  - 除此之外，还有`program operation` 时延也需要调整。
+  - 在 `.svf` 文件中，`program operation` 的时延（即 `RUNTEST` 指令后的时间值）用于 **控制 Flash 编程（写入）操作后的等待时间**。
+  - **典型指令**：  
+   ```svf
+    // Modify the below delay for program operation (0.000000 sec typical, 0.000000 sec maximum)
+    RUNTEST 0.005000 SEC;
+   ```
+  - 不同型号的 Flash 对编程操作的最小耗时（`tPROG`）有严格规定。若 `.svf` 中时延设为 `0.000000`，可能低于 Flash 实际需求，导致写入不完整。
+  - 将 `RUNTEST 0.000000 SEC;` 改为 `RUNTEST 0.005000 SEC;`（即 **5ms**）可：
+    1. **覆盖大多数 Flash 的 `tPROG` 要求**：  
+        即使最慢的 Flash 页编程（如 3ms）也能完成。
+    2. **平衡效率与可靠性**：  
+        远低于全片擦除的秒级等待，但足够避免写入失败。
+
+
+- **如何确定最佳时延值？**
+  - **方法 1：查阅 Flash 数据手册**  
+    找到 **`tPROG`（Page Program Time）** 参数，例如：
+    - 若 `tPROG(max) = 2ms`，则设置 `RUNTEST 0.003000 SEC;`（留 50% 余量）。
+  - **方法 2：实验调整**  
+    从较小值（如 `0.001000 SEC`）逐步增加，直到写入成功。
+
+---
+
