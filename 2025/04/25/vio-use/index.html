@@ -4,9 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="使用Vue可能遇到的问题（更新中）, 白米粥のBlog">
-    <meta name="description" content="1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported
-问题原因：node版本过高，因为 node.js V17版本中最近发布的OpenSSL3">
+    <meta name="keywords" content="FPGA学习笔记之VIO的使用, 白米粥のBlog">
+    <meta name="description" content="VIO的使用何为VIOVIO（Virtual Input&amp;#x2F;Output）核是 Vivado 提供的一种硬件调试 IP，用于在 FPGA 上实时监视和驱动内部信号。它通过 JTAG 通道与 Vivado 硬件管理器（Hardware">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>使用Vue可能遇到的问题（更新中） | 白米粥のBlog</title>
+    <title>FPGA学习笔记之VIO的使用 | 白米粥のBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
     <style>
@@ -241,12 +240,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">使用Vue可能遇到的问题（更新中）</h1>
+                    <h1 class="description center-align post-title">FPGA学习笔记之VIO的使用</h1>
                 </div>
             </div>
         </div>
@@ -270,24 +269,20 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
-                                <span class="chip bg-color">问题解决</span>
+                            <a href="/tags/FPGA/">
+                                <span class="chip bg-color">FPGA</span>
                             </a>
                         
-                            <a href="/tags/vue/">
-                                <span class="chip bg-color">vue</span>
+                            <a href="/tags/vivado/">
+                                <span class="chip bg-color">vivado</span>
                             </a>
                         
-                            <a href="/tags/JavaScript/">
-                                <span class="chip bg-color">JavaScript</span>
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
                             </a>
                         
-                            <a href="/tags/HTML/">
-                                <span class="chip bg-color">HTML</span>
-                            </a>
-                        
-                            <a href="/tags/CSS/">
-                                <span class="chip bg-color">CSS</span>
+                            <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                                <span class="chip bg-color">工具</span>
                             </a>
                         
                     </div>
@@ -298,8 +293,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                前端
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                硬件
                             </a>
                         
                     </div>
@@ -311,7 +306,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-03-13
+                    2025-04-25
                 </div>
                 
 
@@ -320,7 +315,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    330
+                    986
                 </div>
                 
 
@@ -340,16 +335,149 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported"><a href="#1-npm-run-dev失败Error-error-0308010C-digital-envelope-routines-unsupported" class="headerlink" title="1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported"></a>1.npm run dev失败Error: error:0308010C:digital envelope routines::unsupported</h2><p><img src="/2023/03/13/vue-problem/1.png"></p>
-<p>问题原因：node版本过高，因为 node.js V17版本中最近发布的OpenSSL3.0, 而OpenSSL3.0对允许算法和密钥大小增加了严格的限制，可能会对生态系统造成一些影响.</p>
-<h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><h4 id="1-通过命令设置NODE-OPTIONS参数"><a href="#1-通过命令设置NODE-OPTIONS参数" class="headerlink" title="1.通过命令设置NODE_OPTIONS参数"></a>1.通过命令设置NODE_OPTIONS参数</h4><p>这个办法的缺点是每次构建前都需要执行一次命令<br>windows与linux或mac系统设置命令不一样，并且需要在项目目录下执行该命令，直接cmd命令默认路径下执行会无效。</p>
-<p>windows系统：</p>
-<pre class="line-numbers language-none"><code class="language-none">set NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>linux或mac系统：</p>
-<pre class="line-numbers language-none"><code class="language-none">export NODE_OPTIONS&#x3D;--openssl-legacy-provider<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="2-修改package-json"><a href="#2-修改package-json" class="headerlink" title="2.修改package.json"></a>2.修改package.json</h4><p>在相关构建命令之前加入set NODE_OPTIONS&#x3D;–openssl-legacy-provider，这个办法可以一劳永逸，以后直接通过npm执行scripts里面的命令即可。不管是项目迭代，还是团队开发，这种都比较有效。<br><img src="/2023/03/13/vue-problem/2.png"></p>
-<h4 id="3-降低node版本"><a href="#3-降低node版本" class="headerlink" title="3.降低node版本"></a>3.降低node版本</h4><p>回到16版本以下。这个办法也可以解决问题，不过需要考虑到整个系统架构与技术选型问题，以及不同版本的兼容问题。不管是卸载node重装还是使用nvm工具降低版本，均有风险。特别是nvm工具降版本有时会出现意想不到的错误。</p>
+                <h1 id="VIO的使用"><a href="#VIO的使用" class="headerlink" title="VIO的使用"></a>VIO的使用</h1><h2 id="何为VIO"><a href="#何为VIO" class="headerlink" title="何为VIO"></a>何为VIO</h2><p>VIO（Virtual Input&#x2F;Output）核是 Vivado 提供的一种硬件调试 IP，用于在 FPGA 上实时监视和驱动内部信号。它通过 JTAG 通道与 Vivado 硬件管理器（Hardware Manager）交互，允许用户在设计运行时查看信号状态并注入控制数据，而无需额外的物理引脚或外部测试设备。VIO 核的输入&#x2F;输出端口宽度和数量均可自定义，典型用于低速控制信号（如复位、状态指示灯）和交互式调试场景。</p>
+<h3 id="VIO-核的主要作用"><a href="#VIO-核的主要作用" class="headerlink" title="VIO 核的主要作用"></a><strong>VIO 核的主要作用</strong></h3><ol>
+<li><p><strong>实时信号监控与修改</strong>  </p>
+<ul>
+<li><strong>输入（Virtual Input）</strong>：通过 JTAG 接口（如 USB 下载器）向 FPGA 内部信号动态注入值（例如控制寄存器、使能信号等）。  </li>
+<li><strong>输出（Virtual Output）</strong>：实时读取 FPGA 内部信号的状态（例如状态机状态、计数器值等）。  </li>
+<li>支持组合逻辑和时序逻辑（需时钟驱动）。</li>
+</ul>
+</li>
+<li><p><strong>节省调试时间</strong>  </p>
+<ul>
+<li>无需修改代码或重新综合设计即可调整参数，显著提高调试效率。</li>
+</ul>
+</li>
+<li><p><strong>资源占用低</strong>  </p>
+<ul>
+<li>相比 ILA（逻辑分析仪）等调试工具，VIO 消耗的 FPGA 资源（LUT、FF）更少。</li>
+</ul>
+</li>
+<li><p><strong>与硬件管理器集成</strong>  </p>
+<ul>
+<li>通过 Vivado 的 Hardware Manager 直接操作，无需额外工具。</li>
+</ul>
+</li>
+</ol>
+<h3 id="VIO-的典型应用场景"><a href="#VIO-的典型应用场景" class="headerlink" title="VIO 的典型应用场景"></a><strong>VIO 的典型应用场景</strong></h3><ol>
+<li><p><strong>动态参数调整</strong>  </p>
+<ul>
+<li>例如：实时修改滤波器的系数、调整 PWM 占空比、改变通信协议的参数（如波特率）。</li>
+</ul>
+</li>
+<li><p><strong>控制信号调试</strong>  </p>
+<ul>
+<li>手动触发复位（reset）、使能（enable）信号，或切换状态机的状态。</li>
+</ul>
+</li>
+<li><p><strong>交互式验证</strong>  </p>
+<ul>
+<li>在验证算法或协议时，通过手动输入激励信号并观察响应。</li>
+</ul>
+</li>
+<li><p><strong>资源受限场景</strong>  </p>
+<ul>
+<li>当 FPGA 板上物理输入&#x2F;输出（如拨码开关、LED）不足时，用 VIO 替代。</li>
+</ul>
+</li>
+</ol>
+<h3 id="VIO-与-ILA-的区别"><a href="#VIO-与-ILA-的区别" class="headerlink" title="VIO 与 ILA 的区别"></a><strong>VIO 与 ILA 的区别</strong></h3><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>VIO</strong></th>
+<th><strong>ILA</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>功能</strong></td>
+<td>实时输入&#x2F;输出信号值</td>
+<td>捕获信号波形（类似逻辑分析仪）</td>
+</tr>
+<tr>
+<td><strong>数据触发</strong></td>
+<td>不支持触发条件</td>
+<td>支持复杂的触发条件设置</td>
+</tr>
+<tr>
+<td><strong>资源占用</strong></td>
+<td>低</td>
+<td>较高（依赖采样深度和信号数量）</td>
+</tr>
+<tr>
+<td><strong>用途</strong></td>
+<td>交互调试、参数调整</td>
+<td>信号时序分析、故障诊断</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="配置VIO"><a href="#配置VIO" class="headerlink" title="配置VIO"></a>配置VIO</h2><h3 id="使用IP核创建VIO调试环境"><a href="#使用IP核创建VIO调试环境" class="headerlink" title="使用IP核创建VIO调试环境"></a>使用IP核创建VIO调试环境</h3><ol>
+<li>点击左侧<code>PROJECT MANAGER</code>栏 → <code>IP Catalog</code>或者菜单栏下<code>Window</code> → <code>IP Catalog</code>，然后在右侧出现的<code>IP Catalog</code>窗口下搜索<code>VIO</code>，双击选择<code>Debug</code>下的<code>VIO</code>进行IP配置，操作步骤如下图所示：</li>
+</ol>
+<div align="center">
+<img src="/2025/04/25/vio-use/1.png" width="100%/">
+</div>
 
+<ol start="2">
+<li><p>VIO IP参数设置</p>
+<ul>
+<li><code>Input Probe Count</code>：VIO输入探头个数，即输入到VIO，需要查看实时数据值的信号个数；</li>
+<li><code>Output Probe Count</code>：VIO输出探头个数，即输出给其他模块的信号个数；</li>
+<li><code>Enable Input Probe Activity Detectors</code>：输入探头变化检测。若勾选，则在后续调试过程中，某个输入信号发生变化时，则会出现数据变化的提示；若不勾选，则无输入数据变化提示（注意，这里输入数据是指输入到VIO模块中的数据）；</li>
+</ul>
+</li>
+</ol>
+<div align="center">
+<img src="/2025/04/25/vio-use/2.png" width="100%/">
+</div>
+
+
+<div align="center">
+<img src="/2025/04/25/vio-use/3.png" width="100%/">
+</div>
+
+
+
+<div align="center">
+<img src="/2025/04/25/vio-use/4.png" width="100%/">
+</div>
+
+<ol start="3">
+<li>对VIO IP核配置完成后，生成IP核</li>
+</ol>
+<hr>
+<h2 id="VIO的调试"><a href="#VIO的调试" class="headerlink" title="VIO的调试"></a>VIO的调试</h2><ul>
+<li>本次以UART发送为例，通过VIO输出串口需要发送的8比特数据data和1比特的发送使能信号，同时将串口发送结束信号tx_done接入到VIO的输入端，观察其值和变换。</li>
+<li>首先，在IP Sources窗口下找到<code>vio_0.veo</code>，该文件为生成的VIO IP核的例化模板，将该例化模板复制到UART发送模块的顶层文件中，对例化名称以及VIO的输入输出进行连接。</li>
+</ul>
+<div align="center">
+<img src="/2025/04/25/vio-use/6.png" width="60%/">
+</div>
+
+
+
+<div align="center">
+<img src="/2025/04/25/vio-use/5.png" width="60%/">
+</div>
+
+
+
+<h3 id="VIO具体调试步骤"><a href="#VIO具体调试步骤" class="headerlink" title="VIO具体调试步骤"></a>VIO具体调试步骤</h3><ol>
+<li>对顶层文件综合实现后，生成比特流文件，将生成的.bit文件和.ltx文件下载到FPGA开发板。</li>
+</ol>
+<div align="center">
+<img src="/2025/04/25/vio-use/7.png" width="50%/">
+</div>
+
+
+
+<ol start="2">
+<li>打开VIO调试窗口，在该窗口下可以看到接入VIO输入&#x2F;输出探头的各个信号的信号名称Name、当前值Value、是否发生变化Activity等信息。</li>
+</ol>
+<div align="center">
+<img src="/2025/04/25/vio-use/8.png" width="60%/">
+</div>
                 
             </div>
             <hr/>
@@ -375,7 +503,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jourser.github.io/2023/03/13/vue-problem/">https://Jourser.github.io/2023/03/13/vue-problem/</a>
+                    <a href="https://Jourser.github.io/2025/04/25/vio-use/">https://Jourser.github.io/2025/04/25/vio-use/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -413,24 +541,20 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
-                                    <span class="chip bg-color">问题解决</span>
+                                <a href="/tags/FPGA/">
+                                    <span class="chip bg-color">FPGA</span>
                                 </a>
                             
-                                <a href="/tags/vue/">
-                                    <span class="chip bg-color">vue</span>
+                                <a href="/tags/vivado/">
+                                    <span class="chip bg-color">vivado</span>
                                 </a>
                             
-                                <a href="/tags/JavaScript/">
-                                    <span class="chip bg-color">JavaScript</span>
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
                                 </a>
                             
-                                <a href="/tags/HTML/">
-                                    <span class="chip bg-color">HTML</span>
-                                </a>
-                            
-                                <a href="/tags/CSS/">
-                                    <span class="chip bg-color">CSS</span>
+                                <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                                    <span class="chip bg-color">工具</span>
                                 </a>
                             
                         </div>
@@ -509,16 +633,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2023/06/23/data-structure/">
+                <a href="/2025/04/25/vio-use/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="数据结构笔记">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="FPGA学习笔记之VIO的使用">
                         
-                        <span class="card-title">数据结构笔记</span>
+                        <span class="card-title">FPGA学习笔记之VIO的使用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -528,30 +653,39 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-06-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-25
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AC%94%E8%AE%B0/">
-                        <span class="chip bg-color">笔记</span>
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
                     </a>
                     
                 </div>
@@ -565,13 +699,12 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/12/markdown-use/">
+                <a href="/2025/03/31/fpga-problem/">
                     <div class="card-image">
                         
+                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="FPAG学习笔记之问题集合（更新中）">
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Markdown实用教程">
-                        
-                        <span class="card-title">Markdown实用教程</span>
+                        <span class="card-title">FPAG学习笔记之问题集合（更新中）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -582,14 +715,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-31
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                    工具
+                            <a href="/categories/%E7%A1%AC%E4%BB%B6/" class="post-category">
+                                    硬件
                                 </a>
                             
                             
@@ -599,16 +732,16 @@
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/FPGA/">
+                        <span class="chip bg-color">FPGA</span>
+                    </a>
+                    
+                    <a href="/tags/vivado/">
+                        <span class="chip bg-color">vivado</span>
+                    </a>
+                    
                     <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
                         <span class="chip bg-color">问题解决</span>
-                    </a>
-                    
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
                     </a>
                     
                 </div>
