@@ -123,8 +123,8 @@ endmodule
 <img src=./ILA-use/12.png width=70%/>
 </div>
 
-1. **Documentation**：IP 相关文档入口，其中的`Product Guide` 是 IP 手册查看入口，`Change Log` 是 IP 版本更新记录，`Product Webpage`是 IP 相关介绍的网页版
-2. **IP Location**：设置 IP 的存放路径入口，**点击出现如下图所示窗口**，在窗口里可以通过点击`…`设置更换存放路径，默认是存放在工程路径下的`…<工程名>.srcs\ sources_1\ip`，这里我们就保持默认。
+1. **Documentation**：IP 相关文档入口，其中的`Product Guide` 是 IP 手册查看入口，`Change Log` 是 IP 版本更新    记录，`Product Webpage`是 IP 相关介绍的网页版
+2. **IP Location**：设置 IP 的存放路径入口，**点击出现如下图所示窗口**，在窗口里可以通过点击`…`设置更换存放路   径，默认是存放在工程路径下的`…<工程名>.srcs\ sources_1\ip`，这里我们就保持默认。
 3. **Switch to Default**：点击后所有的设置恢复到默认值。
 
 <div align="center">
