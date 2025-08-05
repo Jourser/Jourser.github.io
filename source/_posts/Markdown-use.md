@@ -379,13 +379,13 @@ Emoji表情英文名的前后加冒号
 
 
 ```
-<div>			<!--块级封装-->
-    <center>	<!--将图片和文字居中-->
-    <img src="./03.jpg"
+<div>			
+    <center>	
+    <img src="./Markdown-use/03.jpg"
          alt="无法显示图片显示"
          style="zoom:100%"/>
-    <br>		<!--换行-->
-    图片的标题	<!--标题-->
+    <br>		
+    图片的标题	
     </center>
 </div>
 ```
@@ -394,7 +394,7 @@ Emoji表情英文名的前后加冒号
 
 <div>			<!--块级封装-->
     <center>	<!--将图片和文字居中-->
-    <img src="./03.jpg"
+    <img src="./Markdown-use/03.jpg"
          alt="无法显示图片显示"
          style="zoom:50%"/>
     <br>		<!--换行-->
