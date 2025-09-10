@@ -315,7 +315,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    2.8k
                 </div>
                 
 
@@ -502,6 +502,16 @@ led_twinkle <span class="token function">u_led_twinkle</span><span class="token 
 <li>在仿真时遇到类似于<code>cnt</code>计数器这类变量，以本次<code>led_twinkle</code>为例，需要将<code>cnt</code>变量数值可达50000000，若在仿真中达到该值需要过长的时间，不利于观察，所以需要将其量级降低。如图所示：<br><img src="/2024/06/04/simulator-use/8.png"></li>
 <li>同时图中预留一个错误，使得<code>led</code>信号为<code>10</code>和<code>01</code>时间不相同。</li>
 </ul>
+<h4 id="当需要指定测试某个模块功能时？"><a href="#当需要指定测试某个模块功能时？" class="headerlink" title="当需要指定测试某个模块功能时？"></a>当需要指定测试某个模块功能时？</h4><ul>
+<li>当项目中留有多个仿真文件时，可以设置<strong>顶层仿真文件</strong>。通常在一个仿真集中（<code>sim_1</code>），只会有一个文件被指定为顶层模块。而其他模块可能是子模块，或者是被顶层仿真文件实例化的模块，或者是其他独立的测试文件。</li>
+<li><strong><font color="#dd0000">如何制定顶层仿真文件？</font></strong><ol>
+<li>在设计源文件列表中找到您想仿真的测试平台文件。</li>
+<li>右键点击该文件，然后选择“设置为顶层文件”（<code>Set as Top</code>）。</li>
+<li>运行仿真。</li>
+</ol>
+</li>
+</ul>
+<p><img src="/2024/06/04/simulator-use/18.png"></p>
 <h3 id="仿真步骤"><a href="#仿真步骤" class="headerlink" title="仿真步骤"></a>仿真步骤</h3><ol>
 <li><p>在<code>Flow Navigator</code>窗口中点击<code>Run Simulation</code>并选择<code>Run Behavioral Simulation</code><br><img src="/2024/06/04/simulator-use/7.png"></p>
 <ul>
