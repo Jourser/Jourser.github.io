@@ -116,5 +116,34 @@ tags:
   - **方法 2：实验调整**  
     从较小值（如 `0.001000 SEC`）逐步增加，直到写入成功。
 
----
+-----
+## 3. ila采集慢信号
+
+- 具体问题描述：FPGA驱动模数转换器 (ADC) 芯片采集信号，在主频率100 MHz的情况下，ila会以100 MHz的采样率去采样并记录。但若是ADC采样率只有2.8 MHz 远低于100 MHz，这样用ila查看信号，会有大部分重复的采样点，因此需要将ila的采样率降低。但是ila要求ila的时钟频率是JTAG的2倍以上，这样就意味着不能靠降低ila输入时钟的方法来降低ila的速率。
+
+
+### 解决办法
+
+- 在设置ila ip core的时候，有一个`Capture control`的选择，可以勾选，使得ila在trigger为1的时候进行采用。具体操作如下：
+
+  1. 设置ila ip核，首先要勾选`Capture Control` 和 `Advanced Trigger`。如下图所示：
+  
+    <div align="center">
+    <img src=./FPGA-problem/7.png width=70%/>
+    </div>
+
+  2. 除了原本设计的数据线，再设计一条触发线，作为输入。
+
+    <div align="center">
+    <img src=./FPGA-problem/8.png width=70%/>
+    </div>
+
+  3. 在系统中，将所采数据的有效信号(`data valid`)，作为触发线的输入。
+  4. 调用ila，配置触发模式和Capture
+
+    <div align="center">
+    <img src=./FPGA-problem/9.png width=70%/>
+    </div>
+  5. 之后按照正常流程开始采样。
+-----
 
