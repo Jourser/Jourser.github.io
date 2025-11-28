@@ -312,7 +312,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    988
+                    1.3k
                 </div>
                 
 
@@ -442,6 +442,35 @@ RUNTEST 0.005000 SEC;<span aria-hidden="true" class="line-numbers-rows"><span></
 <li><strong>方法 2：实验调整</strong><br>从较小值（如 <code>0.001000 SEC</code>）逐步增加，直到写入成功。</li>
 </ul>
 </li>
+</ul>
+<hr>
+<h2 id="3-ila采集慢信号"><a href="#3-ila采集慢信号" class="headerlink" title="3. ila采集慢信号"></a>3. ila采集慢信号</h2><ul>
+<li>具体问题描述：FPGA驱动模数转换器 (ADC) 芯片采集信号，在主频率100 MHz的情况下，ila会以100 MHz的采样率去采样并记录。但若是ADC采样率只有2.8 MHz 远低于100 MHz，这样用ila查看信号，会有大部分重复的采样点，因此需要将ila的采样率降低。但是ila要求ila的时钟频率是JTAG的2倍以上，这样就意味着不能靠降低ila输入时钟的方法来降低ila的速率。</li>
+</ul>
+<h3 id="解决办法-2"><a href="#解决办法-2" class="headerlink" title="解决办法"></a>解决办法</h3><ul>
+<li><p>在设置ila ip core的时候，有一个<code>Capture control</code>的选择，可以勾选，使得ila在trigger为1的时候进行采用。具体操作如下：</p>
+<ol>
+<li>设置ila ip核，首先要勾选<code>Capture Control</code> 和 <code>Advanced Trigger</code>。如下图所示：</li>
+</ol>
+  <div align="center">
+  <img src="/2025/03/31/fpga-problem/7.png" width="70%/">
+  </div>
+
+<ol start="2">
+<li>除了原本设计的数据线，再设计一条触发线，作为输入。</li>
+</ol>
+  <div align="center">
+  <img src="/2025/03/31/fpga-problem/8.png" width="70%/">
+  </div>
+
+<ol start="3">
+<li>在系统中，将所采数据的有效信号(<code>data valid</code>)，作为触发线的输入。</li>
+<li>调用ila，配置触发模式和Capture</li>
+</ol>
+  <div align="center">
+  <img src="/2025/03/31/fpga-problem/9.png" width="70%/">
+  </div>
+5. 之后按照正常流程开始采样。</li>
 </ul>
 <hr>
 
@@ -645,8 +674,8 @@ RUNTEST 0.005000 SEC;<span aria-hidden="true" class="line-numbers-rows"><span></
                         <span class="chip bg-color">教程</span>
                     </a>
                     
-                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                        <span class="chip bg-color">工具</span>
+                    <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">基础</span>
                     </a>
                     
                 </div>

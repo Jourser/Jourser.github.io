@@ -470,7 +470,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ["2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09"]
+            data: ["2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11"]
         },
         yAxis: {
             type: 'value',
@@ -480,7 +480,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [1,0,0,0,0,0,1,1,0,0,0,1,0],
+                data: [0,0,0,0,1,1,0,0,0,1,0,0,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -522,7 +522,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"后端","value":3},{"name":"人工智能","value":2},{"name":"计算机视觉","value":2},{"name":"前端","value":5},{"name":"硬件","value":14},{"name":"工具","value":2}],
+                data: [{"name":"后端","value":3},{"name":"前端","value":5},{"name":"硬件","value":14},{"name":"人工智能","value":2},{"name":"计算机视觉","value":2},{"name":"工具","value":2}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -546,7 +546,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["教程","FPGA","vivado","笔记","工具","问题解决","基础","机器学习","hexo","博客搭建"]
+                data: ["教程","FPGA","vivado","笔记","工具","基础","问题解决","机器学习","hexo","博客搭建"]
             }
         ],
         yAxis: [
@@ -559,7 +559,7 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [16,14,14,7,7,4,4,2,2,2],
+                data: [16,14,14,7,6,5,4,2,2,2],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -695,6 +695,26 @@
             
             
             
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                <span class="chip center-align waves-effect waves-light chip-default">数据结构</span>
+            </a>
+            
+            
+            
+            
+            
+            <a href="/tags/vivado/">
+                <span class="chip center-align waves-effect waves-light chip-default">vivado</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+                <span class="chip center-align waves-effect waves-light chip-default">问题解决</span>
+            </a>
+            
+            
+            
             <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
                 <span class="chip center-align waves-effect waves-light chip-default">深度学习</span>
             </a>
@@ -719,26 +739,6 @@
             
             
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                <span class="chip center-align waves-effect waves-light chip-default">数据结构</span>
-            </a>
-            
-            
-            
-            
-            
-            <a href="/tags/vivado/">
-                <span class="chip center-align waves-effect waves-light chip-default">vivado</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
-                <span class="chip center-align waves-effect waves-light chip-default">问题解决</span>
-            </a>
-            
-            
-            
             <a href="/tags/%E6%95%99%E7%A8%8B/">
                 <span class="chip center-align waves-effect waves-light chip-default">教程</span>
             </a>
@@ -751,14 +751,8 @@
             
             
             
-            <a href="/tags/Markdown/">
-                <span class="chip center-align waves-effect waves-light chip-default">Markdown</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-                <span class="chip center-align waves-effect waves-light chip-default">操作系统</span>
+            <a href="/tags/%E5%9F%BA%E7%A1%80/">
+                <span class="chip center-align waves-effect waves-light chip-default">基础</span>
             </a>
             
             
@@ -781,6 +775,18 @@
             
             
             
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                <span class="chip center-align waves-effect waves-light chip-default">操作系统</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Markdown/">
+                <span class="chip center-align waves-effect waves-light chip-default">Markdown</span>
+            </a>
+            
+            
+            
             <a href="/tags/%E5%9B%BE%E5%83%8F%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/">
                 <span class="chip center-align waves-effect waves-light chip-default">图像异常检测</span>
             </a>
@@ -789,12 +795,6 @@
             
             <a href="/tags/%E7%BB%BC%E8%BF%B0/">
                 <span class="chip center-align waves-effect waves-light chip-default">综述</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E5%9F%BA%E7%A1%80/">
-                <span class="chip center-align waves-effect waves-light chip-default">基础</span>
             </a>
             
             
