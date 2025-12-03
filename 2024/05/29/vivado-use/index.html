@@ -315,7 +315,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.9k
                 </div>
                 
 
@@ -629,6 +629,131 @@
 <img src="/2024/05/29/vivado-use/31.jpg" width="100%/">
 </div></li>
 </ol>
+<h2 id="额外内容"><a href="#额外内容" class="headerlink" title="额外内容"></a>额外内容</h2><h3 id="资源利用率报告"><a href="#资源利用率报告" class="headerlink" title="资源利用率报告"></a>资源利用率报告</h3><ul>
+<li><p>FPGA 资源利用率报告（Utilization Report）有助于从层级、用户定义的 Pblock 或 SLR 层面来分析含不同资源的设计的使用率。</p>
+</li>
+<li><p>这个报告非常重要，它显示了设计在目标 FPGA 芯片上使用了多少硬件资源，以及剩余多少资源可用。如下图所示：</p>
+</li>
+</ul>
+<div align="center">
+<img src="/2024/05/29/vivado-use/35.png" width="70%/">
+</div>
+
+<ul>
+<li>由上图所示，对硬件资源的占用情况如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">资源类型</th>
+<th align="left">利用率 (Utilization)</th>
+<th align="left">分析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>LUT</strong></td>
+<td align="left"><strong>82%</strong></td>
+<td align="left"><strong>高利用率。</strong> 逻辑资源非常接近满载。如果设计需要进一步复杂化，您可能需要考虑逻辑优化、使用更大容量的 FPGA，或进行重构。</td>
+</tr>
+<tr>
+<td align="left"><strong>DSP</strong></td>
+<td align="left"><strong>78%</strong></td>
+<td align="left"><strong>高利用率。</strong> 专用数字信号处理块接近满载。这表明您的设计包含了大量的乘法、累加或滤波操作。</td>
+</tr>
+<tr>
+<td align="left"><strong>BRAM</strong></td>
+<td align="left"><strong>61%</strong></td>
+<td align="left"><strong>中高利用率。</strong> 片上存储资源占用较高，表明您的设计使用了大量缓存或大容量查找表。</td>
+</tr>
+<tr>
+<td align="left"><strong>FF</strong></td>
+<td align="left"><strong>53%</strong></td>
+<td align="left"><strong>中等利用率。</strong> 触发器（用于存储和状态机）占用适中，说明设计时序逻辑复杂性适中。</td>
+</tr>
+<tr>
+<td align="left"><strong>LUTRAM</strong></td>
+<td align="left"><strong>11%</strong></td>
+<td align="left"><strong>低利用率。</strong> 极少量的查找表被配置为内存使用。</td>
+</tr>
+<tr>
+<td align="left"><strong>IO</strong></td>
+<td align="left"><strong>11%</strong></td>
+<td align="left"><strong>低利用率。</strong> 芯片引脚（Input&#x2F;Output ports）只使用了很小一部分。</td>
+</tr>
+<tr>
+<td align="left"><strong>BUFG</strong></td>
+<td align="left"><strong>13%</strong></td>
+<td align="left"><strong>低利用率。</strong> 专用的全局时钟缓冲资源使用很少。</td>
+</tr>
+</tbody></table>
+<h4 id="FPGA-核心资源解释"><a href="#FPGA-核心资源解释" class="headerlink" title="FPGA 核心资源解释"></a>FPGA 核心资源解释</h4><ul>
+<li>FPGA（Field-Programmable Gate Array，现场可编程门阵列）的核心优势在于它由多种可配置的硬件资源组成。以下是报告中提到的主要资源及其功能：</li>
+</ul>
+<p><strong>逻辑资源</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">资源名称</th>
+<th align="left">英文全称</th>
+<th align="left">功能解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>LUT</strong></td>
+<td align="left">Look-Up Table (查找表)</td>
+<td align="left"><strong>FPGA最基本的逻辑单元。</strong> 它是一个小型的真值表，可以实现任何输入数量有限的布尔逻辑函数（例如 AND, OR, XOR）。您的所有组合逻辑（如加法器、译码器、状态机跳转条件）最终都映射到 LUT 上。</td>
+</tr>
+<tr>
+<td align="left"><strong>FF</strong></td>
+<td align="left">Flip-Flop (触发器)</td>
+<td align="left"><strong>FPGA最基本的存储单元。</strong> 用于存储一位数据，实现时序逻辑。所有状态机、寄存器、数据暂存器都由 FF 实现。</td>
+</tr>
+</tbody></table>
+<p><strong>存储资源</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">资源名称</th>
+<th align="left">英文全称</th>
+<th align="left">功能解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>BRAM</strong></td>
+<td align="left">Block Random Access Memory (块RAM)</td>
+<td align="left"><strong>FPGA内嵌的大容量存储块。</strong> 它们是专用的硬核内存，用于实现 FIFO、大容量缓存、双口 RAM 等。速度快，效率高。</td>
+</tr>
+<tr>
+<td align="left"><strong>LUTRAM</strong></td>
+<td align="left">LUT as RAM (用作RAM的查找表)</td>
+<td align="left"><strong>将小型 LUT 配置成极小容量的存储器。</strong> 当您需要的存储器很小，不足以用 BRAM 实现，或者需要分布式存储时，会使用 LUTRAM。</td>
+</tr>
+</tbody></table>
+<p><strong>专用功能资源</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">资源名称</th>
+<th align="left">英文全称</th>
+<th align="left">功能解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>DSP</strong></td>
+<td align="left">Digital Signal Processing Block</td>
+<td align="left"><strong>专用的数字信号处理硬件乘法器。</strong> 这些是硬核电路，针对乘法和累加运算进行了优化（例如 $A \times B + C$）。使用 DSP 块比用 LUT 实现乘法器快得多，且资源占用少得多。</td>
+</tr>
+<tr>
+<td align="left"><strong>IO</strong></td>
+<td align="left">Input&#x2F;Output (输入&#x2F;输出)</td>
+<td align="left"><strong>芯片的物理引脚。</strong> 用于将 FPGA 连接到外部世界（如传感器、总线、LED等）。</td>
+</tr>
+<tr>
+<td align="left"><strong>BUFG</strong></td>
+<td align="left">Buffer Global (全局时钟缓冲)</td>
+<td align="left"><strong>专用的低抖动时钟分配网络。</strong> 用于将时钟信号从输入引脚分配到整个 FPGA 的所有触发器，确保时序同步。</td>
+</tr>
+</tbody></table>
 
                 
             </div>
