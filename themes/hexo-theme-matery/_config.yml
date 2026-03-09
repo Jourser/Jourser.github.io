@@ -284,7 +284,7 @@ mySkills:
     Java:
       background: 'linear-gradient(to right, #FF0066 0%, #FF00CC 100%)'
       percent: 55%
-    C#:
+    C++:
       background: 'linear-gradient(to right, #9900FF 0%, #CC66FF 100%)'
       percent: 40%
     Python:
@@ -293,7 +293,7 @@ mySkills:
     FPGA:
       background: 'linear-gradient(to right, #00BCD4 0%, #80DEEA 100%)'
       percent: 70%
-    SQL:
+    Verilog:
       background: 'linear-gradient(to right, #4CAF50 0%, #81C784 100%)'
       percent: 90%
     程序设计:
