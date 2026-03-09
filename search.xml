@@ -20,11 +20,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 工具 </tag>
             
@@ -51,11 +51,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 基础 </tag>
             
@@ -82,11 +82,11 @@
       
         <tags>
             
+            <tag> 问题解决 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 问题解决 </tag>
             
         </tags>
       
@@ -111,11 +111,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 工具 </tag>
             
@@ -142,11 +142,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 基础 </tag>
             
@@ -173,11 +173,42 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
             
+            <tag> 基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>FPGA学习笔记之VIVADO自定义IP核</title>
+      <link href="/2024/06/24/new-ip/"/>
+      <url>/2024/06/24/new-ip/</url>
+      
+        <content type="html"><![CDATA[<h1 id="自定义IP核"><a href="#自定义IP核" class="headerlink" title="自定义IP核"></a>自定义IP核</h1><ul><li>本文基于 Vivado 工程实践，系统介绍什么是自定义 IP 核、为什么要使用自定义 IP、以及如何创建、封装和修改自定义 IP 核。</li></ul><h2 id="自定义IP核介绍"><a href="#自定义IP核介绍" class="headerlink" title="自定义IP核介绍"></a>自定义IP核介绍</h2><h3 id="什么是自定义IP核"><a href="#什么是自定义IP核" class="headerlink" title="什么是自定义IP核"></a>什么是自定义IP核</h3><ul><li><p>在 Vivado 中，IP（Intellectual Property）核本质上是一个功能模块的封装单元，它可以是：</p><ul><li>一个标准接口控制器（如 AXI GPIO、AXI DMA）</li><li>一个算法模块（FFT、FIR）</li><li>也可以是<strong>我们自己编写的 Verilog&#x2F;VHDL 模块</strong></li></ul></li><li><p>Vivado 将这些模块以 IP 的形式进行统一管理，使其可以：</p><ul><li>被 Block Design（BD）直接调用</li><li>具备参数化配置能力</li><li>方便复用、版本管理和系统集成</li></ul></li></ul><h3 id="为什么要使用自定义-IP-核？"><a href="#为什么要使用自定义-IP-核？" class="headerlink" title="为什么要使用自定义 IP 核？"></a>为什么要使用自定义 IP 核？</h3><ul><li>在实际工程中，尤其是 SoC（如 Zynq）或大型 FPGA 项目中，直接在顶层写所有逻辑会带来很多问题：<ol><li>工程结构混乱，难以维护</li><li>模块复用成本高</li><li>无法方便地与 AXI、PS 系统集成</li><li>Block Design 无法直接调用 RTL 模块</li></ol></li><li>而自定义 IP 核可以很好地解决这些问题：<ul><li>将功能模块独立成 IP，逻辑清晰</li><li>支持 AXI、时钟、复位等标准接口</li><li>方便在多个工程中复用</li><li>非常适合 PS + PL 协同开发</li></ul></li></ul><h3 id="自定义-IP-核的本质结构"><a href="#自定义-IP-核的本质结构" class="headerlink" title="自定义 IP 核的本质结构"></a>自定义 IP 核的本质结构</h3><ul><li>一个 Vivado 自定义 IP，底层其实是一个标准的目录结构，核心包括：<ul><li>RTL 源码（Verilog &#x2F; VHDL）</li><li>IP 描述文件（component.xml）</li><li>参数定义（Parameters）</li><li>接口定义（AXI、Clock、Reset 等）</li></ul></li></ul><p>👉 注意：</p><ul><li>component.xml 是 Vivado 识别 IP 的关键文件，但通常不建议手动修改，而是通过 Vivado 的 IP 工具自动生成</li></ul><h2 id="IP核的创建"><a href="#IP核的创建" class="headerlink" title="IP核的创建"></a>IP核的创建</h2><ol><li>在 Vivado 中依次点击：<code>Tools → Create and Package New IP</code></li></ol><div align="center"><img src="/2024/06/24/new-ip/1.png" width="40%/"></div><ol start="2"><li><p>弹出“<strong>创建和封装新 IP 向导</strong>”</p><div align="center"><img src="/2024/06/24/new-ip/2.png" width="70%/"></div></li><li><p>选择封装任务类型</p><ul><li>为 Vivado IP Catalog 封装一个新的 IP<ul><li>打包你当前的项目（本次采用）</li><li>将当前项目中的模块设计打包</li><li>打包指定目录</li></ul></li><li>创建一个新的 AXI4 外设</li></ul></li></ol><div align="center"><img src="/2024/06/24/new-ip/3.png" width="70%/"></div><ol start="4"><li>选择要存放的位置，这一步很重要，可以存放在以后专门自定义的IP文件夹内，方便以后添加和管理查看。</li></ol><div align="center"><img src="/2024/06/24/new-ip/4.png" width="70%/"></div><ol start="5"><li>Vivado 询问是否要将当前工程的源码复制到指定的 IP 库目录，并<strong>打开一个全新的“临时工程”</strong>来进行封装配置。</li></ol><div align="center"><img src="/2024/06/24/new-ip/5.png" width="60%/"></div><ol start="6"><li><p>Vivado 自动提取的信息清单</p><div align="center"><img src="/2024/06/24/new-ip/6.png" width="70%/"></div></li><li><p>然后会弹出新项目，如下封装IP的界面，按如下执行<code>Package IP</code></p><div align="center"><img src="/2024/06/24/new-ip/7.png" width="70%/"></div></li></ol><div align="center"><img src="/2024/06/24/new-ip/8.png" width="60%/"></div><ul><li><code>Customization Parameters</code>和<code>Addressing and Memory</code>没有打钩属于正常现象。<ul><li><code>Customization Parameters</code>：这个选项是用来识别你的 Verilog 代码中的 <code>parameter</code>（参数）的。比如，如果你想让外部可以修改采样计数器的最大值，你会写 <code>parameter MAX_CNT = 49;</code>。<ul><li>端口定义里没有任何 parameter 参数。既然没有参数可供配置，Vivado 就检测不到任何需要定制的内容，所以这一栏自然就是空的（或者显示未激活状态），这是完全正常的。</li></ul></li><li><code>Addressing and Memory</code>:这个选项是给总线接口（如 AXI4-Lite, AXI-Full）用的。如果你的 IP 核需要连接到 CPU（如 Zynq 的 PS 端或 MicroBlaze），并且需要 CPU 通过地址读写寄存器，就需要在这里配置地址映射。<ul><li>没有标准的 AXI 总线接口。因此，不需要分配地址空间，这一栏也是空的。</li></ul></li></ul></li><li><code>Review and Package</code>这一项已经有了绿色的对勾。这意味着：<ul><li>Vivado 认为目前的配置已经足够生成一个合法的 IP 核了。</li><li>可以直接点击左侧菜单底部的 <code>Review and Package</code>。</li><li>然后点击界面下方的 <code>Re-Package IP</code> 按钮即可完成更新。</li><li><strong>总结</strong>：只要 <code>Review and Package</code> 是绿的，就可以放心打包！</li></ul></li></ul><ol><li>至此，IP就封装好了。</li></ol><h2 id="IP核的使用"><a href="#IP核的使用" class="headerlink" title="IP核的使用"></a>IP核的使用</h2><ol><li><p>新建一个vivado工程，IP核保持的路径加入到工程中</p><div align="center"><img src="/2024/06/24/new-ip/9.png" width="70%/"></div></li><li><p>创建一个BD文件</p><div align="center"><img src="/2024/06/24/new-ip/10.png" width="30%/"></div></li></ol><div align="center"><img src="/2024/06/24/new-ip/11.png" width="70%/"></div><ol start="3"><li>使用自定义的IP</li></ol><div align="center"><img src="/2024/06/24/new-ip/12.png" width="70%/"></div><div align="center"><img src="/2024/06/24/new-ip/13.png" width="40%/"></div><ul><li>添加完之后如下：</li></ul><div align="center"><img src="/2024/06/24/new-ip/14.png" width="70%/"></div><ol start="4"><li>将引脚引出，与其他IP核相连。</li></ol><div align="center"><img src="/2024/06/24/new-ip/15.png" width="70%/"></div><ol start="5"><li>然后右键选择<code>General Output Product</code></li></ol><div align="center"><img src="/2024/06/24/new-ip/16.png" width="60%/"></div><ul><li>Vivado 封装 IP 核或生成 Block Design 输出文件<ol><li>Global (全局综合)</li><li>Out of context per IP (OOC，单个IP核，默认选项，最常用)</li><li>Out of Context per Block Design(整个 Block Design 设计图)<div align="center"><img src="/2024/06/24/new-ip/17.png" width="50%/"></div></li></ol></li></ul><ol start="6"><li>然后右键选择 <code>create HDL wrapper</code><div align="center"><img src="/2024/06/24/new-ip/18.png" width="50%/"></div></li></ol><div align="center"><img src="/2024/06/24/new-ip/19.png" width="50%/"></div><ol start="7"><li>最后添加约束文件并进行综合编译产生bit流</li></ol><h2 id="IP核的修改"><a href="#IP核的修改" class="headerlink" title="IP核的修改"></a>IP核的修改</h2><ul><li>添加到工程里的IP是不能直接修改的,文件是只读的形式</li></ul><ol><li>右击IP核，选择<code>Edit in IP Packager</code></li></ol><div align="center"><img src="/2024/06/24/new-ip/20.png" width="50%/"></div><div align="center"><img src="/2024/06/24/new-ip/21.png" width="50%/"></div>  <ol start="2"><li>打开一个IP核自身的工程，在这里IP是可以修改的。比如说加入ILA核。</li><li>修改完以后需要进入，把Packaging Steps中的每一项都再编译一遍<div align="center"><img src="/2024/06/24/new-ip/22.png" width="70%/"></div></li></ol><div align="center"><img src="/2024/06/24/new-ip/23.png" width="70%/"></div><ol start="4"><li>最后<code>Re-Package IP</code></li></ol><div align="center"><img src="/2024/06/24/new-ip/24.png" width="70%/"></div><ol start="5"><li><p>完成后关掉该工程。回到原来的工程后我们会发现IP处于锁定的状态</p><div align="center"><img src="/2024/06/24/new-ip/25.png" width="40%/"></div></li><li><p>依次点击<code>Tools → Report → Report IP Status</code></p></li></ol><div align="center"><img src="/2024/06/24/new-ip/26.png" width="60%/"></div><ul><li>或者</li></ul><div align="center"><img src="/2024/06/24/new-ip/27.png" width="60%/"></div><ul><li>点击<code>Upgrade Selected</code></li></ul><div align="center"><img src="/2024/06/24/new-ip/28.png" width="80%/"></div>]]></content>
+      
+      
+      <categories>
+          
+          <category> 硬件 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
             <tag> 教程 </tag>
+            
+            <tag> FPGA </tag>
+            
+            <tag> vivado </tag>
             
             <tag> 基础 </tag>
             
@@ -204,11 +235,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 基础 </tag>
             
@@ -235,11 +266,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 基础 </tag>
             
@@ -266,11 +297,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 语法 </tag>
             
@@ -297,11 +328,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 语法 </tag>
             
@@ -316,7 +347,7 @@
       <link href="/2024/06/05/program-the-fpga/"/>
       <url>/2024/06/05/program-the-fpga/</url>
       
-        <content type="html"><![CDATA[<h1 id="Vivado程序固化"><a href="#Vivado程序固化" class="headerlink" title="Vivado程序固化"></a>Vivado程序固化</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于FPGA开发者，都会遇到这样的一种情况，就是下载到板子中的FPGA程序会随着板子掉电而消失再次上电，又要重新编译下载程序。在程序调试阶段还可以接受，但在程序版本固定后使用起来就会非常不方便。这就需要用到固化程序这一操作，就是将FPGA的配置文件烧写到板载Flash中，实现上电自启动。</p><h3 id="bin-和-mcs文件"><a href="#bin-和-mcs文件" class="headerlink" title=".bin 和 .mcs文件"></a>.bin 和 .mcs文件</h3><p>在 Vivado 中，生成的 <code>.bin</code> 和 <code>.mcs</code> 文件都是用于 FPGA 的配置和编程的，但它们在用途和格式上有一些区别。以下是对这两个文件的详细解释：</p><ul><li><p><code>.bin</code> 文件</p><ol><li>格式：<ul><li><code>.bin</code> 文件是二进制格式文件，包含 FPGA 配置所需的原始二进制数据。</li></ul></li><li>用途：<ul><li><code>.bin</code> 文件通常用于直接配置 FPGA，尤其是在使用某些编程设备或工具时，如 JTAG 编程器。</li><li>也可以用于直接加载到 FPGA 中进行配置，尤其适用于在开发和调试阶段。</li></ul></li><li>生成：<ul><li>在 Vivado 中，可以通过生成比特流后选择适当的选项生成 .bin 文件。</li></ul></li></ol></li><li><p><code>.mcs</code> 文件</p><ol><li>格式：<ul><li><code>.mcs</code> 文件是 Memory Configuration File，用于非易失性存储器（如闪存）的配置。它采用 ASCII 文本格式，以 Intel HEX 格式存储数据。</li></ul></li><li>用途：<ul><li><code>.mcs</code> 文件通常用于将配置数据写入外部存储器（如 SPI Flash），这使得 FPGA 可以在上电时自动加载配置数据。</li><li>适用于需要非易失性存储的应用场景，确保 FPGA 在每次上电后都能加载相同的配置。</li></ul></li><li>生成：<ul><li>在 Vivado 中，可以通过生成比特流后选择适当的选项生成 .mcs 文件，通常是在“Generate Memory Configuration File”选项中选择生成。</li></ul></li></ol></li><li><p>区别总结</p><ul><li><p>格式：</p><ul><li>.bin 是二进制格式，直接包含原始配置数据。</li><li>.mcs 是 ASCII 文本格式，采用 Intel HEX 格式，用于外部存储器编程。</li></ul></li><li><p>用途：</p><ul><li>.bin 文件适用于直接配置 FPGA，特别是在开发和调试阶段。</li><li>.mcs 文件适用于将配置数据写入外部非易失性存储器，确保 FPGA 上电时能自动加载配置。</li></ul></li><li><p>应用场景：</p><ul><li>如果你需要频繁更新和测试 FPGA 配置，使用 .bin 文件更为方便。</li><li>如果你需要在生产环境中部署，且 FPGA 每次上电后都需要自动加载配置，使用 .mcs 文件更合适。</li></ul></li></ul></li></ul><h3 id="svf-文件"><a href="#svf-文件" class="headerlink" title=".svf 文件"></a>.svf 文件</h3><ul><li><p>为了实现通过Zynq对Artix-7 FPGA（A7）的远程更新（即通过网线传输固件并重新配置FPGA），需借助 <strong>SVF（Serial Vector Format）文件</strong> 和 <strong>JTAG协议</strong>。</p></li><li><p><code>.svf</code> 文件</p><ol><li>定义：<ul><li>SVF（Serial Vector Format）是一种标准化的 <strong>JTAG编程指令序列文件</strong>，记录了通过JTAG接口配置FPGA所需的完整操作流程（如复位、擦除、编程、校验等）。</li></ul></li><li>特点：<ul><li>与具体硬件无关，支持跨平台JTAG控制器。</li><li>包含二进制比特流（.bit）转换后的串行操作指令。</li><li>可通过Xilinx Vivado工具生成。</li></ul></li><li>应用：<ul><li>远程更新FPGA固件时，将SVF文件传输至支持JTAG主控的设备（如Zynq），由该设备通过JTAG接口对目标FPGA（A7）进行编程。</li></ul></li></ol></li></ul><h2 id="生成固化文件"><a href="#生成固化文件" class="headerlink" title="生成固化文件"></a>生成固化文件</h2><h3 id="属性设置"><a href="#属性设置" class="headerlink" title="属性设置"></a>属性设置</h3><ul><li><p>在 FPGA 设计过程中，特别是在程序固化之前，确实需要在约束文件中添加一些特定的原语（属性设置）。这些原语主要用于配置比特流生成和 FPGA 配置的详细参数，确保生成的比特流文件能够正确加载并运行。</p></li><li><p>依据Flash器件信号原理图：<img src="/2024/06/05/program-the-fpga/1.png"></p></li><li><p>需要在程序约束文件中添加如下原语：</p><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">set_property CFGBVS VCCO <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property CONFIG_VOLTAGE <span class="token number">3.3</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>GENERAL<span class="token punctuation">.</span>COMPRESS true <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class="token punctuation">.</span>CONFIGRATE <span class="token number">50</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class="token punctuation">.</span>SPI_BUSWIDTH <span class="token number">4</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class="token punctuation">.</span>SPI_FALL_EDGE Yes <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li><li><p>以下是对每个原语的详细解释：</p><ul><li><code>set_property CFGBVS VCCO [current_design]</code>：<ul><li>作用：设置配置引脚的电压源（CFGBVS, Configuration Bank Voltage Source）。VCCO 表示配置引脚使用 I&#x2F;O 电源电压。</li><li>原因：确保配置引脚使用正确的电压，以便在配置 FPGA 时避免电压不匹配的问题。</li></ul></li><li><code>set_property CONFIG_VOLTAGE 3.3 [current_design]</code>：<ul><li>作用：设置 FPGA 配置时所使用的电压。3.3 表示 3.3V。</li><li>原因：明确指定 FPGA 配置电压，以确保 FPGA 在配置期间的稳定性和兼容性。</li></ul></li><li><code>set_property BITSTREAM.GENERAL.COMPRESS true [current_design]</code>：<ul><li>作用：启用比特流压缩。</li><li>原因：压缩比特流文件可以减少文件大小，缩短配置时间，特别是在配置数据量较大的情况下。</li></ul></li><li><code>set_property BITSTREAM.CONFIG.CONFIGRATE 50 [current_design]</code>：<ul><li>作用：设置比特流配置速率，单位为 MHz。50 表示配置速率为 50 MHz。</li><li>原因：通过设置合适的配置速率，确保 FPGA 配置过程的稳定性和速度。速率过高可能会导致配置失败，速率过低会延长配置时间。</li></ul></li><li><code>set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 [current_design]</code>：<ul><li>作用：设置 SPI 总线宽度。4 表示使用 4 位宽度的 SPI 总线（即 Quad-SPI）。</li><li>原因：使用 Quad-SPI 可以加快配置速度，因为它能够同时传输 4 位数据，比单通道 SPI 速度更快。</li></ul></li><li><code>set_property BITSTREAM.CONFIG.SPI_FALL_EDGE Yes [current_design]</code>：<ul><li>作用：配置 SPI 接口在下降沿时采样数据。</li><li>原因：有些 SPI 器件在下降沿采样数据，这一设置确保 FPGA 和 SPI 存储器之间的时序兼容性，避免数据传输错误。</li></ul></li></ul></li></ul><h3 id="生成-mcs文件"><a href="#生成-mcs文件" class="headerlink" title="生成.mcs文件"></a>生成.mcs文件</h3><h4 id="用-Vivado-控制台生成-mcs-文件"><a href="#用-Vivado-控制台生成-mcs-文件" class="headerlink" title="用 Vivado 控制台生成.mcs 文件"></a>用 Vivado 控制台生成.mcs 文件</h4><ol><li><p>如下图所示首先在工具栏找到 <code>Tools</code>，打开扩展框然后点击 <code>Generate Memory Configuration File</code><br><img src="/2024/06/05/program-the-fpga/2.png"></p></li><li><p>之后会出现器件编辑选项框<code>Create a configuration file to program the device</code>如图所示：<img src="/2024/06/05/program-the-fpga/3.png"></p><ul><li>从图中我们可以看到一些配置选项，在此仅对我们需要用到的一些配置做简要介绍：<ul><li><code>Format</code>：指的生成文件的格式，这里我们选择生成 MCS 文件。</li><li><code>Custom Memory Size（MB）</code>：指的是所用 flash 的容量大小，这里选 128（根据 flash 手册决定）。</li><li><code>Filename</code>：这里编辑生成的 mcs 文件名称，右边的三个点按钮是选择 mcs 文件保存路径。</li><li><code>Interface</code>：指的是所用 flash 的通信方式，这里我们选 SPIx4（4bit 通信 flash，根据 flash 手册决定）。</li><li><code>Load bitstream files</code>：这个选项勾上，然后添加你要生成 mcs 文件的原文件（bit 流文件）。</li><li><code>Write checksum</code>：写校验。</li><li><code>Disable bit swapping</code>：禁止位交换。</li><li><code>Overwrite</code>：覆盖原文件。</li></ul></li></ul></li><li><p>配置选项完成后点击 <code>OK</code>，会出现下图提示信息，这就代表我们 <code>.mcs</code> 文件生成成功，点击 <code>OK</code> 就行。<img src="/2024/06/05/program-the-fpga/4.png"></p></li></ol><h4 id="使用-tcl-指令生成-mcs-文件"><a href="#使用-tcl-指令生成-mcs-文件" class="headerlink" title="使用 tcl 指令生成.mcs 文件"></a>使用 tcl 指令生成.mcs 文件</h4><ol><li><p>先在信息栏窗口找到  <code>Tcl Console</code> 如下图所示：<br><img src="/2024/06/05/program-the-fpga/5.png"></p></li><li><p>然后在指令栏中输入<code>write_cfgmem -format mcs -interface SPIx4 -size 128 -loadbit &#123;up 0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit&#125; -file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>然后按回车键就可以生成 <code>.mcs </code>文件了，指令运行成功可以看到如图所示信息：<br><img src="/2024/06/05/program-the-fpga/6.png"></p><ul><li>该指令的含义：<ul><li><code>write_cfgmem</code>：命令头。 </li><li><code>-format mcs</code>：生成文件格式为 mcs。 </li><li><code>-interface SPIx4</code>：flash 的通信协议及位宽（QSPI 也写成 SPI）。 </li><li><code>-size 128</code>：flash 容量 128M。 </li><li><code>-loadbit&#123;up0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit &#125;</code> ：加载 bit 流文件的路径和 bit 流文件。 </li><li><code>-file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>：生成的 mcs 文件及保存路径。 </li><li>建议读者将这条指令保存下来，下次使用只需要替换一下文件路径和源文件就可以直接使用了。</li></ul></li></ul></li></ol><h3 id="生成-bin文件"><a href="#生成-bin文件" class="headerlink" title="生成.bin文件"></a>生成.bin文件</h3><h4 id="使用-Vivado-生成-bin-文件"><a href="#使用-Vivado-生成-bin-文件" class="headerlink" title="使用 Vivado 生成.bin 文件"></a>使用 Vivado 生成.bin 文件</h4><ol><li><p>首先找到 <code>Flow Navigator</code> 栏，点击 <code>Settings</code> </p><div align="center"><img src="/2024/06/05/program-the-fpga/7.png" width="40%/"></div></li><li><p>出现如下图所示的选项栏。这个选项栏中先在左边 <code>Project Settings</code> 栏选中 <code>Bitstream</code>，然后在右边的选项栏中选择<code>-bin_file</code>，之后点击 <code>Apply</code> 等待 <code>Apply</code> 按钮变成灰色，再点击 <code>OK</code>。然后我们重新生成 bit 流文件，bin 文件会同时生成，并且和 bit 流在同一个路径下。 </p><div align="center"><img src="/2024/06/05/program-the-fpga/8.png" width="80%/"></div></li></ol><h3 id="生成-svf文件"><a href="#生成-svf文件" class="headerlink" title="生成.svf文件"></a>生成.svf文件</h3><h4 id="使用-Vivado-IDE"><a href="#使用-Vivado-IDE" class="headerlink" title="使用 Vivado IDE"></a>使用 Vivado IDE</h4><ol><li><p>(与连接开发板的步骤相同)，点击<code>Open Hardware Manager</code>，点击自动连接<code>Auto Connect</code>。</p><div align="center"><img src="/2024/06/05/program-the-fpga/19.png" width="90%/"></div></li><li><p>右键<code>localhost</code>，选择 <code>Create SVF Target</code>。出现<code>Create SVF Target</code>窗口，点击<code>OK</code></p></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/20.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/21.png" width="60%/"></div><ol start="3"><li>如下图所示，添加 Xilinx 器件。器件信息根据项目实际选择。然后创建该器件的 SVF 链。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/22.png" width="60%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/23.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/24.png" width="60%/"></div><ol start="4"><li>右键单击 SVF 链中的 Xilinx 器件可以选择创建配置存储器器件，并将配置存储器器件与该器件关联。打开“添加配置存储器器件 <code>Add Configuration Memory Device</code>”对话框 ，根据项目实际情况选择器件，然后点击 <code>OK</code>。这样会将此器件与赛灵思器件关联 ， 并显示在 SVF 器件链中 。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/25.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/26.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/27.png" width="60%/"></div><ol start="5"><li>在下方的<code>SVF Operations</code>栏中，点击<code>+</code>选择<code>Add Program Configuration Memory Operations</code>，然后再弹出的窗口中，选择相应的<code>.msc</code>文件，然后注意三个选项的选择，然后点击<code>OK</code>。最后点击<code>Export SVF </code>，选择保存路径和文件名。这样就生成了 <code>.svf</code> 文件。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/28.png" width="60%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/29.png" width="60%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/30.png" width="60%/"></div><h3 id="添加-flash-器件及下载固化文件"><a href="#添加-flash-器件及下载固化文件" class="headerlink" title="添加 flash 器件及下载固化文件"></a>添加 flash 器件及下载固化文件</h3><ul><li>光有固化文件还不够，我们还要添加一个固化 flash 器件。</li></ul><h4 id="没有产生-mcs-文件的情况"><a href="#没有产生-mcs-文件的情况" class="headerlink" title="没有产生 mcs 文件的情况"></a>没有产生 mcs 文件的情况</h4><ol><li>将板子连接到 PC 端，连接完成后如下图所示：</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/9.png" width="60%/"></div><ol start="2"><li>在硬件栏中我们选中器件 <code>xc7a35t_0(1)</code>，右击后点击选择 <code>Add Configuration Memory Device</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/10.png" width="60%/"></div><ol start="3"><li>刚进入<code>Add Configuration Memory Device</code>界面的时候整个 <code>Filter</code> 栏四个筛选框应该是四个 <code>ALL</code>，我们将筛选条件改成下图所示。之后你会发现最底下器件栏只剩下两个了，我们选择 <code>mt25ql128-spi-x1_x2_x4</code>，然后点击 OK。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/11.png" width="80%/"></div><ol start="4"><li>出现下图所示的询问栏，继续点击 <code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/12.png" width="60%/"></div><ol start="5"><li>出现下图所示的选项栏，按照下图所示添加对应的 <code>.mcs</code> 文件和对应的<code>.prm</code>文件，点击 <code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/13.png" width="80%/"></div><ol start="6"><li>出现下载成功，最后点击<code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/14.png" width="60%/"></div><h4 id="已经产生-mcs-文件的情况"><a href="#已经产生-mcs-文件的情况" class="headerlink" title="已经产生 mcs 文件的情况"></a>已经产生 mcs 文件的情况</h4><ul><li>在所选择的 flash 的型号上右击，出现右侧的扩展框，点击扩展框内红色的方框所框的选项，出现下图所示界面，然后按照上面的操作就可以将程序固化进开发板了。</li></ul><div align="center"><img src="/2024/06/05/program-the-fpga/15.png" width="70%/"></div><p><strong>PS</strong>：固化成功后，将开发板断电重启即可。而 <code>.bin</code> 文件的下载流程和 <code>.mcs</code> 一样</p><h3 id="擦除固化文件"><a href="#擦除固化文件" class="headerlink" title="擦除固化文件"></a>擦除固化文件</h3><ol><li>在所选择的 flash 的型号上右击，出现右侧的扩展框，点击扩展框内红色的方框所框的选项</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/16.png" width="70%/"></div><ol start="2"><li>在弹出的界面内只勾选<code>Erase</code>擦除，点击 <code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/17.png" width="70%/"></div><ol start="3"><li>弹出如下界面，即表示成功擦除板子原先存在的固化文件。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/18.png" width="60%/"></div><ol start="4"><li>断电重启开发板，会发现原来的程序将不再执行。</li></ol>]]></content>
+        <content type="html"><![CDATA[<h1 id="Vivado程序固化"><a href="#Vivado程序固化" class="headerlink" title="Vivado程序固化"></a>Vivado程序固化</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于FPGA开发者，都会遇到这样的一种情况，就是下载到板子中的FPGA程序会随着板子掉电而消失再次上电，又要重新编译下载程序。在程序调试阶段还可以接受，但在程序版本固定后使用起来就会非常不方便。这就需要用到固化程序这一操作，就是将FPGA的配置文件烧写到板载Flash中，实现上电自启动。</p><h3 id="bin-和-mcs文件"><a href="#bin-和-mcs文件" class="headerlink" title=".bin 和 .mcs文件"></a>.bin 和 .mcs文件</h3><p>在 Vivado 中，生成的 <code>.bin</code> 和 <code>.mcs</code> 文件都是用于 FPGA 的配置和编程的，但它们在用途和格式上有一些区别。以下是对这两个文件的详细解释：</p><ul><li><p><code>.bin</code> 文件</p><ol><li>格式：<ul><li><code>.bin</code> 文件是二进制格式文件，包含 FPGA 配置所需的原始二进制数据。</li></ul></li><li>用途：<ul><li><code>.bin</code> 文件通常用于直接配置 FPGA，尤其是在使用某些编程设备或工具时，如 JTAG 编程器。</li><li>也可以用于直接加载到 FPGA 中进行配置，尤其适用于在开发和调试阶段。</li></ul></li><li>生成：<ul><li>在 Vivado 中，可以通过生成比特流后选择适当的选项生成 .bin 文件。</li></ul></li></ol></li><li><p><code>.mcs</code> 文件</p><ol><li>格式：<ul><li><code>.mcs</code> 文件是 Memory Configuration File，用于非易失性存储器（如闪存）的配置。它采用 ASCII 文本格式，以 Intel HEX 格式存储数据。</li></ul></li><li>用途：<ul><li><code>.mcs</code> 文件通常用于将配置数据写入外部存储器（如 SPI Flash），这使得 FPGA 可以在上电时自动加载配置数据。</li><li>适用于需要非易失性存储的应用场景，确保 FPGA 在每次上电后都能加载相同的配置。</li></ul></li><li>生成：<ul><li>在 Vivado 中，可以通过生成比特流后选择适当的选项生成 .mcs 文件，通常是在“Generate Memory Configuration File”选项中选择生成。</li></ul></li></ol></li><li><p>区别总结</p><ul><li><p>格式：</p><ul><li>.bin 是二进制格式，直接包含原始配置数据。</li><li>.mcs 是 ASCII 文本格式，采用 Intel HEX 格式，用于外部存储器编程。</li></ul></li><li><p>用途：</p><ul><li>.bin 文件适用于直接配置 FPGA，特别是在开发和调试阶段。</li><li>.mcs 文件适用于将配置数据写入外部非易失性存储器，确保 FPGA 上电时能自动加载配置。</li></ul></li><li><p>应用场景：</p><ul><li>如果你需要频繁更新和测试 FPGA 配置，使用 .bin 文件更为方便。</li><li>如果你需要在生产环境中部署，且 FPGA 每次上电后都需要自动加载配置，使用 .mcs 文件更合适。</li></ul></li></ul></li></ul><h3 id="svf-文件"><a href="#svf-文件" class="headerlink" title=".svf 文件"></a>.svf 文件</h3><ul><li><p>为了实现通过Zynq对Artix-7 FPGA（A7）的远程更新（即通过网线传输固件并重新配置FPGA），需借助 <strong>SVF（Serial Vector Format）文件</strong> 和 <strong>JTAG协议</strong>。</p></li><li><p><code>.svf</code> 文件</p><ol><li>定义：<ul><li>SVF（Serial Vector Format）是一种标准化的 <strong>JTAG编程指令序列文件</strong>，记录了通过JTAG接口配置FPGA所需的完整操作流程（如复位、擦除、编程、校验等）。</li></ul></li><li>特点：<ul><li>与具体硬件无关，支持跨平台JTAG控制器。</li><li>包含二进制比特流（.bit）转换后的串行操作指令。</li><li>可通过Xilinx Vivado工具生成。</li></ul></li><li>应用：<ul><li>远程更新FPGA固件时，将SVF文件传输至支持JTAG主控的设备（如Zynq），由该设备通过JTAG接口对目标FPGA（A7）进行编程。</li></ul></li></ol></li></ul><h2 id="生成固化文件"><a href="#生成固化文件" class="headerlink" title="生成固化文件"></a>生成固化文件</h2><h3 id="属性设置"><a href="#属性设置" class="headerlink" title="属性设置"></a>属性设置</h3><ul><li><p>在 FPGA 设计过程中，特别是在程序固化之前，确实需要在约束文件中添加一些特定的原语（属性设置）。这些原语主要用于配置比特流生成和 FPGA 配置的详细参数，确保生成的比特流文件能够正确加载并运行。</p></li><li><p>依据Flash器件信号原理图：<img src="/2024/06/05/program-the-fpga/1.png"></p></li><li><p>需要在程序约束文件中添加如下原语：</p><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">set_property CFGBVS VCCO <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property CONFIG_VOLTAGE <span class="token number">3.3</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>GENERAL<span class="token punctuation">.</span>COMPRESS true <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class="token punctuation">.</span>CONFIGRATE <span class="token number">50</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class="token punctuation">.</span>SPI_BUSWIDTH <span class="token number">4</span> <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class="token punctuation">.</span>SPI_FALL_EDGE Yes <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li><li><p>以下是对每个原语的详细解释：</p><ul><li><code>set_property CFGBVS VCCO [current_design]</code>：<ul><li>作用：设置配置引脚的电压源（CFGBVS, Configuration Bank Voltage Source）。VCCO 表示配置引脚使用 I&#x2F;O 电源电压。</li><li>原因：确保配置引脚使用正确的电压，以便在配置 FPGA 时避免电压不匹配的问题。</li></ul></li><li><code>set_property CONFIG_VOLTAGE 3.3 [current_design]</code>：<ul><li>作用：设置 FPGA 配置时所使用的电压。3.3 表示 3.3V。</li><li>原因：明确指定 FPGA 配置电压，以确保 FPGA 在配置期间的稳定性和兼容性。</li></ul></li><li><code>set_property BITSTREAM.GENERAL.COMPRESS true [current_design]</code>：<ul><li>作用：启用比特流压缩。</li><li>原因：压缩比特流文件可以减少文件大小，缩短配置时间，特别是在配置数据量较大的情况下。</li></ul></li><li><code>set_property BITSTREAM.CONFIG.CONFIGRATE 50 [current_design]</code>：<ul><li>作用：设置比特流配置速率，单位为 MHz。50 表示配置速率为 50 MHz。</li><li>原因：通过设置合适的配置速率，确保 FPGA 配置过程的稳定性和速度。速率过高可能会导致配置失败，速率过低会延长配置时间。</li></ul></li><li><code>set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 [current_design]</code>：<ul><li>作用：设置 SPI 总线宽度。4 表示使用 4 位宽度的 SPI 总线（即 Quad-SPI）。</li><li>原因：使用 Quad-SPI 可以加快配置速度，因为它能够同时传输 4 位数据，比单通道 SPI 速度更快。</li></ul></li><li><code>set_property BITSTREAM.CONFIG.SPI_FALL_EDGE Yes [current_design]</code>：<ul><li>作用：配置 SPI 接口在下降沿时采样数据。</li><li>原因：有些 SPI 器件在下降沿采样数据，这一设置确保 FPGA 和 SPI 存储器之间的时序兼容性，避免数据传输错误。</li></ul></li></ul></li></ul><h3 id="生成-mcs文件"><a href="#生成-mcs文件" class="headerlink" title="生成.mcs文件"></a>生成.mcs文件</h3><h4 id="用-Vivado-控制台生成-mcs-文件"><a href="#用-Vivado-控制台生成-mcs-文件" class="headerlink" title="用 Vivado 控制台生成.mcs 文件"></a>用 Vivado 控制台生成.mcs 文件</h4><ol><li><p>如下图所示首先在工具栏找到 <code>Tools</code>，打开扩展框然后点击 <code>Generate Memory Configuration File</code><br><img src="/2024/06/05/program-the-fpga/2.png"></p></li><li><p>之后会出现器件编辑选项框<code>Create a configuration file to program the device</code>如图所示：<img src="/2024/06/05/program-the-fpga/3.png"></p><ul><li>从图中我们可以看到一些配置选项，在此仅对我们需要用到的一些配置做简要介绍：<ul><li><code>Format</code>：指的生成文件的格式，这里我们选择生成 MCS 文件。</li><li><code>Custom Memory Size（MB）</code>：指的是所用 flash 的容量大小，这里选 128（根据 flash 手册决定）。</li><li><code>Filename</code>：这里编辑生成的 mcs 文件名称，右边的三个点按钮是选择 mcs 文件保存路径。</li><li><code>Interface</code>：指的是所用 flash 的通信方式，这里我们选 SPIx4（4bit 通信 flash，根据 flash 手册决定）。</li><li><code>Load bitstream files</code>：这个选项勾上，然后添加你要生成 mcs 文件的原文件（bit 流文件）。</li><li><code>Write checksum</code>：写校验。</li><li><code>Disable bit swapping</code>：禁止位交换。</li><li><code>Overwrite</code>：覆盖原文件。</li></ul></li></ul></li><li><p>配置选项完成后点击 <code>OK</code>，会出现下图提示信息，这就代表我们 <code>.mcs</code> 文件生成成功，点击 <code>OK</code> 就行。<img src="/2024/06/05/program-the-fpga/4.png"></p></li></ol><h4 id="使用-tcl-指令生成-mcs-文件"><a href="#使用-tcl-指令生成-mcs-文件" class="headerlink" title="使用 tcl 指令生成.mcs 文件"></a>使用 tcl 指令生成.mcs 文件</h4><ol><li><p>先在信息栏窗口找到  <code>Tcl Console</code> 如下图所示：<br><img src="/2024/06/05/program-the-fpga/5.png"></p></li><li><p>然后在指令栏中输入<code>write_cfgmem -format mcs -interface SPIx4 -size 128 -loadbit &#123;up 0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit&#125; -file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>然后按回车键就可以生成 <code>.mcs </code>文件了，指令运行成功可以看到如图所示信息：<br><img src="/2024/06/05/program-the-fpga/6.png"></p><ul><li>该指令的含义：<ul><li><code>write_cfgmem</code>：命令头。 </li><li><code>-format mcs</code>：生成文件格式为 mcs。 </li><li><code>-interface SPIx4</code>：flash 的通信协议及位宽（QSPI 也写成 SPI）。 </li><li><code>-size 128</code>：flash 容量 128M。 </li><li><code>-loadbit&#123;up0x0 E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.bit &#125;</code> ：加载 bit 流文件的路径和 bit 流文件。 </li><li><code>-file E:/led_twinkle/led_twinkle/led_twinkle.runs/impl_1/led_twinkle.mcs</code>：生成的 mcs 文件及保存路径。 </li><li>建议读者将这条指令保存下来，下次使用只需要替换一下文件路径和源文件就可以直接使用了。</li></ul></li></ul></li></ol><h3 id="生成-bin文件"><a href="#生成-bin文件" class="headerlink" title="生成.bin文件"></a>生成.bin文件</h3><h4 id="使用-Vivado-生成-bin-文件"><a href="#使用-Vivado-生成-bin-文件" class="headerlink" title="使用 Vivado 生成.bin 文件"></a>使用 Vivado 生成.bin 文件</h4><ol><li><p>首先找到 <code>Flow Navigator</code> 栏，点击 <code>Settings</code> </p><div align="center"><img src="/2024/06/05/program-the-fpga/7.png" width="40%/"></div></li><li><p>出现如下图所示的选项栏。这个选项栏中先在左边 <code>Project Settings</code> 栏选中 <code>Bitstream</code>，然后在右边的选项栏中选择<code>-bin_file</code>，之后点击 <code>Apply</code> 等待 <code>Apply</code> 按钮变成灰色，再点击 <code>OK</code>。然后我们重新生成 bit 流文件，bin 文件会同时生成，并且和 bit 流在同一个路径下。 </p><div align="center"><img src="/2024/06/05/program-the-fpga/8.png" width="80%/"></div></li></ol><h3 id="生成-svf文件"><a href="#生成-svf文件" class="headerlink" title="生成.svf文件"></a>生成.svf文件</h3><h4 id="使用-Vivado-IDE"><a href="#使用-Vivado-IDE" class="headerlink" title="使用 Vivado IDE"></a>使用 Vivado IDE</h4><ol><li><p>(与连接开发板的步骤相同)，点击<code>Open Hardware Manager</code>，点击自动连接<code>Auto Connect</code>。</p><div align="center"><img src="/2024/06/05/program-the-fpga/19.png" width="90%/"></div></li><li><p>右键<code>localhost</code>，选择 <code>Create SVF Target</code>。出现<code>Create SVF Target</code>窗口，点击<code>OK</code></p></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/20.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/21.png" width="60%/"></div><ol start="3"><li>如下图所示，添加 Xilinx 器件。器件信息根据项目实际选择。然后创建该器件的 SVF 链。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/22.png" width="60%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/23.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/24.png" width="60%/"></div><ol start="4"><li>右键单击 SVF 链中的 Xilinx 器件可以选择创建配置存储器器件，并将配置存储器器件与该器件关联。打开“添加配置存储器器件 <code>Add Configuration Memory Device</code>”对话框 ，根据项目实际情况选择器件，然后点击 <code>OK</code>。这样会将此器件与赛灵思器件关联 ， 并显示在 SVF 器件链中 。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/25.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/26.png" width="70%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/27.png" width="60%/"></div><ol start="5"><li>在下方的<code>SVF Operations</code>栏中，点击<code>+</code>选择<code>Add Program Configuration Memory Operations</code>，然后再弹出的窗口中，选择相应的<code>.msc</code>文件，然后注意三个选项的选择，然后点击<code>OK</code>。最后点击<code>Export SVF </code>，选择保存路径和文件名。这样就生成了 <code>.svf</code> 文件。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/28.png" width="60%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/29.png" width="60%/"></div><div align="center"><img src="/2024/06/05/program-the-fpga/30.png" width="60%/"></div><h3 id="添加-flash-器件及下载固化文件"><a href="#添加-flash-器件及下载固化文件" class="headerlink" title="添加 flash 器件及下载固化文件"></a>添加 flash 器件及下载固化文件</h3><ul><li>光有固化文件还不够，我们还要添加一个固化 flash 器件。</li></ul><h4 id="没有产生-mcs-文件的情况"><a href="#没有产生-mcs-文件的情况" class="headerlink" title="没有产生 mcs 文件的情况"></a>没有产生 mcs 文件的情况</h4><ol><li>将板子连接到 PC 端，连接完成后如下图所示：</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/9.png" width="60%/"></div><ol start="2"><li>在硬件栏中我们选中器件 <code>xc7a35t_0(1)</code>，右击后点击选择 <code>Add Configuration Memory Device</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/10.png" width="60%/"></div><ol start="3"><li>刚进入<code>Add Configuration Memory Device</code>界面的时候整个 <code>Filter</code> 栏四个筛选框应该是四个 <code>ALL</code>，我们将筛选条件改成下图所示。之后你会发现最底下器件栏只剩下两个了，我们选择 <code>mt25ql128-spi-x1_x2_x4</code>，然后点击 OK。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/11.png" width="80%/"></div><ol start="4"><li>出现下图所示的询问栏，继续点击 <code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/12.png" width="60%/"></div><ol start="5"><li>出现下图所示的选项栏，按照下图所示添加对应的 <code>.mcs</code> 文件和对应的<code>.prm</code>文件，点击 <code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/13.png" width="80%/"></div><ul><li><img src="/2024/06/05/program-the-fpga/31.png"><ol><li><code>Configuration File Only</code> (仅配置文件)<ul><li>范围： 只对配置文件（.mcs 或 .bin 文件）所占据的存储区域进行操作。</li><li>行为： 工具会计算文件的大小，然后只擦除、编程和校验 Flash 中对应的那些地址段。</li><li>优点： 速度快。因为大多数 Flash 芯片的容量远大于配置文件，只操作必要部分可以节省大量时间。</li><li>缺点： Flash 中超出文件范围的其他区域会保留旧数据。</li></ul></li><li><code>Entire Configuration Memory Device</code> (整个配置存储设备)<ul><li>范围： 对整颗 Flash 芯片的所有物理地址进行操作。</li><li>行为： 工具会对整个芯片执行全局擦除（Bulk Erase），然后写入配置文件，并对整个芯片进行校验。</li><li>优点： 更彻底、更干净。确保 Flash 中没有残留的旧固件或垃圾数据，排除潜在干扰。</li><li>缺点： 非常慢。对于大容量（如 1Gb 或更高）的 Flash，擦除和校验全片可能需要几分钟甚至更久。</li></ul></li></ol></li><li><img src="/2024/06/05/program-the-fpga/32.png"><ol><li><code>Erase</code> (擦除)<ul><li>功能： 在写入新数据之前，将 Flash 中存储的内容清空。</li><li>原理： Flash 存储器的特性是只能“由 1 变为 0”，不能直接从 0 变回 1。因此，在编程前必须先执行擦 除动   - 作，将 选定区域的所有比特位全部置为 1（即全为 0xFF）。</li><li>注意： 如果不勾选此项，且 Flash 原本不为空，编程很可能会失败。</li></ul></li><li><code>Blank Check</code> (查空)<ul><li>功能： 检查芯片内部是否已经处于“空白”状态（即全为 1）。</li><li>目的： 这是一个验证步骤，用来确认“Erase”动作是否彻底成功。如果查空失败，说明芯片里还有残留数  据，不能    - 进行    下一步编程。</li><li>建议： 正常开发时通常不勾选，以节省时间。</li></ul></li><li><code>Program</code> (编程&#x2F;写入)<ul><li>功能： 将你的配置文件（.bit, .mcs, .bin 等）真正地写入到 Flash 芯片中。</li><li>重要性： 这是核心步骤。它会按照文件的内容，把芯片中对应的比特位从 1 变成 0。</li></ul></li><li><code>Verify</code> (校验)<ul><li>功能： 把刚刚写入 Flash 的数据重新读出来，与电脑里的源文件进行逐字节对比。</li><li>目的： 确保写入过程没有任何差错（例如因为电压不稳或干扰导致的位错误）。</li><li>代价： 会增加烧录时间，因为需要完整的读取过程。</li></ul></li><li><code>Verify Checksum</code> (校验和验证)<ul><li>功能： 同样是验证，但它不进行逐字节对比，而是通过数学算法计算出一个校验和（Checksum）并进行比对。</li><li>区别： 相比于上面的 Verify，它的速度通常更快，但严谨程度略低（虽然在绝大多数情况下已经足够可靠）。</li></ul></li></ol></li></ul><p><strong>PS:基本上只需勾选</strong><code>Erase</code><strong>和</strong><code>Program</code><strong>，在烧录过程中意外断电，则在重新烧录时勾选</strong><code>Verify</code></p><ol start="6"><li>出现下载成功，最后点击<code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/14.png" width="60%/"></div><h4 id="已经产生-mcs-文件的情况"><a href="#已经产生-mcs-文件的情况" class="headerlink" title="已经产生 mcs 文件的情况"></a>已经产生 mcs 文件的情况</h4><ul><li>在所选择的 flash 的型号上右击，出现右侧的扩展框，点击扩展框内红色的方框所框的选项，出现下图所示界面，然后按照上面的操作就可以将程序固化进开发板了。</li></ul><div align="center"><img src="/2024/06/05/program-the-fpga/15.png" width="70%/"></div><p><strong>PS</strong>：固化成功后，将开发板断电重启即可。而 <code>.bin</code> 文件的下载流程和 <code>.mcs</code> 一样</p><h3 id="擦除固化文件"><a href="#擦除固化文件" class="headerlink" title="擦除固化文件"></a>擦除固化文件</h3><ol><li>在所选择的 flash 的型号上右击，出现右侧的扩展框，点击扩展框内红色的方框所框的选项</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/16.png" width="70%/"></div><ol start="2"><li>在弹出的界面内只勾选<code>Erase</code>擦除，点击 <code>OK</code></li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/17.png" width="70%/"></div><ol start="3"><li>弹出如下界面，即表示成功擦除板子原先存在的固化文件。</li></ol><div align="center"><img src="/2024/06/05/program-the-fpga/18.png" width="60%/"></div><ol start="4"><li>断电重启开发板，会发现原来的程序将不再执行。</li></ol>]]></content>
       
       
       <categories>
@@ -328,11 +359,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 工具 </tag>
             
@@ -359,11 +390,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 工具 </tag>
             
@@ -390,11 +421,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 工具 </tag>
             
@@ -421,11 +452,11 @@
       
         <tags>
             
+            <tag> 教程 </tag>
+            
             <tag> FPGA </tag>
             
             <tag> vivado </tag>
-            
-            <tag> 教程 </tag>
             
             <tag> 工具 </tag>
             
@@ -705,11 +736,11 @@
       
         <tags>
             
-            <tag> 教程 </tag>
+            <tag> Markdown </tag>
             
             <tag> 问题解决 </tag>
             
-            <tag> Markdown </tag>
+            <tag> 教程 </tag>
             
         </tags>
       

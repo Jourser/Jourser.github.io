@@ -269,16 +269,16 @@
                     
                     <div class="article-tag">
                         
+                            <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                <span class="chip bg-color">教程</span>
+                            </a>
+                        
                             <a href="/tags/FPGA/">
                                 <span class="chip bg-color">FPGA</span>
                             </a>
                         
                             <a href="/tags/vivado/">
                                 <span class="chip bg-color">vivado</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                <span class="chip bg-color">教程</span>
                             </a>
                         
                             <a href="/tags/%E5%B7%A5%E5%85%B7/">
@@ -315,7 +315,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    3.4k
                 </div>
                 
 
@@ -616,6 +616,58 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
 <img src="/2024/06/05/program-the-fpga/13.png" width="80%/">
 </div>
 
+
+<ul>
+<li><img src="/2024/06/05/program-the-fpga/31.png"><ol>
+<li><code>Configuration File Only</code> (仅配置文件)<ul>
+<li>范围： 只对配置文件（.mcs 或 .bin 文件）所占据的存储区域进行操作。</li>
+<li>行为： 工具会计算文件的大小，然后只擦除、编程和校验 Flash 中对应的那些地址段。</li>
+<li>优点： 速度快。因为大多数 Flash 芯片的容量远大于配置文件，只操作必要部分可以节省大量时间。</li>
+<li>缺点： Flash 中超出文件范围的其他区域会保留旧数据。</li>
+</ul>
+</li>
+<li><code>Entire Configuration Memory Device</code> (整个配置存储设备)<ul>
+<li>范围： 对整颗 Flash 芯片的所有物理地址进行操作。</li>
+<li>行为： 工具会对整个芯片执行全局擦除（Bulk Erase），然后写入配置文件，并对整个芯片进行校验。</li>
+<li>优点： 更彻底、更干净。确保 Flash 中没有残留的旧固件或垃圾数据，排除潜在干扰。</li>
+<li>缺点： 非常慢。对于大容量（如 1Gb 或更高）的 Flash，擦除和校验全片可能需要几分钟甚至更久。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><img src="/2024/06/05/program-the-fpga/32.png"><ol>
+<li><code>Erase</code> (擦除)<ul>
+<li>功能： 在写入新数据之前，将 Flash 中存储的内容清空。</li>
+<li>原理： Flash 存储器的特性是只能“由 1 变为 0”，不能直接从 0 变回 1。因此，在编程前必须先执行擦 除动   - 作，将 选定区域的所有比特位全部置为 1（即全为 0xFF）。</li>
+<li>注意： 如果不勾选此项，且 Flash 原本不为空，编程很可能会失败。</li>
+</ul>
+</li>
+<li><code>Blank Check</code> (查空)<ul>
+<li>功能： 检查芯片内部是否已经处于“空白”状态（即全为 1）。</li>
+<li>目的： 这是一个验证步骤，用来确认“Erase”动作是否彻底成功。如果查空失败，说明芯片里还有残留数  据，不能    - 进行    下一步编程。</li>
+<li>建议： 正常开发时通常不勾选，以节省时间。</li>
+</ul>
+</li>
+<li><code>Program</code> (编程&#x2F;写入)<ul>
+<li>功能： 将你的配置文件（.bit, .mcs, .bin 等）真正地写入到 Flash 芯片中。</li>
+<li>重要性： 这是核心步骤。它会按照文件的内容，把芯片中对应的比特位从 1 变成 0。</li>
+</ul>
+</li>
+<li><code>Verify</code> (校验)<ul>
+<li>功能： 把刚刚写入 Flash 的数据重新读出来，与电脑里的源文件进行逐字节对比。</li>
+<li>目的： 确保写入过程没有任何差错（例如因为电压不稳或干扰导致的位错误）。</li>
+<li>代价： 会增加烧录时间，因为需要完整的读取过程。</li>
+</ul>
+</li>
+<li><code>Verify Checksum</code> (校验和验证)<ul>
+<li>功能： 同样是验证，但它不进行逐字节对比，而是通过数学算法计算出一个校验和（Checksum）并进行比对。</li>
+<li>区别： 相比于上面的 Verify，它的速度通常更快，但严谨程度略低（虽然在绝大多数情况下已经足够可靠）。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>PS:基本上只需勾选</strong><code>Erase</code><strong>和</strong><code>Program</code><strong>，在烧录过程中意外断电，则在重新烧录时勾选</strong><code>Verify</code></p>
 <ol start="6">
 <li>出现下载成功，最后点击<code>OK</code></li>
 </ol>
@@ -719,16 +771,16 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
                     
                         <div class="article-tag">
                             
+                                <a href="/tags/%E6%95%99%E7%A8%8B/">
+                                    <span class="chip bg-color">教程</span>
+                                </a>
+                            
                                 <a href="/tags/FPGA/">
                                     <span class="chip bg-color">FPGA</span>
                                 </a>
                             
                                 <a href="/tags/vivado/">
                                     <span class="chip bg-color">vivado</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%95%99%E7%A8%8B/">
-                                    <span class="chip bg-color">教程</span>
                                 </a>
                             
                                 <a href="/tags/%E5%B7%A5%E5%85%B7/">
@@ -849,16 +901,16 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
                     <a href="/tags/FPGA/">
                         <span class="chip bg-color">FPGA</span>
                     </a>
                     
                     <a href="/tags/vivado/">
                         <span class="chip bg-color">vivado</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
                     </a>
                     
                     <a href="/tags/%E8%AF%AD%E6%B3%95/">
@@ -910,16 +962,16 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
                 
                 <div class="card-action article-tags">
                     
+                    <a href="/tags/%E6%95%99%E7%A8%8B/">
+                        <span class="chip bg-color">教程</span>
+                    </a>
+                    
                     <a href="/tags/FPGA/">
                         <span class="chip bg-color">FPGA</span>
                     </a>
                     
                     <a href="/tags/vivado/">
                         <span class="chip bg-color">vivado</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%99%E7%A8%8B/">
-                        <span class="chip bg-color">教程</span>
                     </a>
                     
                     <a href="/tags/%E5%B7%A5%E5%85%B7/">
@@ -1149,7 +1201,7 @@ set_property BITSTREAM<span class="token punctuation">.</span>CONFIG<span class=
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022-2025</span>
+                <span id="year">2022-2026</span>
             
             <a href="/about" target="_blank">Jourser</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
